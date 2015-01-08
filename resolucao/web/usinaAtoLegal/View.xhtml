@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewUsinaAtoLegalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewUsinaAtoLegalLabel_ualId}"/>
+                    <h:outputText value="#{usinaAtoLegalController.selected.ualId}" title="#{bundle.ViewUsinaAtoLegalTitle_ualId}"/>
+                    <h:outputText value="#{bundle.ViewUsinaAtoLegalLabel_ualUsiId}"/>
+                    <h:outputText value="#{usinaAtoLegalController.selected.ualUsiId}" title="#{bundle.ViewUsinaAtoLegalTitle_ualUsiId}"/>
+                    <h:outputText value="#{bundle.ViewUsinaAtoLegalLabel_ualAleId}"/>
+                    <h:outputText value="#{usinaAtoLegalController.selected.ualAleId}" title="#{bundle.ViewUsinaAtoLegalTitle_ualAleId}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{usinaAtoLegalController.destroyAndView}" value="#{bundle.ViewUsinaAtoLegalDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewUsinaAtoLegalEditLink}"/>
+                <br />
+                <h:commandLink action="#{usinaAtoLegalController.prepareCreate}" value="#{bundle.ViewUsinaAtoLegalCreateLink}" />
+                <br />
+                <h:commandLink action="#{usinaAtoLegalController.prepareList}" value="#{bundle.ViewUsinaAtoLegalShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewUsinaAtoLegalIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

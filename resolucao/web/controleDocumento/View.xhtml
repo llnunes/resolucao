@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewControleDocumentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmId}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmId}" title="#{bundle.ViewControleDocumentoTitle_tcmId}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmDtCadastro}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmDtCadastro}" title="#{bundle.ViewControleDocumentoTitle_tcmDtCadastro}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmDtExpedicao}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmDtExpedicao}" title="#{bundle.ViewControleDocumentoTitle_tcmDtExpedicao}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmTxNumero}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmTxNumero}" title="#{bundle.ViewControleDocumentoTitle_tcmTxNumero}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmTxObservacao}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmTxObservacao}" title="#{bundle.ViewControleDocumentoTitle_tcmTxObservacao}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmProton}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmProton}" title="#{bundle.ViewControleDocumentoTitle_tcmProton}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmIcObrigatorio}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmIcObrigatorio}" title="#{bundle.ViewControleDocumentoTitle_tcmIcObrigatorio}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmDocVinculo}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmDocVinculo}" title="#{bundle.ViewControleDocumentoTitle_tcmDocVinculo}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmStatus}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmStatus}" title="#{bundle.ViewControleDocumentoTitle_tcmStatus}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmUsiId}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmUsiId}" title="#{bundle.ViewControleDocumentoTitle_tcmUsiId}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmTopId}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmTopId}" title="#{bundle.ViewControleDocumentoTitle_tcmTopId}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmTdcId}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmTdcId}" title="#{bundle.ViewControleDocumentoTitle_tcmTdcId}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmSdcId}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmSdcId}" title="#{bundle.ViewControleDocumentoTitle_tcmSdcId}"/>
+                    <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmRspId}"/>
+                    <h:outputText value="#{controleDocumentoController.selected.tcmRspId}" title="#{bundle.ViewControleDocumentoTitle_tcmRspId}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{controleDocumentoController.destroyAndView}" value="#{bundle.ViewControleDocumentoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewControleDocumentoEditLink}"/>
+                <br />
+                <h:commandLink action="#{controleDocumentoController.prepareCreate}" value="#{bundle.ViewControleDocumentoCreateLink}" />
+                <br />
+                <h:commandLink action="#{controleDocumentoController.prepareList}" value="#{bundle.ViewControleDocumentoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewControleDocumentoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

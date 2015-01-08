@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListUsinaAtoLegalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListUsinaAtoLegalEmpty}" rendered="#{usinaAtoLegalController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{usinaAtoLegalController.items.rowCount > 0}">
+                    <h:outputText value="#{usinaAtoLegalController.pagination.pageFirstItem + 1}..#{usinaAtoLegalController.pagination.pageLastItem + 1}/#{usinaAtoLegalController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{usinaAtoLegalController.previous}" value="#{bundle.Previous} #{usinaAtoLegalController.pagination.pageSize}" rendered="#{usinaAtoLegalController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{usinaAtoLegalController.next}" value="#{bundle.Next} #{usinaAtoLegalController.pagination.pageSize}" rendered="#{usinaAtoLegalController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{usinaAtoLegalController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsinaAtoLegalTitle_ualId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ualId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsinaAtoLegalTitle_ualUsiId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ualUsiId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsinaAtoLegalTitle_ualAleId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ualAleId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{usinaAtoLegalController.prepareView}" value="#{bundle.ListUsinaAtoLegalViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{usinaAtoLegalController.prepareEdit}" value="#{bundle.ListUsinaAtoLegalEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{usinaAtoLegalController.destroy}" value="#{bundle.ListUsinaAtoLegalDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{usinaAtoLegalController.prepareCreate}" value="#{bundle.ListUsinaAtoLegalCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListUsinaAtoLegalIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUsinaEstacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateUsinaEstacaoLabel_uesId}" for="uesId" />
+                    <h:inputText id="uesId" value="#{usinaEstacaoController.selected.uesId}" title="#{bundle.CreateUsinaEstacaoTitle_uesId}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaEstacaoLabel_uesEstcodigo}" for="uesEstcodigo" />
+                    <h:inputText id="uesEstcodigo" value="#{usinaEstacaoController.selected.uesEstcodigo}" title="#{bundle.CreateUsinaEstacaoTitle_uesEstcodigo}" required="true" requiredMessage="#{bundle.CreateUsinaEstacaoRequiredMessage_uesEstcodigo}"/>
+                    <h:outputLabel value="#{bundle.CreateUsinaEstacaoLabel_uesUsiId}" for="uesUsiId" />
+                    <h:selectOneMenu id="uesUsiId" value="#{usinaEstacaoController.selected.uesUsiId}" title="#{bundle.CreateUsinaEstacaoTitle_uesUsiId}" required="true" requiredMessage="#{bundle.CreateUsinaEstacaoRequiredMessage_uesUsiId}">
+                        <f:selectItems value="#{usinaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{usinaEstacaoController.create}" value="#{bundle.CreateUsinaEstacaoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{usinaEstacaoController.prepareList}" value="#{bundle.CreateUsinaEstacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateUsinaEstacaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

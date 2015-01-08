@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditStatusDocumentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditStatusDocumentoLabel_sdcId}" for="sdcId" />
+                    <h:inputText id="sdcId" value="#{statusDocumentoController.selected.sdcId}" title="#{bundle.EditStatusDocumentoTitle_sdcId}" />
+                    <h:outputLabel value="#{bundle.EditStatusDocumentoLabel_sdcNm}" for="sdcNm" />
+                    <h:inputText id="sdcNm" value="#{statusDocumentoController.selected.sdcNm}" title="#{bundle.EditStatusDocumentoTitle_sdcNm}" required="true" requiredMessage="#{bundle.EditStatusDocumentoRequiredMessage_sdcNm}"/>
+                    <h:outputLabel value="#{bundle.EditStatusDocumentoLabel_sdcDs}" for="sdcDs" />
+                    <h:inputText id="sdcDs" value="#{statusDocumentoController.selected.sdcDs}" title="#{bundle.EditStatusDocumentoTitle_sdcDs}" />
+                </h:panelGrid>
+                <h:commandLink action="#{statusDocumentoController.update}" value="#{bundle.EditStatusDocumentoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditStatusDocumentoViewLink}"/>
+                <br />
+                <h:commandLink action="#{statusDocumentoController.prepareList}" value="#{bundle.EditStatusDocumentoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditStatusDocumentoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTecnicoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTecnicoEmpty}" rendered="#{tecnicoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tecnicoController.items.rowCount > 0}">
+                    <h:outputText value="#{tecnicoController.pagination.pageFirstItem + 1}..#{tecnicoController.pagination.pageLastItem + 1}/#{tecnicoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tecnicoController.previous}" value="#{bundle.Previous} #{tecnicoController.pagination.pageSize}" rendered="#{tecnicoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tecnicoController.next}" value="#{bundle.Next} #{tecnicoController.pagination.pageSize}" rendered="#{tecnicoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tecnicoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoTitle_tecId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoTitle_tecNm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecNm}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoTitle_tecEmail}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecEmail}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoTitle_tecTelefone}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecTelefone}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoTitle_tecTelefone2}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecTelefone2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoTitle_tecStatus}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecStatus}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tecnicoController.prepareView}" value="#{bundle.ListTecnicoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tecnicoController.prepareEdit}" value="#{bundle.ListTecnicoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tecnicoController.destroy}" value="#{bundle.ListTecnicoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tecnicoController.prepareCreate}" value="#{bundle.ListTecnicoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListTecnicoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

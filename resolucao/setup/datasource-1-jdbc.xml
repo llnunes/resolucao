@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdbc-data-source xmlns="http://xmlns.oracle.com/weblogic/jdbc-data-source">
+  <name>resolucaosql2</name>
+  <jdbc-driver-params>
+    <url>jdbc:jtds:sqlserver://sqldev02.agencia.gov.br:1433/Resolucao3</url>
+    <driver-name>net.sourceforge.jtds.jdbc.Driver</driver-name>
+    <properties>
+      <property>
+        <name>user</name>
+        <value>iusr_resolucao3</value>
+      </property>
+      <property>
+        <name>password</name>
+        <value>resolucao3</value>
+      </property>
+    </properties>
+  </jdbc-driver-params>
+  <jdbc-data-source-params>
+    <jndi-name>resolucaosql2</jndi-name>
+  </jdbc-data-source-params>
+</jdbc-data-source>

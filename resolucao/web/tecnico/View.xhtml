@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewTecnicoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTecnicoLabel_tecId}"/>
+                    <h:outputText value="#{tecnicoController.selected.tecId}" title="#{bundle.ViewTecnicoTitle_tecId}"/>
+                    <h:outputText value="#{bundle.ViewTecnicoLabel_tecNm}"/>
+                    <h:outputText value="#{tecnicoController.selected.tecNm}" title="#{bundle.ViewTecnicoTitle_tecNm}"/>
+                    <h:outputText value="#{bundle.ViewTecnicoLabel_tecEmail}"/>
+                    <h:outputText value="#{tecnicoController.selected.tecEmail}" title="#{bundle.ViewTecnicoTitle_tecEmail}"/>
+                    <h:outputText value="#{bundle.ViewTecnicoLabel_tecTelefone}"/>
+                    <h:outputText value="#{tecnicoController.selected.tecTelefone}" title="#{bundle.ViewTecnicoTitle_tecTelefone}"/>
+                    <h:outputText value="#{bundle.ViewTecnicoLabel_tecTelefone2}"/>
+                    <h:outputText value="#{tecnicoController.selected.tecTelefone2}" title="#{bundle.ViewTecnicoTitle_tecTelefone2}"/>
+                    <h:outputText value="#{bundle.ViewTecnicoLabel_tecStatus}"/>
+                    <h:outputText value="#{tecnicoController.selected.tecStatus}" title="#{bundle.ViewTecnicoTitle_tecStatus}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tecnicoController.destroyAndView}" value="#{bundle.ViewTecnicoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewTecnicoEditLink}"/>
+                <br />
+                <h:commandLink action="#{tecnicoController.prepareCreate}" value="#{bundle.ViewTecnicoCreateLink}" />
+                <br />
+                <h:commandLink action="#{tecnicoController.prepareList}" value="#{bundle.ViewTecnicoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewTecnicoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

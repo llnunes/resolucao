@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditAtoLegalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditAtoLegalLabel_aleId}" for="aleId" />
+                    <h:inputText id="aleId" value="#{atoLegalController.selected.aleId}" title="#{bundle.EditAtoLegalTitle_aleId}" />
+                    <h:outputLabel value="#{bundle.EditAtoLegalLabel_aleNumero}" for="aleNumero" />
+                    <h:inputText id="aleNumero" value="#{atoLegalController.selected.aleNumero}" title="#{bundle.EditAtoLegalTitle_aleNumero}" required="true" requiredMessage="#{bundle.EditAtoLegalRequiredMessage_aleNumero}"/>
+                    <h:outputLabel value="#{bundle.EditAtoLegalLabel_aleDt}" for="aleDt" />
+                    <h:inputText id="aleDt" value="#{atoLegalController.selected.aleDt}" title="#{bundle.EditAtoLegalTitle_aleDt}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditAtoLegalLabel_aleAno}" for="aleAno" />
+                    <h:inputText id="aleAno" value="#{atoLegalController.selected.aleAno}" title="#{bundle.EditAtoLegalTitle_aleAno}" />
+                    <h:outputLabel value="#{bundle.EditAtoLegalLabel_aleDtPub}" for="aleDtPub" />
+                    <h:inputText id="aleDtPub" value="#{atoLegalController.selected.aleDtPub}" title="#{bundle.EditAtoLegalTitle_aleDtPub}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditAtoLegalLabel_aleVersao}" for="aleVersao" />
+                    <h:inputText id="aleVersao" value="#{atoLegalController.selected.aleVersao}" title="#{bundle.EditAtoLegalTitle_aleVersao}" />
+                    <h:outputLabel value="#{bundle.EditAtoLegalLabel_aleStatus}" for="aleStatus" />
+                    <h:inputText id="aleStatus" value="#{atoLegalController.selected.aleStatus}" title="#{bundle.EditAtoLegalTitle_aleStatus}" required="true" requiredMessage="#{bundle.EditAtoLegalRequiredMessage_aleStatus}"/>
+                    <h:outputLabel value="#{bundle.EditAtoLegalLabel_aleTalId}" for="aleTalId" />
+                    <h:selectOneMenu id="aleTalId" value="#{atoLegalController.selected.aleTalId}" title="#{bundle.EditAtoLegalTitle_aleTalId}" required="true" requiredMessage="#{bundle.EditAtoLegalRequiredMessage_aleTalId}">
+                        <f:selectItems value="#{tipoAtoLegalController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{atoLegalController.update}" value="#{bundle.EditAtoLegalSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditAtoLegalViewLink}"/>
+                <br />
+                <h:commandLink action="#{atoLegalController.prepareList}" value="#{bundle.EditAtoLegalShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditAtoLegalIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

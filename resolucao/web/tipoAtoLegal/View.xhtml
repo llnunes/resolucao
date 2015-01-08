@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewTipoAtoLegalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talId}"/>
+                    <h:outputText value="#{tipoAtoLegalController.selected.talId}" title="#{bundle.ViewTipoAtoLegalTitle_talId}"/>
+                    <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talNm}"/>
+                    <h:outputText value="#{tipoAtoLegalController.selected.talNm}" title="#{bundle.ViewTipoAtoLegalTitle_talNm}"/>
+                    <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talSigla}"/>
+                    <h:outputText value="#{tipoAtoLegalController.selected.talSigla}" title="#{bundle.ViewTipoAtoLegalTitle_talSigla}"/>
+                    <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talDs}"/>
+                    <h:outputText value="#{tipoAtoLegalController.selected.talDs}" title="#{bundle.ViewTipoAtoLegalTitle_talDs}"/>
+                    <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talStatus}"/>
+                    <h:outputText value="#{tipoAtoLegalController.selected.talStatus}" title="#{bundle.ViewTipoAtoLegalTitle_talStatus}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tipoAtoLegalController.destroyAndView}" value="#{bundle.ViewTipoAtoLegalDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewTipoAtoLegalEditLink}"/>
+                <br />
+                <h:commandLink action="#{tipoAtoLegalController.prepareCreate}" value="#{bundle.ViewTipoAtoLegalCreateLink}" />
+                <br />
+                <h:commandLink action="#{tipoAtoLegalController.prepareList}" value="#{bundle.ViewTipoAtoLegalShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewTipoAtoLegalIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

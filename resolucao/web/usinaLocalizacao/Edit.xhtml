@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditUsinaLocalizacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditUsinaLocalizacaoLabel_uslId}" for="uslId" />
+                    <h:inputText id="uslId" value="#{usinaLocalizacaoController.selected.uslId}" title="#{bundle.EditUsinaLocalizacaoTitle_uslId}" />
+                    <h:outputLabel value="#{bundle.EditUsinaLocalizacaoLabel_uslMuncodigo}" for="uslMuncodigo" />
+                    <h:inputText id="uslMuncodigo" value="#{usinaLocalizacaoController.selected.uslMuncodigo}" title="#{bundle.EditUsinaLocalizacaoTitle_uslMuncodigo}" />
+                    <h:outputLabel value="#{bundle.EditUsinaLocalizacaoLabel_uslUfdcodigo}" for="uslUfdcodigo" />
+                    <h:inputText id="uslUfdcodigo" value="#{usinaLocalizacaoController.selected.uslUfdcodigo}" title="#{bundle.EditUsinaLocalizacaoTitle_uslUfdcodigo}" />
+                    <h:outputLabel value="#{bundle.EditUsinaLocalizacaoLabel_uslRiocodigo}" for="uslRiocodigo" />
+                    <h:inputText id="uslRiocodigo" value="#{usinaLocalizacaoController.selected.uslRiocodigo}" title="#{bundle.EditUsinaLocalizacaoTitle_uslRiocodigo}" />
+                    <h:outputLabel value="#{bundle.EditUsinaLocalizacaoLabel_uslUsiId}" for="uslUsiId" />
+                    <h:selectOneMenu id="uslUsiId" value="#{usinaLocalizacaoController.selected.uslUsiId}" title="#{bundle.EditUsinaLocalizacaoTitle_uslUsiId}" required="true" requiredMessage="#{bundle.EditUsinaLocalizacaoRequiredMessage_uslUsiId}">
+                        <f:selectItems value="#{usinaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{usinaLocalizacaoController.update}" value="#{bundle.EditUsinaLocalizacaoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditUsinaLocalizacaoViewLink}"/>
+                <br />
+                <h:commandLink action="#{usinaLocalizacaoController.prepareList}" value="#{bundle.EditUsinaLocalizacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditUsinaLocalizacaoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

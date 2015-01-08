@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewUsinaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiId}"/>
+                    <h:outputText value="#{usinaController.selected.usiId}" title="#{bundle.ViewUsinaTitle_usiId}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiOrgId}"/>
+                    <h:outputText value="#{usinaController.selected.usiOrgId}" title="#{bundle.ViewUsinaTitle_usiOrgId}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiNm}"/>
+                    <h:outputText value="#{usinaController.selected.usiNm}" title="#{bundle.ViewUsinaTitle_usiNm}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiNuAreaDrenagem}"/>
+                    <h:outputText value="#{usinaController.selected.usiNuAreaDrenagem}" title="#{bundle.ViewUsinaTitle_usiNuAreaDrenagem}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiNuAreaIncremental}"/>
+                    <h:outputText value="#{usinaController.selected.usiNuAreaIncremental}" title="#{bundle.ViewUsinaTitle_usiNuAreaIncremental}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiNuAreaInundada}"/>
+                    <h:outputText value="#{usinaController.selected.usiNuAreaInundada}" title="#{bundle.ViewUsinaTitle_usiNuAreaInundada}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiNuPotencia}"/>
+                    <h:outputText value="#{usinaController.selected.usiNuPotencia}" title="#{bundle.ViewUsinaTitle_usiNuPotencia}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiLatitude}"/>
+                    <h:outputText value="#{usinaController.selected.usiLatitude}" title="#{bundle.ViewUsinaTitle_usiLatitude}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiLongitude}"/>
+                    <h:outputText value="#{usinaController.selected.usiLongitude}" title="#{bundle.ViewUsinaTitle_usiLongitude}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiSbccodigo}"/>
+                    <h:outputText value="#{usinaController.selected.usiSbccodigo}" title="#{bundle.ViewUsinaTitle_usiSbccodigo}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiDtaOperacao}"/>
+                    <h:outputText value="#{usinaController.selected.usiDtaOperacao}" title="#{bundle.ViewUsinaTitle_usiDtaOperacao}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiProcesso}"/>
+                    <h:outputText value="#{usinaController.selected.usiProcesso}" title="#{bundle.ViewUsinaTitle_usiProcesso}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiTxObservacao}"/>
+                    <h:outputText value="#{usinaController.selected.usiTxObservacao}" title="#{bundle.ViewUsinaTitle_usiTxObservacao}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiTxEndereco}"/>
+                    <h:outputText value="#{usinaController.selected.usiTxEndereco}" title="#{bundle.ViewUsinaTitle_usiTxEndereco}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiTxCep}"/>
+                    <h:outputText value="#{usinaController.selected.usiTxCep}" title="#{bundle.ViewUsinaTitle_usiTxCep}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiUssId}"/>
+                    <h:outputText value="#{usinaController.selected.usiUssId}" title="#{bundle.ViewUsinaTitle_usiUssId}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLabel_usiTpuId}"/>
+                    <h:outputText value="#{usinaController.selected.usiTpuId}" title="#{bundle.ViewUsinaTitle_usiTpuId}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{usinaController.destroyAndView}" value="#{bundle.ViewUsinaDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewUsinaEditLink}"/>
+                <br />
+                <h:commandLink action="#{usinaController.prepareCreate}" value="#{bundle.ViewUsinaCreateLink}" />
+                <br />
+                <h:commandLink action="#{usinaController.prepareList}" value="#{bundle.ViewUsinaShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewUsinaIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

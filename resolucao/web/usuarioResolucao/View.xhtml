@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewUsuarioResolucaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewUsuarioResolucaoLabel_ureId}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureId}" title="#{bundle.ViewUsuarioResolucaoTitle_ureId}"/>
+                    <h:outputText value="#{bundle.ViewUsuarioResolucaoLabel_ureTxLogin}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureTxLogin}" title="#{bundle.ViewUsuarioResolucaoTitle_ureTxLogin}"/>
+                    <h:outputText value="#{bundle.ViewUsuarioResolucaoLabel_ureTxSenha}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureTxSenha}" title="#{bundle.ViewUsuarioResolucaoTitle_ureTxSenha}"/>
+                    <h:outputText value="#{bundle.ViewUsuarioResolucaoLabel_ureNm}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureNm}" title="#{bundle.ViewUsuarioResolucaoTitle_ureNm}"/>
+                    <h:outputText value="#{bundle.ViewUsuarioResolucaoLabel_ureEmail}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureEmail}" title="#{bundle.ViewUsuarioResolucaoTitle_ureEmail}"/>
+                    <h:outputText value="#{bundle.ViewUsuarioResolucaoLabel_ureStatus}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureStatus}" title="#{bundle.ViewUsuarioResolucaoTitle_ureStatus}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{usuarioResolucaoController.destroyAndView}" value="#{bundle.ViewUsuarioResolucaoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewUsuarioResolucaoEditLink}"/>
+                <br />
+                <h:commandLink action="#{usuarioResolucaoController.prepareCreate}" value="#{bundle.ViewUsuarioResolucaoCreateLink}" />
+                <br />
+                <h:commandLink action="#{usuarioResolucaoController.prepareList}" value="#{bundle.ViewUsuarioResolucaoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewUsuarioResolucaoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

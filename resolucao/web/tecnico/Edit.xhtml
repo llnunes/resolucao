@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditTecnicoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecId}" for="tecId" />
+                    <h:inputText id="tecId" value="#{tecnicoController.selected.tecId}" title="#{bundle.EditTecnicoTitle_tecId}" />
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecNm}" for="tecNm" />
+                    <h:inputText id="tecNm" value="#{tecnicoController.selected.tecNm}" title="#{bundle.EditTecnicoTitle_tecNm}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecNm}"/>
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecEmail}" for="tecEmail" />
+                    <h:inputText id="tecEmail" value="#{tecnicoController.selected.tecEmail}" title="#{bundle.EditTecnicoTitle_tecEmail}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecEmail}"/>
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecTelefone}" for="tecTelefone" />
+                    <h:inputText id="tecTelefone" value="#{tecnicoController.selected.tecTelefone}" title="#{bundle.EditTecnicoTitle_tecTelefone}" />
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecTelefone2}" for="tecTelefone2" />
+                    <h:inputText id="tecTelefone2" value="#{tecnicoController.selected.tecTelefone2}" title="#{bundle.EditTecnicoTitle_tecTelefone2}" />
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecStatus}" for="tecStatus" />
+                    <h:inputText id="tecStatus" value="#{tecnicoController.selected.tecStatus}" title="#{bundle.EditTecnicoTitle_tecStatus}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecStatus}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{tecnicoController.update}" value="#{bundle.EditTecnicoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditTecnicoViewLink}"/>
+                <br />
+                <h:commandLink action="#{tecnicoController.prepareList}" value="#{bundle.EditTecnicoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditTecnicoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

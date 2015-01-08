@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditTipoAtoLegalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditTipoAtoLegalLabel_talId}" for="talId" />
+                    <h:inputText id="talId" value="#{tipoAtoLegalController.selected.talId}" title="#{bundle.EditTipoAtoLegalTitle_talId}" />
+                    <h:outputLabel value="#{bundle.EditTipoAtoLegalLabel_talNm}" for="talNm" />
+                    <h:inputText id="talNm" value="#{tipoAtoLegalController.selected.talNm}" title="#{bundle.EditTipoAtoLegalTitle_talNm}" required="true" requiredMessage="#{bundle.EditTipoAtoLegalRequiredMessage_talNm}"/>
+                    <h:outputLabel value="#{bundle.EditTipoAtoLegalLabel_talSigla}" for="talSigla" />
+                    <h:inputText id="talSigla" value="#{tipoAtoLegalController.selected.talSigla}" title="#{bundle.EditTipoAtoLegalTitle_talSigla}" required="true" requiredMessage="#{bundle.EditTipoAtoLegalRequiredMessage_talSigla}"/>
+                    <h:outputLabel value="#{bundle.EditTipoAtoLegalLabel_talDs}" for="talDs" />
+                    <h:inputText id="talDs" value="#{tipoAtoLegalController.selected.talDs}" title="#{bundle.EditTipoAtoLegalTitle_talDs}" />
+                    <h:outputLabel value="#{bundle.EditTipoAtoLegalLabel_talStatus}" for="talStatus" />
+                    <h:inputText id="talStatus" value="#{tipoAtoLegalController.selected.talStatus}" title="#{bundle.EditTipoAtoLegalTitle_talStatus}" required="true" requiredMessage="#{bundle.EditTipoAtoLegalRequiredMessage_talStatus}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{tipoAtoLegalController.update}" value="#{bundle.EditTipoAtoLegalSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditTipoAtoLegalViewLink}"/>
+                <br />
+                <h:commandLink action="#{tipoAtoLegalController.prepareList}" value="#{bundle.EditTipoAtoLegalShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditTipoAtoLegalIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

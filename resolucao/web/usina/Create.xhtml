@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUsinaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiId}" for="usiId" />
+                    <h:inputText id="usiId" value="#{usinaController.selected.usiId}" title="#{bundle.CreateUsinaTitle_usiId}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiOrgId}" for="usiOrgId" />
+                    <h:inputText id="usiOrgId" value="#{usinaController.selected.usiOrgId}" title="#{bundle.CreateUsinaTitle_usiOrgId}" required="true" requiredMessage="#{bundle.CreateUsinaRequiredMessage_usiOrgId}"/>
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNm}" for="usiNm" />
+                    <h:inputText id="usiNm" value="#{usinaController.selected.usiNm}" title="#{bundle.CreateUsinaTitle_usiNm}" required="true" requiredMessage="#{bundle.CreateUsinaRequiredMessage_usiNm}"/>
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNuAreaDrenagem}" for="usiNuAreaDrenagem" />
+                    <h:inputText id="usiNuAreaDrenagem" value="#{usinaController.selected.usiNuAreaDrenagem}" title="#{bundle.CreateUsinaTitle_usiNuAreaDrenagem}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNuAreaIncremental}" for="usiNuAreaIncremental" />
+                    <h:inputText id="usiNuAreaIncremental" value="#{usinaController.selected.usiNuAreaIncremental}" title="#{bundle.CreateUsinaTitle_usiNuAreaIncremental}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNuAreaInundada}" for="usiNuAreaInundada" />
+                    <h:inputText id="usiNuAreaInundada" value="#{usinaController.selected.usiNuAreaInundada}" title="#{bundle.CreateUsinaTitle_usiNuAreaInundada}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNuPotencia}" for="usiNuPotencia" />
+                    <h:inputText id="usiNuPotencia" value="#{usinaController.selected.usiNuPotencia}" title="#{bundle.CreateUsinaTitle_usiNuPotencia}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiLatitude}" for="usiLatitude" />
+                    <h:inputText id="usiLatitude" value="#{usinaController.selected.usiLatitude}" title="#{bundle.CreateUsinaTitle_usiLatitude}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiLongitude}" for="usiLongitude" />
+                    <h:inputText id="usiLongitude" value="#{usinaController.selected.usiLongitude}" title="#{bundle.CreateUsinaTitle_usiLongitude}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiSbccodigo}" for="usiSbccodigo" />
+                    <h:inputText id="usiSbccodigo" value="#{usinaController.selected.usiSbccodigo}" title="#{bundle.CreateUsinaTitle_usiSbccodigo}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiDtaOperacao}" for="usiDtaOperacao" />
+                    <h:inputText id="usiDtaOperacao" value="#{usinaController.selected.usiDtaOperacao}" title="#{bundle.CreateUsinaTitle_usiDtaOperacao}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiProcesso}" for="usiProcesso" />
+                    <h:inputText id="usiProcesso" value="#{usinaController.selected.usiProcesso}" title="#{bundle.CreateUsinaTitle_usiProcesso}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiTxObservacao}" for="usiTxObservacao" />
+                    <h:inputTextarea rows="4" cols="30" id="usiTxObservacao" value="#{usinaController.selected.usiTxObservacao}" title="#{bundle.CreateUsinaTitle_usiTxObservacao}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiTxEndereco}" for="usiTxEndereco" />
+                    <h:inputTextarea rows="4" cols="30" id="usiTxEndereco" value="#{usinaController.selected.usiTxEndereco}" title="#{bundle.CreateUsinaTitle_usiTxEndereco}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiTxCep}" for="usiTxCep" />
+                    <h:inputText id="usiTxCep" value="#{usinaController.selected.usiTxCep}" title="#{bundle.CreateUsinaTitle_usiTxCep}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiUssId}" for="usiUssId" />
+                    <h:selectOneMenu id="usiUssId" value="#{usinaController.selected.usiUssId}" title="#{bundle.CreateUsinaTitle_usiUssId}" required="true" requiredMessage="#{bundle.CreateUsinaRequiredMessage_usiUssId}">
+                        <f:selectItems value="#{usinaSituacaoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiTpuId}" for="usiTpuId" />
+                    <h:selectOneMenu id="usiTpuId" value="#{usinaController.selected.usiTpuId}" title="#{bundle.CreateUsinaTitle_usiTpuId}" required="true" requiredMessage="#{bundle.CreateUsinaRequiredMessage_usiTpuId}">
+                        <f:selectItems value="#{tipoUsinaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{usinaController.create}" value="#{bundle.CreateUsinaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{usinaController.prepareList}" value="#{bundle.CreateUsinaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateUsinaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

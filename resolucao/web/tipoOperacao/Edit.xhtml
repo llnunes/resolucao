@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditTipoOperacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topId}" for="topId" />
+                    <h:inputText id="topId" value="#{tipoOperacaoController.selected.topId}" title="#{bundle.EditTipoOperacaoTitle_topId}" />
+                    <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topNm}" for="topNm" />
+                    <h:inputText id="topNm" value="#{tipoOperacaoController.selected.topNm}" title="#{bundle.EditTipoOperacaoTitle_topNm}" required="true" requiredMessage="#{bundle.EditTipoOperacaoRequiredMessage_topNm}"/>
+                    <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topDs}" for="topDs" />
+                    <h:inputText id="topDs" value="#{tipoOperacaoController.selected.topDs}" title="#{bundle.EditTipoOperacaoTitle_topDs}" />
+                    <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topStatus}" for="topStatus" />
+                    <h:inputText id="topStatus" value="#{tipoOperacaoController.selected.topStatus}" title="#{bundle.EditTipoOperacaoTitle_topStatus}" required="true" requiredMessage="#{bundle.EditTipoOperacaoRequiredMessage_topStatus}"/>
+                </h:panelGrid>
+                <h:commandLink action="#{tipoOperacaoController.update}" value="#{bundle.EditTipoOperacaoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditTipoOperacaoViewLink}"/>
+                <br />
+                <h:commandLink action="#{tipoOperacaoController.prepareList}" value="#{bundle.EditTipoOperacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditTipoOperacaoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

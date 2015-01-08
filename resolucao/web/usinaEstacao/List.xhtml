@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListUsinaEstacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListUsinaEstacaoEmpty}" rendered="#{usinaEstacaoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{usinaEstacaoController.items.rowCount > 0}">
+                    <h:outputText value="#{usinaEstacaoController.pagination.pageFirstItem + 1}..#{usinaEstacaoController.pagination.pageLastItem + 1}/#{usinaEstacaoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{usinaEstacaoController.previous}" value="#{bundle.Previous} #{usinaEstacaoController.pagination.pageSize}" rendered="#{usinaEstacaoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{usinaEstacaoController.next}" value="#{bundle.Next} #{usinaEstacaoController.pagination.pageSize}" rendered="#{usinaEstacaoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{usinaEstacaoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsinaEstacaoTitle_uesId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.uesId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsinaEstacaoTitle_uesEstcodigo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.uesEstcodigo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListUsinaEstacaoTitle_uesUsiId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.uesUsiId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{usinaEstacaoController.prepareView}" value="#{bundle.ListUsinaEstacaoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{usinaEstacaoController.prepareEdit}" value="#{bundle.ListUsinaEstacaoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{usinaEstacaoController.destroy}" value="#{bundle.ListUsinaEstacaoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{usinaEstacaoController.prepareCreate}" value="#{bundle.ListUsinaEstacaoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListUsinaEstacaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

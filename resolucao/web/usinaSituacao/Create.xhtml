@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUsinaSituacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateUsinaSituacaoLabel_ussId}" for="ussId" />
+                    <h:inputText id="ussId" value="#{usinaSituacaoController.selected.ussId}" title="#{bundle.CreateUsinaSituacaoTitle_ussId}" />
+                    <h:outputLabel value="#{bundle.CreateUsinaSituacaoLabel_ussNm}" for="ussNm" />
+                    <h:inputText id="ussNm" value="#{usinaSituacaoController.selected.ussNm}" title="#{bundle.CreateUsinaSituacaoTitle_ussNm}" required="true" requiredMessage="#{bundle.CreateUsinaSituacaoRequiredMessage_ussNm}"/>
+                    <h:outputLabel value="#{bundle.CreateUsinaSituacaoLabel_ussDs}" for="ussDs" />
+                    <h:inputText id="ussDs" value="#{usinaSituacaoController.selected.ussDs}" title="#{bundle.CreateUsinaSituacaoTitle_ussDs}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{usinaSituacaoController.create}" value="#{bundle.CreateUsinaSituacaoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{usinaSituacaoController.prepareList}" value="#{bundle.CreateUsinaSituacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateUsinaSituacaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateHistResolucaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateHistResolucaoLabel_hreId}" for="hreId" />
+                    <h:inputText id="hreId" value="#{histResolucaoController.selected.hreId}" title="#{bundle.CreateHistResolucaoTitle_hreId}" />
+                    <h:outputLabel value="#{bundle.CreateHistResolucaoLabel_hreRegistroId}" for="hreRegistroId" />
+                    <h:inputText id="hreRegistroId" value="#{histResolucaoController.selected.hreRegistroId}" title="#{bundle.CreateHistResolucaoTitle_hreRegistroId}" />
+                    <h:outputLabel value="#{bundle.CreateHistResolucaoLabel_hreFlag}" for="hreFlag" />
+                    <h:inputText id="hreFlag" value="#{histResolucaoController.selected.hreFlag}" title="#{bundle.CreateHistResolucaoTitle_hreFlag}" required="true" requiredMessage="#{bundle.CreateHistResolucaoRequiredMessage_hreFlag}"/>
+                    <h:outputLabel value="#{bundle.CreateHistResolucaoLabel_hreDtOperacao}" for="hreDtOperacao" />
+                    <h:inputText id="hreDtOperacao" value="#{histResolucaoController.selected.hreDtOperacao}" title="#{bundle.CreateHistResolucaoTitle_hreDtOperacao}" required="true" requiredMessage="#{bundle.CreateHistResolucaoRequiredMessage_hreDtOperacao}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateHistResolucaoLabel_hreDs}" for="hreDs" />
+                    <h:inputTextarea rows="4" cols="30" id="hreDs" value="#{histResolucaoController.selected.hreDs}" title="#{bundle.CreateHistResolucaoTitle_hreDs}" />
+                    <h:outputLabel value="#{bundle.CreateHistResolucaoLabel_hreUreId}" for="hreUreId" />
+                    <h:selectOneMenu id="hreUreId" value="#{histResolucaoController.selected.hreUreId}" title="#{bundle.CreateHistResolucaoTitle_hreUreId}" required="true" requiredMessage="#{bundle.CreateHistResolucaoRequiredMessage_hreUreId}">
+                        <f:selectItems value="#{usuarioResolucaoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateHistResolucaoLabel_hreTpeId}" for="hreTpeId" />
+                    <h:selectOneMenu id="hreTpeId" value="#{histResolucaoController.selected.hreTpeId}" title="#{bundle.CreateHistResolucaoTitle_hreTpeId}" required="true" requiredMessage="#{bundle.CreateHistResolucaoRequiredMessage_hreTpeId}">
+                        <f:selectItems value="#{tipoEntidadeController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{histResolucaoController.create}" value="#{bundle.CreateHistResolucaoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{histResolucaoController.prepareList}" value="#{bundle.CreateHistResolucaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateHistResolucaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

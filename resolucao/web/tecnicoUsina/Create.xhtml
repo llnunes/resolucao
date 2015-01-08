@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateTecnicoUsinaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateTecnicoUsinaLabel_tusId}" for="tusId" />
+                    <h:inputText id="tusId" value="#{tecnicoUsinaController.selected.tusId}" title="#{bundle.CreateTecnicoUsinaTitle_tusId}" />
+                    <h:outputLabel value="#{bundle.CreateTecnicoUsinaLabel_tusUsiId}" for="tusUsiId" />
+                    <h:selectOneMenu id="tusUsiId" value="#{tecnicoUsinaController.selected.tusUsiId}" title="#{bundle.CreateTecnicoUsinaTitle_tusUsiId}" required="true" requiredMessage="#{bundle.CreateTecnicoUsinaRequiredMessage_tusUsiId}">
+                        <f:selectItems value="#{usinaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateTecnicoUsinaLabel_tusTecId}" for="tusTecId" />
+                    <h:selectOneMenu id="tusTecId" value="#{tecnicoUsinaController.selected.tusTecId}" title="#{bundle.CreateTecnicoUsinaTitle_tusTecId}" required="true" requiredMessage="#{bundle.CreateTecnicoUsinaRequiredMessage_tusTecId}">
+                        <f:selectItems value="#{tecnicoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tecnicoUsinaController.create}" value="#{bundle.CreateTecnicoUsinaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{tecnicoUsinaController.prepareList}" value="#{bundle.CreateTecnicoUsinaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateTecnicoUsinaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTipoAtoLegalTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTipoAtoLegalEmpty}" rendered="#{tipoAtoLegalController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tipoAtoLegalController.items.rowCount > 0}">
+                    <h:outputText value="#{tipoAtoLegalController.pagination.pageFirstItem + 1}..#{tipoAtoLegalController.pagination.pageLastItem + 1}/#{tipoAtoLegalController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tipoAtoLegalController.previous}" value="#{bundle.Previous} #{tipoAtoLegalController.pagination.pageSize}" rendered="#{tipoAtoLegalController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tipoAtoLegalController.next}" value="#{bundle.Next} #{tipoAtoLegalController.pagination.pageSize}" rendered="#{tipoAtoLegalController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tipoAtoLegalController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoAtoLegalTitle_talId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.talId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoAtoLegalTitle_talNm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.talNm}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoAtoLegalTitle_talSigla}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.talSigla}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoAtoLegalTitle_talDs}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.talDs}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoAtoLegalTitle_talStatus}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.talStatus}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tipoAtoLegalController.prepareView}" value="#{bundle.ListTipoAtoLegalViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tipoAtoLegalController.prepareEdit}" value="#{bundle.ListTipoAtoLegalEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tipoAtoLegalController.destroy}" value="#{bundle.ListTipoAtoLegalDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tipoAtoLegalController.prepareCreate}" value="#{bundle.ListTipoAtoLegalCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListTipoAtoLegalIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

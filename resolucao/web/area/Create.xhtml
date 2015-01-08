@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateAreaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateAreaLabel_areId}" for="areId" />
+                    <h:inputText id="areId" value="#{areaController.selected.areId}" title="#{bundle.CreateAreaTitle_areId}" />
+                    <h:outputLabel value="#{bundle.CreateAreaLabel_areNm}" for="areNm" />
+                    <h:inputText id="areNm" value="#{areaController.selected.areNm}" title="#{bundle.CreateAreaTitle_areNm}" required="true" requiredMessage="#{bundle.CreateAreaRequiredMessage_areNm}"/>
+                    <h:outputLabel value="#{bundle.CreateAreaLabel_areDs}" for="areDs" />
+                    <h:inputText id="areDs" value="#{areaController.selected.areDs}" title="#{bundle.CreateAreaTitle_areDs}" />
+                    <h:outputLabel value="#{bundle.CreateAreaLabel_areStatus}" for="areStatus" />
+                    <h:inputText id="areStatus" value="#{areaController.selected.areStatus}" title="#{bundle.CreateAreaTitle_areStatus}" required="true" requiredMessage="#{bundle.CreateAreaRequiredMessage_areStatus}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{areaController.create}" value="#{bundle.CreateAreaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{areaController.prepareList}" value="#{bundle.CreateAreaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateAreaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

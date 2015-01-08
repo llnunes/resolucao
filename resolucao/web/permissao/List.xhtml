@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListPermissaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListPermissaoEmpty}" rendered="#{permissaoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{permissaoController.items.rowCount > 0}">
+                    <h:outputText value="#{permissaoController.pagination.pageFirstItem + 1}..#{permissaoController.pagination.pageLastItem + 1}/#{permissaoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{permissaoController.previous}" value="#{bundle.Previous} #{permissaoController.pagination.pageSize}" rendered="#{permissaoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{permissaoController.next}" value="#{bundle.Next} #{permissaoController.pagination.pageSize}" rendered="#{permissaoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{permissaoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPermissaoTitle_perId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.perId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPermissaoTitle_perNm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.perNm}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPermissaoTitle_perDs}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.perDs}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPermissaoTitle_perStatus}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.perStatus}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{permissaoController.prepareView}" value="#{bundle.ListPermissaoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{permissaoController.prepareEdit}" value="#{bundle.ListPermissaoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{permissaoController.destroy}" value="#{bundle.ListPermissaoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{permissaoController.prepareCreate}" value="#{bundle.ListPermissaoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListPermissaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

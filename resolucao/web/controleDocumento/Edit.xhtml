@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditControleDocumentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmId}" for="tcmId" />
+                    <h:inputText id="tcmId" value="#{controleDocumentoController.selected.tcmId}" title="#{bundle.EditControleDocumentoTitle_tcmId}" />
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmDtCadastro}" for="tcmDtCadastro" />
+                    <h:inputText id="tcmDtCadastro" value="#{controleDocumentoController.selected.tcmDtCadastro}" title="#{bundle.EditControleDocumentoTitle_tcmDtCadastro}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmDtExpedicao}" for="tcmDtExpedicao" />
+                    <h:inputText id="tcmDtExpedicao" value="#{controleDocumentoController.selected.tcmDtExpedicao}" title="#{bundle.EditControleDocumentoTitle_tcmDtExpedicao}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTxNumero}" for="tcmTxNumero" />
+                    <h:inputText id="tcmTxNumero" value="#{controleDocumentoController.selected.tcmTxNumero}" title="#{bundle.EditControleDocumentoTitle_tcmTxNumero}" />
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTxObservacao}" for="tcmTxObservacao" />
+                    <h:inputTextarea rows="4" cols="30" id="tcmTxObservacao" value="#{controleDocumentoController.selected.tcmTxObservacao}" title="#{bundle.EditControleDocumentoTitle_tcmTxObservacao}" />
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmProton}" for="tcmProton" />
+                    <h:inputText id="tcmProton" value="#{controleDocumentoController.selected.tcmProton}" title="#{bundle.EditControleDocumentoTitle_tcmProton}" />
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmIcObrigatorio}" for="tcmIcObrigatorio" />
+                    <h:inputText id="tcmIcObrigatorio" value="#{controleDocumentoController.selected.tcmIcObrigatorio}" title="#{bundle.EditControleDocumentoTitle_tcmIcObrigatorio}" />
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmDocVinculo}" for="tcmDocVinculo" />
+                    <h:inputText id="tcmDocVinculo" value="#{controleDocumentoController.selected.tcmDocVinculo}" title="#{bundle.EditControleDocumentoTitle_tcmDocVinculo}" />
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmStatus}" for="tcmStatus" />
+                    <h:inputText id="tcmStatus" value="#{controleDocumentoController.selected.tcmStatus}" title="#{bundle.EditControleDocumentoTitle_tcmStatus}" required="true" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_tcmStatus}"/>
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmUsiId}" for="tcmUsiId" />
+                    <h:selectOneMenu id="tcmUsiId" value="#{controleDocumentoController.selected.tcmUsiId}" title="#{bundle.EditControleDocumentoTitle_tcmUsiId}" required="true" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_tcmUsiId}">
+                        <f:selectItems value="#{usinaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTopId}" for="tcmTopId" />
+                    <h:selectOneMenu id="tcmTopId" value="#{controleDocumentoController.selected.tcmTopId}" title="#{bundle.EditControleDocumentoTitle_tcmTopId}" >
+                        <f:selectItems value="#{tipoOperacaoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTdcId}" for="tcmTdcId" />
+                    <h:selectOneMenu id="tcmTdcId" value="#{controleDocumentoController.selected.tcmTdcId}" title="#{bundle.EditControleDocumentoTitle_tcmTdcId}" required="true" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_tcmTdcId}">
+                        <f:selectItems value="#{tipoDocumentoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmSdcId}" for="tcmSdcId" />
+                    <h:selectOneMenu id="tcmSdcId" value="#{controleDocumentoController.selected.tcmSdcId}" title="#{bundle.EditControleDocumentoTitle_tcmSdcId}" required="true" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_tcmSdcId}">
+                        <f:selectItems value="#{statusDocumentoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmRspId}" for="tcmRspId" />
+                    <h:selectOneMenu id="tcmRspId" value="#{controleDocumentoController.selected.tcmRspId}" title="#{bundle.EditControleDocumentoTitle_tcmRspId}" >
+                        <f:selectItems value="#{responsavelController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{controleDocumentoController.update}" value="#{bundle.EditControleDocumentoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditControleDocumentoViewLink}"/>
+                <br />
+                <h:commandLink action="#{controleDocumentoController.prepareList}" value="#{bundle.EditControleDocumentoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditControleDocumentoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

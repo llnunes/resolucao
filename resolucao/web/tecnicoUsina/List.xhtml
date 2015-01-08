@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTecnicoUsinaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTecnicoUsinaEmpty}" rendered="#{tecnicoUsinaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tecnicoUsinaController.items.rowCount > 0}">
+                    <h:outputText value="#{tecnicoUsinaController.pagination.pageFirstItem + 1}..#{tecnicoUsinaController.pagination.pageLastItem + 1}/#{tecnicoUsinaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tecnicoUsinaController.previous}" value="#{bundle.Previous} #{tecnicoUsinaController.pagination.pageSize}" rendered="#{tecnicoUsinaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tecnicoUsinaController.next}" value="#{bundle.Next} #{tecnicoUsinaController.pagination.pageSize}" rendered="#{tecnicoUsinaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tecnicoUsinaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoUsinaTitle_tusId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tusId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoUsinaTitle_tusUsiId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tusUsiId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTecnicoUsinaTitle_tusTecId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tusTecId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tecnicoUsinaController.prepareView}" value="#{bundle.ListTecnicoUsinaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tecnicoUsinaController.prepareEdit}" value="#{bundle.ListTecnicoUsinaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tecnicoUsinaController.destroy}" value="#{bundle.ListTecnicoUsinaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tecnicoUsinaController.prepareCreate}" value="#{bundle.ListTecnicoUsinaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListTecnicoUsinaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

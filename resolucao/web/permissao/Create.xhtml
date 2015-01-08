@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreatePermissaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreatePermissaoLabel_perId}" for="perId" />
+                    <h:inputText id="perId" value="#{permissaoController.selected.perId}" title="#{bundle.CreatePermissaoTitle_perId}" />
+                    <h:outputLabel value="#{bundle.CreatePermissaoLabel_perNm}" for="perNm" />
+                    <h:inputText id="perNm" value="#{permissaoController.selected.perNm}" title="#{bundle.CreatePermissaoTitle_perNm}" required="true" requiredMessage="#{bundle.CreatePermissaoRequiredMessage_perNm}"/>
+                    <h:outputLabel value="#{bundle.CreatePermissaoLabel_perDs}" for="perDs" />
+                    <h:inputText id="perDs" value="#{permissaoController.selected.perDs}" title="#{bundle.CreatePermissaoTitle_perDs}" />
+                    <h:outputLabel value="#{bundle.CreatePermissaoLabel_perStatus}" for="perStatus" />
+                    <h:inputText id="perStatus" value="#{permissaoController.selected.perStatus}" title="#{bundle.CreatePermissaoTitle_perStatus}" required="true" requiredMessage="#{bundle.CreatePermissaoRequiredMessage_perStatus}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{permissaoController.create}" value="#{bundle.CreatePermissaoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{permissaoController.prepareList}" value="#{bundle.CreatePermissaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreatePermissaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

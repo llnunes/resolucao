@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewUsinaLocalizacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewUsinaLocalizacaoLabel_uslId}"/>
+                    <h:outputText value="#{usinaLocalizacaoController.selected.uslId}" title="#{bundle.ViewUsinaLocalizacaoTitle_uslId}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLocalizacaoLabel_uslMuncodigo}"/>
+                    <h:outputText value="#{usinaLocalizacaoController.selected.uslMuncodigo}" title="#{bundle.ViewUsinaLocalizacaoTitle_uslMuncodigo}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLocalizacaoLabel_uslUfdcodigo}"/>
+                    <h:outputText value="#{usinaLocalizacaoController.selected.uslUfdcodigo}" title="#{bundle.ViewUsinaLocalizacaoTitle_uslUfdcodigo}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLocalizacaoLabel_uslRiocodigo}"/>
+                    <h:outputText value="#{usinaLocalizacaoController.selected.uslRiocodigo}" title="#{bundle.ViewUsinaLocalizacaoTitle_uslRiocodigo}"/>
+                    <h:outputText value="#{bundle.ViewUsinaLocalizacaoLabel_uslUsiId}"/>
+                    <h:outputText value="#{usinaLocalizacaoController.selected.uslUsiId}" title="#{bundle.ViewUsinaLocalizacaoTitle_uslUsiId}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{usinaLocalizacaoController.destroyAndView}" value="#{bundle.ViewUsinaLocalizacaoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewUsinaLocalizacaoEditLink}"/>
+                <br />
+                <h:commandLink action="#{usinaLocalizacaoController.prepareCreate}" value="#{bundle.ViewUsinaLocalizacaoCreateLink}" />
+                <br />
+                <h:commandLink action="#{usinaLocalizacaoController.prepareList}" value="#{bundle.ViewUsinaLocalizacaoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewUsinaLocalizacaoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
