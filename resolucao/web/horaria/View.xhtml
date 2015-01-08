@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewHorariaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horariaPK_horDataHora}"/>
+                    <h:outputText value="#{horariaController.selected.horariaPK.horDataHora}" title="#{bundle.ViewHorariaTitle_horariaPK_horDataHora}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horDataHoraAmostra}"/>
+                    <h:outputText value="#{horariaController.selected.horDataHoraAmostra}" title="#{bundle.ViewHorariaTitle_horDataHoraAmostra}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horNivelEncoder}"/>
+                    <h:outputText value="#{horariaController.selected.horNivelEncoder}" title="#{bundle.ViewHorariaTitle_horNivelEncoder}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horNivelPressao}"/>
+                    <h:outputText value="#{horariaController.selected.horNivelPressao}" title="#{bundle.ViewHorariaTitle_horNivelPressao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horNivelDisplay}"/>
+                    <h:outputText value="#{horariaController.selected.horNivelDisplay}" title="#{bundle.ViewHorariaTitle_horNivelDisplay}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horNivelManual}"/>
+                    <h:outputText value="#{horariaController.selected.horNivelManual}" title="#{bundle.ViewHorariaTitle_horNivelManual}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horNivelPapel}"/>
+                    <h:outputText value="#{horariaController.selected.horNivelPapel}" title="#{bundle.ViewHorariaTitle_horNivelPapel}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horNivelAdotado}"/>
+                    <h:outputText value="#{horariaController.selected.horNivelAdotado}" title="#{bundle.ViewHorariaTitle_horNivelAdotado}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horVazao}"/>
+                    <h:outputText value="#{horariaController.selected.horVazao}" title="#{bundle.ViewHorariaTitle_horVazao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horChuva}"/>
+                    <h:outputText value="#{horariaController.selected.horChuva}" title="#{bundle.ViewHorariaTitle_horChuva}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horChuvaAcumSensor}"/>
+                    <h:outputText value="#{horariaController.selected.horChuvaAcumSensor}" title="#{bundle.ViewHorariaTitle_horChuvaAcumSensor}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horChuvaAcumManual}"/>
+                    <h:outputText value="#{horariaController.selected.horChuvaAcumManual}" title="#{bundle.ViewHorariaTitle_horChuvaAcumManual}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horChuvaAcumAdotada}"/>
+                    <h:outputText value="#{horariaController.selected.horChuvaAcumAdotada}" title="#{bundle.ViewHorariaTitle_horChuvaAcumAdotada}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQChuvaAcumAdotada}"/>
+                    <h:outputText value="#{horariaController.selected.horQChuvaAcumAdotada}" title="#{bundle.ViewHorariaTitle_horQChuvaAcumAdotada}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horVentoVelocidade}"/>
+                    <h:outputText value="#{horariaController.selected.horVentoVelocidade}" title="#{bundle.ViewHorariaTitle_horVentoVelocidade}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horVentoDirecao}"/>
+                    <h:outputText value="#{horariaController.selected.horVentoDirecao}" title="#{bundle.ViewHorariaTitle_horVentoDirecao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horTemperatura}"/>
+                    <h:outputText value="#{horariaController.selected.horTemperatura}" title="#{bundle.ViewHorariaTitle_horTemperatura}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horTemperaturaOrvalho}"/>
+                    <h:outputText value="#{horariaController.selected.horTemperaturaOrvalho}" title="#{bundle.ViewHorariaTitle_horTemperaturaOrvalho}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horHumidade}"/>
+                    <h:outputText value="#{horariaController.selected.horHumidade}" title="#{bundle.ViewHorariaTitle_horHumidade}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horPressao}"/>
+                    <h:outputText value="#{horariaController.selected.horPressao}" title="#{bundle.ViewHorariaTitle_horPressao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horPressaoNMM}"/>
+                    <h:outputText value="#{horariaController.selected.horPressaoNMM}" title="#{bundle.ViewHorariaTitle_horPressaoNMM}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horTempAgua}"/>
+                    <h:outputText value="#{horariaController.selected.horTempAgua}" title="#{bundle.ViewHorariaTitle_horTempAgua}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horCondutividade}"/>
+                    <h:outputText value="#{horariaController.selected.horCondutividade}" title="#{bundle.ViewHorariaTitle_horCondutividade}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQChuva}"/>
+                    <h:outputText value="#{horariaController.selected.horQChuva}" title="#{bundle.ViewHorariaTitle_horQChuva}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQChuvaAcumSensor}"/>
+                    <h:outputText value="#{horariaController.selected.horQChuvaAcumSensor}" title="#{bundle.ViewHorariaTitle_horQChuvaAcumSensor}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQNivelEncoder}"/>
+                    <h:outputText value="#{horariaController.selected.horQNivelEncoder}" title="#{bundle.ViewHorariaTitle_horQNivelEncoder}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQNivelPressao}"/>
+                    <h:outputText value="#{horariaController.selected.horQNivelPressao}" title="#{bundle.ViewHorariaTitle_horQNivelPressao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_estacao}"/>
+                    <h:outputText value="#{horariaController.selected.estacao}" title="#{bundle.ViewHorariaTitle_estacao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQVentoVelocidade}"/>
+                    <h:outputText value="#{horariaController.selected.horQVentoVelocidade}" title="#{bundle.ViewHorariaTitle_horQVentoVelocidade}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQTemperatura}"/>
+                    <h:outputText value="#{horariaController.selected.horQTemperatura}" title="#{bundle.ViewHorariaTitle_horQTemperatura}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQHumidade}"/>
+                    <h:outputText value="#{horariaController.selected.horQHumidade}" title="#{bundle.ViewHorariaTitle_horQHumidade}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQPressao}"/>
+                    <h:outputText value="#{horariaController.selected.horQPressao}" title="#{bundle.ViewHorariaTitle_horQPressao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQVentoDirecao}"/>
+                    <h:outputText value="#{horariaController.selected.horQVentoDirecao}" title="#{bundle.ViewHorariaTitle_horQVentoDirecao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQVazao}"/>
+                    <h:outputText value="#{horariaController.selected.horQVazao}" title="#{bundle.ViewHorariaTitle_horQVazao}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQChuvaAcumManual}"/>
+                    <h:outputText value="#{horariaController.selected.horQChuvaAcumManual}" title="#{bundle.ViewHorariaTitle_horQChuvaAcumManual}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQNivelManual}"/>
+                    <h:outputText value="#{horariaController.selected.horQNivelManual}" title="#{bundle.ViewHorariaTitle_horQNivelManual}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQNivelDisplay}"/>
+                    <h:outputText value="#{horariaController.selected.horQNivelDisplay}" title="#{bundle.ViewHorariaTitle_horQNivelDisplay}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQNivelAdotado}"/>
+                    <h:outputText value="#{horariaController.selected.horQNivelAdotado}" title="#{bundle.ViewHorariaTitle_horQNivelAdotado}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQCondutividade}"/>
+                    <h:outputText value="#{horariaController.selected.horQCondutividade}" title="#{bundle.ViewHorariaTitle_horQCondutividade}"/>
+                    <h:outputText value="#{bundle.ViewHorariaLabel_horQTempAgua}"/>
+                    <h:outputText value="#{horariaController.selected.horQTempAgua}" title="#{bundle.ViewHorariaTitle_horQTempAgua}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{horariaController.destroyAndView}" value="#{bundle.ViewHorariaDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewHorariaEditLink}"/>
+                <br />
+                <h:commandLink action="#{horariaController.prepareCreate}" value="#{bundle.ViewHorariaCreateLink}" />
+                <br />
+                <h:commandLink action="#{horariaController.prepareList}" value="#{bundle.ViewHorariaShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewHorariaIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

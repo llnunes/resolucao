@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewEstacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estCodigo}"/>
+                    <h:outputText value="#{estacaoController.selected.estCodigo}" title="#{bundle.ViewEstacaoTitle_estCodigo}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estCodigoAdicional}"/>
+                    <h:outputText value="#{estacaoController.selected.estCodigoAdicional}" title="#{bundle.ViewEstacaoTitle_estCodigoAdicional}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estId}"/>
+                    <h:outputText value="#{estacaoController.selected.estId}" title="#{bundle.ViewEstacaoTitle_estId}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estAneelPlu}"/>
+                    <h:outputText value="#{estacaoController.selected.estAneelPlu}" title="#{bundle.ViewEstacaoTitle_estAneelPlu}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estAneelFlu}"/>
+                    <h:outputText value="#{estacaoController.selected.estAneelFlu}" title="#{bundle.ViewEstacaoTitle_estAneelFlu}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estNome}"/>
+                    <h:outputText value="#{estacaoController.selected.estNome}" title="#{bundle.ViewEstacaoTitle_estNome}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estLatitude}"/>
+                    <h:outputText value="#{estacaoController.selected.estLatitude}" title="#{bundle.ViewEstacaoTitle_estLatitude}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estLongitude}"/>
+                    <h:outputText value="#{estacaoController.selected.estLongitude}" title="#{bundle.ViewEstacaoTitle_estLongitude}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estAltitude}"/>
+                    <h:outputText value="#{estacaoController.selected.estAltitude}" title="#{bundle.ViewEstacaoTitle_estAltitude}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estIntervaloTX}"/>
+                    <h:outputText value="#{estacaoController.selected.estIntervaloTX}" title="#{bundle.ViewEstacaoTitle_estIntervaloTX}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estIntervaloColeta}"/>
+                    <h:outputText value="#{estacaoController.selected.estIntervaloColeta}" title="#{bundle.ViewEstacaoTitle_estIntervaloColeta}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estContadorChuva}"/>
+                    <h:outputText value="#{estacaoController.selected.estContadorChuva}" title="#{bundle.ViewEstacaoTitle_estContadorChuva}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estDescricao}"/>
+                    <h:outputText value="#{estacaoController.selected.estDescricao}" title="#{bundle.ViewEstacaoTitle_estDescricao}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estHistorico}"/>
+                    <h:outputText value="#{estacaoController.selected.estHistorico}" title="#{bundle.ViewEstacaoTitle_estHistorico}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estUltimaAtualizacao}"/>
+                    <h:outputText value="#{estacaoController.selected.estUltimaAtualizacao}" title="#{bundle.ViewEstacaoTitle_estUltimaAtualizacao}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estacaoDetalhe}"/>
+                    <h:outputText value="#{estacaoController.selected.estacaoDetalhe}" title="#{bundle.ViewEstacaoTitle_estacaoDetalhe}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estTipo}"/>
+                    <h:outputText value="#{estacaoController.selected.estTipo}" title="#{bundle.ViewEstacaoTitle_estTipo}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estSubbacia}"/>
+                    <h:outputText value="#{estacaoController.selected.estSubbacia}" title="#{bundle.ViewEstacaoTitle_estSubbacia}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estStatus}"/>
+                    <h:outputText value="#{estacaoController.selected.estStatus}" title="#{bundle.ViewEstacaoTitle_estStatus}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estRio}"/>
+                    <h:outputText value="#{estacaoController.selected.estRio}" title="#{bundle.ViewEstacaoTitle_estRio}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estRegiao}"/>
+                    <h:outputText value="#{estacaoController.selected.estRegiao}" title="#{bundle.ViewEstacaoTitle_estRegiao}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estOrigem}"/>
+                    <h:outputText value="#{estacaoController.selected.estOrigem}" title="#{bundle.ViewEstacaoTitle_estOrigem}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estMunicipio}"/>
+                    <h:outputText value="#{estacaoController.selected.estMunicipio}" title="#{bundle.ViewEstacaoTitle_estMunicipio}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estResponsavel}"/>
+                    <h:outputText value="#{estacaoController.selected.estResponsavel}" title="#{bundle.ViewEstacaoTitle_estResponsavel}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estOperadora}"/>
+                    <h:outputText value="#{estacaoController.selected.estOperadora}" title="#{bundle.ViewEstacaoTitle_estOperadora}"/>
+                    <h:outputText value="#{bundle.ViewEstacaoLabel_estColeta}"/>
+                    <h:outputText value="#{estacaoController.selected.estColeta}" title="#{bundle.ViewEstacaoTitle_estColeta}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{estacaoController.destroyAndView}" value="#{bundle.ViewEstacaoDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewEstacaoEditLink}"/>
+                <br />
+                <h:commandLink action="#{estacaoController.prepareCreate}" value="#{bundle.ViewEstacaoCreateLink}" />
+                <br />
+                <h:commandLink action="#{estacaoController.prepareList}" value="#{bundle.ViewEstacaoShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewEstacaoIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

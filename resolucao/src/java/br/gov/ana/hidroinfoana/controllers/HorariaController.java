@@ -1,15 +1,15 @@
-package br.gov.ana.controllers;
+package br.gov.ana.hidroinfoana.controllers;
 
-import br.gov.ana.entities.TipoUsina;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.controllers.util.PaginationHelper;
-import br.gov.ana.facade.TipoUsinaFacade;
+import br.gov.ana.hidroinfoana.entities.Horaria;
+import br.gov.ana.hidroinfoana.facade.HorariaFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
+import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -18,29 +18,30 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@ManagedBean(name = "tipoUsinaController")
+@Named("horariaController")
 @SessionScoped
-public class TipoUsinaController implements Serializable {
+public class HorariaController implements Serializable {
 
-    private TipoUsina current;
+    private Horaria current;
     private DataModel items = null;
     @EJB
-    private br.gov.ana.facade.TipoUsinaFacade ejbFacade;
+    private br.gov.ana.hidroinfoana.facade.HorariaFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public TipoUsinaController() {
+    public HorariaController() {
     }
 
-    public TipoUsina getSelected() {
+    public Horaria getSelected() {
         if (current == null) {
-            current = new TipoUsina();
+            current = new Horaria();
+            current.setHorariaPK(new br.gov.ana.hidroinfoana.entities.HorariaPK());
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private TipoUsinaFacade getFacade() {
+    private HorariaFacade getFacade() {
         return ejbFacade;
     }
 
@@ -67,21 +68,23 @@ public class TipoUsinaController implements Serializable {
     }
 
     public String prepareView() {
-        current = (TipoUsina) getItems().getRowData();
+        current = (Horaria) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new TipoUsina();
+        current = new Horaria();
+        current.setHorariaPK(new br.gov.ana.hidroinfoana.entities.HorariaPK());
         selectedItemIndex = -1;
         return "Create";
     }
 
     public String create() {
         try {
+            current.getHorariaPK().setHorEstacao(current.getEstacao().getEstCodigo());
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("HorariaCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -90,15 +93,16 @@ public class TipoUsinaController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (TipoUsina) getItems().getRowData();
+        current = (Horaria) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
     public String update() {
         try {
+            current.getHorariaPK().setHorEstacao(current.getEstacao().getEstCodigo());
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("HorariaUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -107,7 +111,7 @@ public class TipoUsinaController implements Serializable {
     }
 
     public String destroy() {
-        current = (TipoUsina) getItems().getRowData();
+        current = (Horaria) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -131,7 +135,7 @@ public class TipoUsinaController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("HorariaDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -187,32 +191,40 @@ public class TipoUsinaController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public TipoUsina getTipoUsina(java.math.BigDecimal id) {
+    public Horaria getHoraria(br.gov.ana.hidroinfoana.entities.HorariaPK id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = TipoUsina.class)
-    public static class TipoUsinaControllerConverter implements Converter {
+    @FacesConverter(forClass = Horaria.class)
+    public static class HorariaControllerConverter implements Converter {
+
+        private static final String SEPARATOR = "#";
+        private static final String SEPARATOR_ESCAPED = "\\#";
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TipoUsinaController controller = (TipoUsinaController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tipoUsinaController");
-            return controller.getTipoUsina(getKey(value));
+            HorariaController controller = (HorariaController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "horariaController");
+            return controller.getHoraria(getKey(value));
         }
 
-        java.math.BigDecimal getKey(String value) {
-            java.math.BigDecimal key;
-            key = new java.math.BigDecimal(value);
+        br.gov.ana.hidroinfoana.entities.HorariaPK getKey(String value) {
+            br.gov.ana.hidroinfoana.entities.HorariaPK key;
+            String values[] = value.split(SEPARATOR_ESCAPED);
+            key = new br.gov.ana.hidroinfoana.entities.HorariaPK();
+            key.setHorEstacao(Integer.valueOf(values[0]));
+            key.setHorDataHora(java.sql.Date.valueOf(values[1]));
             return key;
         }
 
-        String getStringKey(java.math.BigDecimal value) {
+        String getStringKey(br.gov.ana.hidroinfoana.entities.HorariaPK value) {
             StringBuilder sb = new StringBuilder();
-            sb.append(value);
+            sb.append(value.getHorEstacao());
+            sb.append(SEPARATOR);
+            sb.append(value.getHorDataHora());
             return sb.toString();
         }
 
@@ -221,11 +233,11 @@ public class TipoUsinaController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TipoUsina) {
-                TipoUsina o = (TipoUsina) object;
-                return getStringKey(o.getTpuId());
+            if (object instanceof Horaria) {
+                Horaria o = (Horaria) object;
+                return getStringKey(o.getHorariaPK());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TipoUsina.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Horaria.class.getName());
             }
         }
     }

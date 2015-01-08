@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateEstacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estCodigo}" for="estCodigo" />
+                    <h:inputText id="estCodigo" value="#{estacaoController.selected.estCodigo}" title="#{bundle.CreateEstacaoTitle_estCodigo}" required="true" requiredMessage="#{bundle.CreateEstacaoRequiredMessage_estCodigo}"/>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estCodigoAdicional}" for="estCodigoAdicional" />
+                    <h:inputText id="estCodigoAdicional" value="#{estacaoController.selected.estCodigoAdicional}" title="#{bundle.CreateEstacaoTitle_estCodigoAdicional}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estId}" for="estId" />
+                    <h:inputText id="estId" value="#{estacaoController.selected.estId}" title="#{bundle.CreateEstacaoTitle_estId}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estAneelPlu}" for="estAneelPlu" />
+                    <h:inputText id="estAneelPlu" value="#{estacaoController.selected.estAneelPlu}" title="#{bundle.CreateEstacaoTitle_estAneelPlu}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estAneelFlu}" for="estAneelFlu" />
+                    <h:inputText id="estAneelFlu" value="#{estacaoController.selected.estAneelFlu}" title="#{bundle.CreateEstacaoTitle_estAneelFlu}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estNome}" for="estNome" />
+                    <h:inputText id="estNome" value="#{estacaoController.selected.estNome}" title="#{bundle.CreateEstacaoTitle_estNome}" required="true" requiredMessage="#{bundle.CreateEstacaoRequiredMessage_estNome}"/>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estLatitude}" for="estLatitude" />
+                    <h:inputText id="estLatitude" value="#{estacaoController.selected.estLatitude}" title="#{bundle.CreateEstacaoTitle_estLatitude}" required="true" requiredMessage="#{bundle.CreateEstacaoRequiredMessage_estLatitude}"/>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estLongitude}" for="estLongitude" />
+                    <h:inputText id="estLongitude" value="#{estacaoController.selected.estLongitude}" title="#{bundle.CreateEstacaoTitle_estLongitude}" required="true" requiredMessage="#{bundle.CreateEstacaoRequiredMessage_estLongitude}"/>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estAltitude}" for="estAltitude" />
+                    <h:inputText id="estAltitude" value="#{estacaoController.selected.estAltitude}" title="#{bundle.CreateEstacaoTitle_estAltitude}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estIntervaloTX}" for="estIntervaloTX" />
+                    <h:inputText id="estIntervaloTX" value="#{estacaoController.selected.estIntervaloTX}" title="#{bundle.CreateEstacaoTitle_estIntervaloTX}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estIntervaloColeta}" for="estIntervaloColeta" />
+                    <h:inputText id="estIntervaloColeta" value="#{estacaoController.selected.estIntervaloColeta}" title="#{bundle.CreateEstacaoTitle_estIntervaloColeta}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estContadorChuva}" for="estContadorChuva" />
+                    <h:inputText id="estContadorChuva" value="#{estacaoController.selected.estContadorChuva}" title="#{bundle.CreateEstacaoTitle_estContadorChuva}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estDescricao}" for="estDescricao" />
+                    <h:inputTextarea rows="4" cols="30" id="estDescricao" value="#{estacaoController.selected.estDescricao}" title="#{bundle.CreateEstacaoTitle_estDescricao}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estHistorico}" for="estHistorico" />
+                    <h:inputTextarea rows="4" cols="30" id="estHistorico" value="#{estacaoController.selected.estHistorico}" title="#{bundle.CreateEstacaoTitle_estHistorico}" />
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estUltimaAtualizacao}" for="estUltimaAtualizacao" />
+                    <h:inputText id="estUltimaAtualizacao" value="#{estacaoController.selected.estUltimaAtualizacao}" title="#{bundle.CreateEstacaoTitle_estUltimaAtualizacao}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estacaoDetalhe}" for="estacaoDetalhe" />
+                    <h:selectOneMenu id="estacaoDetalhe" value="#{estacaoController.selected.estacaoDetalhe}" title="#{bundle.CreateEstacaoTitle_estacaoDetalhe}" >
+                        <f:selectItems value="#{estacaoDetalheController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estTipo}" for="estTipo" />
+                    <h:selectOneMenu id="estTipo" value="#{estacaoController.selected.estTipo}" title="#{bundle.CreateEstacaoTitle_estTipo}" required="true" requiredMessage="#{bundle.CreateEstacaoRequiredMessage_estTipo}">
+                        <f:selectItems value="#{tipoEstacaoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estSubbacia}" for="estSubbacia" />
+                    <h:selectOneMenu id="estSubbacia" value="#{estacaoController.selected.estSubbacia}" title="#{bundle.CreateEstacaoTitle_estSubbacia}" >
+                        <f:selectItems value="#{subbaciaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estStatus}" for="estStatus" />
+                    <h:selectOneMenu id="estStatus" value="#{estacaoController.selected.estStatus}" title="#{bundle.CreateEstacaoTitle_estStatus}" >
+                        <f:selectItems value="#{statusEstacaoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estRio}" for="estRio" />
+                    <h:selectOneMenu id="estRio" value="#{estacaoController.selected.estRio}" title="#{bundle.CreateEstacaoTitle_estRio}" >
+                        <f:selectItems value="#{rioController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estRegiao}" for="estRegiao" />
+                    <h:selectOneMenu id="estRegiao" value="#{estacaoController.selected.estRegiao}" title="#{bundle.CreateEstacaoTitle_estRegiao}" >
+                        <f:selectItems value="#{regiaoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estOrigem}" for="estOrigem" />
+                    <h:selectOneMenu id="estOrigem" value="#{estacaoController.selected.estOrigem}" title="#{bundle.CreateEstacaoTitle_estOrigem}" >
+                        <f:selectItems value="#{origemController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estMunicipio}" for="estMunicipio" />
+                    <h:selectOneMenu id="estMunicipio" value="#{estacaoController.selected.estMunicipio}" title="#{bundle.CreateEstacaoTitle_estMunicipio}" >
+                        <f:selectItems value="#{municipioController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estResponsavel}" for="estResponsavel" />
+                    <h:selectOneMenu id="estResponsavel" value="#{estacaoController.selected.estResponsavel}" title="#{bundle.CreateEstacaoTitle_estResponsavel}" >
+                        <f:selectItems value="#{entidadeController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estOperadora}" for="estOperadora" />
+                    <h:selectOneMenu id="estOperadora" value="#{estacaoController.selected.estOperadora}" title="#{bundle.CreateEstacaoTitle_estOperadora}" >
+                        <f:selectItems value="#{entidadeController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateEstacaoLabel_estColeta}" for="estColeta" />
+                    <h:selectOneMenu id="estColeta" value="#{estacaoController.selected.estColeta}" title="#{bundle.CreateEstacaoTitle_estColeta}" required="true" requiredMessage="#{bundle.CreateEstacaoRequiredMessage_estColeta}">
+                        <f:selectItems value="#{coletaController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{estacaoController.create}" value="#{bundle.CreateEstacaoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{estacaoController.prepareList}" value="#{bundle.CreateEstacaoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateEstacaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

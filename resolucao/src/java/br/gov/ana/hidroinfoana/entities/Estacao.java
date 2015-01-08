@@ -105,9 +105,9 @@ public class Estacao implements Serializable {
     private List<LimiteCQ> limiteCQList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estacao")
     private List<HorariaEstacao> horariaEstacaoList;
-    @OneToMany(mappedBy = "sneestacao")
+    @OneToMany(mappedBy = "sneEstacao")
     private List<SensorEstacao> sensorEstacaoList;
-    @OneToMany(mappedBy = "treestacao")
+    @OneToMany(mappedBy = "treEstacao")
     private List<TransmissaoEstacao> transmissaoEstacaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estacao")
     private List<Horaria> horariaList;

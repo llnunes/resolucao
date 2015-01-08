@@ -1,15 +1,15 @@
-package br.gov.ana.controllers;
+package br.gov.ana.hidroinfoana.controllers;
 
-import br.gov.ana.entities.TipoUsina;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.controllers.util.PaginationHelper;
-import br.gov.ana.facade.TipoUsinaFacade;
+import br.gov.ana.hidroinfoana.entities.Bacia;
+import br.gov.ana.hidroinfoana.facade.BaciaFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
+import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -18,29 +18,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@ManagedBean(name = "tipoUsinaController")
+@Named("baciaController")
 @SessionScoped
-public class TipoUsinaController implements Serializable {
+public class BaciaController implements Serializable {
 
-    private TipoUsina current;
+    private Bacia current;
     private DataModel items = null;
     @EJB
-    private br.gov.ana.facade.TipoUsinaFacade ejbFacade;
+    private br.gov.ana.hidroinfoana.facade.BaciaFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public TipoUsinaController() {
+    public BaciaController() {
     }
 
-    public TipoUsina getSelected() {
+    public Bacia getSelected() {
         if (current == null) {
-            current = new TipoUsina();
+            current = new Bacia();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private TipoUsinaFacade getFacade() {
+    private BaciaFacade getFacade() {
         return ejbFacade;
     }
 
@@ -67,13 +67,13 @@ public class TipoUsinaController implements Serializable {
     }
 
     public String prepareView() {
-        current = (TipoUsina) getItems().getRowData();
+        current = (Bacia) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new TipoUsina();
+        current = new Bacia();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -81,7 +81,7 @@ public class TipoUsinaController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BaciaCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -90,7 +90,7 @@ public class TipoUsinaController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (TipoUsina) getItems().getRowData();
+        current = (Bacia) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -98,7 +98,7 @@ public class TipoUsinaController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BaciaUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -107,7 +107,7 @@ public class TipoUsinaController implements Serializable {
     }
 
     public String destroy() {
-        current = (TipoUsina) getItems().getRowData();
+        current = (Bacia) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -131,7 +131,7 @@ public class TipoUsinaController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BaciaDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -187,30 +187,30 @@ public class TipoUsinaController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public TipoUsina getTipoUsina(java.math.BigDecimal id) {
+    public Bacia getBacia(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = TipoUsina.class)
-    public static class TipoUsinaControllerConverter implements Converter {
+    @FacesConverter(forClass = Bacia.class)
+    public static class BaciaControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TipoUsinaController controller = (TipoUsinaController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tipoUsinaController");
-            return controller.getTipoUsina(getKey(value));
+            BaciaController controller = (BaciaController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "baciaController");
+            return controller.getBacia(getKey(value));
         }
 
-        java.math.BigDecimal getKey(String value) {
-            java.math.BigDecimal key;
-            key = new java.math.BigDecimal(value);
+        java.lang.Integer getKey(String value) {
+            java.lang.Integer key;
+            key = Integer.valueOf(value);
             return key;
         }
 
-        String getStringKey(java.math.BigDecimal value) {
+        String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -221,11 +221,11 @@ public class TipoUsinaController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof TipoUsina) {
-                TipoUsina o = (TipoUsina) object;
-                return getStringKey(o.getTpuId());
+            if (object instanceof Bacia) {
+                Bacia o = (Bacia) object;
+                return getStringKey(o.getBacCodigo());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TipoUsina.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Bacia.class.getName());
             }
         }
     }

@@ -43,7 +43,7 @@ public class StatusLimite implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "STLDESCRICAO")
     private String stlDescricao;
-    @OneToMany(mappedBy = "limstatus")
+    @OneToMany(mappedBy = "limStatus")
     private List<LimiteCQ> limiteCQList;
 
     public StatusLimite() {

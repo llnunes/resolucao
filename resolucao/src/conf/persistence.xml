@@ -1,8 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="resolucaoPU" transaction-type="JTA">
-    <jta-data-source>resolucaosql2</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <jta-data-source>resolucaosqls</jta-data-source>
+    <class>br.gov.ana.entities.Area</class>
+    <class>br.gov.ana.entities.AtoLegal</class>
+    <class>br.gov.ana.entities.Cargo</class>
+    <class>br.gov.ana.entities.ControleDocumento</class>
+    <class>br.gov.ana.entities.HistResolucao</class>
+    <class>br.gov.ana.entities.Permissao</class>
+    <class>br.gov.ana.entities.Responsavel</class>
+    <class>br.gov.ana.entities.StatusDocumento</class>
+    <class>br.gov.ana.entities.Tecnico</class>
+    <class>br.gov.ana.entities.TecnicoUsina</class>
+    <class>br.gov.ana.entities.TipoAtoLegal</class>
+    <class>br.gov.ana.entities.TipoDocumento</class>
+    <class>br.gov.ana.entities.TipoEntidade</class>
+    <class>br.gov.ana.entities.TipoOperacao</class>
+    <class>br.gov.ana.entities.TipoUsina</class>
+    <class>br.gov.ana.entities.Usina</class>
+    <class>br.gov.ana.entities.UsinaAtoLegal</class>
+    <class>br.gov.ana.entities.UsinaEstacao</class>
+    <class>br.gov.ana.entities.UsinaLocalizacao</class>
+    <class>br.gov.ana.entities.UsinaSituacao</class>
+    <class>br.gov.ana.entities.UsuarioPermissao</class>
+    <class>br.gov.ana.entities.UsuarioResolucao</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties/>
+  </persistence-unit>
+  <persistence-unit name="hidroinfoanaPU" transaction-type="JTA">
+    <jta-data-source>hidroinfoana2</jta-data-source>
+    <class>br.gov.ana.hidroinfoana.entities.Bacia</class>
+    <class>br.gov.ana.hidroinfoana.entities.Coleta</class>
+    <class>br.gov.ana.hidroinfoana.entities.Cor</class>
+    <class>br.gov.ana.hidroinfoana.entities.CursoDagua</class>
+    <class>br.gov.ana.hidroinfoana.entities.Entidade</class>
+    <class>br.gov.ana.hidroinfoana.entities.Estacao</class>
+    <class>br.gov.ana.hidroinfoana.entities.EstacaoDetalhe</class>
+    <class>br.gov.ana.hidroinfoana.entities.Horaria</class>
+    <class>br.gov.ana.hidroinfoana.entities.HorariaEstacao</class>
+    <class>br.gov.ana.hidroinfoana.entities.Jurisdicao</class>
+    <class>br.gov.ana.hidroinfoana.entities.LimiteCQ</class>
+    <class>br.gov.ana.hidroinfoana.entities.Municipio</class>
+    <class>br.gov.ana.hidroinfoana.entities.Orgao</class>
+    <class>br.gov.ana.hidroinfoana.entities.Origem</class>
+    <class>br.gov.ana.hidroinfoana.entities.Pais</class>
+    <class>br.gov.ana.hidroinfoana.entities.Qualidade</class>
+    <class>br.gov.ana.hidroinfoana.entities.Regiao</class>
+    <class>br.gov.ana.hidroinfoana.entities.Rio</class>
+    <class>br.gov.ana.hidroinfoana.entities.Sensor</class>
+    <class>br.gov.ana.hidroinfoana.entities.SensorEstacao</class>
+    <class>br.gov.ana.hidroinfoana.entities.Situacao</class>
+    <class>br.gov.ana.hidroinfoana.entities.StatusEstacao</class>
+    <class>br.gov.ana.hidroinfoana.entities.StatusLimite</class>
+    <class>br.gov.ana.hidroinfoana.entities.StatusOrgao</class>
+    <class>br.gov.ana.hidroinfoana.entities.StatusSensor</class>
+    <class>br.gov.ana.hidroinfoana.entities.Subbacia</class>
+    <class>br.gov.ana.hidroinfoana.entities.TesteCQ</class>
+    <class>br.gov.ana.hidroinfoana.entities.TipoEstacao</class>
+    <class>br.gov.ana.hidroinfoana.entities.TipoSensor</class>
+    <class>br.gov.ana.hidroinfoana.entities.TipoSensorEstacao</class>
+    <class>br.gov.ana.hidroinfoana.entities.Transmissao</class>
+    <class>br.gov.ana.hidroinfoana.entities.TransmissaoEstacao</class>
+    <class>br.gov.ana.hidroinfoana.entities.Uf</class>
+    <class>br.gov.ana.hidroinfoana.entities.Uso</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
 </persistence>

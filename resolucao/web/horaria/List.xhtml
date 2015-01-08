@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListHorariaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListHorariaEmpty}" rendered="#{horariaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{horariaController.items.rowCount > 0}">
+                    <h:outputText value="#{horariaController.pagination.pageFirstItem + 1}..#{horariaController.pagination.pageLastItem + 1}/#{horariaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{horariaController.previous}" value="#{bundle.Previous} #{horariaController.pagination.pageSize}" rendered="#{horariaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{horariaController.next}" value="#{bundle.Next} #{horariaController.pagination.pageSize}" rendered="#{horariaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{horariaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horariaPK_horDataHora}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horariaPK.horDataHora}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horDataHoraAmostra}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horDataHoraAmostra}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horNivelEncoder}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horNivelEncoder}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horNivelPressao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horNivelPressao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horNivelDisplay}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horNivelDisplay}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horNivelManual}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horNivelManual}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horNivelPapel}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horNivelPapel}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horNivelAdotado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horNivelAdotado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horVazao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horVazao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horChuva}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horChuva}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horChuvaAcumSensor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horChuvaAcumSensor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horChuvaAcumManual}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horChuvaAcumManual}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horChuvaAcumAdotada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horChuvaAcumAdotada}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQChuvaAcumAdotada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQChuvaAcumAdotada}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horVentoVelocidade}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horVentoVelocidade}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horVentoDirecao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horVentoDirecao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horTemperatura}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horTemperatura}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horTemperaturaOrvalho}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horTemperaturaOrvalho}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horHumidade}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horHumidade}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horPressao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horPressao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horPressaoNMM}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horPressaoNMM}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horTempAgua}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horTempAgua}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horCondutividade}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horCondutividade}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQChuva}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQChuva}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQChuvaAcumSensor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQChuvaAcumSensor}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQNivelEncoder}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQNivelEncoder}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQNivelPressao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQNivelPressao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_estacao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estacao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQVentoVelocidade}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQVentoVelocidade}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQTemperatura}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQTemperatura}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQHumidade}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQHumidade}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQPressao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQPressao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQVentoDirecao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQVentoDirecao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQVazao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQVazao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQChuvaAcumManual}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQChuvaAcumManual}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQNivelManual}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQNivelManual}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQNivelDisplay}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQNivelDisplay}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQNivelAdotado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQNivelAdotado}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQCondutividade}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQCondutividade}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListHorariaTitle_horQTempAgua}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.horQTempAgua}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{horariaController.prepareView}" value="#{bundle.ListHorariaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{horariaController.prepareEdit}" value="#{bundle.ListHorariaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{horariaController.destroy}" value="#{bundle.ListHorariaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{horariaController.prepareCreate}" value="#{bundle.ListHorariaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListHorariaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

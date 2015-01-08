@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListEstacaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListEstacaoEmpty}" rendered="#{estacaoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{estacaoController.items.rowCount > 0}">
+                    <h:outputText value="#{estacaoController.pagination.pageFirstItem + 1}..#{estacaoController.pagination.pageLastItem + 1}/#{estacaoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{estacaoController.previous}" value="#{bundle.Previous} #{estacaoController.pagination.pageSize}" rendered="#{estacaoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{estacaoController.next}" value="#{bundle.Next} #{estacaoController.pagination.pageSize}" rendered="#{estacaoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{estacaoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estCodigo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estCodigo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estCodigoAdicional}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estCodigoAdicional}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estId}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estAneelPlu}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estAneelPlu}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estAneelFlu}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estAneelFlu}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estNome}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estNome}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estLatitude}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estLatitude}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estLongitude}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estLongitude}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estAltitude}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estAltitude}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estIntervaloTX}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estIntervaloTX}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estIntervaloColeta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estIntervaloColeta}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estContadorChuva}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estContadorChuva}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estDescricao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estDescricao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estHistorico}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estHistorico}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estUltimaAtualizacao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estUltimaAtualizacao}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estacaoDetalhe}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estacaoDetalhe}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estTipo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estTipo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estSubbacia}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estSubbacia}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estStatus}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estStatus}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estRio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estRio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estRegiao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estRegiao}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estOrigem}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estOrigem}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estMunicipio}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estMunicipio}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estResponsavel}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estResponsavel}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estOperadora}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estOperadora}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estColeta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estColeta}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{estacaoController.prepareView}" value="#{bundle.ListEstacaoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{estacaoController.prepareEdit}" value="#{bundle.ListEstacaoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{estacaoController.destroy}" value="#{bundle.ListEstacaoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{estacaoController.prepareCreate}" value="#{bundle.ListEstacaoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListEstacaoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
