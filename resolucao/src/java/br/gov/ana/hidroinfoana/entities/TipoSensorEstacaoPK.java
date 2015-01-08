@@ -19,73 +19,74 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class TipoSensorEstacaoPK implements Serializable {
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "TSESENSOR")
-    private short tsesensor;
+    private Integer tseSensor;
     @Basic(optional = false)
     @NotNull
     @Column(name = "TSETIPOSENSOR")
-    private short tsetiposensor;
+    private Integer tseTipoSensor;
     @Basic(optional = false)
     @NotNull
     @Column(name = "TSEESTACAO")
-    private int tseestacao;
+    private Integer tseEstacao;
     @Basic(optional = false)
     @NotNull
     @Column(name = "TSEDATAINICIO")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date tsedatainicio;
+    private Date tseDataInicio;
 
     public TipoSensorEstacaoPK() {
     }
 
-    public TipoSensorEstacaoPK(short tsesensor, short tsetiposensor, int tseestacao, Date tsedatainicio) {
-        this.tsesensor = tsesensor;
-        this.tsetiposensor = tsetiposensor;
-        this.tseestacao = tseestacao;
-        this.tsedatainicio = tsedatainicio;
+    public TipoSensorEstacaoPK(Integer tseSensor, Integer tseTipoSensor, Integer tseEstacao, Date tseDataInicio) {
+        this.tseSensor = tseSensor;
+        this.tseTipoSensor = tseTipoSensor;
+        this.tseEstacao = tseEstacao;
+        this.tseDataInicio = tseDataInicio;
     }
 
-    public short getTsesensor() {
-        return tsesensor;
+    public Integer getTseSensor() {
+        return tseSensor;
     }
 
-    public void setTsesensor(short tsesensor) {
-        this.tsesensor = tsesensor;
+    public void setTseSensor(Integer tseSensor) {
+        this.tseSensor = tseSensor;
     }
 
-    public short getTsetiposensor() {
-        return tsetiposensor;
+    public Integer getTseTipoSensor() {
+        return tseTipoSensor;
     }
 
-    public void setTsetiposensor(short tsetiposensor) {
-        this.tsetiposensor = tsetiposensor;
+    public void setTseTipoSensor(Integer tseTipoSensor) {
+        this.tseTipoSensor = tseTipoSensor;
     }
 
-    public int getTseestacao() {
-        return tseestacao;
+    public Integer getTseEstacao() {
+        return tseEstacao;
     }
 
-    public void setTseestacao(int tseestacao) {
-        this.tseestacao = tseestacao;
+    public void setTseEstacao(Integer tseEstacao) {
+        this.tseEstacao = tseEstacao;
     }
 
-    public Date getTsedatainicio() {
-        return tsedatainicio;
+    public Date getTseDataInicio() {
+        return tseDataInicio;
     }
 
-    public void setTsedatainicio(Date tsedatainicio) {
-        this.tsedatainicio = tsedatainicio;
+    public void setTseDataInicio(Date tseDataInicio) {
+        this.tseDataInicio = tseDataInicio;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) tsesensor;
-        hash += (int) tsetiposensor;
-        hash += (int) tseestacao;
-        hash += (tsedatainicio != null ? tsedatainicio.hashCode() : 0);
+        hash += (int) tseSensor;
+        hash += (int) tseTipoSensor;
+        hash += (int) tseEstacao;
+        hash += (tseDataInicio != null ? tseDataInicio.hashCode() : 0);
         return hash;
     }
 
@@ -96,16 +97,16 @@ public class TipoSensorEstacaoPK implements Serializable {
             return false;
         }
         TipoSensorEstacaoPK other = (TipoSensorEstacaoPK) object;
-        if (this.tsesensor != other.tsesensor) {
+        if (this.tseSensor != other.tseSensor) {
             return false;
         }
-        if (this.tsetiposensor != other.tsetiposensor) {
+        if (this.tseTipoSensor != other.tseTipoSensor) {
             return false;
         }
-        if (this.tseestacao != other.tseestacao) {
+        if (this.tseEstacao != other.tseEstacao) {
             return false;
         }
-        if ((this.tsedatainicio == null && other.tsedatainicio != null) || (this.tsedatainicio != null && !this.tsedatainicio.equals(other.tsedatainicio))) {
+        if ((this.tseDataInicio == null && other.tseDataInicio != null) || (this.tseDataInicio != null && !this.tseDataInicio.equals(other.tseDataInicio))) {
             return false;
         }
         return true;
@@ -113,7 +114,6 @@ public class TipoSensorEstacaoPK implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.TipoSensorEstacaoPK[ tsesensor=" + tsesensor + ", tsetiposensor=" + tsetiposensor + ", tseestacao=" + tseestacao + ", tsedatainicio=" + tsedatainicio + " ]";
+        return "br.gov.ana.hidroinfoana.entities.TipoSensorEstacaoPK[ tsesensor=" + tseSensor + ", tsetiposensor=" + tseTipoSensor + ", tseestacao=" + tseEstacao + ", tsedatainicio=" + tseDataInicio + " ]";
     }
-    
 }

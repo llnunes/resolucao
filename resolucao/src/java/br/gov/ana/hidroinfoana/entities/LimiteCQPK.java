@@ -19,73 +19,74 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class LimiteCQPK implements Serializable {
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "LIMESTACAO")
-    private int limestacao;
+    private Integer limEstacao;
     @Basic(optional = false)
     @NotNull
     @Column(name = "LIMSENSOR")
-    private short limsensor;
+    private Integer limSensor;
     @Basic(optional = false)
     @NotNull
     @Column(name = "LIMTESTECQ")
-    private short limtestecq;
+    private Integer limTesteCQ;
     @Basic(optional = false)
     @NotNull
     @Column(name = "LIMDATAINICIO")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date limdatainicio;
+    private Date limDataInicio;
 
     public LimiteCQPK() {
     }
 
-    public LimiteCQPK(int limestacao, short limsensor, short limtestecq, Date limdatainicio) {
-        this.limestacao = limestacao;
-        this.limsensor = limsensor;
-        this.limtestecq = limtestecq;
-        this.limdatainicio = limdatainicio;
+    public LimiteCQPK(Integer limEstacao, Integer limSensor, Integer limTesteCQ, Date limDataInicio) {
+        this.limEstacao = limEstacao;
+        this.limSensor = limSensor;
+        this.limTesteCQ = limTesteCQ;
+        this.limDataInicio = limDataInicio;
     }
 
-    public int getLimestacao() {
-        return limestacao;
+    public Integer getLimEstacao() {
+        return limEstacao;
     }
 
-    public void setLimestacao(int limestacao) {
-        this.limestacao = limestacao;
+    public void setLimEstacao(Integer limEstacao) {
+        this.limEstacao = limEstacao;
     }
 
-    public short getLimsensor() {
-        return limsensor;
+    public Integer getLimSensor() {
+        return limSensor;
     }
 
-    public void setLimsensor(short limsensor) {
-        this.limsensor = limsensor;
+    public void setLimSensor(Integer limSensor) {
+        this.limSensor = limSensor;
     }
 
-    public short getLimtestecq() {
-        return limtestecq;
+    public Integer getLimTesteCQ() {
+        return limTesteCQ;
     }
 
-    public void setLimtestecq(short limtestecq) {
-        this.limtestecq = limtestecq;
+    public void setLimTesteCQ(Integer limTesteCQ) {
+        this.limTesteCQ = limTesteCQ;
     }
 
-    public Date getLimdatainicio() {
-        return limdatainicio;
+    public Date getLimDataInicio() {
+        return limDataInicio;
     }
 
-    public void setLimdatainicio(Date limdatainicio) {
-        this.limdatainicio = limdatainicio;
+    public void setLimDataInicio(Date limDataInicio) {
+        this.limDataInicio = limDataInicio;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) limestacao;
-        hash += (int) limsensor;
-        hash += (int) limtestecq;
-        hash += (limdatainicio != null ? limdatainicio.hashCode() : 0);
+        hash += (int) limEstacao;
+        hash += (int) limSensor;
+        hash += (int) limTesteCQ;
+        hash += (limDataInicio != null ? limDataInicio.hashCode() : 0);
         return hash;
     }
 
@@ -96,16 +97,16 @@ public class LimiteCQPK implements Serializable {
             return false;
         }
         LimiteCQPK other = (LimiteCQPK) object;
-        if (this.limestacao != other.limestacao) {
+        if (this.limEstacao != other.limEstacao) {
             return false;
         }
-        if (this.limsensor != other.limsensor) {
+        if (this.limSensor != other.limSensor) {
             return false;
         }
-        if (this.limtestecq != other.limtestecq) {
+        if (this.limTesteCQ != other.limTesteCQ) {
             return false;
         }
-        if ((this.limdatainicio == null && other.limdatainicio != null) || (this.limdatainicio != null && !this.limdatainicio.equals(other.limdatainicio))) {
+        if ((this.limDataInicio == null && other.limDataInicio != null) || (this.limDataInicio != null && !this.limDataInicio.equals(other.limDataInicio))) {
             return false;
         }
         return true;
@@ -113,7 +114,6 @@ public class LimiteCQPK implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.LimiteCQPK[ limestacao=" + limestacao + ", limsensor=" + limsensor + ", limtestecq=" + limtestecq + ", limdatainicio=" + limdatainicio + " ]";
+        return "br.gov.ana.hidroinfoana.entities.LimiteCQPK[ limestacao=" + limEstacao + ", limsensor=" + limSensor + ", limtestecq=" + limTesteCQ + ", limdatainicio=" + limDataInicio + " ]";
     }
-    
 }

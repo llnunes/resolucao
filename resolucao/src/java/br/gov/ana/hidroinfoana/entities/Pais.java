@@ -28,43 +28,44 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p"),
-    @NamedQuery(name = "Pais.findByPaicodigo", query = "SELECT p FROM Pais p WHERE p.paicodigo = :paicodigo"),
-    @NamedQuery(name = "Pais.findByPainome", query = "SELECT p FROM Pais p WHERE p.painome = :painome")})
+    @NamedQuery(name = "Pais.findByPaicodigo", query = "SELECT p FROM Pais p WHERE p.paiCodigo = :paiCodigo"),
+    @NamedQuery(name = "Pais.findByPainome", query = "SELECT p FROM Pais p WHERE p.paiNome = :paiNome")})
 public class Pais implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2)
     @Column(name = "PAICODIGO")
-    private String paicodigo;
+    private String paiCodigo;
     @Size(max = 50)
     @Column(name = "PAINOME")
-    private String painome;
+    private String paiNome;
     @OneToMany(mappedBy = "ufdPais")
     private List<Uf> ufList;
 
     public Pais() {
     }
 
-    public Pais(String paicodigo) {
-        this.paicodigo = paicodigo;
+    public Pais(String paiCodigo) {
+        this.paiCodigo = paiCodigo;
     }
 
-    public String getPaicodigo() {
-        return paicodigo;
+    public String getPaiCodigo() {
+        return paiCodigo;
     }
 
-    public void setPaicodigo(String paicodigo) {
-        this.paicodigo = paicodigo;
+    public void setPaiCodigo(String paiCodigo) {
+        this.paiCodigo = paiCodigo;
     }
 
-    public String getPainome() {
-        return painome;
+    public String getPaiNome() {
+        return paiNome;
     }
 
-    public void setPainome(String painome) {
-        this.painome = painome;
+    public void setPaiNome(String paiNome) {
+        this.paiNome = paiNome;
     }
 
     @XmlTransient
@@ -79,7 +80,7 @@ public class Pais implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (paicodigo != null ? paicodigo.hashCode() : 0);
+        hash += (paiCodigo != null ? paiCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -90,7 +91,7 @@ public class Pais implements Serializable {
             return false;
         }
         Pais other = (Pais) object;
-        if ((this.paicodigo == null && other.paicodigo != null) || (this.paicodigo != null && !this.paicodigo.equals(other.paicodigo))) {
+        if ((this.paiCodigo == null && other.paiCodigo != null) || (this.paiCodigo != null && !this.paiCodigo.equals(other.paiCodigo))) {
             return false;
         }
         return true;
@@ -98,7 +99,6 @@ public class Pais implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Pais[ paicodigo=" + paicodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.Pais[ paicodigo=" + paiCodigo + " ]";
     }
-    
 }

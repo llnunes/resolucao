@@ -30,65 +30,66 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Situacao.findBySitcodigo", query = "SELECT s FROM Situacao s WHERE s.sitcodigo = :sitcodigo"),
     @NamedQuery(name = "Situacao.findBySitdescricao", query = "SELECT s FROM Situacao s WHERE s.sitdescricao = :sitdescricao")})
 public class Situacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "SITCODIGO")
-    private Short sitcodigo;
+    private Integer sitCodigo;
     @Size(max = 40)
     @Column(name = "SITDESCRICAO")
-    private String sitdescricao;
+    private String sitDescricao;
     @JoinColumn(name = "SITSENSOR", referencedColumnName = "SSRCODIGO")
     @ManyToOne(optional = false)
-    private Sensor sitsensor;
+    private Sensor sitSensor;
     @JoinColumn(name = "SITCOR", referencedColumnName = "CORCODIGO")
     @ManyToOne(optional = false)
-    private Cor sitcor;
+    private Cor sitCor;
 
     public Situacao() {
     }
 
-    public Situacao(Short sitcodigo) {
-        this.sitcodigo = sitcodigo;
+    public Situacao(Integer sitCodigo) {
+        this.sitCodigo = sitCodigo;
     }
 
-    public Short getSitcodigo() {
-        return sitcodigo;
+    public Integer getSitCodigo() {
+        return sitCodigo;
     }
 
-    public void setSitcodigo(Short sitcodigo) {
-        this.sitcodigo = sitcodigo;
+    public void setSitCodigo(Integer sitCodigo) {
+        this.sitCodigo = sitCodigo;
     }
 
-    public String getSitdescricao() {
-        return sitdescricao;
+    public String getSitDescricao() {
+        return sitDescricao;
     }
 
-    public void setSitdescricao(String sitdescricao) {
-        this.sitdescricao = sitdescricao;
+    public void setSitDescricao(String sitDescricao) {
+        this.sitDescricao = sitDescricao;
     }
 
-    public Sensor getSitsensor() {
-        return sitsensor;
+    public Sensor getSitSensor() {
+        return sitSensor;
     }
 
-    public void setSitsensor(Sensor sitsensor) {
-        this.sitsensor = sitsensor;
+    public void setSitSensor(Sensor sitSensor) {
+        this.sitSensor = sitSensor;
     }
 
-    public Cor getSitcor() {
-        return sitcor;
+    public Cor getSitCor() {
+        return sitCor;
     }
 
-    public void setSitcor(Cor sitcor) {
-        this.sitcor = sitcor;
+    public void setSitCor(Cor sitCor) {
+        this.sitCor = sitCor;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (sitcodigo != null ? sitcodigo.hashCode() : 0);
+        hash += (sitCodigo != null ? sitCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -99,7 +100,7 @@ public class Situacao implements Serializable {
             return false;
         }
         Situacao other = (Situacao) object;
-        if ((this.sitcodigo == null && other.sitcodigo != null) || (this.sitcodigo != null && !this.sitcodigo.equals(other.sitcodigo))) {
+        if ((this.sitCodigo == null && other.sitCodigo != null) || (this.sitCodigo != null && !this.sitCodigo.equals(other.sitCodigo))) {
             return false;
         }
         return true;
@@ -107,7 +108,6 @@ public class Situacao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Situacao[ sitcodigo=" + sitcodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.Situacao[ sitcodigo=" + sitCodigo + " ]";
     }
-    
 }

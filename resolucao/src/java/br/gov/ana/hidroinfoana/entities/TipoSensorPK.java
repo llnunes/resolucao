@@ -16,44 +16,45 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class TipoSensorPK implements Serializable {
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "TPSSENSOR")
-    private short tpssensor;
+    private short tpsSensor;
     @Basic(optional = false)
     @NotNull
     @Column(name = "TPSCODIGO")
-    private short tpscodigo;
+    private short tpsCodigo;
 
     public TipoSensorPK() {
     }
 
-    public TipoSensorPK(short tpssensor, short tpscodigo) {
-        this.tpssensor = tpssensor;
-        this.tpscodigo = tpscodigo;
+    public TipoSensorPK(short tpsSensor, short tpsCodigo) {
+        this.tpsSensor = tpsSensor;
+        this.tpsCodigo = tpsCodigo;
     }
 
-    public short getTpssensor() {
-        return tpssensor;
+    public short getTpsSensor() {
+        return tpsSensor;
     }
 
-    public void setTpssensor(short tpssensor) {
-        this.tpssensor = tpssensor;
+    public void setTpsSensor(short tpsSensor) {
+        this.tpsSensor = tpsSensor;
     }
 
-    public short getTpscodigo() {
-        return tpscodigo;
+    public short getTpsCodigo() {
+        return tpsCodigo;
     }
 
-    public void setTpscodigo(short tpscodigo) {
-        this.tpscodigo = tpscodigo;
+    public void setTpsCodigo(short tpsCodigo) {
+        this.tpsCodigo = tpsCodigo;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) tpssensor;
-        hash += (int) tpscodigo;
+        hash += (int) tpsSensor;
+        hash += (int) tpsCodigo;
         return hash;
     }
 
@@ -64,10 +65,10 @@ public class TipoSensorPK implements Serializable {
             return false;
         }
         TipoSensorPK other = (TipoSensorPK) object;
-        if (this.tpssensor != other.tpssensor) {
+        if (this.tpsSensor != other.tpsSensor) {
             return false;
         }
-        if (this.tpscodigo != other.tpscodigo) {
+        if (this.tpsCodigo != other.tpsCodigo) {
             return false;
         }
         return true;
@@ -75,7 +76,6 @@ public class TipoSensorPK implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.TipoSensorPK[ tpssensor=" + tpssensor + ", tpscodigo=" + tpscodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.TipoSensorPK[ tpssensor=" + tpsSensor + ", tpscodigo=" + tpsCodigo + " ]";
     }
-    
 }

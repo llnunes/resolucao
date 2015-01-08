@@ -29,9 +29,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TipoSensor.findAll", query = "SELECT t FROM TipoSensor t"),
-    @NamedQuery(name = "TipoSensor.findByTpssensor", query = "SELECT t FROM TipoSensor t WHERE t.tipoSensorPK.tpssensor = :tpssensor"),
-    @NamedQuery(name = "TipoSensor.findByTpscodigo", query = "SELECT t FROM TipoSensor t WHERE t.tipoSensorPK.tpscodigo = :tpscodigo"),
-    @NamedQuery(name = "TipoSensor.findByTpsdescricao", query = "SELECT t FROM TipoSensor t WHERE t.tpsdescricao = :tpsdescricao")})
+    @NamedQuery(name = "TipoSensor.findByTpssensor", query = "SELECT t FROM TipoSensor t WHERE t.tipoSensorPK.tpsSensor = :tpsSensor"),
+    @NamedQuery(name = "TipoSensor.findByTpscodigo", query = "SELECT t FROM TipoSensor t WHERE t.tipoSensorPK.tpsCodigo = :tpsCodigo"),
+    @NamedQuery(name = "TipoSensor.findByTpsdescricao", query = "SELECT t FROM TipoSensor t WHERE t.tpsDescricao = :tpsDescricao")})
 public class TipoSensor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class TipoSensor implements Serializable {
     protected TipoSensorPK tipoSensorPK;
     @Size(max = 30)
     @Column(name = "TPSDESCRICAO")
-    private String tpsdescricao;
+    private String tpsDescricao;
     @OneToMany(mappedBy = "tipoSensor")
     private List<SensorEstacao> sensorEstacaoList;
     @JoinColumn(name = "TPSSENSOR", referencedColumnName = "SSRCODIGO", insertable = false, updatable = false)
@@ -67,12 +67,12 @@ public class TipoSensor implements Serializable {
         this.tipoSensorPK = tipoSensorPK;
     }
 
-    public String getTpsdescricao() {
-        return tpsdescricao;
+    public String getTpsDescricao() {
+        return tpsDescricao;
     }
 
-    public void setTpsdescricao(String tpsdescricao) {
-        this.tpsdescricao = tpsdescricao;
+    public void setTpsDescricao(String tpsDescricao) {
+        this.tpsDescricao = tpsDescricao;
     }
 
     @XmlTransient

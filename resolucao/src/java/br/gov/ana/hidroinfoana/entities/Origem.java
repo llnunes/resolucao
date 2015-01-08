@@ -28,42 +28,43 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Origem.findAll", query = "SELECT o FROM Origem o"),
-    @NamedQuery(name = "Origem.findByOgmcodigo", query = "SELECT o FROM Origem o WHERE o.ogmcodigo = :ogmcodigo"),
-    @NamedQuery(name = "Origem.findByOgmorgao", query = "SELECT o FROM Origem o WHERE o.ogmorgao = :ogmorgao")})
+    @NamedQuery(name = "Origem.findByOgmcodigo", query = "SELECT o FROM Origem o WHERE o.ogmCodigo = :ogmCodigo"),
+    @NamedQuery(name = "Origem.findByOgmorgao", query = "SELECT o FROM Origem o WHERE o.ogmOrgao = :ogmOrgao")})
 public class Origem implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "OGMCODIGO")
-    private Short ogmcodigo;
+    private Short ogmCodigo;
     @Size(max = 30)
     @Column(name = "OGMORGAO")
-    private String ogmorgao;
+    private String ogmOrgao;
     @OneToMany(mappedBy = "estOrigem")
     private List<Estacao> estacaoList;
 
     public Origem() {
     }
 
-    public Origem(Short ogmcodigo) {
-        this.ogmcodigo = ogmcodigo;
+    public Origem(Short ogmCodigo) {
+        this.ogmCodigo = ogmCodigo;
     }
 
-    public Short getOgmcodigo() {
-        return ogmcodigo;
+    public Short getOgmCodigo() {
+        return ogmCodigo;
     }
 
-    public void setOgmcodigo(Short ogmcodigo) {
-        this.ogmcodigo = ogmcodigo;
+    public void setOgmCodigo(Short ogmCodigo) {
+        this.ogmCodigo = ogmCodigo;
     }
 
-    public String getOgmorgao() {
-        return ogmorgao;
+    public String getOgmOrgao() {
+        return ogmOrgao;
     }
 
-    public void setOgmorgao(String ogmorgao) {
-        this.ogmorgao = ogmorgao;
+    public void setOgmOrgao(String ogmOrgao) {
+        this.ogmOrgao = ogmOrgao;
     }
 
     @XmlTransient
@@ -78,7 +79,7 @@ public class Origem implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ogmcodigo != null ? ogmcodigo.hashCode() : 0);
+        hash += (ogmCodigo != null ? ogmCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +90,7 @@ public class Origem implements Serializable {
             return false;
         }
         Origem other = (Origem) object;
-        if ((this.ogmcodigo == null && other.ogmcodigo != null) || (this.ogmcodigo != null && !this.ogmcodigo.equals(other.ogmcodigo))) {
+        if ((this.ogmCodigo == null && other.ogmCodigo != null) || (this.ogmCodigo != null && !this.ogmCodigo.equals(other.ogmCodigo))) {
             return false;
         }
         return true;
@@ -97,7 +98,6 @@ public class Origem implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Origem[ ogmcodigo=" + ogmcodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.Origem[ ogmcodigo=" + ogmCodigo + " ]";
     }
-    
 }

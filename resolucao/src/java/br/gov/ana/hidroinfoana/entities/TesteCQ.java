@@ -29,42 +29,43 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TesteCQ.findAll", query = "SELECT t FROM TesteCQ t"),
-    @NamedQuery(name = "TesteCQ.findByTescodigo", query = "SELECT t FROM TesteCQ t WHERE t.tescodigo = :tescodigo"),
-    @NamedQuery(name = "TesteCQ.findByTesdescricao", query = "SELECT t FROM TesteCQ t WHERE t.tesdescricao = :tesdescricao")})
+    @NamedQuery(name = "TesteCQ.findByTescodigo", query = "SELECT t FROM TesteCQ t WHERE t.tesCodigo = :tesCodigo"),
+    @NamedQuery(name = "TesteCQ.findByTesdescricao", query = "SELECT t FROM TesteCQ t WHERE t.tesDescricao = :tesDescricao")})
 public class TesteCQ implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "TESCODIGO")
-    private Short tescodigo;
+    private Short tesCodigo;
     @Size(max = 30)
     @Column(name = "TESDESCRICAO")
-    private String tesdescricao;
+    private String tesDescricao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testeCQ")
     private List<LimiteCQ> limiteCQList;
 
     public TesteCQ() {
     }
 
-    public TesteCQ(Short tescodigo) {
-        this.tescodigo = tescodigo;
+    public TesteCQ(Short tesCodigo) {
+        this.tesCodigo = tesCodigo;
     }
 
-    public Short getTescodigo() {
-        return tescodigo;
+    public Short getTesCodigo() {
+        return tesCodigo;
     }
 
-    public void setTescodigo(Short tescodigo) {
-        this.tescodigo = tescodigo;
+    public void setTesCodigo(Short tesCodigo) {
+        this.tesCodigo = tesCodigo;
     }
 
-    public String getTesdescricao() {
-        return tesdescricao;
+    public String getTesDescricao() {
+        return tesDescricao;
     }
 
-    public void setTesdescricao(String tesdescricao) {
-        this.tesdescricao = tesdescricao;
+    public void setTesDescricao(String tesDescricao) {
+        this.tesDescricao = tesDescricao;
     }
 
     @XmlTransient
@@ -79,7 +80,7 @@ public class TesteCQ implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (tescodigo != null ? tescodigo.hashCode() : 0);
+        hash += (tesCodigo != null ? tesCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -90,7 +91,7 @@ public class TesteCQ implements Serializable {
             return false;
         }
         TesteCQ other = (TesteCQ) object;
-        if ((this.tescodigo == null && other.tescodigo != null) || (this.tescodigo != null && !this.tescodigo.equals(other.tescodigo))) {
+        if ((this.tesCodigo == null && other.tesCodigo != null) || (this.tesCodigo != null && !this.tesCodigo.equals(other.tesCodigo))) {
             return false;
         }
         return true;
@@ -98,7 +99,6 @@ public class TesteCQ implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.TesteCQ[ tescodigo=" + tescodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.TesteCQ[ tescodigo=" + tesCodigo + " ]";
     }
-    
 }

@@ -28,61 +28,57 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Regiao.findAll", query = "SELECT r FROM Regiao r"),
-    @NamedQuery(name = "Regiao.findByRegcodigo", query = "SELECT r FROM Regiao r WHERE r.regcodigo = :regcodigo"),
-    @NamedQuery(name = "Regiao.findByRegnome", query = "SELECT r FROM Regiao r WHERE r.regnome = :regnome"),
-    @NamedQuery(name = "Regiao.findByRegdescricao", query = "SELECT r FROM Regiao r WHERE r.regdescricao = :regdescricao")})
+    @NamedQuery(name = "Regiao.findByRegcodigo", query = "SELECT r FROM Regiao r WHERE r.regCodigo = :regCodigo"),
+    @NamedQuery(name = "Regiao.findByRegnome", query = "SELECT r FROM Regiao r WHERE r.regNome = :regNome"),
+    @NamedQuery(name = "Regiao.findByRegdescricao", query = "SELECT r FROM Regiao r WHERE r.regDescricao = :regDescricao")})
 public class Regiao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "REGCODIGO")
-    private Short regcodigo;
+    private Integer regCodigo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "REGNOME")
-    private String regnome;
+    private String regNome;
     @Size(max = 40)
     @Column(name = "REGDESCRICAO")
-    private String regdescricao;
+    private String regDescricao;
     @OneToMany(mappedBy = "estRegiao")
     private List<Estacao> estacaoList;
 
     public Regiao() {
     }
 
-    public Regiao(Short regcodigo) {
-        this.regcodigo = regcodigo;
+    public Regiao(Integer regCodigo) {
+        this.regCodigo = regCodigo;
     }
 
-    public Regiao(Short regcodigo, String regnome) {
-        this.regcodigo = regcodigo;
-        this.regnome = regnome;
+    public Integer getRegCodigo() {
+        return regCodigo;
     }
 
-    public Short getRegcodigo() {
-        return regcodigo;
+    public void setRegCodigo(Integer regCodigo) {
+        this.regCodigo = regCodigo;
     }
 
-    public void setRegcodigo(Short regcodigo) {
-        this.regcodigo = regcodigo;
+    public String getRegNome() {
+        return regNome;
     }
 
-    public String getRegnome() {
-        return regnome;
+    public void setRegNome(String regNome) {
+        this.regNome = regNome;
     }
 
-    public void setRegnome(String regnome) {
-        this.regnome = regnome;
+    public String getRegDescricao() {
+        return regDescricao;
     }
 
-    public String getRegdescricao() {
-        return regdescricao;
-    }
-
-    public void setRegdescricao(String regdescricao) {
-        this.regdescricao = regdescricao;
+    public void setRegDescricao(String regDescricao) {
+        this.regDescricao = regDescricao;
     }
 
     @XmlTransient
@@ -97,7 +93,7 @@ public class Regiao implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (regcodigo != null ? regcodigo.hashCode() : 0);
+        hash += (regCodigo != null ? regCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -108,7 +104,7 @@ public class Regiao implements Serializable {
             return false;
         }
         Regiao other = (Regiao) object;
-        if ((this.regcodigo == null && other.regcodigo != null) || (this.regcodigo != null && !this.regcodigo.equals(other.regcodigo))) {
+        if ((this.regCodigo == null && other.regCodigo != null) || (this.regCodigo != null && !this.regCodigo.equals(other.regCodigo))) {
             return false;
         }
         return true;
@@ -116,7 +112,6 @@ public class Regiao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Regiao[ regcodigo=" + regcodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.Regiao[ regcodigo=" + regCodigo + " ]";
     }
-    
 }

@@ -28,61 +28,57 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Transmissao.findAll", query = "SELECT t FROM Transmissao t"),
-    @NamedQuery(name = "Transmissao.findByTrncodigo", query = "SELECT t FROM Transmissao t WHERE t.trncodigo = :trncodigo"),
-    @NamedQuery(name = "Transmissao.findByTrndescricao", query = "SELECT t FROM Transmissao t WHERE t.trndescricao = :trndescricao"),
-    @NamedQuery(name = "Transmissao.findByTrnsigla", query = "SELECT t FROM Transmissao t WHERE t.trnsigla = :trnsigla")})
+    @NamedQuery(name = "Transmissao.findByTrncodigo", query = "SELECT t FROM Transmissao t WHERE t.trnCodigo = :trnCodigo"),
+    @NamedQuery(name = "Transmissao.findByTrndescricao", query = "SELECT t FROM Transmissao t WHERE t.trnDescricao = :trnDescricao"),
+    @NamedQuery(name = "Transmissao.findByTrnsigla", query = "SELECT t FROM Transmissao t WHERE t.trnSigla = :trnSigla")})
 public class Transmissao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "TRNCODIGO")
-    private Integer trncodigo;
+    private Integer trnCodigo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "TRNDESCRICAO")
-    private String trndescricao;
+    private String trnDescricao;
     @Size(max = 2)
     @Column(name = "TRNSIGLA")
-    private String trnsigla;
-    @OneToMany(mappedBy = "tretransmissao")
+    private String trnSigla;
+    @OneToMany(mappedBy = "treTransmissao")
     private List<TransmissaoEstacao> transmissaoEstacaoList;
 
     public Transmissao() {
     }
 
-    public Transmissao(Integer trncodigo) {
-        this.trncodigo = trncodigo;
+    public Transmissao(Integer trnCodigo) {
+        this.trnCodigo = trnCodigo;
     }
 
-    public Transmissao(Integer trncodigo, String trndescricao) {
-        this.trncodigo = trncodigo;
-        this.trndescricao = trndescricao;
+    public Integer getTrnCodigo() {
+        return trnCodigo;
     }
 
-    public Integer getTrncodigo() {
-        return trncodigo;
+    public void setTrnCodigo(Integer trnCodigo) {
+        this.trnCodigo = trnCodigo;
     }
 
-    public void setTrncodigo(Integer trncodigo) {
-        this.trncodigo = trncodigo;
+    public String getTrnDescricao() {
+        return trnDescricao;
     }
 
-    public String getTrndescricao() {
-        return trndescricao;
+    public void setTrnDescricao(String trnDescricao) {
+        this.trnDescricao = trnDescricao;
     }
 
-    public void setTrndescricao(String trndescricao) {
-        this.trndescricao = trndescricao;
+    public String getTrnSigla() {
+        return trnSigla;
     }
 
-    public String getTrnsigla() {
-        return trnsigla;
-    }
-
-    public void setTrnsigla(String trnsigla) {
-        this.trnsigla = trnsigla;
+    public void setTrnSigla(String trnSigla) {
+        this.trnSigla = trnSigla;
     }
 
     @XmlTransient
@@ -97,7 +93,7 @@ public class Transmissao implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (trncodigo != null ? trncodigo.hashCode() : 0);
+        hash += (trnCodigo != null ? trnCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -108,7 +104,7 @@ public class Transmissao implements Serializable {
             return false;
         }
         Transmissao other = (Transmissao) object;
-        if ((this.trncodigo == null && other.trncodigo != null) || (this.trncodigo != null && !this.trncodigo.equals(other.trncodigo))) {
+        if ((this.trnCodigo == null && other.trnCodigo != null) || (this.trnCodigo != null && !this.trnCodigo.equals(other.trnCodigo))) {
             return false;
         }
         return true;
@@ -116,7 +112,6 @@ public class Transmissao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Transmissao[ trncodigo=" + trncodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.Transmissao[ trncodigo=" + trnCodigo + " ]";
     }
-    
 }

@@ -29,46 +29,47 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Sensor.findAll", query = "SELECT s FROM Sensor s"),
-    @NamedQuery(name = "Sensor.findBySsrcodigo", query = "SELECT s FROM Sensor s WHERE s.ssrcodigo = :ssrcodigo"),
-    @NamedQuery(name = "Sensor.findBySsrdescricao", query = "SELECT s FROM Sensor s WHERE s.ssrdescricao = :ssrdescricao")})
+    @NamedQuery(name = "Sensor.findBySsrcodigo", query = "SELECT s FROM Sensor s WHERE s.ssrCodigo = :ssrCodigo"),
+    @NamedQuery(name = "Sensor.findBySsrdescricao", query = "SELECT s FROM Sensor s WHERE s.ssrDescricao = :ssrDescricao")})
 public class Sensor implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "SSRCODIGO")
-    private Short ssrcodigo;
+    private Integer ssrCodigo;
     @Size(max = 40)
     @Column(name = "SSRDESCRICAO")
-    private String ssrdescricao;
+    private String ssrDescricao;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor")
     private List<LimiteCQ> limiteCQList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor")
     private List<TipoSensor> tipoSensorList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sitsensor")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sitSensor")
     private List<Situacao> situacaoList;
 
     public Sensor() {
     }
 
-    public Sensor(Short ssrcodigo) {
-        this.ssrcodigo = ssrcodigo;
+    public Sensor(Integer ssrCodigo) {
+        this.ssrCodigo = ssrCodigo;
     }
 
-    public Short getSsrcodigo() {
-        return ssrcodigo;
+    public Integer getSsrCodigo() {
+        return ssrCodigo;
     }
 
-    public void setSsrcodigo(Short ssrcodigo) {
-        this.ssrcodigo = ssrcodigo;
+    public void setSsrCodigo(Integer ssrCodigo) {
+        this.ssrCodigo = ssrCodigo;
     }
 
-    public String getSsrdescricao() {
-        return ssrdescricao;
+    public String getSsrDescricao() {
+        return ssrDescricao;
     }
 
-    public void setSsrdescricao(String ssrdescricao) {
-        this.ssrdescricao = ssrdescricao;
+    public void setSsrDescricao(String ssrDescricao) {
+        this.ssrDescricao = ssrDescricao;
     }
 
     @XmlTransient
@@ -101,7 +102,7 @@ public class Sensor implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (ssrcodigo != null ? ssrcodigo.hashCode() : 0);
+        hash += (ssrCodigo != null ? ssrCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -112,7 +113,7 @@ public class Sensor implements Serializable {
             return false;
         }
         Sensor other = (Sensor) object;
-        if ((this.ssrcodigo == null && other.ssrcodigo != null) || (this.ssrcodigo != null && !this.ssrcodigo.equals(other.ssrcodigo))) {
+        if ((this.ssrCodigo == null && other.ssrCodigo != null) || (this.ssrCodigo != null && !this.ssrCodigo.equals(other.ssrCodigo))) {
             return false;
         }
         return true;
@@ -120,7 +121,6 @@ public class Sensor implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Sensor[ ssrcodigo=" + ssrcodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.Sensor[ ssrcodigo=" + ssrCodigo + " ]";
     }
-    
 }

@@ -28,18 +28,19 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Jurisdicao.findAll", query = "SELECT j FROM Jurisdicao j"),
-    @NamedQuery(name = "Jurisdicao.findByJdccodigo", query = "SELECT j FROM Jurisdicao j WHERE j.jdccodigo = :jdccodigo"),
-    @NamedQuery(name = "Jurisdicao.findByJdcdescricao", query = "SELECT j FROM Jurisdicao j WHERE j.jdcdescricao = :jdcdescricao")})
+    @NamedQuery(name = "Jurisdicao.findByJdccodigo", query = "SELECT j FROM Jurisdicao j WHERE j.jdcCodigo = :jdcCodigo"),
+    @NamedQuery(name = "Jurisdicao.findByJdcdescricao", query = "SELECT j FROM Jurisdicao j WHERE j.jdcDescricao = :jdcDescricao")})
 public class Jurisdicao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "JDCCODIGO")
-    private Character jdccodigo;
+    private String jdcCodigo;
     @Size(max = 18)
     @Column(name = "JDCDESCRICAO")
-    private String jdcdescricao;
+    private String jdcDescricao;
     @OneToMany(mappedBy = "sbcJurisdicao")
     private List<Subbacia> subbaciaList;
     @OneToMany(mappedBy = "rioJurisdicao")
@@ -50,24 +51,24 @@ public class Jurisdicao implements Serializable {
     public Jurisdicao() {
     }
 
-    public Jurisdicao(Character jdccodigo) {
-        this.jdccodigo = jdccodigo;
+    public Jurisdicao(String jdcCodigo) {
+        this.jdcCodigo = jdcCodigo;
     }
 
-    public Character getJdccodigo() {
-        return jdccodigo;
+    public String getJdcCodigo() {
+        return jdcCodigo;
     }
 
-    public void setJdccodigo(Character jdccodigo) {
-        this.jdccodigo = jdccodigo;
+    public void setJdcCodigo(String jdcCodigo) {
+        this.jdcCodigo = jdcCodigo;
     }
 
-    public String getJdcdescricao() {
-        return jdcdescricao;
+    public String getJdcDescricao() {
+        return jdcDescricao;
     }
 
-    public void setJdcdescricao(String jdcdescricao) {
-        this.jdcdescricao = jdcdescricao;
+    public void setJdcDescricao(String jdcDescricao) {
+        this.jdcDescricao = jdcDescricao;
     }
 
     @XmlTransient
@@ -100,7 +101,7 @@ public class Jurisdicao implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (jdccodigo != null ? jdccodigo.hashCode() : 0);
+        hash += (jdcCodigo != null ? jdcCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -111,7 +112,7 @@ public class Jurisdicao implements Serializable {
             return false;
         }
         Jurisdicao other = (Jurisdicao) object;
-        if ((this.jdccodigo == null && other.jdccodigo != null) || (this.jdccodigo != null && !this.jdccodigo.equals(other.jdccodigo))) {
+        if ((this.jdcCodigo == null && other.jdcCodigo != null) || (this.jdcCodigo != null && !this.jdcCodigo.equals(other.jdcCodigo))) {
             return false;
         }
         return true;
@@ -119,7 +120,6 @@ public class Jurisdicao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Jurisdicao[ jdccodigo=" + jdccodigo + " ]";
+        return this.jdcDescricao;
     }
-    
 }

@@ -30,41 +30,42 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TipoSensorEstacao.findAll", query = "SELECT t FROM TipoSensorEstacao t"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsesensor", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tsesensor = :tsesensor"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsetiposensor", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tsetiposensor = :tsetiposensor"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseestacao", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseestacao = :tseestacao"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsedatainicio", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tsedatainicio = :tsedatainicio"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsedatafim", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tsedatafim = :tsedatafim"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseoffset", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseoffset = :tseoffset"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseslope", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseslope = :tseslope"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsevalminimo", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tsevalminimo = :tsevalminimo"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsevalmaximo", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tsevalmaximo = :tsevalmaximo"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseobservacao", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseobservacao = :tseobservacao"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsecalculado", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tsecalculado = :tsecalculado"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseindice", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseindice = :tseindice")})
+    @NamedQuery(name = "TipoSensorEstacao.findByTsesensor", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseSensor = :tseSensor"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTsetiposensor", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseTipoSensor = :tseTipoSensor"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTseestacao", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseEstacao = :tseEstacao"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTsedatainicio", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseDataInicio = :tseDataInicio"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTsedatafim", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseDataFim = :tseDataFim"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTseoffset", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseOffSet = :tseOffSet"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTseslope", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseSlope = :tseSlope"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTsevalminimo", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseValMinimo = :tseValMinimo"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTsevalmaximo", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseValMaximo = :tseValMaximo"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTseobservacao", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseObservacao = :tseObservacao"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTsecalculado", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseCalculado = :tseCalculado"),
+    @NamedQuery(name = "TipoSensorEstacao.findByTseindice", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseIndice = :tseIndice")})
 public class TipoSensorEstacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected TipoSensorEstacaoPK tipoSensorEstacaoPK;
     @Column(name = "TSEDATAFIM")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date tsedatafim;
+    private Date tseDataFim;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "TSEOFFSET")
-    private BigDecimal tseoffset;
+    private BigDecimal tseOffSet;
     @Column(name = "TSESLOPE")
-    private BigDecimal tseslope;
+    private BigDecimal tseSlope;
     @Column(name = "TSEVALMINIMO")
-    private BigDecimal tsevalminimo;
+    private BigDecimal tseValMinimo;
     @Column(name = "TSEVALMAXIMO")
-    private BigDecimal tsevalmaximo;
+    private BigDecimal tseValMaximo;
     @Size(max = 300)
     @Column(name = "TSEOBSERVACAO")
-    private String tseobservacao;
+    private String tseObservacao;
     @Column(name = "TSECALCULADO")
-    private Character tsecalculado;
+    private String tseCalculado;
     @Column(name = "TSEINDICE")
-    private BigDecimal tseindice;
+    private BigDecimal tseIndice;
     @JoinColumns({
         @JoinColumn(name = "TSESENSOR", referencedColumnName = "TPSSENSOR", insertable = false, updatable = false),
         @JoinColumn(name = "TSETIPOSENSOR", referencedColumnName = "TPSCODIGO", insertable = false, updatable = false)})
@@ -72,7 +73,7 @@ public class TipoSensorEstacao implements Serializable {
     private TipoSensor tipoSensor;
     @JoinColumn(name = "TSESTATUS", referencedColumnName = "STSCODIGO")
     @ManyToOne
-    private StatusSensor tsestatus;
+    private StatusSensor tseStatus;
     @JoinColumn(name = "TSEESTACAO", referencedColumnName = "ESTCODIGO", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Estacao estacao;
@@ -84,8 +85,8 @@ public class TipoSensorEstacao implements Serializable {
         this.tipoSensorEstacaoPK = tipoSensorEstacaoPK;
     }
 
-    public TipoSensorEstacao(short tsesensor, short tsetiposensor, int tseestacao, Date tsedatainicio) {
-        this.tipoSensorEstacaoPK = new TipoSensorEstacaoPK(tsesensor, tsetiposensor, tseestacao, tsedatainicio);
+    public TipoSensorEstacao(Integer tseSensor, Integer tseTipoSensor, Integer tseEstacao, Date tseDataInicio) {
+        this.tipoSensorEstacaoPK = new TipoSensorEstacaoPK(tseSensor, tseTipoSensor, tseEstacao, tseDataInicio);
     }
 
     public TipoSensorEstacaoPK getTipoSensorEstacaoPK() {
@@ -96,68 +97,68 @@ public class TipoSensorEstacao implements Serializable {
         this.tipoSensorEstacaoPK = tipoSensorEstacaoPK;
     }
 
-    public Date getTsedatafim() {
-        return tsedatafim;
+    public Date getTseDataFim() {
+        return tseDataFim;
     }
 
-    public void setTsedatafim(Date tsedatafim) {
-        this.tsedatafim = tsedatafim;
+    public void setTseDataFim(Date tseDataFim) {
+        this.tseDataFim = tseDataFim;
     }
 
-    public BigDecimal getTseoffset() {
-        return tseoffset;
+    public BigDecimal getTseOffSet() {
+        return tseOffSet;
     }
 
-    public void setTseoffset(BigDecimal tseoffset) {
-        this.tseoffset = tseoffset;
+    public void setTseOffSet(BigDecimal tseOffSet) {
+        this.tseOffSet = tseOffSet;
     }
 
-    public BigDecimal getTseslope() {
-        return tseslope;
+    public BigDecimal getTseSlope() {
+        return tseSlope;
     }
 
-    public void setTseslope(BigDecimal tseslope) {
-        this.tseslope = tseslope;
+    public void setTseSlope(BigDecimal tseSlope) {
+        this.tseSlope = tseSlope;
     }
 
-    public BigDecimal getTsevalminimo() {
-        return tsevalminimo;
+    public BigDecimal getTseValMinimo() {
+        return tseValMinimo;
     }
 
-    public void setTsevalminimo(BigDecimal tsevalminimo) {
-        this.tsevalminimo = tsevalminimo;
+    public void setTseValMinimo(BigDecimal tseValMinimo) {
+        this.tseValMinimo = tseValMinimo;
     }
 
-    public BigDecimal getTsevalmaximo() {
-        return tsevalmaximo;
+    public BigDecimal getTseValMaximo() {
+        return tseValMaximo;
     }
 
-    public void setTsevalmaximo(BigDecimal tsevalmaximo) {
-        this.tsevalmaximo = tsevalmaximo;
+    public void setTseValMaximo(BigDecimal tseValMaximo) {
+        this.tseValMaximo = tseValMaximo;
     }
 
-    public String getTseobservacao() {
-        return tseobservacao;
+    public String getTseObservacao() {
+        return tseObservacao;
     }
 
-    public void setTseobservacao(String tseobservacao) {
-        this.tseobservacao = tseobservacao;
+    public void setTseObservacao(String tseObservacao) {
+        this.tseObservacao = tseObservacao;
     }
 
-    public Character getTsecalculado() {
-        return tsecalculado;
+    public String getTseCalculado() {
+        return tseCalculado;
     }
 
-    public void setTsecalculado(Character tsecalculado) {
-        this.tsecalculado = tsecalculado;
+    public void setTseCalculado(String tseCalculado) {
+        this.tseCalculado = tseCalculado;
     }
 
-    public BigDecimal getTseindice() {
-        return tseindice;
+    public BigDecimal getTseIndice() {
+        return tseIndice;
     }
 
-    public void setTseindice(BigDecimal tseindice) {
-        this.tseindice = tseindice;
+    public void setTseIndice(BigDecimal tseIndice) {
+        this.tseIndice = tseIndice;
     }
 
     public TipoSensor getTipoSensor() {
@@ -168,12 +169,12 @@ public class TipoSensorEstacao implements Serializable {
         this.tipoSensor = tipoSensor;
     }
 
-    public StatusSensor getTsestatus() {
-        return tsestatus;
+    public StatusSensor getTseStatus() {
+        return tseStatus;
     }
 
-    public void setTsestatus(StatusSensor tsestatus) {
-        this.tsestatus = tsestatus;
+    public void setTseStatus(StatusSensor tseStatus) {
+        this.tseStatus = tseStatus;
     }
 
     public Estacao getEstacao() {
@@ -208,5 +209,4 @@ public class TipoSensorEstacao implements Serializable {
     public String toString() {
         return "br.gov.ana.hidroinfoana.entities.TipoSensorEstacao[ tipoSensorEstacaoPK=" + tipoSensorEstacaoPK + " ]";
     }
-    
 }

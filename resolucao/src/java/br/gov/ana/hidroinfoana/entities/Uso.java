@@ -28,42 +28,43 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Uso.findAll", query = "SELECT u FROM Uso u"),
-    @NamedQuery(name = "Uso.findByUsocodigo", query = "SELECT u FROM Uso u WHERE u.usocodigo = :usocodigo"),
-    @NamedQuery(name = "Uso.findByUsodescricao", query = "SELECT u FROM Uso u WHERE u.usodescricao = :usodescricao")})
+    @NamedQuery(name = "Uso.findByUsocodigo", query = "SELECT u FROM Uso u WHERE u.usoCodigo = :usoCodigo"),
+    @NamedQuery(name = "Uso.findByUsodescricao", query = "SELECT u FROM Uso u WHERE u.usoDescricao = :usoDescricao")})
 public class Uso implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "USOCODIGO")
-    private Short usocodigo;
+    private Short usoCodigo;
     @Size(max = 30)
     @Column(name = "USODESCRICAO")
-    private String usodescricao;
+    private String usoDescricao;
     @OneToMany(mappedBy = "rioUso")
     private List<Rio> rioList;
 
     public Uso() {
     }
 
-    public Uso(Short usocodigo) {
-        this.usocodigo = usocodigo;
+    public Uso(Short usoCodigo) {
+        this.usoCodigo = usoCodigo;
     }
 
-    public Short getUsocodigo() {
-        return usocodigo;
+    public Short getUsoCodigo() {
+        return usoCodigo;
     }
 
-    public void setUsocodigo(Short usocodigo) {
-        this.usocodigo = usocodigo;
+    public void setUsoCodigo(Short usoCodigo) {
+        this.usoCodigo = usoCodigo;
     }
 
-    public String getUsodescricao() {
-        return usodescricao;
+    public String getUsoDescricao() {
+        return usoDescricao;
     }
 
-    public void setUsodescricao(String usodescricao) {
-        this.usodescricao = usodescricao;
+    public void setUsoDescricao(String usoDescricao) {
+        this.usoDescricao = usoDescricao;
     }
 
     @XmlTransient
@@ -78,7 +79,7 @@ public class Uso implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (usocodigo != null ? usocodigo.hashCode() : 0);
+        hash += (usoCodigo != null ? usoCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +90,7 @@ public class Uso implements Serializable {
             return false;
         }
         Uso other = (Uso) object;
-        if ((this.usocodigo == null && other.usocodigo != null) || (this.usocodigo != null && !this.usocodigo.equals(other.usocodigo))) {
+        if ((this.usoCodigo == null && other.usoCodigo != null) || (this.usoCodigo != null && !this.usoCodigo.equals(other.usoCodigo))) {
             return false;
         }
         return true;
@@ -97,7 +98,6 @@ public class Uso implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Uso[ usocodigo=" + usocodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.Uso[ usocodigo=" + usoCodigo + " ]";
     }
-    
 }

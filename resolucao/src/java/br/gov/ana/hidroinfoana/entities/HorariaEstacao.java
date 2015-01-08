@@ -30,18 +30,18 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "HorariaEstacao.findAll", query = "SELECT h FROM HorariaEstacao h"),
     @NamedQuery(name = "HorariaEstacao.findByHesestacao", query = "SELECT h FROM HorariaEstacao h WHERE h.horariaEstacaoPK.hesEstacao = :hesEstacao"),
     @NamedQuery(name = "HorariaEstacao.findByHesdatahora", query = "SELECT h FROM HorariaEstacao h WHERE h.horariaEstacaoPK.hesDataHora = :hesDataHora"),
-    @NamedQuery(name = "HorariaEstacao.findByHesdatahorarx", query = "SELECT h FROM HorariaEstacao h WHERE h.hesdatahorarx = :hesdatahorarx"),
-    @NamedQuery(name = "HorariaEstacao.findByHestensaobateria", query = "SELECT h FROM HorariaEstacao h WHERE h.hestensaobateria = :hestensaobateria"),
-    @NamedQuery(name = "HorariaEstacao.findByHestensaopsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hestensaopsolar = :hestensaopsolar"),
-    @NamedQuery(name = "HorariaEstacao.findByHescorrentepsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hescorrentepsolar = :hescorrentepsolar"),
-    @NamedQuery(name = "HorariaEstacao.findByHeslogicatensaopsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.heslogicatensaopsolar = :heslogicatensaopsolar"),
-    @NamedQuery(name = "HorariaEstacao.findByHeslogicacorrentepsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.heslogicacorrentepsolar = :heslogicacorrentepsolar"),
-    @NamedQuery(name = "HorariaEstacao.findByHesumidadeinterna", query = "SELECT h FROM HorariaEstacao h WHERE h.hesumidadeinterna = :hesumidadeinterna"),
-    @NamedQuery(name = "HorariaEstacao.findByHestemperaturainterna", query = "SELECT h FROM HorariaEstacao h WHERE h.hestemperaturainterna = :hestemperaturainterna"),
-    @NamedQuery(name = "HorariaEstacao.findByHesportaaberta", query = "SELECT h FROM HorariaEstacao h WHERE h.hesportaaberta = :hesportaaberta"),
-    @NamedQuery(name = "HorariaEstacao.findByHesreset", query = "SELECT h FROM HorariaEstacao h WHERE h.hesreset = :hesreset"),
-    @NamedQuery(name = "HorariaEstacao.findByHespotenciatx", query = "SELECT h FROM HorariaEstacao h WHERE h.hespotenciatx = :hespotenciatx"),
-    @NamedQuery(name = "HorariaEstacao.findByHesdefasagem", query = "SELECT h FROM HorariaEstacao h WHERE h.hesdefasagem = :hesdefasagem")})
+    @NamedQuery(name = "HorariaEstacao.findByHesdatahorarx", query = "SELECT h FROM HorariaEstacao h WHERE h.hesDataHoraRX = :hesDataHoraRX"),
+    @NamedQuery(name = "HorariaEstacao.findByHestensaobateria", query = "SELECT h FROM HorariaEstacao h WHERE h.hesTensaoBateria = :hesTensaoBateria"),
+    @NamedQuery(name = "HorariaEstacao.findByHestensaopsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hesTensaoPSolar = :hesTensaoPSolar"),
+    @NamedQuery(name = "HorariaEstacao.findByHescorrentepsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hesCorrentePSolar = :hesCorrentePSolar"),
+    @NamedQuery(name = "HorariaEstacao.findByHeslogicatensaopsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hesLogicaTensaoPSolar = :hesLogicaTensaoPSolar"),
+    @NamedQuery(name = "HorariaEstacao.findByHeslogicacorrentepsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hesLogicaCorrentePSolar = :hesLogicaCorrentePSolar"),
+    @NamedQuery(name = "HorariaEstacao.findByHesumidadeinterna", query = "SELECT h FROM HorariaEstacao h WHERE h.hesUmidadeInterna = :hesUmidadeInterna"),
+    @NamedQuery(name = "HorariaEstacao.findByHestemperaturainterna", query = "SELECT h FROM HorariaEstacao h WHERE h.hesTemperaturaInterna = :hesTemperaturaInterna"),
+    @NamedQuery(name = "HorariaEstacao.findByHesportaaberta", query = "SELECT h FROM HorariaEstacao h WHERE h.hesPortaAberta = :hesPortaAberta"),
+    @NamedQuery(name = "HorariaEstacao.findByHesreset", query = "SELECT h FROM HorariaEstacao h WHERE h.hesReset = :hesReset"),
+    @NamedQuery(name = "HorariaEstacao.findByHespotenciatx", query = "SELECT h FROM HorariaEstacao h WHERE h.hesPotenciaTX = :hesPotenciaTX"),
+    @NamedQuery(name = "HorariaEstacao.findByHesdefasagem", query = "SELECT h FROM HorariaEstacao h WHERE h.hesDefasagem = :hesDefasagem")})
 public class HorariaEstacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,30 +49,30 @@ public class HorariaEstacao implements Serializable {
     protected HorariaEstacaoPK horariaEstacaoPK;
     @Column(name = "HESDATAHORARX")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date hesdatahorarx;
+    private Date hesDataHoraRX;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "HESTENSAOBATERIA")
-    private BigDecimal hestensaobateria;
+    private BigDecimal hesTensaoBateria;
     @Column(name = "HESTENSAOPSOLAR")
-    private BigDecimal hestensaopsolar;
+    private BigDecimal hesTensaoPSolar;
     @Column(name = "HESCORRENTEPSOLAR")
-    private BigDecimal hescorrentepsolar;
+    private BigDecimal hesCorrentePSolar;
     @Column(name = "HESLOGICATENSAOPSOLAR")
-    private Short heslogicatensaopsolar;
+    private Integer hesLogicaTensaoPSolar;
     @Column(name = "HESLOGICACORRENTEPSOLAR")
-    private Short heslogicacorrentepsolar;
+    private Integer hesLogicaCorrentePSolar;
     @Column(name = "HESUMIDADEINTERNA")
-    private BigDecimal hesumidadeinterna;
+    private BigDecimal hesUmidadeInterna;
     @Column(name = "HESTEMPERATURAINTERNA")
-    private BigDecimal hestemperaturainterna;
+    private BigDecimal hesTemperaturaInterna;
     @Column(name = "HESPORTAABERTA")
-    private Short hesportaaberta;
+    private Integer hesPortaAberta;
     @Column(name = "HESRESET")
-    private Short hesreset;
+    private Integer hesReset;
     @Column(name = "HESPOTENCIATX")
-    private BigDecimal hespotenciatx;
+    private BigDecimal hesPotenciaTX;
     @Column(name = "HESDEFASAGEM")
-    private Short hesdefasagem;
+    private Integer hesDefasagem;
     @JoinColumn(name = "HESESTACAO", referencedColumnName = "ESTCODIGO", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Estacao estacao;
@@ -84,8 +84,8 @@ public class HorariaEstacao implements Serializable {
         this.horariaEstacaoPK = horariaEstacaoPK;
     }
 
-    public HorariaEstacao(int hesestacao, Date hesdatahora) {
-        this.horariaEstacaoPK = new HorariaEstacaoPK(hesestacao, hesdatahora);
+    public HorariaEstacao(Integer hesEstacao, Date hesDataHora) {
+        this.horariaEstacaoPK = new HorariaEstacaoPK(hesEstacao, hesDataHora);
     }
 
     public HorariaEstacaoPK getHorariaEstacaoPK() {
@@ -96,100 +96,100 @@ public class HorariaEstacao implements Serializable {
         this.horariaEstacaoPK = horariaEstacaoPK;
     }
 
-    public Date getHesdatahorarx() {
-        return hesdatahorarx;
+    public Date getHesDataHoraRX() {
+        return hesDataHoraRX;
     }
 
-    public void setHesdatahorarx(Date hesdatahorarx) {
-        this.hesdatahorarx = hesdatahorarx;
+    public void setHesDataHoraRX(Date hesDataHoraRX) {
+        this.hesDataHoraRX = hesDataHoraRX;
     }
 
-    public BigDecimal getHestensaobateria() {
-        return hestensaobateria;
+    public BigDecimal getHesTensaoBateria() {
+        return hesTensaoBateria;
     }
 
-    public void setHestensaobateria(BigDecimal hestensaobateria) {
-        this.hestensaobateria = hestensaobateria;
+    public void setHesTensaoBateria(BigDecimal hesTensaoBateria) {
+        this.hesTensaoBateria = hesTensaoBateria;
     }
 
-    public BigDecimal getHestensaopsolar() {
-        return hestensaopsolar;
+    public BigDecimal getHesTensaoPSolar() {
+        return hesTensaoPSolar;
     }
 
-    public void setHestensaopsolar(BigDecimal hestensaopsolar) {
-        this.hestensaopsolar = hestensaopsolar;
+    public void setHesTensaoPSolar(BigDecimal hesTensaoPSolar) {
+        this.hesTensaoPSolar = hesTensaoPSolar;
     }
 
-    public BigDecimal getHescorrentepsolar() {
-        return hescorrentepsolar;
+    public BigDecimal getHesCorrentePSolar() {
+        return hesCorrentePSolar;
     }
 
-    public void setHescorrentepsolar(BigDecimal hescorrentepsolar) {
-        this.hescorrentepsolar = hescorrentepsolar;
+    public void setHesCorrentePSolar(BigDecimal hesCorrentePSolar) {
+        this.hesCorrentePSolar = hesCorrentePSolar;
     }
 
-    public Short getHeslogicatensaopsolar() {
-        return heslogicatensaopsolar;
+    public Integer getHesLogicaTensaoPSolar() {
+        return hesLogicaTensaoPSolar;
     }
 
-    public void setHeslogicatensaopsolar(Short heslogicatensaopsolar) {
-        this.heslogicatensaopsolar = heslogicatensaopsolar;
+    public void setHesLogicaTensaoPSolar(Integer hesLogicaTensaoPSolar) {
+        this.hesLogicaTensaoPSolar = hesLogicaTensaoPSolar;
     }
 
-    public Short getHeslogicacorrentepsolar() {
-        return heslogicacorrentepsolar;
+    public Integer getHesLogicaCorrentePSolar() {
+        return hesLogicaCorrentePSolar;
     }
 
-    public void setHeslogicacorrentepsolar(Short heslogicacorrentepsolar) {
-        this.heslogicacorrentepsolar = heslogicacorrentepsolar;
+    public void setHesLogicaCorrentePSolar(Integer hesLogicaCorrentePSolar) {
+        this.hesLogicaCorrentePSolar = hesLogicaCorrentePSolar;
     }
 
-    public BigDecimal getHesumidadeinterna() {
-        return hesumidadeinterna;
+    public BigDecimal getHesUmidadeInterna() {
+        return hesUmidadeInterna;
     }
 
-    public void setHesumidadeinterna(BigDecimal hesumidadeinterna) {
-        this.hesumidadeinterna = hesumidadeinterna;
+    public void setHesUmidadeInterna(BigDecimal hesUmidadeInterna) {
+        this.hesUmidadeInterna = hesUmidadeInterna;
     }
 
-    public BigDecimal getHestemperaturainterna() {
-        return hestemperaturainterna;
+    public BigDecimal getHesTemperaturaInterna() {
+        return hesTemperaturaInterna;
     }
 
-    public void setHestemperaturainterna(BigDecimal hestemperaturainterna) {
-        this.hestemperaturainterna = hestemperaturainterna;
+    public void setHesTemperaturaInterna(BigDecimal hesTemperaturaInterna) {
+        this.hesTemperaturaInterna = hesTemperaturaInterna;
     }
 
-    public Short getHesportaaberta() {
-        return hesportaaberta;
+    public Integer getHesPortaAberta() {
+        return hesPortaAberta;
     }
 
-    public void setHesportaaberta(Short hesportaaberta) {
-        this.hesportaaberta = hesportaaberta;
+    public void setHesPortaAberta(Integer hesPortaAberta) {
+        this.hesPortaAberta = hesPortaAberta;
     }
 
-    public Short getHesreset() {
-        return hesreset;
+    public Integer getHesReset() {
+        return hesReset;
     }
 
-    public void setHesreset(Short hesreset) {
-        this.hesreset = hesreset;
+    public void setHesReset(Integer hesReset) {
+        this.hesReset = hesReset;
     }
 
-    public BigDecimal getHespotenciatx() {
-        return hespotenciatx;
+    public BigDecimal getHesPotenciaTX() {
+        return hesPotenciaTX;
     }
 
-    public void setHespotenciatx(BigDecimal hespotenciatx) {
-        this.hespotenciatx = hespotenciatx;
+    public void setHesPotenciaTX(BigDecimal hesPotenciaTX) {
+        this.hesPotenciaTX = hesPotenciaTX;
     }
 
-    public Short getHesdefasagem() {
-        return hesdefasagem;
+    public Integer getHesDefasagem() {
+        return hesDefasagem;
     }
 
-    public void setHesdefasagem(Short hesdefasagem) {
-        this.hesdefasagem = hesdefasagem;
+    public void setHesDefasagem(Integer hesDefasagem) {
+        this.hesDefasagem = hesDefasagem;
     }
 
     public Estacao getEstacao() {

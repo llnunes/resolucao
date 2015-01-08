@@ -26,56 +26,57 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TransmissaoEstacao.findAll", query = "SELECT t FROM TransmissaoEstacao t"),
-    @NamedQuery(name = "TransmissaoEstacao.findByTrecodigo", query = "SELECT t FROM TransmissaoEstacao t WHERE t.trecodigo = :trecodigo")})
+    @NamedQuery(name = "TransmissaoEstacao.findByTrecodigo", query = "SELECT t FROM TransmissaoEstacao t WHERE t.treCodigo = :treCodigo")})
 public class TransmissaoEstacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "TRECODIGO")
-    private Integer trecodigo;
+    private Integer treCodigo;
     @JoinColumn(name = "TRETRANSMISSAO", referencedColumnName = "TRNCODIGO")
     @ManyToOne
-    private Transmissao tretransmissao;
+    private Transmissao treTransmissao;
     @JoinColumn(name = "TREESTACAO", referencedColumnName = "ESTCODIGO")
     @ManyToOne
-    private Estacao treestacao;
+    private Estacao treEstacao;
 
     public TransmissaoEstacao() {
     }
 
-    public TransmissaoEstacao(Integer trecodigo) {
-        this.trecodigo = trecodigo;
+    public TransmissaoEstacao(Integer treCodigo) {
+        this.treCodigo = treCodigo;
     }
 
-    public Integer getTrecodigo() {
-        return trecodigo;
+    public Integer getTreCodigo() {
+        return treCodigo;
     }
 
-    public void setTrecodigo(Integer trecodigo) {
-        this.trecodigo = trecodigo;
+    public void setTreCodigo(Integer treCodigo) {
+        this.treCodigo = treCodigo;
     }
 
-    public Transmissao getTretransmissao() {
-        return tretransmissao;
+    public Transmissao getTreTransmissao() {
+        return treTransmissao;
     }
 
-    public void setTretransmissao(Transmissao tretransmissao) {
-        this.tretransmissao = tretransmissao;
+    public void setTreTransmissao(Transmissao treTransmissao) {
+        this.treTransmissao = treTransmissao;
     }
 
-    public Estacao getTreestacao() {
-        return treestacao;
+    public Estacao getTreEstacao() {
+        return treEstacao;
     }
 
-    public void setTreestacao(Estacao treestacao) {
-        this.treestacao = treestacao;
+    public void setTreEstacao(Estacao treEstacao) {
+        this.treEstacao = treEstacao;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (trecodigo != null ? trecodigo.hashCode() : 0);
+        hash += (treCodigo != null ? treCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -86,7 +87,7 @@ public class TransmissaoEstacao implements Serializable {
             return false;
         }
         TransmissaoEstacao other = (TransmissaoEstacao) object;
-        if ((this.trecodigo == null && other.trecodigo != null) || (this.trecodigo != null && !this.trecodigo.equals(other.trecodigo))) {
+        if ((this.treCodigo == null && other.treCodigo != null) || (this.treCodigo != null && !this.treCodigo.equals(other.treCodigo))) {
             return false;
         }
         return true;
@@ -94,7 +95,6 @@ public class TransmissaoEstacao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.TransmissaoEstacao[ trecodigo=" + trecodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.TransmissaoEstacao[ trecodigo=" + treCodigo + " ]";
     }
-    
 }

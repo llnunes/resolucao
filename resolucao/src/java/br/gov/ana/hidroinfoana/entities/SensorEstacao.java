@@ -27,14 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SensorEstacao.findAll", query = "SELECT s FROM SensorEstacao s"),
-    @NamedQuery(name = "SensorEstacao.findBySnecodigo", query = "SELECT s FROM SensorEstacao s WHERE s.snecodigo = :snecodigo")})
+    @NamedQuery(name = "SensorEstacao.findBySnecodigo", query = "SELECT s FROM SensorEstacao s WHERE s.sneCodigo = :sneCodigo")})
 public class SensorEstacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "SNECODIGO")
-    private Integer snecodigo;
+    private Integer sneCodigo;
     @JoinColumns({
         @JoinColumn(name = "SNESENSOR", referencedColumnName = "TPSSENSOR"),
         @JoinColumn(name = "SNETIPOSENSOR", referencedColumnName = "TPSCODIGO")})
@@ -42,21 +43,29 @@ public class SensorEstacao implements Serializable {
     private TipoSensor tipoSensor;
     @JoinColumn(name = "SNEESTACAO", referencedColumnName = "ESTCODIGO")
     @ManyToOne
-    private Estacao sneestacao;
+    private Estacao sneEstacao;
 
     public SensorEstacao() {
     }
 
-    public SensorEstacao(Integer snecodigo) {
-        this.snecodigo = snecodigo;
+    public SensorEstacao(Integer sneCodigo) {
+        this.sneCodigo = sneCodigo;
     }
 
-    public Integer getSnecodigo() {
-        return snecodigo;
+    public Integer getSneCodigo() {
+        return sneCodigo;
     }
 
-    public void setSnecodigo(Integer snecodigo) {
-        this.snecodigo = snecodigo;
+    public void setSneCodigo(Integer sneCodigo) {
+        this.sneCodigo = sneCodigo;
+    }
+
+    public Estacao getSneEstacao() {
+        return sneEstacao;
+    }
+
+    public void setSneEstacao(Estacao sneEstacao) {
+        this.sneEstacao = sneEstacao;
     }
 
     public TipoSensor getTipoSensor() {
@@ -67,18 +76,10 @@ public class SensorEstacao implements Serializable {
         this.tipoSensor = tipoSensor;
     }
 
-    public Estacao getSneestacao() {
-        return sneestacao;
-    }
-
-    public void setSneestacao(Estacao sneestacao) {
-        this.sneestacao = sneestacao;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (snecodigo != null ? snecodigo.hashCode() : 0);
+        hash += (sneCodigo != null ? sneCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +90,7 @@ public class SensorEstacao implements Serializable {
             return false;
         }
         SensorEstacao other = (SensorEstacao) object;
-        if ((this.snecodigo == null && other.snecodigo != null) || (this.snecodigo != null && !this.snecodigo.equals(other.snecodigo))) {
+        if ((this.sneCodigo == null && other.sneCodigo != null) || (this.sneCodigo != null && !this.sneCodigo.equals(other.sneCodigo))) {
             return false;
         }
         return true;
@@ -97,7 +98,6 @@ public class SensorEstacao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.SensorEstacao[ snecodigo=" + snecodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.SensorEstacao[ snecodigo=" + sneCodigo + " ]";
     }
-    
 }

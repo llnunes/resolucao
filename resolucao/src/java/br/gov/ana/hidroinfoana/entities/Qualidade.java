@@ -28,18 +28,19 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Qualidade.findAll", query = "SELECT q FROM Qualidade q"),
-    @NamedQuery(name = "Qualidade.findByQldcodigo", query = "SELECT q FROM Qualidade q WHERE q.qldcodigo = :qldcodigo"),
-    @NamedQuery(name = "Qualidade.findByQlddescricao", query = "SELECT q FROM Qualidade q WHERE q.qlddescricao = :qlddescricao")})
+    @NamedQuery(name = "Qualidade.findByQldcodigo", query = "SELECT q FROM Qualidade q WHERE q.qldCodigo = :qldCodigo"),
+    @NamedQuery(name = "Qualidade.findByQlddescricao", query = "SELECT q FROM Qualidade q WHERE q.qldDescricao = :qldDescricao")})
 public class Qualidade implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "QLDCODIGO")
-    private Short qldcodigo;
+    private Integer qldCodigo;
     @Size(max = 40)
     @Column(name = "QLDDESCRICAO")
-    private String qlddescricao;
+    private String qldDescricao;
     @OneToMany(mappedBy = "horQChuva")
     private List<Horaria> horariaList;
     @OneToMany(mappedBy = "horQChuvaAcumSensor")
@@ -76,24 +77,24 @@ public class Qualidade implements Serializable {
     public Qualidade() {
     }
 
-    public Qualidade(Short qldcodigo) {
-        this.qldcodigo = qldcodigo;
+    public Qualidade(Integer qldCodigo) {
+        this.qldCodigo = qldCodigo;
     }
 
-    public Short getQldcodigo() {
-        return qldcodigo;
+    public Integer getQldCodigo() {
+        return qldCodigo;
     }
 
-    public void setQldcodigo(Short qldcodigo) {
-        this.qldcodigo = qldcodigo;
+    public void setQldCodigo(Integer qldCodigo) {
+        this.qldCodigo = qldCodigo;
     }
 
-    public String getQlddescricao() {
-        return qlddescricao;
+    public String getQldDescricao() {
+        return qldDescricao;
     }
 
-    public void setQlddescricao(String qlddescricao) {
-        this.qlddescricao = qlddescricao;
+    public void setQldDescricao(String qldDescricao) {
+        this.qldDescricao = qldDescricao;
     }
 
     @XmlTransient
@@ -243,7 +244,7 @@ public class Qualidade implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (qldcodigo != null ? qldcodigo.hashCode() : 0);
+        hash += (qldCodigo != null ? qldCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -254,7 +255,7 @@ public class Qualidade implements Serializable {
             return false;
         }
         Qualidade other = (Qualidade) object;
-        if ((this.qldcodigo == null && other.qldcodigo != null) || (this.qldcodigo != null && !this.qldcodigo.equals(other.qldcodigo))) {
+        if ((this.qldCodigo == null && other.qldCodigo != null) || (this.qldCodigo != null && !this.qldCodigo.equals(other.qldCodigo))) {
             return false;
         }
         return true;
@@ -262,7 +263,6 @@ public class Qualidade implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.Qualidade[ qldcodigo=" + qldcodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.Qualidade[ qldcodigo=" + qldCodigo + " ]";
     }
-    
 }

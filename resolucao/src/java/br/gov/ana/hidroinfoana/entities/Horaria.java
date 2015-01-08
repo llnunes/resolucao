@@ -162,8 +162,8 @@ public class Horaria implements Serializable {
         this.horariaPK = horariaPK;
     }
 
-    public Horaria(int horestacao, Date hordatahora) {
-        this.horariaPK = new HorariaPK(horestacao, hordatahora);
+    public Horaria(Integer horEstacao, Date horDataHora) {
+        this.horariaPK = new HorariaPK(horEstacao, horDataHora);
     }
 
     public HorariaPK getHorariaPK() {

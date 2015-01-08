@@ -40,31 +40,32 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "LimiteCQ.findByLimdesvio", query = "SELECT l FROM LimiteCQ l WHERE l.limdesvio = :limdesvio"),
     @NamedQuery(name = "LimiteCQ.findByLimperiodoteste", query = "SELECT l FROM LimiteCQ l WHERE l.limperiodoteste = :limperiodoteste")})
 public class LimiteCQ implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected LimiteCQPK limiteCQPK;
     @Column(name = "LIMDATAFIM")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date limdatafim;
+    private Date limDataFim;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "LIMVALMINSUSPEITO")
-    private BigDecimal limvalminsuspeito;
+    private BigDecimal limValMinSuspeito;
     @Column(name = "LIMVALMINAPROVADO")
-    private BigDecimal limvalminaprovado;
+    private BigDecimal limValMinAprovado;
     @Column(name = "LIMVALMAXAPROVADO")
-    private BigDecimal limvalmaxaprovado;
+    private BigDecimal limValMaxAprovado;
     @Column(name = "LIMVALMAXSUSPEITO")
-    private BigDecimal limvalmaxsuspeito;
+    private BigDecimal limValMaxSuspeito;
     @Column(name = "LIMDESVIO")
-    private BigDecimal limdesvio;
+    private BigDecimal limDesvio;
     @Column(name = "LIMPERIODOTESTE")
-    private Short limperiodoteste;
+    private Integer limPeriodoTeste;
     @JoinColumn(name = "LIMTESTECQ", referencedColumnName = "TESCODIGO", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private TesteCQ testeCQ;
     @JoinColumn(name = "LIMSTATUS", referencedColumnName = "STLCODIGO")
     @ManyToOne
-    private StatusLimite limstatus;
+    private StatusLimite limStatus;
     @JoinColumn(name = "LIMSENSOR", referencedColumnName = "SSRCODIGO", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Sensor sensor;
@@ -79,8 +80,8 @@ public class LimiteCQ implements Serializable {
         this.limiteCQPK = limiteCQPK;
     }
 
-    public LimiteCQ(int limestacao, short limsensor, short limtestecq, Date limdatainicio) {
-        this.limiteCQPK = new LimiteCQPK(limestacao, limsensor, limtestecq, limdatainicio);
+    public LimiteCQ(Integer limEstacao, Integer limSensor, Integer limTesteCQ, Date limDataInicio) {
+        this.limiteCQPK = new LimiteCQPK(limEstacao, limSensor, limTesteCQ, limDataInicio);
     }
 
     public LimiteCQPK getLimiteCQPK() {
@@ -91,60 +92,68 @@ public class LimiteCQ implements Serializable {
         this.limiteCQPK = limiteCQPK;
     }
 
-    public Date getLimdatafim() {
-        return limdatafim;
+    public Date getLimDataFim() {
+        return limDataFim;
     }
 
-    public void setLimdatafim(Date limdatafim) {
-        this.limdatafim = limdatafim;
+    public void setLimDataFim(Date limDataFim) {
+        this.limDataFim = limDataFim;
     }
 
-    public BigDecimal getLimvalminsuspeito() {
-        return limvalminsuspeito;
+    public BigDecimal getLimValMinSuspeito() {
+        return limValMinSuspeito;
     }
 
-    public void setLimvalminsuspeito(BigDecimal limvalminsuspeito) {
-        this.limvalminsuspeito = limvalminsuspeito;
+    public void setLimValMinSuspeito(BigDecimal limValMinSuspeito) {
+        this.limValMinSuspeito = limValMinSuspeito;
     }
 
-    public BigDecimal getLimvalminaprovado() {
-        return limvalminaprovado;
+    public BigDecimal getLimValMinAprovado() {
+        return limValMinAprovado;
     }
 
-    public void setLimvalminaprovado(BigDecimal limvalminaprovado) {
-        this.limvalminaprovado = limvalminaprovado;
+    public void setLimValMinAprovado(BigDecimal limValMinAprovado) {
+        this.limValMinAprovado = limValMinAprovado;
     }
 
-    public BigDecimal getLimvalmaxaprovado() {
-        return limvalmaxaprovado;
+    public BigDecimal getLimValMaxAprovado() {
+        return limValMaxAprovado;
     }
 
-    public void setLimvalmaxaprovado(BigDecimal limvalmaxaprovado) {
-        this.limvalmaxaprovado = limvalmaxaprovado;
+    public void setLimValMaxAprovado(BigDecimal limValMaxAprovado) {
+        this.limValMaxAprovado = limValMaxAprovado;
     }
 
-    public BigDecimal getLimvalmaxsuspeito() {
-        return limvalmaxsuspeito;
+    public BigDecimal getLimValMaxSuspeito() {
+        return limValMaxSuspeito;
     }
 
-    public void setLimvalmaxsuspeito(BigDecimal limvalmaxsuspeito) {
-        this.limvalmaxsuspeito = limvalmaxsuspeito;
+    public void setLimValMaxSuspeito(BigDecimal limValMaxSuspeito) {
+        this.limValMaxSuspeito = limValMaxSuspeito;
     }
 
-    public BigDecimal getLimdesvio() {
-        return limdesvio;
+    public BigDecimal getLimDesvio() {
+        return limDesvio;
     }
 
-    public void setLimdesvio(BigDecimal limdesvio) {
-        this.limdesvio = limdesvio;
+    public void setLimDesvio(BigDecimal limDesvio) {
+        this.limDesvio = limDesvio;
     }
 
-    public Short getLimperiodoteste() {
-        return limperiodoteste;
+    public Integer getLimPeriodoTeste() {
+        return limPeriodoTeste;
     }
 
-    public void setLimperiodoteste(Short limperiodoteste) {
-        this.limperiodoteste = limperiodoteste;
+    public void setLimPeriodoTeste(Integer limPeriodoTeste) {
+        this.limPeriodoTeste = limPeriodoTeste;
+    }
+
+    public StatusLimite getLimStatus() {
+        return limStatus;
+    }
+
+    public void setLimStatus(StatusLimite limStatus) {
+        this.limStatus = limStatus;
     }
 
     public TesteCQ getTesteCQ() {
@@ -153,14 +162,6 @@ public class LimiteCQ implements Serializable {
 
     public void setTesteCQ(TesteCQ testeCQ) {
         this.testeCQ = testeCQ;
-    }
-
-    public StatusLimite getLimstatus() {
-        return limstatus;
-    }
-
-    public void setLimstatus(StatusLimite limstatus) {
-        this.limstatus = limstatus;
     }
 
     public Sensor getSensor() {
@@ -203,5 +204,4 @@ public class LimiteCQ implements Serializable {
     public String toString() {
         return "br.gov.ana.hidroinfoana.entities.LimiteCQ[ limiteCQPK=" + limiteCQPK + " ]";
     }
-    
 }

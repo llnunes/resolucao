@@ -28,49 +28,45 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "StatusLimite.findAll", query = "SELECT s FROM StatusLimite s"),
-    @NamedQuery(name = "StatusLimite.findByStlcodigo", query = "SELECT s FROM StatusLimite s WHERE s.stlcodigo = :stlcodigo"),
-    @NamedQuery(name = "StatusLimite.findByStldescricao", query = "SELECT s FROM StatusLimite s WHERE s.stldescricao = :stldescricao")})
+    @NamedQuery(name = "StatusLimite.findByStlcodigo", query = "SELECT s FROM StatusLimite s WHERE s.stlCodigo = :stlCodigo"),
+    @NamedQuery(name = "StatusLimite.findByStldescricao", query = "SELECT s FROM StatusLimite s WHERE s.stlDescricao = :stlDescricao")})
 public class StatusLimite implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "STLCODIGO")
-    private Short stlcodigo;
+    private Short stlCodigo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "STLDESCRICAO")
-    private String stldescricao;
+    private String stlDescricao;
     @OneToMany(mappedBy = "limstatus")
     private List<LimiteCQ> limiteCQList;
 
     public StatusLimite() {
     }
 
-    public StatusLimite(Short stlcodigo) {
-        this.stlcodigo = stlcodigo;
+    public StatusLimite(Short stlCodigo) {
+        this.stlCodigo = stlCodigo;
     }
 
-    public StatusLimite(Short stlcodigo, String stldescricao) {
-        this.stlcodigo = stlcodigo;
-        this.stldescricao = stldescricao;
+    public Short getStlCodigo() {
+        return stlCodigo;
     }
 
-    public Short getStlcodigo() {
-        return stlcodigo;
+    public void setStlCodigo(Short stlCodigo) {
+        this.stlCodigo = stlCodigo;
     }
 
-    public void setStlcodigo(Short stlcodigo) {
-        this.stlcodigo = stlcodigo;
+    public String getStlDescricao() {
+        return stlDescricao;
     }
 
-    public String getStldescricao() {
-        return stldescricao;
-    }
-
-    public void setStldescricao(String stldescricao) {
-        this.stldescricao = stldescricao;
+    public void setStlDescricao(String stlDescricao) {
+        this.stlDescricao = stlDescricao;
     }
 
     @XmlTransient
@@ -85,7 +81,7 @@ public class StatusLimite implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (stlcodigo != null ? stlcodigo.hashCode() : 0);
+        hash += (stlCodigo != null ? stlCodigo.hashCode() : 0);
         return hash;
     }
 
@@ -96,7 +92,7 @@ public class StatusLimite implements Serializable {
             return false;
         }
         StatusLimite other = (StatusLimite) object;
-        if ((this.stlcodigo == null && other.stlcodigo != null) || (this.stlcodigo != null && !this.stlcodigo.equals(other.stlcodigo))) {
+        if ((this.stlCodigo == null && other.stlCodigo != null) || (this.stlCodigo != null && !this.stlCodigo.equals(other.stlCodigo))) {
             return false;
         }
         return true;
@@ -104,7 +100,6 @@ public class StatusLimite implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.hidroinfoana.entities.StatusLimite[ stlcodigo=" + stlcodigo + " ]";
+        return "br.gov.ana.hidroinfoana.entities.StatusLimite[ stlcodigo=" + stlCodigo + " ]";
     }
-    
 }
