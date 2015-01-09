@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -28,12 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.SUBBACIA")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Subbacia.findAll", query = "SELECT s FROM Subbacia s"),
-    @NamedQuery(name = "Subbacia.findBySbccodigo", query = "SELECT s FROM Subbacia s WHERE s.sbcCodigo = :sbcCodigo"),
-    @NamedQuery(name = "Subbacia.findBySbcnome", query = "SELECT s FROM Subbacia s WHERE s.sbcNome = :sbcNome"),
-    @NamedQuery(name = "Subbacia.findBySbcareadrenagem", query = "SELECT s FROM Subbacia s WHERE s.sbcAreaDrenagem = :sbcAreaDrenagem"),
-    @NamedQuery(name = "Subbacia.findBySbcinfodescritivas", query = "SELECT s FROM Subbacia s WHERE s.sbcInfoDescritivas = :sbcInfoDescritivas")})
+
 public class Subbacia implements Serializable {
 
     private static final long serialVersionUID = 1L;

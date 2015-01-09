@@ -12,8 +12,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,19 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.LIMITECQ")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "LimiteCQ.findAll", query = "SELECT l FROM LimiteCQ l"),
-    @NamedQuery(name = "LimiteCQ.findByLimestacao", query = "SELECT l FROM LimiteCQ l WHERE l.limiteCQPK.limEstacao = :limEstacao"),
-    @NamedQuery(name = "LimiteCQ.findByLimsensor", query = "SELECT l FROM LimiteCQ l WHERE l.limiteCQPK.limSensor = :limSensor"),
-    @NamedQuery(name = "LimiteCQ.findByLimtestecq", query = "SELECT l FROM LimiteCQ l WHERE l.limiteCQPK.limTesteCQ = :limTesteCQ"),
-    @NamedQuery(name = "LimiteCQ.findByLimdatainicio", query = "SELECT l FROM LimiteCQ l WHERE l.limiteCQPK.limDataInicio = :limDataInicio"),
-    @NamedQuery(name = "LimiteCQ.findByLimdatafim", query = "SELECT l FROM LimiteCQ l WHERE l.limDataFim = :limDataFim"),
-    @NamedQuery(name = "LimiteCQ.findByLimvalminsuspeito", query = "SELECT l FROM LimiteCQ l WHERE l.limValMinSuspeito = :limValMinSuspeito"),
-    @NamedQuery(name = "LimiteCQ.findByLimvalminaprovado", query = "SELECT l FROM LimiteCQ l WHERE l.limValMinAprovado = :limValMinAprovado"),
-    @NamedQuery(name = "LimiteCQ.findByLimvalmaxaprovado", query = "SELECT l FROM LimiteCQ l WHERE l.limValMaxAprovado = :limValMaxAprovado"),
-    @NamedQuery(name = "LimiteCQ.findByLimvalmaxsuspeito", query = "SELECT l FROM LimiteCQ l WHERE l.limValMaxSuspeito = :limValMaxSuspeito"),
-    @NamedQuery(name = "LimiteCQ.findByLimdesvio", query = "SELECT l FROM LimiteCQ l WHERE l.limDesvio = :limDesvio"),
-    @NamedQuery(name = "LimiteCQ.findByLimperiodoteste", query = "SELECT l FROM LimiteCQ l WHERE l.limPeriodoTeste = :limPeriodoTeste")})
 public class LimiteCQ implements Serializable {
 
     private static final long serialVersionUID = 1L;

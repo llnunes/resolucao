@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -28,11 +26,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.MUNICIPIO")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Municipio.findAll", query = "SELECT m FROM Municipio m"),
-    @NamedQuery(name = "Municipio.findByMuncodigo", query = "SELECT m FROM Municipio m WHERE m.munCodigo = :munCodigo"),
-    @NamedQuery(name = "Municipio.findByMunnome", query = "SELECT m FROM Municipio m WHERE m.munNome = :munNome"),
-    @NamedQuery(name = "Municipio.findByMuncodigoibge", query = "SELECT m FROM Municipio m WHERE m.munCodigoIBGE = :munCodigoIBGE")})
 public class Municipio implements Serializable {
 
     private static final long serialVersionUID = 1L;

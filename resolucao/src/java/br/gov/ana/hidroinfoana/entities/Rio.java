@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -29,16 +27,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.RIO")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Rio.findAll", query = "SELECT r FROM Rio r"),
-    @NamedQuery(name = "Rio.findByRiocodigo", query = "SELECT r FROM Rio r WHERE r.rioCodigo = :rioCodigo"),
-    @NamedQuery(name = "Rio.findByRionome", query = "SELECT r FROM Rio r WHERE r.rioNome = :rioNome"),
-    @NamedQuery(name = "Rio.findByRiosubbacia", query = "SELECT r FROM Rio r WHERE r.rioSubbacia = :rioSubbacia"),
-    @NamedQuery(name = "Rio.findByRiolatitudeinicial", query = "SELECT r FROM Rio r WHERE r.rioLatitudeInicial = :rioLatitudeInicial"),
-    @NamedQuery(name = "Rio.findByRiolongitudeinicial", query = "SELECT r FROM Rio r WHERE r.rioLongitudeInicial = :rioLongitudeInicial"),
-    @NamedQuery(name = "Rio.findByRiolatitudefinal", query = "SELECT r FROM Rio r WHERE r.rioLatitudeFinal = :rioLatitudeFinal"),
-    @NamedQuery(name = "Rio.findByRiolongitudefinal", query = "SELECT r FROM Rio r WHERE r.rioLongitudeFinal = :rioLongitudeFinal"),
-    @NamedQuery(name = "Rio.findByRioinfodescritivas", query = "SELECT r FROM Rio r WHERE r.rioInfoDescritivas = :rioInfoDescritivas")})
 public class Rio implements Serializable {
 
     private static final long serialVersionUID = 1L;

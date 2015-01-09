@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,20 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.TIPOSENSORESTACAO")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "TipoSensorEstacao.findAll", query = "SELECT t FROM TipoSensorEstacao t"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsesensor", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseSensor = :tseSensor"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsetiposensor", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseTipoSensor = :tseTipoSensor"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseestacao", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseEstacao = :tseEstacao"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsedatainicio", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tipoSensorEstacaoPK.tseDataInicio = :tseDataInicio"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsedatafim", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseDataFim = :tseDataFim"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseoffset", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseOffSet = :tseOffSet"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseslope", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseSlope = :tseSlope"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsevalminimo", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseValMinimo = :tseValMinimo"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsevalmaximo", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseValMaximo = :tseValMaximo"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseobservacao", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseObservacao = :tseObservacao"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTsecalculado", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseCalculado = :tseCalculado"),
-    @NamedQuery(name = "TipoSensorEstacao.findByTseindice", query = "SELECT t FROM TipoSensorEstacao t WHERE t.tseIndice = :tseIndice")})
+
 public class TipoSensorEstacao implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -10,8 +10,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,10 +24,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.STATUSESTACAO")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "StatusEstacao.findAll", query = "SELECT s FROM StatusEstacao s"),
-    @NamedQuery(name = "StatusEstacao.findByStecodigo", query = "SELECT s FROM StatusEstacao s WHERE s.steCodigo = :steCodigo"),
-    @NamedQuery(name = "StatusEstacao.findByStedescricao", query = "SELECT s FROM StatusEstacao s WHERE s.steDescricao = :steDescricao")})
 public class StatusEstacao implements Serializable {
 
     private static final long serialVersionUID = 1L;

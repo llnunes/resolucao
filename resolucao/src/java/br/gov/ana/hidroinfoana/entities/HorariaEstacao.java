@@ -12,8 +12,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,22 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.HORARIAESTACAO")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "HorariaEstacao.findAll", query = "SELECT h FROM HorariaEstacao h"),
-    @NamedQuery(name = "HorariaEstacao.findByHesestacao", query = "SELECT h FROM HorariaEstacao h WHERE h.horariaEstacaoPK.hesEstacao = :hesEstacao"),
-    @NamedQuery(name = "HorariaEstacao.findByHesdatahora", query = "SELECT h FROM HorariaEstacao h WHERE h.horariaEstacaoPK.hesDataHora = :hesDataHora"),
-    @NamedQuery(name = "HorariaEstacao.findByHesdatahorarx", query = "SELECT h FROM HorariaEstacao h WHERE h.hesDataHoraRX = :hesDataHoraRX"),
-    @NamedQuery(name = "HorariaEstacao.findByHestensaobateria", query = "SELECT h FROM HorariaEstacao h WHERE h.hesTensaoBateria = :hesTensaoBateria"),
-    @NamedQuery(name = "HorariaEstacao.findByHestensaopsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hesTensaoPSolar = :hesTensaoPSolar"),
-    @NamedQuery(name = "HorariaEstacao.findByHescorrentepsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hesCorrentePSolar = :hesCorrentePSolar"),
-    @NamedQuery(name = "HorariaEstacao.findByHeslogicatensaopsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hesLogicaTensaoPSolar = :hesLogicaTensaoPSolar"),
-    @NamedQuery(name = "HorariaEstacao.findByHeslogicacorrentepsolar", query = "SELECT h FROM HorariaEstacao h WHERE h.hesLogicaCorrentePSolar = :hesLogicaCorrentePSolar"),
-    @NamedQuery(name = "HorariaEstacao.findByHesumidadeinterna", query = "SELECT h FROM HorariaEstacao h WHERE h.hesUmidadeInterna = :hesUmidadeInterna"),
-    @NamedQuery(name = "HorariaEstacao.findByHestemperaturainterna", query = "SELECT h FROM HorariaEstacao h WHERE h.hesTemperaturaInterna = :hesTemperaturaInterna"),
-    @NamedQuery(name = "HorariaEstacao.findByHesportaaberta", query = "SELECT h FROM HorariaEstacao h WHERE h.hesPortaAberta = :hesPortaAberta"),
-    @NamedQuery(name = "HorariaEstacao.findByHesreset", query = "SELECT h FROM HorariaEstacao h WHERE h.hesReset = :hesReset"),
-    @NamedQuery(name = "HorariaEstacao.findByHespotenciatx", query = "SELECT h FROM HorariaEstacao h WHERE h.hesPotenciaTX = :hesPotenciaTX"),
-    @NamedQuery(name = "HorariaEstacao.findByHesdefasagem", query = "SELECT h FROM HorariaEstacao h WHERE h.hesDefasagem = :hesDefasagem")})
+
 public class HorariaEstacao implements Serializable {
 
     private static final long serialVersionUID = 1L;

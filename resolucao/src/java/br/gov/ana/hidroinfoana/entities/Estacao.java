@@ -16,8 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -35,21 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.ESTACAO")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Estacao.findAll", query = "SELECT e FROM Estacao e"),
-    @NamedQuery(name = "Estacao.findByEstcodigo", query = "SELECT e FROM Estacao e WHERE e.estCodigo = :estCodigo"),
-    @NamedQuery(name = "Estacao.findByEstcodigoadicional", query = "SELECT e FROM Estacao e WHERE e.estCodigoAdicional = :estCodigoAdicional"),
-    @NamedQuery(name = "Estacao.findByEstid", query = "SELECT e FROM Estacao e WHERE e.estId = :estId"),
-    @NamedQuery(name = "Estacao.findByEstaneelplu", query = "SELECT e FROM Estacao e WHERE e.estAneelPlu = :estAneelPlu"),
-    @NamedQuery(name = "Estacao.findByEstaneelflu", query = "SELECT e FROM Estacao e WHERE e.estAneelFlu = :estAneelFlu"),
-    @NamedQuery(name = "Estacao.findByEstnome", query = "SELECT e FROM Estacao e WHERE e.estNome = :estNome"),
-    @NamedQuery(name = "Estacao.findByEstlatitude", query = "SELECT e FROM Estacao e WHERE e.estLatitude = :estLatitude"),
-    @NamedQuery(name = "Estacao.findByEstlongitude", query = "SELECT e FROM Estacao e WHERE e.estLongitude = :estLongitude"),
-    @NamedQuery(name = "Estacao.findByEstaltitude", query = "SELECT e FROM Estacao e WHERE e.estAltitude = :estAltitude"),
-    @NamedQuery(name = "Estacao.findByEstintervalotx", query = "SELECT e FROM Estacao e WHERE e.estIntervaloTX = :estIntervaloTX"),
-    @NamedQuery(name = "Estacao.findByEstintervalocoleta", query = "SELECT e FROM Estacao e WHERE e.estIntervaloColeta = :estIntervaloColeta"),
-    @NamedQuery(name = "Estacao.findByEstcontadorchuva", query = "SELECT e FROM Estacao e WHERE e.estContadorChuva = :estContadorChuva"),
-    @NamedQuery(name = "Estacao.findByEstultimaatualizacao", query = "SELECT e FROM Estacao e WHERE e.estUltimaAtualizacao = :estUltimaAtualizacao")})
 public class Estacao implements Serializable {
 
     private static final long serialVersionUID = 1L;

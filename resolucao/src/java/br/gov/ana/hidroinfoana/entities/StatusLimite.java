@@ -10,8 +10,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,10 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.STATUSLIMITE")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "StatusLimite.findAll", query = "SELECT s FROM StatusLimite s"),
-    @NamedQuery(name = "StatusLimite.findByStlcodigo", query = "SELECT s FROM StatusLimite s WHERE s.stlCodigo = :stlCodigo"),
-    @NamedQuery(name = "StatusLimite.findByStldescricao", query = "SELECT s FROM StatusLimite s WHERE s.stlDescricao = :stlDescricao")})
+
 public class StatusLimite implements Serializable {
 
     private static final long serialVersionUID = 1L;

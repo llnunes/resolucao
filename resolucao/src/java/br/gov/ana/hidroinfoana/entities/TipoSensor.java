@@ -12,8 +12,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -27,11 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.TIPOSENSOR")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "TipoSensor.findAll", query = "SELECT t FROM TipoSensor t"),
-    @NamedQuery(name = "TipoSensor.findByTpssensor", query = "SELECT t FROM TipoSensor t WHERE t.tipoSensorPK.tpsSensor = :tpsSensor"),
-    @NamedQuery(name = "TipoSensor.findByTpscodigo", query = "SELECT t FROM TipoSensor t WHERE t.tipoSensorPK.tpsCodigo = :tpsCodigo"),
-    @NamedQuery(name = "TipoSensor.findByTpsdescricao", query = "SELECT t FROM TipoSensor t WHERE t.tpsDescricao = :tpsDescricao")})
+
 public class TipoSensor implements Serializable {
 
     private static final long serialVersionUID = 1L;

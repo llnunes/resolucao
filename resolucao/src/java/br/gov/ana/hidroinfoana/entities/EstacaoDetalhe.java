@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,19 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.ESTACAODETALHE")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "EstacaoDetalhe.findAll", query = "SELECT e FROM EstacaoDetalhe e"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtestacao", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtEstacao = :edtEstacao"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtproprietario", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtProprietario = :edtProprietario"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtobservadornome", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtObservadorNome = :edtObservadorNome"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtobservadorendereco", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtObservadorEndereco = :edtObservadorEndereco"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtobservadorfone", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtObservadorFone = :edtObservadorFone"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtpotomografia", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtPotomografia = :edtPotomografia"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtareadrenagem", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtAreaDrenagem = :edtAreaDrenagem"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtacessibilidade", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtAcessibilidade = :edtAcessibilidade"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtlocalizacao", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtLocalizacao = :edtLocalizacao"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtdefasagem", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtDefasagem = :edtDefasagem"),
-    @NamedQuery(name = "EstacaoDetalhe.findByEdtconcentradora", query = "SELECT e FROM EstacaoDetalhe e WHERE e.edtConcentradora = :edtConcentradora")})
+
 public class EstacaoDetalhe implements Serializable {
 
     private static final long serialVersionUID = 1L;

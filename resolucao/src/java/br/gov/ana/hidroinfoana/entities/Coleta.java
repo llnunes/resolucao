@@ -11,8 +11,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,10 +25,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.COLETA")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Coleta.findAll", query = "SELECT c FROM Coleta c"),
-    @NamedQuery(name = "Coleta.findByColcodigo", query = "SELECT c FROM Coleta c WHERE c.colCodigo = :colCodigo"),
-    @NamedQuery(name = "Coleta.findByColdescricao", query = "SELECT c FROM Coleta c WHERE c.colDescricao = :colDescricao")})
 public class Coleta implements Serializable {
 
     private static final long serialVersionUID = 1L;

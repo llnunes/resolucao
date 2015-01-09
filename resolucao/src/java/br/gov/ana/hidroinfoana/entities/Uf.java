@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -28,10 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.UF")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Uf.findAll", query = "SELECT u FROM Uf u"),
-    @NamedQuery(name = "Uf.findByUfdcodigo", query = "SELECT u FROM Uf u WHERE u.ufdCodigo = :ufdCodigo"),
-    @NamedQuery(name = "Uf.findByUfdnome", query = "SELECT u FROM Uf u WHERE u.ufdNome = :ufdNome")})
+
 public class Uf implements Serializable {
 
     private static final long serialVersionUID = 1L;

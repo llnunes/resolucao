@@ -12,8 +12,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,32 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.HORARIA")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Horaria.findAll", query = "SELECT h FROM Horaria h"),
-    @NamedQuery(name = "Horaria.findByHorestacao", query = "SELECT h FROM Horaria h WHERE h.horariaPK.horEstacao = :horEstacao"),
-    @NamedQuery(name = "Horaria.findByHordatahora", query = "SELECT h FROM Horaria h WHERE h.horariaPK.horDataHora = :horDataHora"),
-    @NamedQuery(name = "Horaria.findByHordatahoraamostra", query = "SELECT h FROM Horaria h WHERE h.horDataHoraAmostra = :horDataHoraAmostra"),
-    @NamedQuery(name = "Horaria.findByHornivelencoder", query = "SELECT h FROM Horaria h WHERE h.horNivelEncoder = :horNivelEncoder"),
-    @NamedQuery(name = "Horaria.findByHornivelpressao", query = "SELECT h FROM Horaria h WHERE h.horNivelPressao = :horNivelPressao"),
-    @NamedQuery(name = "Horaria.findByHorniveldisplay", query = "SELECT h FROM Horaria h WHERE h.horNivelDisplay = :horNivelDisplay"),
-    @NamedQuery(name = "Horaria.findByHornivelmanual", query = "SELECT h FROM Horaria h WHERE h.horNivelManual = :horNivelManual"),
-    @NamedQuery(name = "Horaria.findByHornivelpapel", query = "SELECT h FROM Horaria h WHERE h.horNivelPapel = :horNivelPapel"),
-    @NamedQuery(name = "Horaria.findByHorniveladotado", query = "SELECT h FROM Horaria h WHERE h.horNivelAdotado = :horNivelAdotado"),
-    @NamedQuery(name = "Horaria.findByHorvazao", query = "SELECT h FROM Horaria h WHERE h.horVazao = :horVazao"),
-    @NamedQuery(name = "Horaria.findByHorchuva", query = "SELECT h FROM Horaria h WHERE h.horChuva = :horChuva"),
-    @NamedQuery(name = "Horaria.findByHorchuvaacumsensor", query = "SELECT h FROM Horaria h WHERE h.horChuvaAcumSensor = :horChuvaAcumSensor"),
-    @NamedQuery(name = "Horaria.findByHorchuvaacummanual", query = "SELECT h FROM Horaria h WHERE h.horChuvaAcumManual = :horChuvaAcumManual"),
-    @NamedQuery(name = "Horaria.findByHorchuvaacumadotada", query = "SELECT h FROM Horaria h WHERE h.horChuvaAcumAdotada = :horChuvaAcumAdotada"),
-    @NamedQuery(name = "Horaria.findByHorqchuvaacumadotada", query = "SELECT h FROM Horaria h WHERE h.horQChuvaAcumAdotada = :horQChuvaAcumAdotada"),
-    @NamedQuery(name = "Horaria.findByHorventovelocidade", query = "SELECT h FROM Horaria h WHERE h.horVentoVelocidade = :horVentoVelocidade"),
-    @NamedQuery(name = "Horaria.findByHorventodirecao", query = "SELECT h FROM Horaria h WHERE h.horVentoDirecao = :horVentoDirecao"),
-    @NamedQuery(name = "Horaria.findByHortemperatura", query = "SELECT h FROM Horaria h WHERE h.horTemperatura = :horTemperatura"),
-    @NamedQuery(name = "Horaria.findByHortemperaturaorvalho", query = "SELECT h FROM Horaria h WHERE h.horTemperaturaOrvalho = :horTemperaturaOrvalho"),
-    @NamedQuery(name = "Horaria.findByHorhumidade", query = "SELECT h FROM Horaria h WHERE h.horHumidade = :horHumidade"),
-    @NamedQuery(name = "Horaria.findByHorpressao", query = "SELECT h FROM Horaria h WHERE h.horPressao = :horPressao"),
-    @NamedQuery(name = "Horaria.findByHorpressaonmm", query = "SELECT h FROM Horaria h WHERE h.horPressaoNMM = :horPressaoNMM"),
-    @NamedQuery(name = "Horaria.findByHortempagua", query = "SELECT h FROM Horaria h WHERE h.horTempAgua = :horTempAgua"),
-    @NamedQuery(name = "Horaria.findByHorcondutividade", query = "SELECT h FROM Horaria h WHERE h.horCondutividade = :horCondutividade")})
+
 public class Horaria implements Serializable {
 
     private static final long serialVersionUID = 1L;

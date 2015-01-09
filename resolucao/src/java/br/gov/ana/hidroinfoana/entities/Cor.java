@@ -11,8 +11,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,13 +25,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.COR")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Cor.findAll", query = "SELECT c FROM Cor c"),
-    @NamedQuery(name = "Cor.findByCorcodigo", query = "SELECT c FROM Cor c WHERE c.corCodigo = :corCodigo"),
-    @NamedQuery(name = "Cor.findByCornome", query = "SELECT c FROM Cor c WHERE c.corNome = :corNome"),
-    @NamedQuery(name = "Cor.findByCorr", query = "SELECT c FROM Cor c WHERE c.corr = :corr"),
-    @NamedQuery(name = "Cor.findByCorg", query = "SELECT c FROM Cor c WHERE c.corg = :corg"),
-    @NamedQuery(name = "Cor.findByCorb", query = "SELECT c FROM Cor c WHERE c.corb = :corb")})
 public class Cor implements Serializable {
 
     private static final long serialVersionUID = 1L;

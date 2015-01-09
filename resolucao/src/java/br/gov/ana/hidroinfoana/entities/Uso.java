@@ -10,8 +10,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,10 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.USO")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Uso.findAll", query = "SELECT u FROM Uso u"),
-    @NamedQuery(name = "Uso.findByUsocodigo", query = "SELECT u FROM Uso u WHERE u.usoCodigo = :usoCodigo"),
-    @NamedQuery(name = "Uso.findByUsodescricao", query = "SELECT u FROM Uso u WHERE u.usoDescricao = :usoDescricao")})
+
 public class Uso implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +32,7 @@ public class Uso implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "USOCODIGO")
-    private Short usoCodigo;
+    private Integer usoCodigo;
     @Size(max = 30)
     @Column(name = "USODESCRICAO")
     private String usoDescricao;
@@ -47,15 +42,15 @@ public class Uso implements Serializable {
     public Uso() {
     }
 
-    public Uso(Short usoCodigo) {
+    public Uso(Integer usoCodigo) {
         this.usoCodigo = usoCodigo;
     }
 
-    public Short getUsoCodigo() {
+    public Integer getUsoCodigo() {
         return usoCodigo;
     }
 
-    public void setUsoCodigo(Short usoCodigo) {
+    public void setUsoCodigo(Integer usoCodigo) {
         this.usoCodigo = usoCodigo;
     }
 
