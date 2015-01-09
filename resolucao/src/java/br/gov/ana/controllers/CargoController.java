@@ -2,7 +2,6 @@ package br.gov.ana.controllers;
 
 import br.gov.ana.entities.Cargo;
 import br.gov.ana.controllers.util.JsfUtil;
-import br.gov.ana.controllers.util.PaginationHelper;
 import br.gov.ana.facade.CargoFacade;
 
 import java.io.Serializable;
@@ -14,20 +13,16 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
 @ManagedBean(name ="cargoController")
 @SessionScoped
 public class CargoController implements Serializable {
 
-    private Cargo current;
-    private DataModel items = null;
+    private Cargo current;  
     @EJB
     private br.gov.ana.facade.CargoFacade ejbFacade;
-    private PaginationHelper pagination;
-    private int selectedItemIndex;
+  
 
     public CargoController() {
     }
@@ -35,7 +30,7 @@ public class CargoController implements Serializable {
     public Cargo getSelected() {
         if (current == null) {
             current = new Cargo();
-            selectedItemIndex = -1;
+            
         }
         return current;
     }
@@ -44,37 +39,17 @@ public class CargoController implements Serializable {
         return ejbFacade;
     }
 
-    public PaginationHelper getPagination() {
-        if (pagination == null) {
-            pagination = new PaginationHelper(10) {
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
-
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                }
-            };
-        }
-        return pagination;
-    }
-
     public String prepareList() {
         recreateModel();
         return "List";
     }
 
-    public String prepareView() {
-        current = (Cargo) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    public String prepareView() {    
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Cargo();
-        selectedItemIndex = -1;
+        current = new Cargo();        
         return "Create";
     }
 
@@ -89,9 +64,7 @@ public class CargoController implements Serializable {
         }
     }
 
-    public String prepareEdit() {
-        current = (Cargo) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+    public String prepareEdit() {        
         return "Edit";
     }
 
@@ -106,28 +79,12 @@ public class CargoController implements Serializable {
         }
     }
 
-    public String destroy() {
-        current = (Cargo) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        performDestroy();
-        recreatePagination();
+    public String destroy() {        
+        performDestroy();        
         recreateModel();
         return "List";
     }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
-    }
-
+   
     private void performDestroy() {
         try {
             getFacade().remove(current);
@@ -137,48 +94,10 @@ public class CargoController implements Serializable {
         }
     }
 
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
-            selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
-        }
-    }
-
-    public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
-    }
-
     private void recreateModel() {
-        items = null;
+     
     }
-
-    private void recreatePagination() {
-        pagination = null;
-    }
-
-    public String next() {
-        getPagination().nextPage();
-        recreateModel();
-        return "List";
-    }
-
-    public String previous() {
-        getPagination().previousPage();
-        recreateModel();
-        return "List";
-    }
-
+    
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
     }

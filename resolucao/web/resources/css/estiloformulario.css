@@ -1,0 +1,249 @@
+/* 
+    Document   : layout
+    Created on : 14/03/2013, 18:07:04
+    Author     : lucas.nunes
+    Description:
+    Purpose of the stylesheet follows. 
+*/
+
+.ui-datatable .ui-column-filter  {
+    width: 95% !important; 
+}
+
+.cabecalho {
+    position: relative; 
+    z-index: 1001;    
+}
+
+.requiredLabel {
+    font-weight: bold !important;
+}
+
+.cabecalho .imagem {
+    float:left; 
+}
+.cabecalho .usuario {
+    height: 90px;  float: right; text-align: right;
+}
+.cabecalho .titulo {
+    text-align: right; 
+}
+
+.logoTitulo {	
+    height: 60px;
+    position: relative;
+    text-align: right;
+    top: 10px;
+    right: 15px;
+    vertical-align: middle;
+    color:#003399;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 170%;
+    font-weight: bold;
+}
+
+.resolucaoTitle {
+    right: 20px;
+    position: relative;
+    text-align: right;    
+    top: 10px;
+}
+
+
+#barraana {
+    background-color:#ededed;
+    background-image:url(http://portal.ana.gov.br/_img/linha_ana.gif);
+    background-position:50% 0;
+    background-repeat:repeat no-repeat;
+    border-bottom-color:#FFFFFF;
+    border-bottom-style:solid;
+    border-bottom-width:0;
+    border-top-color:#FFFFFF;
+    border-top-style:solid;
+    border-top-width:1px;
+    height:10px;
+    margin:0 auto;
+}
+
+.lastColumn {
+    width: 20px !important;
+    border-width: 0px !important;
+    border: 0px !important;
+}
+
+.cabecalhoNegrito {
+    font-weight: bold;
+}
+
+html, body {    
+    height: 97%; 
+} 
+/* hack para IE6 que trata height como min-height */ 
+* html #tudo { height: 100%; }
+
+#messagePanel {
+    padding-bottom: 10px; 
+    padding-left: 50px;
+}
+#messagesPanel {
+    padding-bottom: 10px; 
+    padding-left: 50px;
+}
+
+#conteudo { 
+    padding-bottom: 30px ; 
+}
+#principal {
+    padding-top: 5%;
+}
+#tudo { 
+    min-height: 96%; 
+    position: relative; 
+}
+
+* {
+    margin: 0;    
+    padding: 0;
+}
+
+.ui-menu .ui-menu-parent .ui-menu-child {
+    width: 250px !important;
+}
+
+.fontSiglas {    
+    font-size: small;
+}
+
+.ui-picklist .ui-picklist-list {
+    width: 500px;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+    color: #000000;
+}
+
+.widthInput{
+    width: 450px;
+}
+
+.linkColor {    
+    color: darkred
+}
+
+root { 
+    display: block;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #3a4f54;   
+    background-color: #ffffff;
+    font-size: small;
+}
+
+label {
+    white-space: nowrap !important;
+}
+
+td {
+    vertical-align: top;
+    padding-bottom: 5px;
+    font-size: small;     
+    border-width: 0px;        
+    vertical-align: auto;
+    padding-bottom: 0px;    
+    padding:0 2px;
+    white-space: nowrap;
+
+}
+
+a.formataLink:link, a.formataLink:visited {
+    text-decoration: none;
+    color: #105396;
+    font-family: Arial, Helvetica, sans-serif;    
+    font-weight: bold;
+}
+
+a.formataLink:hover {
+    text-decoration: underline;
+    color: #f00;
+}
+
+a.formataLink:active {        
+    text-decoration: none
+}
+
+table {
+    empty-cells: show;
+}
+
+fieldset {
+    border-color: #dfecf1;    
+    width: 50%;
+}
+
+legend {
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+    color: midnightblue;
+}
+
+#clear {
+    clear: both;
+}
+
+
+h1 {
+    font-size: xx-large;
+}
+
+h2 {
+    padding-bottom: 2px !important;   
+    position: relative;
+    text-align: right;   
+    right: 0px;
+    vertical-align: middle;
+    color: #0033dd;
+    font-family: Arial,Helvetica,sans-serif;    
+    font-weight: bold;
+}
+
+
+.ui-picklist .ui-picklist-list {
+    width: 500px !important;  
+}
+.ui-picklist .ui-picklist-filter {
+    width: 96% !important;  
+}
+
+#busyImage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.ajustaListaMensagemErro {
+    padding-left: 18px; 
+    padding-bottom: 10px;
+}
+.ui-selectonemenu-item.ui-selectonemenu-list-item.ui-state-highlight {
+    background: #a9c6c9 !important;
+}
+
+.ui-picklist-item.ui-corner-all.ui-state-highlight {  
+    background: url('/ResolucaoConjunta/javax.faces.resource/primefaces-sam/images/sprite.png.xhtml') repeat-x scroll left -1400px #2647A0;
+    color: #FFF !important;
+}
+
+.ui-picklist-item.ui-corner-all.ui-state-hover {
+    background: #a9c6c9 !important;
+
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-filter {
+    padding-right:2px !important;
+    width:95% !important;
+}
+/*#2647A0*/
+

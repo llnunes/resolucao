@@ -1,0 +1,199 @@
+/* 
+    Document   : icones
+    Created on : 18/08/2014, 10:01:20
+    Author     : lucas.nunes
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+.ui-icon-pesquisar { 
+    background-image: url('../resources/imagens/icones/lupa_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-adicionar { 
+    background-image: url('../resources/imagens/icones/add_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-salvar { 
+    background-image: url('../resources/imagens/icones/save_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-checar { 
+    background-image: url('../resources/imagens/icones/check_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-apagar { 
+    background-image: url('../resources/imagens/icones/eraser_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-expandir { 
+    background-image: url('../resources/imagens/icones/expand_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-projetos { 
+    background-image: url('../resources/imagens/icones/projetos_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-relatorios { 
+    background-image: url('../resources/imagens/icones/relatorios_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-relatorio-anual { 
+    background-image: url('../resources/imagens/icones/relatorio_anual_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-relatorio-396 { 
+    background-image: url('../resources/imagens/icones/r396_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-proposta-batimetria { 
+    background-image: url('../resources/imagens/icones/proposta_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-relatorio-batimetria { 
+    background-image: url('../resources/imagens/icones/relatorio_batimetria_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-entrar { 
+    background-image: url('../resources/imagens/icones/entrar_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-left: 8px;
+}
+
+.ui-icon-casa { 
+    background-image: url('../resources/imagens/icones/home_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-usuarios { 
+    background-image: url('../resources/imagens/icones/users_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-chave { 
+    background-image: url('../resources/imagens/icones/key_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-configuracao { 
+    background-image: url('../resources/imagens/icones/config_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-cadeado { 
+    background-image: url('../resources/imagens/icones/lock_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-sair { 
+    background-image: url('../resources/imagens/icones/exit_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-historico { 
+    background-image: url('../resources/imagens/icones/historico_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-atividades { 
+    background-image: url('../resources/imagens/icones/atividades_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+
+.ui-icon-mapa { 
+    background-image: url('../resources/imagens/icones/map_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-editar { 
+    background-image: url('../resources/imagens/icones/edit_16xx16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-excluir { 
+    background-image: url('../resources/imagens/icones/delete_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-excel-completo { 
+    background-image: url('../resources/imagens/icones/excel_completo_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-excel-pagina { 
+    background-image: url('../resources/imagens/icones/excel_pagina_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+
+.ui-icon-voltar { 
+    background-image: url('../resources/imagens/icones/voltar_16x16.png') !important; 
+    width: 16px;height: 16px;
+    float: left;
+    margin-right: 8px;
+}
+

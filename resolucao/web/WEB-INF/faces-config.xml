@@ -6,14 +6,25 @@
     xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+       
+    <render-kit>
+        <renderer>
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>javax.faces.Label</renderer-type>
+            <renderer-class>br.gov.ana.renderers.MyLabelRenderer</renderer-class>
+        </renderer>
+    </render-kit> 
+    
     <application>
         <resource-bundle>
             <base-name>/Bundle</base-name>
             <var>bundle</var>
         </resource-bundle>
-        <resource-bundle>
-            <base-name>/Bundle</base-name>
-            <var>bundle</var>
-        </resource-bundle>
+        <message-bundle>messages</message-bundle>
+        
+        <converter>
+            <converter-id>latLong</converter-id>
+            <converter-class>br.gov.ana.converters.LatLongConverter</converter-class>
+        </converter>
     </application>
 </faces-config>
