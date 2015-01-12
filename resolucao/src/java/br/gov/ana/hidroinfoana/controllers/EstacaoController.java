@@ -33,7 +33,7 @@ public class EstacaoController implements Serializable {
         return current;
     }
 
-    private EstacaoFacade getFacade() {
+    public EstacaoFacade getFacade() {
         return ejbFacade;
     }
 

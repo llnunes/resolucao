@@ -33,7 +33,7 @@ public class TecnicoController implements Serializable {
         return current;
     }
 
-    private TecnicoFacade getFacade() {
+    public TecnicoFacade getFacade() {
         return ejbFacade;
     }
 

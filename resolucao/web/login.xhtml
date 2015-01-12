@@ -45,13 +45,13 @@
                             <br/>
                             <h:panelGrid columns="3"> 
                                 <h:outputLabel styleClass="label" value="#{bundle.LoginUsuarioLabel_ureTxLogin} " for="ureTxLogin"/>
-                                <p:inputText value="#{autenticadorController.usuario.ureTxLogin}" id="ureTxLogin" required="true" requiredMessage="#{bundle.LoginUsuarioRequired_ureTxLogin}">
+                                <p:inputText value="#{autenticadorController.usuarioResolucao.ureTxLogin}" id="ureTxLogin" required="true" requiredMessage="#{bundle.LoginUsuarioRequired_ureTxLogin}">
                                     <p:focus for="ureTxLogin"/>
                                 </p:inputText>
 
                                 <p:message for="ureTxLogin" showSummary="true" showDetail="false"/>
                                 <h:outputLabel styleClass="label" value="#{bundle.LoginUsuarioLabel_ureTxSenha} " for="ureTxSenha"/>
-                                <p:password value="#{autenticadorController.usuario.ureTxSenha}" id="ureTxSenha" required="true" requiredMessage="#{bundle.LoginUsuarioRequired_ureTxSenha}"/>
+                                <p:password value="#{autenticadorController.usuarioResolucao.ureTxSenha}" id="ureTxSenha" required="true" requiredMessage="#{bundle.LoginUsuarioRequired_ureTxSenha}"/>
                                 <p:message for="ureTxSenha" showSummary="true" showDetail="false"/>
                                 <p:commandButton id="entrarCommand"  iconPos="right" icon="#{bundle.icone_entrar}" ajax="false" value="#{bundle.LoginUsuarioLabel_entrarCommand}" action="#{autenticadorController.autenticar}"/>                       
 

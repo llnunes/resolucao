@@ -4,8 +4,8 @@
  */
 package br.gov.ana.converters;
 
-import br.gov.ana.controllers.EstacaoController;
-import br.gov.ana.entities.Estacao;
+import br.gov.ana.hidroinfoana.controllers.EstacaoController;
+import br.gov.ana.hidroinfoana.entities.Estacao;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -35,20 +35,8 @@ public class EstacaoConverter implements Converter {
         }
         EstacaoController controller = (EstacaoController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "estacaoController");
-        return controller.getEjbFacade().find(getKey(value));
-    }
-
-    java.math.BigDecimal getKey(String value) {
-        java.math.BigDecimal key;
-        key = new java.math.BigDecimal(value);
-        return key;
-    }
-
-    String getStringKey(java.math.BigDecimal value) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(value);
-        return sb.toString();
-    }
+        return controller.getFacade().find(value);
+    }   
 
     /**
      *
@@ -64,7 +52,7 @@ public class EstacaoConverter implements Converter {
         }
         if (object instanceof Estacao) {
             Estacao o = (Estacao) object;
-            return getStringKey(o.getEstId());
+            return o.getEstId();
         } else {
             throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + EstacaoController.class.getName());
         }

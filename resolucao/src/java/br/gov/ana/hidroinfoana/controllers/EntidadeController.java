@@ -1,7 +1,6 @@
 package br.gov.ana.hidroinfoana.controllers;
 
 import br.gov.ana.controllers.util.JsfUtil;
-import br.gov.ana.controllers.util.PaginationHelper;
 import br.gov.ana.hidroinfoana.entities.Entidade;
 import br.gov.ana.hidroinfoana.facade.EntidadeFacade;
 
@@ -14,8 +13,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
 @ManagedBean(name = "entidadeController")

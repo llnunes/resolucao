@@ -8,7 +8,7 @@ import br.gov.ana.controllers.HistResolucaoController;
 import br.gov.ana.controllers.TipoEntidadeController;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.entities.HistResolucao;
-import br.gov.ana.entities.Usuario;
+import br.gov.ana.entities.UsuarioResolucao;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -27,15 +27,15 @@ public class RegistraHistorico implements Serializable {
     private TipoEntidadeController controllerTipoEntidade;
     
 
-    private Usuario usuarioLogado() {
-        Usuario usuario = null;
+    private UsuarioResolucao usuarioLogado() {
+        UsuarioResolucao usuario = null;
 
         facesContext = FacesContext.getCurrentInstance();
         ExternalContext ec = facesContext.getExternalContext();
         HttpSession session = (HttpSession) ec.getSession(false);
 
         if (session.getAttribute("usuario") != null) {
-            usuario = (Usuario) session.getAttribute("usuario");
+            usuario = (UsuarioResolucao) session.getAttribute("usuario");
         }
         return usuario;
     }

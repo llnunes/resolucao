@@ -33,7 +33,7 @@ public class UsinaController implements Serializable {
         return current;
     }
 
-    private UsinaFacade getFacade() {
+    public UsinaFacade getFacade() {
         return ejbFacade;
     }
 

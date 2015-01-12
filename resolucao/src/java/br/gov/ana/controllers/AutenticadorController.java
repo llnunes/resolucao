@@ -10,6 +10,7 @@ import br.gov.ana.controllers.util.MD5;
 import br.gov.ana.entities.UsuarioResolucao;
 import br.gov.ana.facade.UsuarioResolucaoFacade;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -29,7 +30,6 @@ public class AutenticadorController {
     private UsuarioResolucao usuario = new UsuarioResolucao();
     @EJB
     private UsuarioResolucaoFacade ejb;
-    private Calendar cal = GregorianCalendar.getInstance();
     private String ano;
 
     public String autenticar() {
@@ -78,9 +78,8 @@ public class AutenticadorController {
     public UsuarioResolucao getUsuarioResolucao() {
         return usuario;
     }
-    
 
-     public boolean getUsuarioResolucaoLogado() {
+    public boolean getUsuarioLogado() {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         HttpSession session = (HttpSession) ec.getSession(false);
@@ -91,8 +90,8 @@ public class AutenticadorController {
         }
         return false;
     }
-    
-    public String getLoginUsuarioResolucao() {
+
+    public String getLoginUsuario() {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         HttpSession session = (HttpSession) ec.getSession(false);
@@ -117,7 +116,7 @@ public class AutenticadorController {
         }
         return false;
     }
-    
+
     public boolean getLoginEmpresa(String login) {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
@@ -131,8 +130,8 @@ public class AutenticadorController {
         }
         return false;
     }
-    
-    public boolean getLoginRestrito (){
+
+    public boolean getLoginRestrito() {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         HttpSession session = (HttpSession) ec.getSession(false);
@@ -145,8 +144,8 @@ public class AutenticadorController {
         }
         return false;
     }
-    
-    public boolean getLoginRestrito2 (){
+
+    public boolean getLoginRestrito2() {
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
         HttpSession session = (HttpSession) ec.getSession(false);
@@ -167,9 +166,9 @@ public class AutenticadorController {
 
         if (session.getAttribute("usuario") != null) {
             UsuarioResolucao us = (UsuarioResolucao) session.getAttribute("usuario");
-            if (us.getUrePermissao() == 3) {
-                return true;
-            }
+            /* if (us.getUrePermissao() == 3) {
+             return true;
+             }*/
         }
         return false;
     }
@@ -177,7 +176,7 @@ public class AutenticadorController {
     //15,5 anel
 
     public void idleListener() {
-        JsfUtil.addErrorMessage("Sess�o Expirada!");
+        JsfUtil.addErrorMessage("Sessão Expirada!");
     }
 
     public String activeListener() {
@@ -185,12 +184,15 @@ public class AutenticadorController {
     }
 
     public String getAno() {
+        Calendar cal = GregorianCalendar.getInstance();        
+        cal.setTime(new Date(System.currentTimeMillis()));
         return LocaleController.getMessage("/Bundle.properties", "footerMsgApplication", "" + cal.get(Calendar.YEAR));
     }
 
     public void setAno(String ano) {
         this.ano = ano;
-    }    
+    }
+
     public void setUsuarioResolucao(UsuarioResolucao usuario) {
         this.usuario = usuario;
     }

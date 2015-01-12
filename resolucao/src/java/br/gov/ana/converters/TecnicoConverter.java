@@ -32,7 +32,7 @@ public class TecnicoConverter implements Converter {
         }
         TecnicoController controller = (TecnicoController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "tecnicoController");
-        return controller.getEjbFacade().find(getKey(value));
+        return controller.getFacade().find(getKey(value));
     }
 
     java.math.BigDecimal getKey(String value) {
