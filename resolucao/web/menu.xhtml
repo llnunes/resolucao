@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+    <p:menubar rendered="#{autenticadorController.usuarioLogado}">
+
+        <p:menuitem ajax="false" value="#{bundle.menuPaginaPrincipal}" immediate="true" action="/index" icon="#{bundle.icone_home}"/>
+
+        <p:submenu label="#{bundle.menuEmpresas}" > 
+
+            <p:submenu label="#{bundle.menuEmpresas}">
+
+                <p:menuitem ajax="false" value="#{bundle.menuNova}" immediate="true" action="#{orgaoController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="#{orgaoController.prepareList}" icon="#{bundle.icone_pesquisa}" />
+                <p:menuitem ajax="false" value="#{bundle.menuListaInativas}" immediate="true" action="#{orgaoController.prepareListaInativos}" icon="#{bundle.icone_pesquisa}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuControleSenhas}" immediate="true" rendered="#{autenticadorController.loginAdmin}" action="/orgaoUsuario/ControleSenhas" icon="#{bundle.icone_cadeado}"/>
+
+            </p:submenu>
+        </p:submenu>
+
+        <p:submenu label="#{bundle.menuTecnicos}">
+            <p:submenu label="#{bundle.menuTecnicos}">
+                <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{tecnicoController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="#{tecnicoController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+            </p:submenu>           
+        </p:submenu>
+
+        <p:submenu label="#{bundle.menuUsinas}">
+            <p:submenu label="#{bundle.menuUsinas}">
+                <p:menuitem ajax="false" value="#{bundle.menuNova}" immediate="true" action="#{usinaController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="#{usinaController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuListaInativas}" immediate="true" action="#{usinaController.prepareListaInativos}" icon="#{bundle.icone_pesquisa}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuListaSemTecnicos}" immediate="true" action="#{usinaController.prepareListaSemTecnico}" icon="#{bundle.icone_pesquisa}"/>                
+
+
+                <p:submenu label="#{bundle.menuTipoUsina}">
+                    <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{tipoUsinaController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+                    <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="/tipoUsina/List" icon="#{bundle.icone_pesquisa}"/>
+                </p:submenu> 
+
+                <p:submenu label="#{bundle.menuUsinaSituacao}">
+                    <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{tipoUsinaController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+                    <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="/usinaSituacao/List" icon="#{bundle.icone_pesquisa}"/>
+                </p:submenu> 
+
+            </p:submenu>
+
+            <p:submenu label="#{bundle.menuAtoLegal}">
+                <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{atoLegalController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="/atoLegal/List" icon="#{bundle.icone_pesquisa}"/>
+
+                <p:submenu label="#{bundle.menuTipoAtoLegal}">
+                    <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{tipoAtoLegalController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+                    <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="/tipoAtoLegal/List" icon="#{bundle.icone_pesquisa}"/>
+                </p:submenu> 
+            </p:submenu>
+
+
+        </p:submenu>
+
+        <p:submenu label="#{bundle.menuDocumentos}" >
+
+            <p:submenu label="#{bundle.menuDocumentosPrincipais}">
+                <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{controleDocumentoController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>                                
+                <p:menuitem ajax="false" value="#{bundle.menuListaDocumentos}" immediate="true" action="#{controleDocumentoController.prepareListaProjetos}" icon="#{bundle.icone_pesquisa}"/>                
+                <p:submenu label="#{bundle.menuTipos}">
+                    <p:menuitem ajax="false" value="#{bundle.menuTipoDocumento}" immediate="true" action="#{tipoDocumentoController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+                    <p:menuitem ajax="false" value="#{bundle.menuTipoOperacao}" immediate="true" action="#{tipoOperacaoController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+                    <p:menuitem ajax="false" value="#{bundle.menuTipoStatus}" immediate="true" action="#{statusDocController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+                </p:submenu>
+
+                <p:submenu label="#{bundle.menuResponsaveis}">
+                    <p:menuitem ajax="false" value="#{bundle.menuResponsavel}" immediate="true" action="#{responsavelController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+                    <p:menuitem ajax="false" value="#{bundle.menuArea}" immediate="true" action="#{areaController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+                    <p:menuitem ajax="false" value="#{bundle.menuCargo}" immediate="true" action="#{cargoController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+                </p:submenu>
+            </p:submenu>
+
+            <p:submenu label="#{bundle.menuDocumentosOutros}">
+                <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{controleDocumentoOutrosController.prepareCreateOuterDocs}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuListaDocumentosOutros}" immediate="true" action="#{controleDocumentoOutrosController.prepareList}" icon="#{bundle.icone_pesquisa}"/>                                
+                <p:menuitem ajax="false" value="#{bundle.menuListaDocumentosOutrosOficiosCirculares}" immediate="true" action="#{controleDocumentoOutrosController.prepareListOficiosCirculares}" icon="#{bundle.icone_pesquisa}"/>                                
+            </p:submenu>
+
+            <p:submenu label="#{bundle.menuRelatorios}">
+                <p:menuitem ajax="false" value="#{bundle.menuListaUsinasSemDocumentos}" immediate="true" action="#{controleDocumentoController.prepareListaUsinasSemDocumentos}" icon="#{bundle.icone_pesquisa}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuListaDocumentosSemNovaVersao}" immediate="true" action="#{controleDocumentoController.prepareListaDocumentosSemNovaVersao()}" icon="#{bundle.icone_pesquisa}"/>
+                <ui:remove><p:menuitem ajax="false" value="#{bundle.menuListaDocumentosUsinaPrazoProjeto}" immediate="true" action="#{controleDocumentoController.prepareListaUsinasPrazoProjeto}" icon="#{bundle.icone_pesquisa}"/></ui:remove>
+                <p:menuitem ajax="false" value="#{bundle.menuListaDocumentosUsinaPrazoRelatorio}" immediate="true" action="#{controleDocumentoController.prepareListaUsinasPrazoRelatorio}" icon="#{bundle.icone_pesquisa}"/>                
+            </p:submenu>
+        </p:submenu>
+
+        <p:submenu label="#{bundle.menuRelatorios}">
+            <p:submenu label="#{bundle.menuWebservice}"> 
+
+                <p:menuitem ajax="false" value="#{bundle.menuRelatorioWebservice}" immediate="true" action="#{relatorioWebServiceController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuRelatorioWebserviceUtilizacao}" immediate="true" action="#{relatorioWebServiceController.prepareListUtilizacao}" icon="#{bundle.icone_pesquisa}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuRelatorioWebservicePorEstacao}" immediate="true" action="#{relatorioWebServiceController.prepareListPorEstacao}" icon="#{bundle.icone_pesquisa}"/>
+                <p:menuitem ajax="false" value="Ultimos dados" immediate="true" action="#{relatorioWebServiceController.prepareListUltimosDados}" icon="#{bundle.icone_pesquisa}"/>
+            </p:submenu>
+
+            <p:submenu label="#{bundle.menuGerencial}"> 
+                <p:menuitem ajax="false" value="#{bundle.menuRelatorioAtividades}" immediate="true" action="#{relatorioAtividadesController.prepareRelatorioAtividades}" icon="#{bundle.icone_relatorio_atividades}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuRelatorioCVHMs}" immediate="true" action="#{relatorioCVHMsController.prepareRelatorioCVHMs}" icon="#{bundle.icone_relatorio_atividades}"/>
+            </p:submenu>
+
+        </p:submenu>           
+
+        <p:submenu label="#{bundle.menuMapas}" >
+            <p:menuitem ajax="false" value="#{bundle.menuUsinasMapa}" immediate="true" action="#{mapaUsinaController.prepareMapa}" icon="#{bundle.icone_mapa}"/>
+            <p:menuitem ajax="false" value="#{bundle.menuEstacoesMapa}" immediate="true" action="#{mapaEstacaoController.prepareMapa}" icon="#{bundle.icone_mapa}"/>            
+        </p:submenu>
+
+        <p:submenu label="#{bundle.menuUsuarios}" rendered="#{autenticadorController.loginAdmin}" icon="#{bundle.icone_usuario}">
+            <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{usuarioController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+            <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="/usuario/List" icon="#{bundle.icone_pesquisa}"/>
+
+        </p:submenu>
+
+        <p:menuitem ajax="false" value="#{bundle.menuAlterarSenha}" immediate="true" rendered="#{!autenticadorController.loginVisualizador}" action="/usuario/changePass" icon="#{bundle.icone_key}"/>
+
+        <p:menuitem ajax="false" value="#{bundle.menuHistResolucao}" immediate="true" rendered="#{autenticadorController.loginAdmin}" action="#{histResolucaoController.prepareList()}" icon="#{bundle.icone_historico}"/>
+
+        <p:submenu label="#{bundle.menuConfiguracoes}" rendered="#{autenticadorController.loginAdmin}" icon="#{bundle.icone_configuracao}">
+            <p:menuitem ajax="false" value="#{bundle.menuEmpresaEstacao}" immediate="true" action="#{orgaoEstacaoController.prepareList}" icon="#{bundle.icone_pesquisa}" rendered="#{autenticadorController.loginAdmin}"/>
+            <p:menuitem ajax="false" value="#{bundle.menuEmpresaUsuario}" immediate="true" action="#{orgaoUsuarioController.prepareList}" icon="#{bundle.icone_pesquisa}" rendered="#{autenticadorController.loginAdmin}"/>
+            <p:menuitem ajax="false" value="#{bundle.menuEmpresaUnidade}" immediate="true" action="#{orgaoUnidadeController.prepareList}" icon="#{bundle.icone_pesquisa}" rendered="#{autenticadorController.loginAdmin}"/>
+
+        </p:submenu>
+
+        <p:menuitem ajax="false"  value="#{bundle.menuSair}" immediate="true" action="#{autenticadorController.sair}" icon="#{bundle.icone_power}"/>
+
+    </p:menubar>
+
+</ui:composition>
+

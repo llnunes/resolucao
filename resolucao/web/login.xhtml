@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"      
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>#{bundle.titleApplication}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <h:outputStylesheet name="estiloformulario.css" library="css"/> 
+        <h:outputStylesheet name="icones.css" library="css"/>   
+    </h:head>
+
+    <script src="http://portal2010.ana.gov.br/barragoverno/barraGov.js" />
+    <div id="barraana"/>
+    <h:body style="background: white;">  
+        <div id="tudo">
+            <div id="topo">
+                <p:panel>
+                    <div style="clear: both;"></div>
+                    <div class="cabecalho">
+                        <div class="imagem">
+                            <p:graphicImage  value="#{bundle.imgLogoLocation}" /> 
+                        </div>               
+
+                        <div class="titulo">
+                            <h:outputText styleClass="logoTitulo" value="#{bundle.titleApplication}"/><br/>
+                            <h:outputText styleClass="resolucaoTitle" value="#{bundle.titleResolucao}"/>
+                        </div>
+
+                    </div>
+                    <div style="clear: both;"></div>
+
+                </p:panel>
+            </div>
+
+            <h:form>    
+                <div id="conteudo" align="center">
+                    <div id="principal" align="center" >
+                        <p:growl id="messages"  life="10000"/>              
+
+                        <h3><h:outputText value="#{bundle.LegendLoginUsuario} " /></h3>
+                        <p:fieldset style="width: 30%" >
+                            <br/>
+                            <h:panelGrid columns="3"> 
+                                <h:outputLabel styleClass="label" value="#{bundle.LoginUsuarioLabel_ureTxLogin} " for="ureTxLogin"/>
+                                <p:inputText value="#{autenticadorController.usuario.ureTxLogin}" id="ureTxLogin" required="true" requiredMessage="#{bundle.LoginUsuarioRequired_ureTxLogin}">
+                                    <p:focus for="ureTxLogin"/>
+                                </p:inputText>
+
+                                <p:message for="ureTxLogin" showSummary="true" showDetail="false"/>
+                                <h:outputLabel styleClass="label" value="#{bundle.LoginUsuarioLabel_ureTxSenha} " for="ureTxSenha"/>
+                                <p:password value="#{autenticadorController.usuario.ureTxSenha}" id="ureTxSenha" required="true" requiredMessage="#{bundle.LoginUsuarioRequired_ureTxSenha}"/>
+                                <p:message for="ureTxSenha" showSummary="true" showDetail="false"/>
+                                <p:commandButton id="entrarCommand"  iconPos="right" icon="#{bundle.icone_entrar}" ajax="false" value="#{bundle.LoginUsuarioLabel_entrarCommand}" action="#{autenticadorController.autenticar}"/>                       
+
+                            </h:panelGrid>
+                        </p:fieldset>
+
+                    </div>
+
+                    <div id="auxiliar" align="center">
+                        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px;" id="ajaxStatusPanel">
+                            <f:facet name="start">
+                                <h:graphicImage value="/imagens/loading.gif" />
+                            </f:facet>
+
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
+                    </div>
+                    <div id="clear"></div> 
+                </div>
+            </h:form>
+
+        </div>
+        <hr/>
+        <div style="text-align: center; padding-bottom: 10px; padding-top: 10px;">
+            <h:outputLink id="sitioAna_login" styleClass="formataLink" target="new" value="#{bundle.sitioAna}">#{autenticadorController.ano}</h:outputLink> <h:outputLabel value="#{bundle.footerMsgDesenvolvedor}"/><br/>
+            <h:outputLink id="sitioResolucao_login" styleClass="formataLink" target="new" value="#{bundle.sitioResolucao}">#{bundle.footerMsgSitioResolucao}</h:outputLink>
+        </div> 
+
+    </h:body>
+
+</html>

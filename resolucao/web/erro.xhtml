@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <title><ui:insert name="title">#{bundle.titleApplication} </ui:insert></title>        
+        <h:outputStylesheet name="estilolista.css" library="css"/>  
+        <h:outputStylesheet name="icones.css" library="css"/>   
+    </h:head>
+
+    <script src="http://portal2010.ana.gov.br/barragoverno/barraGov.js" />
+    <div id="barraana"/>
+    <h:body>     
+        <div id="tudo">
+            <h:form id="formList"> 
+                <div id="topo">
+                    <p:panel>
+                        <div style="clear: both;"></div>
+                        <div class="cabecalho">
+                            <div class="imagem">
+                                <p:graphicImage  value="#{bundle.imgLogoLocation}" /> 
+                            </div>                     
+                            <div class="titulo">
+                                <h:outputText styleClass="logoTitulo" value="#{bundle.titleApplication}"/><br/>
+                                <h:outputText styleClass="resolucaoTitle" value="#{bundle.titleResolucao}"/>
+                            </div>
+                        </div>
+                        <div style="clear: both;"></div>
+
+                    </p:panel>
+
+
+
+                </div>
+
+                <div id="conteudo" align="left"> 
+                    <p:panel>
+                        <div style="clear: both;"></div>
+                        <div style="position: relative; z-index: 1000;">
+                            <div style="float:left;">
+                                <h2 style="padding-bottom: 10px; color: red;">
+                                    <ui:insert name="title">#{bundle.ErroGeral_title}</ui:insert>             
+                                </h2>
+                            </div>
+                            <div align="right" style="float: top; text-align: right;">
+                                <h:outputText value="#{bundle.menuUsuarioLogado} #{autenticadorController.loginUsuario}"/>
+                            </div>
+
+                        </div>
+                        <div style="clear: both;"></div>
+                        <br/>
+                        <p>
+                            <h:outputText value="#{bundle.ErroGeral_msg}"/> <br/><br/>
+                            <p:commandButton ajax="false"  value="#{bundle.idleMonitorDialog_button}" immediate="true" action="#{autenticadorController.sair}" icon="#{bundle.icone_power}" />
+                        </p>        
+                        <br/><br/>
+                        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px;" id="ajaxStatusPanel">
+                            <f:facet name="start">
+                                <h:graphicImage value="/imagens/loading.gif" />
+                            </f:facet>
+
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>            
+                    </p:panel>
+
+                </div>              
+            </h:form> 
+        </div>
+        <hr/>
+
+        <div style="text-align: center; padding-bottom: 10px; padding-top: 10px;">
+            <h:outputLink id="sitioAna_erroPage" styleClass="formataLink" target="new" value="#{bundle.sitioAna}">#{autenticadorController.ano}</h:outputLink> <h:outputLabel value="#{bundle.footerMsgDesenvolvedor}"/><br/>
+            <h:outputLink id="sitioResolucao_erroPage" styleClass="formataLink" target="new" value="#{bundle.sitioResolucao}">#{bundle.footerMsgSitioResolucao}</h:outputLink>
+        </div> 
+    </h:body>
+
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"      
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateclean.xhtml">
+        <ui:define name="title">
+            
+        </ui:define>
+        <ui:define name="body">
+
+            <div style="width: 30%;">
+
+                <p:panel header="#{bundle.titleVersionPage}">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel style="font-weight: bold;" value="#{bundle.revision_title}"/>
+                        <p:outputLabel  value="#{bundle.revision}"/>
+                        <p:outputLabel style="font-weight: bold;" value="#{bundle.autor_title}"/>
+                        <p:outputLabel value="#{bundle.autor}"/>
+                        <p:outputLabel style="font-weight: bold;" value="#{bundle.data_title}"/>            
+                        <p:outputLabel value="#{bundle.data}"/> 
+                    </h:panelGrid>
+                </p:panel>
+            </div>            
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" >
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />        
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <title><ui:insert name="title">#{bundle.titleApplication}</ui:insert></title>        
+        <h:outputStylesheet name="estiloformulario.css" library="css"/>        
+        <h:outputStylesheet name="icones.css" library="css"/>        
+        <h:outputScript name="locale-primefaces.js" library="js" />         
+        <h:outputScript name="mascaras.js" library="js" />              
+
+    </h:head>
+   
+    <script src="http://portal2010.ana.gov.br/barragoverno/barraGov.js" />
+
+    <div id="barraana"/> 
+    <h:body >       
+        <div id="tudo">
+            <h:form id="formPrincipal">                 
+                <div id="topo">                
+                    <p:panel id="panelPrincipal_template2">
+                        <div style="clear: both;"></div>
+                        <div class="cabecalho">
+                            <div class="imagem">
+                                <p:graphicImage id="logo_template2" value="#{bundle.imgLogoLocation}" /> 
+                            </div>
+                            <div class="titulo">
+                                <h:outputText id="titleApplication_template2" styleClass="logoTitulo" value="#{bundle.titleApplication}"/><br/>
+                                <h:outputText id="titleResolucao_template2" styleClass="resolucaoTitle" value="#{bundle.titleResolucao}"/>
+                            </div>
+                        </div>
+                        <div style="clear: both;"></div>
+
+                    </p:panel>
+
+                    <ui:include src="/menu.xhtml"/>
+
+                </div>
+
+                <div id="conteudo" align="left"> 
+                    <p:panel >
+                        <div style="clear: both;"></div>
+                        <div style="position: relative; z-index: 1000;">
+                            <div style="float:left;">
+                                <h2 style="padding-bottom: 10px;">
+                                    <ui:insert name="title">Default Title</ui:insert>             
+                                </h2>
+                            </div>
+                            <div align="right" style="float: top; text-align: right;">
+                                <h:outputText id="menuUsuarioLogado_template2" value="#{bundle.menuUsuarioLogado} #{autenticadorController.loginUsuario}"/>
+                            </div>
+
+                        </div>
+
+                        <div style="clear: both;"></div>
+
+                        <p>
+                            <ui:insert name="body">Default Body</ui:insert>                            
+                        </p>
+                        <h5 style="padding-top: 3px;">
+                            <h:outputText id="camposObrigatorios_template2" value="#{bundle.camposObrigatorios}" style="color: red;"/>
+                        </h5>
+                    </p:panel>
+
+                    <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px;" id="ajaxStatusPanel_template2">
+                        <f:facet name="start">
+                            <h:graphicImage id="loading_template2" value="/imagens/loading.gif" />
+                        </f:facet>
+
+                        <f:facet name="complete">
+                            <h:outputText id="txt_template2" value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+
+                </div>
+
+                <p:idleMonitor timeout="#{bundle.idleMonitor_timeout}">
+                    <p:ajax event="idle"   listener="#{autenticadorController.idleListener}" onstart="dialogSessao.show()" />
+                </p:idleMonitor>
+
+                <p:dialog id="dialogSessaoExpirada" widgetVar="dialogSessao" width="580" resizable="false" modal="true" closable="false" header="#{bundle.idleMonitorDialog_header}">
+                    <h:panelGrid columns="1" style="text-align: right;">
+                        <h:outputText id="idleMonitorDialog_msg_template2" value="#{bundle.idleMonitorDialog_msg}"/>
+                        <p:commandButton id="idleMonitorDialog_button_template2" value="#{bundle.idleMonitorDialog_button}" action="#{autenticadorController.activeListener}" ajax="false" immediate="true"/>
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+        </div>
+        <hr/>
+
+        <div style="text-align: center; padding-bottom: 10px; padding-top: 10px;">
+            <h:outputLink id="sitoAna_template2" styleClass="formataLink" target="new" value="#{bundle.sitioAna}">#{autenticadorController.ano}</h:outputLink> <h:outputLabel value="#{bundle.footerMsgDesenvolvedor}"/><br/>
+            <h:outputLink id="sitioResolucao_template2" styleClass="formataLink" target="new" value="#{bundle.sitioResolucao}">#{bundle.footerMsgSitioResolucao}</h:outputLink>
+        </div> 
+    </h:body>
+
+</html>
