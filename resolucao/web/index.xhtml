@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        <h:outputStylesheet name="estiloformulario.css" library="css"/>    
+        <h:outputStylesheet name="icones.css" library="css"/>       
+
+        <title>#{bundle.titleApplication}</title>        
+    </h:head>
+
+    <script src="http://portal2010.ana.gov.br/barragoverno/barraGov.js" />
+    <div id="barraana"/> 
+    <h:body >
+
+        <div id="tudo">
+            <h:form >
+                <div id="topo">
+                    <p:panel id="panelPrincipal_index" >
+                        <div style="clear: both; "></div>
+                        <div class="cabecalho">
+                            <div class="imagem">
+                                <p:graphicImage id="imgLogoLocation_index" value="#{bundle.imgLogoLocation}" style="background-color: #ededed"/> 
+                            </div>                 
+                            <div class="titulo">
+                                <h:outputText id="titleApplication_index" styleClass="logoTitulo" value="#{bundle.titleApplication}"/><br/>                        
+                            </div>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </p:panel>
+
+                    <ui:include src="/menu.xhtml"/>
+                </div>
+
+                <div id="conteudo" align="center"> 
+                    <div align="right"  style="padding-right: 15px; padding-top: 10px;">
+                        <h:outputText id="menuUsuarioLogado_index" value="#{bundle.menuUsuarioLogado} #{autenticadorController.loginUsuario}"/>
+                    </div>
+                    <br/>     
+                    <div align="center">
+                        <p:graphicImage id="logo_ana_aneel_index" value="/imagens/logo_ana_aneel.png" /> 
+                    </div>
+                </div>
+
+                <ui:remove>
+                    <p:dialog id="dialogNova_index"  widgetVar="dialogNovaEmpresa" header="#{bundle.novaEmpresaDialog_header}"
+                              position="center" width="500" resizable="false" modal="true" rendered="#{orgaoController.existeNovaEmpresa}">
+                        <h:panelGrid columns="1">
+                            <p:outputLabel id="novaEmpresaDialog_msg1_index" value="#{bundle.novaEmpresaDialog_msg1}"/>
+                            <p:outputLabel id="novaEmpresaDialog_msg2_index" value="#{bundle.novaEmpresaDialog_msg2}"/>
+                        </h:panelGrid>
+                        <p:commandButton value="#{bundle.novaEmpresaDialog_fecharButton}" onclick="dialogNovaEmpresa.hide();"/>
+                    </p:dialog>
+                </ui:remove>
+
+                <p:idleMonitor timeout="#{bundle.idleMonitor_timeout}">
+                    <p:ajax event="idle" listener="#{autenticadorController.idleListener}" onstart="dialogSessao.show()" />
+
+                </p:idleMonitor>
+
+                <p:dialog id="dialogSessaoExpirada_index" widgetVar="dialogSessao" width="580" resizable="false" modal="true" closable="false" header="#{bundle.idleMonitorDialog_header}">
+                    <h:panelGrid columns="1" style="text-align: right;">
+                        <h:outputText id="idleMonitorDialog_index" value="#{bundle.idleMonitorDialog_msg}"/>
+                        <p:commandButton id="idleMonitorDialogbutton_index" value="#{bundle.idleMonitorDialog_button}" action="#{autenticadorController.activeListener}" ajax="false" immediate="true"/>
+                    </h:panelGrid>
+                </p:dialog>
+            </h:form>
+        </div>
+        <hr/>
+        <div style="text-align: center; padding-bottom: 10px; padding-top: 10px;">
+            <h:outputLink id="sitioAna_index" styleClass="formataLink" target="new" value="#{bundle.sitioAna}">#{autenticadorController.ano}</h:outputLink> <h:outputLabel value="#{bundle.footerMsgDesenvolvedor}"/><br/>
+            <h:outputLink id="sitioResolucao_index" styleClass="formataLink" target="new" value="#{bundle.sitioResolucao}">#{bundle.footerMsgSitioResolucao}</h:outputLink>
+        </div>       
+    </h:body>
+
+</html>
