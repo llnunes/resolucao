@@ -4,6 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -69,7 +72,7 @@ public class UsuarioResolucao implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "URE_STATUS")
-    private int ureStatus;
+    private Integer ureStatus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "upeUreId")
     private List<UsuarioPermissao> usuarioPermissaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hreUreId")
@@ -82,7 +85,7 @@ public class UsuarioResolucao implements Serializable {
         this.ureId = ureId;
     }
 
-    public UsuarioResolucao(BigDecimal ureId, String ureTxLogin, String ureTxSenha, String ureNm, String ureEmail, int ureStatus) {
+    public UsuarioResolucao(BigDecimal ureId, String ureTxLogin, String ureTxSenha, String ureNm, String ureEmail, Integer ureStatus) {
         this.ureId = ureId;
         this.ureTxLogin = ureTxLogin;
         this.ureTxSenha = ureTxSenha;
@@ -131,11 +134,11 @@ public class UsuarioResolucao implements Serializable {
         this.ureEmail = ureEmail;
     }
 
-    public int getUreStatus() {
+    public Integer getUreStatus() {
         return ureStatus;
     }
 
-    public void setUreStatus(int ureStatus) {
+    public void setUreStatus(Integer ureStatus) {
         this.ureStatus = ureStatus;
     }
 
@@ -179,6 +182,37 @@ public class UsuarioResolucao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.entities.UsuarioResolucao[ ureId=" + ureId + " ]";
+        return this.ureNm + " (" + this.ureTxLogin + ")";
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (ureId != null) {
+            return " Id: " + ureId.intValue()
+                    + "; Login: " + ureTxLogin
+                    + "; Nome: " + ureNm
+                    + "; Email: " + ureEmail
+                    + "; Status: " + ureStatus;
+
+        } else {
+            return "";
+        }
+    }
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getUreId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getUreId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getUreId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getUreId(), this.getClass().getName());
+        }
+        return null;
     }
 }

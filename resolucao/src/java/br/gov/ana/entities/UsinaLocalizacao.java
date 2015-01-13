@@ -4,6 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.hidroinfoana.entities.Municipio;
+import br.gov.ana.hidroinfoana.entities.Rio;
+import br.gov.ana.hidroinfoana.entities.Uf;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
@@ -29,23 +32,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "UsinaLocalizacao.findAll", query = "SELECT u FROM UsinaLocalizacao u"),
     @NamedQuery(name = "UsinaLocalizacao.findByUslId", query = "SELECT u FROM UsinaLocalizacao u WHERE u.uslId = :uslId"),
-    @NamedQuery(name = "UsinaLocalizacao.findByUslMuncodigo", query = "SELECT u FROM UsinaLocalizacao u WHERE u.uslMuncodigo = :uslMuncodigo"),
-    @NamedQuery(name = "UsinaLocalizacao.findByUslUfdcodigo", query = "SELECT u FROM UsinaLocalizacao u WHERE u.uslUfdcodigo = :uslUfdcodigo"),
-    @NamedQuery(name = "UsinaLocalizacao.findByUslRiocodigo", query = "SELECT u FROM UsinaLocalizacao u WHERE u.uslRiocodigo = :uslRiocodigo")})
+    @NamedQuery(name = "UsinaLocalizacao.findByUslMuncodigo", query = "SELECT u FROM UsinaLocalizacao u WHERE u.uslMunCodigo = :uslMunCodigo"),
+    @NamedQuery(name = "UsinaLocalizacao.findByUslUfdcodigo", query = "SELECT u FROM UsinaLocalizacao u WHERE u.uslUfdCodigo = :uslUfdCodigo"),
+    @NamedQuery(name = "UsinaLocalizacao.findByUslRiocodigo", query = "SELECT u FROM UsinaLocalizacao u WHERE u.uslRioCodigo = :uslRioCodigo")})
 public class UsinaLocalizacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id 
+    @Id
     @Column(name = "USL_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal uslId;
-    @Column(name = "USL_MUNCODIGO")
-    private Integer uslMuncodigo;
-    @Size(max = 2)
-    @Column(name = "USL_UFDCODIGO")
-    private String uslUfdcodigo;
-    @Column(name = "USL_RIOCODIGO")
-    private Integer uslRiocodigo;
+    @JoinColumn(name = "USL_MUNCODIGO", referencedColumnName = "MUNCODIGO")
+    @ManyToOne
+    private Municipio uslMunCodigo;
+    @JoinColumn(name = "USL_UFDCODIGO", referencedColumnName = "UFDCODIGO")
+    @ManyToOne
+    private Uf uslUfdCodigo;
+    @JoinColumn(name = "USL_RIOCODIGO", referencedColumnName = "RIOCODIGO")
+    @ManyToOne
+    private Rio uslRioCodigo;
     @JoinColumn(name = "USL_USI_ID", referencedColumnName = "USI_ID")
     @ManyToOne(optional = false)
     private Usina uslUsiId;
@@ -65,28 +71,28 @@ public class UsinaLocalizacao implements Serializable {
         this.uslId = uslId;
     }
 
-    public Integer getUslMuncodigo() {
-        return uslMuncodigo;
+    public Municipio getUslMunCodigo() {
+        return uslMunCodigo;
     }
 
-    public void setUslMuncodigo(Integer uslMuncodigo) {
-        this.uslMuncodigo = uslMuncodigo;
+    public void setUslMunCodigo(Municipio uslMunCodigo) {
+        this.uslMunCodigo = uslMunCodigo;
     }
 
-    public String getUslUfdcodigo() {
-        return uslUfdcodigo;
+    public Uf getUslUfdCodigo() {
+        return uslUfdCodigo;
     }
 
-    public void setUslUfdcodigo(String uslUfdcodigo) {
-        this.uslUfdcodigo = uslUfdcodigo;
+    public void setUslUfdCodigo(Uf uslUfdCodigo) {
+        this.uslUfdCodigo = uslUfdCodigo;
     }
 
-    public Integer getUslRiocodigo() {
-        return uslRiocodigo;
+    public Rio getUslRioCodigo() {
+        return uslRioCodigo;
     }
 
-    public void setUslRiocodigo(Integer uslRiocodigo) {
-        this.uslRiocodigo = uslRiocodigo;
+    public void setUslRioCodigo(Rio uslRioCodigo) {
+        this.uslRioCodigo = uslRioCodigo;
     }
 
     public Usina getUslUsiId() {
@@ -119,7 +125,6 @@ public class UsinaLocalizacao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.gov.ana.entities.UsinaLocalizacao[ uslId=" + uslId + " ]";
+        return "" + this.uslId.intValue() + " - " + uslRioCodigo.getRioNome() + "(" + uslRioCodigo.getRioCodigo() + ")" + ", " + uslMunCodigo.getMunNome() + "/" + uslUfdCodigo.getUfdCodigo();
     }
-    
 }

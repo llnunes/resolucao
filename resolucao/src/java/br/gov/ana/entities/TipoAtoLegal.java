@@ -4,6 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoAtoLegal.findByTalDs", query = "SELECT t FROM TipoAtoLegal t WHERE t.talDs = :talDs"),
     @NamedQuery(name = "TipoAtoLegal.findByTalStatus", query = "SELECT t FROM TipoAtoLegal t WHERE t.talStatus = :talStatus")})
 public class TipoAtoLegal implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -149,7 +153,54 @@ public class TipoAtoLegal implements Serializable {
 
     @Override
     public String toString() {
-        return this.talNm;
+        return talSigla + " - " + talNm;
     }
-    
+
+    @XmlTransient
+    public String getStatusTipoAtoLegal() {
+        String retorno = "Inativo";
+        if (talStatus != null) {
+            if (talStatus == 1) {
+                retorno = "Ativo";
+            }
+        }
+
+        return retorno;
+    }
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getTalId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getTalId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getTalId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getTalId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getLabelTipoAtoLegal() {
+        return talSigla + " - " + talNm;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (talId != null) {
+            return " Id: " + talId.intValue()
+                    + "; Nome: " + talNm
+                    + "; Sigla: " + talSigla
+                    + "; Descricao: " + talDs
+                    + "; Status: " + talStatus + "; ";
+
+        } else {
+            return "";
+        }
+    }
 }

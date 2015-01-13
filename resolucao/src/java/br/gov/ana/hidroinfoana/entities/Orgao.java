@@ -4,6 +4,10 @@
  */
 package br.gov.ana.hidroinfoana.entities;
 
+import br.gov.ana.controllers.util.JsfUtil;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,6 +23,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,6 +49,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Orgao.findByOrgTxTelefone2", query = "SELECT o FROM Orgao o WHERE o.orgTxTelefone2 = :orgTxTelefone2"),
     @NamedQuery(name = "Orgao.findByOrgSenha", query = "SELECT o FROM Orgao o WHERE o.orgSenha = :orgSenha")})
 public class Orgao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -241,7 +247,11 @@ public class Orgao implements Serializable {
     }
 
     public String getOrgTxConsorcio() {
-        return orgTxConsorcio;
+        if (orgTxConsorcio != null) {
+            return orgTxConsorcio;
+        } else {
+            return "";
+        }
     }
 
     public void setOrgTxConsorcio(String orgTxConsorcio) {
@@ -294,7 +304,63 @@ public class Orgao implements Serializable {
 
     @Override
     public String toString() {
-        return this.orgNm;
+        if (getOrgCnpj() == null) {
+            return this.orgNm;
+        } else {
+            return JsfUtil.cortarString(this.orgNm, 80, "...") + " (" + getOrgId() + " " + getOrgSg() + " - " + JsfUtil.formatCnpj(getOrgCnpj()) + ")";
+        }
+
     }
-    
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getOrgId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getOrgId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getOrgId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getOrgId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getStatus() {
+        return this.orgStgId.getStgNm();
+    }
+
+    @XmlTransient
+    public String getNomeOrgaoCompleto() {
+        String retorno = "(" + this.orgId.intValue() + ") " + this.orgNm;
+        return retorno;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (orgId != null) {
+            return " Id: " + orgId.intValue()
+                    + "; CNPJ: " + orgCnpj
+                    + "; SIGLA: " + orgSg
+                    + "; Nome: " + orgNm
+                    + "; Endereco: " + (orgTxEndereco != null ? orgTxEndereco : "")
+                    + "; Municipio: " + (orgMunCd != null && orgMunCd.getMunNm() != null ? orgMunCd.getMunNm() : "")
+                    + "; UF: " + (orgUfdCd != null && orgUfdCd.getUfdNm() != null ? orgUfdCd.getUfdNm() : "")
+                    + "; Representante: " + (orgNmRepresentante != null ? orgNmRepresentante : "")
+                    + "; Telefone: " + (orgTxTelefone != null ? orgTxTelefone : "")
+                    + "; Cep: " + (orgTxCep != null ? orgTxCep : "")
+                    + "; Cargo: " + (orgCargo != null ? orgCargo : "")
+                    + "; Email: " + (orgEmail != null ? orgEmail : "")
+                    + "; Telefone2: " + (orgTxTelefone2 != null ? orgTxTelefone2 : "")
+                    + "; Consorcio: " + (orgTxConsorcio != null ? orgTxConsorcio : "")
+                    + "; Status: " + (orgStatus != null ? orgStatus : "") + "; "
+                    + "; Observacao: " + JsfUtil.cortarString(orgTxObservacao, 2500, "...");
+        } else {
+            return "";
+        }
+    }
 }

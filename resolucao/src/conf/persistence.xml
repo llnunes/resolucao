@@ -24,7 +24,7 @@
     <class>br.gov.ana.entities.UsinaSituacao</class>
     <class>br.gov.ana.entities.UsuarioPermissao</class>
     <class>br.gov.ana.entities.UsuarioResolucao</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
   <persistence-unit name="hidroinfoanaPU" transaction-type="JTA">
@@ -63,7 +63,7 @@
     <class>br.gov.ana.hidroinfoana.entities.TransmissaoEstacao</class>
     <class>br.gov.ana.hidroinfoana.entities.Uf</class>
     <class>br.gov.ana.hidroinfoana.entities.Uso</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
 </persistence>

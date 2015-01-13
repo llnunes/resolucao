@@ -99,4 +99,6 @@ public class RegistraHistorico implements Serializable {
 
         return hist;
     }
+    
+    
 }

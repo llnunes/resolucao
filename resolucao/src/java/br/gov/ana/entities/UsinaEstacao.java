@@ -4,9 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.hidroinfoana.entities.Estacao;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,18 +29,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "UsinaEstacao.findAll", query = "SELECT u FROM UsinaEstacao u"),
     @NamedQuery(name = "UsinaEstacao.findByUesId", query = "SELECT u FROM UsinaEstacao u WHERE u.uesId = :uesId"),
-    @NamedQuery(name = "UsinaEstacao.findByUesEstcodigo", query = "SELECT u FROM UsinaEstacao u WHERE u.uesEstcodigo = :uesEstcodigo")})
+    @NamedQuery(name = "UsinaEstacao.findByUesEstcodigo", query = "SELECT u FROM UsinaEstacao u WHERE u.uesEstCodigo = :uesEstCodigo")})
 public class UsinaEstacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id  
+    @Id
     @Column(name = "UES_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal uesId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "UES_ESTCODIGO")
-    private int uesEstcodigo;
+    @JoinColumn(name = "UES_ESTCODIGO", referencedColumnName = "ESTCODIGO")
+    @ManyToOne(optional = false)
+    private Estacao uesEstCodigo;
     @JoinColumn(name = "UES_USI_ID", referencedColumnName = "USI_ID")
     @ManyToOne(optional = false)
     private Usina uesUsiId;
@@ -53,9 +52,9 @@ public class UsinaEstacao implements Serializable {
         this.uesId = uesId;
     }
 
-    public UsinaEstacao(BigDecimal uesId, int uesEstcodigo) {
+    public UsinaEstacao(BigDecimal uesId, Estacao uesEstCodigo) {
         this.uesId = uesId;
-        this.uesEstcodigo = uesEstcodigo;
+        this.uesEstCodigo = uesEstCodigo;
     }
 
     public BigDecimal getUesId() {
@@ -66,12 +65,12 @@ public class UsinaEstacao implements Serializable {
         this.uesId = uesId;
     }
 
-    public int getUesEstcodigo() {
-        return uesEstcodigo;
+    public Estacao getUesEstCodigo() {
+        return uesEstCodigo;
     }
 
-    public void setUesEstcodigo(int uesEstcodigo) {
-        this.uesEstcodigo = uesEstcodigo;
+    public void setUesEstcodigo(Estacao uesEstCodigo) {
+        this.uesEstCodigo = uesEstCodigo;
     }
 
     public Usina getUesUsiId() {
@@ -106,5 +105,4 @@ public class UsinaEstacao implements Serializable {
     public String toString() {
         return "br.gov.ana.entities.UsinaEstacao[ uesId=" + uesId + " ]";
     }
-    
 }

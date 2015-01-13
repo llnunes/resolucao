@@ -4,6 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Responsavel.findByRspEmail", query = "SELECT r FROM Responsavel r WHERE r.rspEmail = :rspEmail"),
     @NamedQuery(name = "Responsavel.findByRspStatus", query = "SELECT r FROM Responsavel r WHERE r.rspStatus = :rspStatus")})
 public class Responsavel implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -159,5 +163,35 @@ public class Responsavel implements Serializable {
     public String toString() {
         return this.rspNm;
     }
-    
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getRspId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getRspId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getRspId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getRspId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (rspId != null) {
+            return " Id: " + rspId.intValue()
+                    + "; Nome: " + rspNm
+                    + "; Area: " + (rspAreId != null && rspAreId.getAreNm() != null ? rspAreId.getAreNm() : "")
+                    + "; Cargo: " + (rspCrgId != null && rspCrgId.getCrgNm() != null ? rspCrgId.getCrgNm() : "")
+                    + "; Email: " + rspEmail
+                    + "; Status: " + rspStatus + "; ";
+        } else {
+            return "";
+        }
+    }
 }

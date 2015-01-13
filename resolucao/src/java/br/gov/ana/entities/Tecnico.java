@@ -4,8 +4,16 @@
  */
 package br.gov.ana.entities;
 
+import static br.gov.ana.controllers.util.ConstUtils.USINA_INATIVA;
+import static br.gov.ana.controllers.util.ConstUtils.USINA_REVOGADA;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -39,9 +47,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tecnico.findByTecTelefone2", query = "SELECT t FROM Tecnico t WHERE t.tecTelefone2 = :tecTelefone2"),
     @NamedQuery(name = "Tecnico.findByTecStatus", query = "SELECT t FROM Tecnico t WHERE t.tecStatus = :tecStatus")})
 public class Tecnico implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id    
+    @Id
     @Column(name = "TEC_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal tecId;
@@ -161,7 +170,86 @@ public class Tecnico implements Serializable {
 
     @Override
     public String toString() {
-        return this.tecNm;
+        return this.tecNm + " (" + this.tecId.intValue() + ")";
     }
-    
+
+    @XmlTransient
+    public List<Usina> getListaUsinas() {
+        List<Usina> lista = new ArrayList<Usina>();
+
+        if (this.tecnicoUsinaList != null) {
+            for (TecnicoUsina tu : this.tecnicoUsinaList) {
+                lista.add(tu.getTusUsiId());
+            }
+        }
+
+        return lista;
+    }
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getTecId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getTecId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getTecId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getTecId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @XmlTransient
+    public String getUsinas() {
+        String temp = "";
+        if (tecnicoUsinaList != null && tecnicoUsinaList.size() >= 1) {
+            Comparator compASC = new ComparatorUsina();
+            Collections.sort(tecnicoUsinaList, compASC);
+            for (TecnicoUsina tecUsina : tecnicoUsinaList) {
+                if (!tecUsina.getTusUsiId().getUsiUssId().getUssId().equals(USINA_INATIVA) && !tecUsina.getTusUsiId().getUsiUssId().getUssId().equals(USINA_REVOGADA)) {
+                    temp += tecUsina.getTusUsiId() + ", ";
+                }
+
+            }
+            temp = (temp.length() > 3) ? temp.substring(0, temp.length() - 2) + "." : "";
+        }
+        return temp;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        String retorno = "";
+
+        retorno = " Id: " + tecId.intValue()
+                + "; Nome: " + tecNm
+                + "; Email: " + tecEmail
+                + "; Telefone: " + tecTelefone
+                + "; Telefone2: " + tecTelefone2 + ""
+                + "; Usinas: ";
+
+        for (Usina u : getListaUsinas()) {
+            retorno += u.getUsiId().intValue() + ", ";
+        }
+
+
+        return retorno;
+
+    }
+}
+
+class ComparatorUsina implements Comparator<TecnicoUsina> {
+
+    @Override
+    public int compare(TecnicoUsina o1, TecnicoUsina o2) {
+        int valor = o1.getTusUsiId().getUsiNm().compareTo(o2.getTusUsiId().getUsiNm());
+        return (valor != 0 ? valor : 1);
+    }
 }

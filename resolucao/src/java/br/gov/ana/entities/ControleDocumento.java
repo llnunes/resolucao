@@ -4,9 +4,16 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.controllers.util.JsfUtil;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,12 +25,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,6 +52,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ControleDocumento.findByTcmDocVinculo", query = "SELECT c FROM ControleDocumento c WHERE c.tcmDocVinculo = :tcmDocVinculo"),
     @NamedQuery(name = "ControleDocumento.findByTcmStatus", query = "SELECT c FROM ControleDocumento c WHERE c.tcmStatus = :tcmStatus")})
 public class ControleDocumento implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -66,8 +76,9 @@ public class ControleDocumento implements Serializable {
     private String tcmProton;
     @Column(name = "TCM_IC_OBRIGATORIO")
     private Integer tcmIcObrigatorio;
-    @Column(name = "TCM_DOC_VINCULO")
-    private BigDecimal tcmDocVinculo;
+    @JoinColumn(name = "TCM_DOC_VINCULO", referencedColumnName = "TCM_ID")
+    @ManyToOne
+    private ControleDocumento tcmDocVinculo;
     @Basic(optional = false)
     @NotNull
     @Column(name = "TCM_STATUS")
@@ -87,6 +98,8 @@ public class ControleDocumento implements Serializable {
     @JoinColumn(name = "TCM_RSP_ID", referencedColumnName = "RSP_ID")
     @ManyToOne
     private Responsavel tcmRspId;
+    @OneToMany(mappedBy = "tcmDocVinculo")
+    private List<ControleDocumento> controleDocumentoList;
 
     public ControleDocumento() {
     }
@@ -156,11 +169,11 @@ public class ControleDocumento implements Serializable {
         this.tcmIcObrigatorio = tcmIcObrigatorio;
     }
 
-    public BigDecimal getTcmDocVinculo() {
+    public ControleDocumento getTcmDocVinculo() {
         return tcmDocVinculo;
     }
 
-    public void setTcmDocVinculo(BigDecimal tcmDocVinculo) {
+    public void setTcmDocVinculo(ControleDocumento tcmDocVinculo) {
         this.tcmDocVinculo = tcmDocVinculo;
     }
 
@@ -212,6 +225,19 @@ public class ControleDocumento implements Serializable {
         this.tcmRspId = tcmRspId;
     }
 
+    @XmlTransient
+    public List<ControleDocumento> getControleDocumentoList() {
+        return controleDocumentoList;
+    }
+
+    /**
+     *
+     * @param controleDocumentoList
+     */
+    public void setControleDocumentoList(List<ControleDocumento> controleDocumentoList) {
+        this.controleDocumentoList = controleDocumentoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -234,7 +260,191 @@ public class ControleDocumento implements Serializable {
 
     @Override
     public String toString() {
-        return tcmTxNumero;
+        if (tcmTdcId != null) {
+            return tcmTdcId.getTdcNm() + " Nº: " + ((this.tcmTxNumero != null) ? this.tcmTxNumero : this.tcmId.toString());
+        } else {
+            return this.tcmTxNumero;
+        }
     }
-    
+
+    @XmlTransient
+    public ControleDocumento getNotaTecnica() {
+
+        ControleDocumento notaTecnica = new ControleDocumento();
+        if (controleDocumentoList != null && controleDocumentoList.size() >= 1) {
+            Comparator compASC = new ComparatorControleDocumento();
+            Collections.sort(controleDocumentoList, compASC);
+            //notaTecnica = controleDocumentoList.get(0);
+
+            for (ControleDocumento cd : controleDocumentoList) {
+                if (cd.getTcmTdcId().getTdcId().equals(new BigDecimal("9"))) {
+                    notaTecnica = cd;
+                    break;
+                }
+            }
+        }
+
+        return notaTecnica;
+    }
+
+    /*Verificar se existe, se esta em um indice acessivel e retornar ControleDocumento generico amanha*/
+    @XmlTransient
+    public ControleDocumento getOficio() {
+
+        ControleDocumento oficio = new ControleDocumento();
+        if (controleDocumentoList != null && controleDocumentoList.size() >= 2) {
+            Comparator compASC = new ComparatorControleDocumento();
+            Collections.sort(controleDocumentoList, compASC);
+
+            for (ControleDocumento cd : controleDocumentoList) {
+                if (cd.getTcmTdcId().getTdcId().equals(new BigDecimal("12"))) {
+                    oficio = cd;
+                    break;
+                }
+            }
+        }
+        return oficio;
+    }
+
+    @XmlTransient
+    public ControleDocumento getOficioOutrosDocs() {
+
+        ControleDocumento oficio = new ControleDocumento();
+        if (controleDocumentoList != null && controleDocumentoList.size() >= 1) {
+            Comparator compASC = new ComparatorControleDocumento();
+            Collections.sort(controleDocumentoList, compASC);
+            oficio = controleDocumentoList.get(0);
+            if (oficio.getTcmTdcId().getTdcId().equals(new BigDecimal("10"))) {
+                for (ControleDocumento cd : controleDocumentoList) {
+                    if (cd.getTcmTdcId().getTdcId().equals(new BigDecimal("12"))) {
+                        oficio = cd;
+                        break;
+                    }
+                }
+            }
+        }
+        return oficio;
+    }
+
+    @XmlTransient
+    public String getDocPrincipal() {
+        if (this.tcmDocVinculo == null) {
+            return "Principal";
+        } else {
+            return "Gerado";
+        }
+
+    }
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getTcmId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getTcmId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getTcmId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getTcmId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        String retorno = "";
+        if (tcmId != null) {
+            retorno = "ID: " + tcmId.intValue()
+                    + "; Dta Cad: " + JsfUtil.formatData(tcmDtCadastro)
+                    + "; Dta Exp: " + JsfUtil.formatData(tcmDtExpedicao)
+                    + "; Numero: " + tcmTxNumero
+                    + "; Proton: " + tcmProton
+                    + "; Ob: " + tcmIcObrigatorio
+                    + "; Usina: " + (tcmUsiId != null && tcmUsiId.getUsiNm() != null ? tcmUsiId.getUsiNm() : "")
+                    + "; TipoDoc: " + (tcmTdcId != null && tcmTdcId.getTdcNm() != null ? tcmTdcId.getTdcNm() : "")
+                    + "; TipoOp: " + (tcmTopId != null && tcmTopId.getTopNm() != null ? tcmTopId.getTopNm() : "")
+                    + "; Status: " + (tcmSdcId != null && tcmSdcId.getSdcNm() != null ? tcmSdcId.getSdcNm() : "")
+                    + "; Responsavel: " + (tcmRspId != null && tcmRspId.getRspNm() != null ? tcmRspId.getRspNm() : "")
+                    + "; DocVinculo: " + (tcmDocVinculo != null && tcmDocVinculo.getTcmId() != null ? tcmDocVinculo.getTcmId().intValue() : "")
+                    + "; Obs: " + tcmTxObservacao;
+
+            retorno = retorno.concat("; #Dados da nota: " + this.getHistoricoNota());
+            retorno = retorno.concat("; #Dados do oficio: " + this.getHistoricoOficio() + "; ");
+        }
+        return retorno;
+    }
+
+    @XmlTransient
+    public String getHistoricoNota() {
+        ControleDocumento nota = this.getNotaTecnica();
+        String retorno = "";
+
+        if (nota != null && nota.getTcmId() != null) {
+            retorno = " IDNota: " + nota.tcmId.intValue()
+                    + "; Dta Cad: " + JsfUtil.formatData(nota.tcmDtCadastro)
+                    + "; Dta Exp: " + JsfUtil.formatData(nota.tcmDtExpedicao)
+                    + "; Numero: " + nota.tcmTxNumero
+                    + "; Proton: " + nota.tcmProton
+                    + "; Flag: " + nota.tcmIcObrigatorio
+                    + "; Tipo Doc: " + nota.tcmTdcId.getTdcNm()
+                    + "; Status: " + (nota.tcmSdcId != null && nota.tcmSdcId.getSdcNm() != null ? nota.tcmSdcId.getSdcNm() : "")
+                    + "; Doc Vinc: " + (nota.tcmDocVinculo != null && nota.tcmDocVinculo.getTcmId() != null ? nota.tcmDocVinculo.getTcmId().intValue() : "")
+                    + "; Obs: " + nota.tcmTxObservacao;
+        }
+
+        return retorno;
+    }
+
+    @XmlTransient
+    public String getHistoricoOficio() {
+        ControleDocumento oficio = this.getOficio();
+
+        String retorno = "";
+
+        if (oficio != null && oficio.getTcmId() != null) {
+            retorno = "IdOficio: " + oficio.tcmId.intValue()
+                    + "; Dta Cad: " + JsfUtil.formatData(oficio.tcmDtCadastro)
+                    + "; Dta Exp: " + JsfUtil.formatData(oficio.tcmDtExpedicao)
+                    + "; Numero: " + oficio.tcmTxNumero
+                    + "; Proton: " + oficio.tcmProton
+                    + "; Flag: " + oficio.tcmIcObrigatorio
+                    + "; Tipo Doc: " + (oficio.tcmTdcId != null && oficio.tcmTdcId.getTdcNm() != null ? oficio.tcmTdcId.getTdcNm() : "")
+                    + "; Status: " + (oficio.tcmSdcId != null && oficio.tcmSdcId.getSdcNm() != null ? oficio.tcmSdcId.getSdcNm() : "")
+                    + "; Doc Vinc: " + (oficio.tcmDocVinculo != null && oficio.tcmDocVinculo.getTcmId() != null ? oficio.tcmDocVinculo.getTcmId().intValue() : "")
+                    + "; Obs: " + oficio.tcmTxObservacao;
+        }
+        return retorno;
+    }
+/*
+    @XmlTransient
+    public String getOrgaoUsina() {
+        return tcmUsiId.getUsiOrgId().getOrgNm();
+    }*/
+
+    @XmlTransient
+    public String getUsina() {
+        return tcmUsiId.getUsiNm();
+    }
+
+    @XmlTransient
+    public String getTipoUsina() {
+        return tcmUsiId.getUsiTpuId().getTpuNm();
+    }
+
+    @XmlTransient
+    public String getProcessoUsina() {
+        return tcmUsiId.getUsiProcesso();
+    }
+}
+
+class ComparatorControleDocumento implements Comparator<ControleDocumento> {
+
+    @Override
+    public int compare(ControleDocumento o1, ControleDocumento o2) {
+        int valor = o1.getTcmTdcId().getTdcId().compareTo(o2.getTcmTdcId().getTdcId());
+        return (valor != 0 ? valor : 1);
+    }
 }

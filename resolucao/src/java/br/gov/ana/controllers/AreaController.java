@@ -3,8 +3,13 @@ package br.gov.ana.controllers;
 import br.gov.ana.entities.Area;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.facade.AreaFacade;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
@@ -22,6 +27,9 @@ public class AreaController implements Serializable {
     private Area current;
     @EJB
     private br.gov.ana.facade.AreaFacade ejbFacade;
+    private List<Area> lista;
+    private CriacaoHist criacaoHist = new CriacaoHist();
+    private AlteracaoHist alteracaoHist = new AlteracaoHist();
 
     public AreaController() {
     }
@@ -31,6 +39,26 @@ public class AreaController implements Serializable {
             current = new Area();
         }
         return current;
+    }
+
+    public void postProcessorXLS(Object document) {
+        JsfUtil.postProcessorXLS(document);
+    }
+
+    public List<Area> getLista() {
+        if (lista == null) {
+            lista = new ArrayList<Area>();
+            lista = getFacade().findAllAtivos();
+        }
+        return lista;
+    }
+
+    /**
+     *
+     * @param lista
+     */
+    public void setLista(List<Area> lista) {
+        this.lista = lista;
     }
 
     private AreaFacade getFacade() {
@@ -54,7 +82,10 @@ public class AreaController implements Serializable {
 
     public String create() {
         try {
+            current.setAreStatus(1);
             getFacade().create(current);
+            //Registra o historico
+            new RegistraHistorico().registraHistoricoGeral(current.getAreId(), current.getClass().getName(), 1);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AreaCreated"));
             return prepareCreate();
         } catch (Exception e) {
@@ -70,8 +101,10 @@ public class AreaController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
+            //Registra o historico
+            new RegistraHistorico().registraHistoricoGeral(current.getAreId(), current.getClass().getName(), 0);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AreaUpdated"));
-            return "View";
+            return "/area/View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -86,14 +119,34 @@ public class AreaController implements Serializable {
 
     private void performDestroy() {
         try {
-            getFacade().remove(current);
+            current.setAreStatus(0);
+            getFacade().edit(current);
+            //Registra o historico
+            new RegistraHistorico().registraHistoricoGeral(current.getAreId(), current.getClass().getName(), 2);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AreaDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
+    public CriacaoHist getCriacaoHist() {
+        return criacaoHist;
+    }
+
+    public void setCriacaoHist(CriacaoHist criacaoHist) {
+        this.criacaoHist = criacaoHist;
+    }
+
+    public AlteracaoHist getAlteracaoHist() {
+        return alteracaoHist;
+    }
+
+    public void setAlteracaoHist(AlteracaoHist alteracaoHist) {
+        this.alteracaoHist = alteracaoHist;
+    }
+
     private void recreateModel() {
+        lista = null;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

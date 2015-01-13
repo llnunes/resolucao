@@ -4,6 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,6 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoDocumento.findByTdcDs", query = "SELECT t FROM TipoDocumento t WHERE t.tdcDs = :tdcDs"),
     @NamedQuery(name = "TipoDocumento.findByTdcStatus", query = "SELECT t FROM TipoDocumento t WHERE t.tdcStatus = :tdcStatus")})
 public class TipoDocumento implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -136,5 +140,33 @@ public class TipoDocumento implements Serializable {
     public String toString() {
         return this.tdcNm;
     }
-    
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getTdcId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getTdcId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getTdcId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getTdcId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (tdcId != null) {
+            return " Id: " + tdcId.intValue()
+                    + "; Nome: " + tdcNm
+                    + "; Descricao: " + tdcDs
+                    + "; Status: " + tdcStatus + "; ";
+        } else {
+            return "";
+        }
+    }
 }

@@ -166,9 +166,9 @@ public class AutenticadorController {
 
         if (session.getAttribute("usuario") != null) {
             UsuarioResolucao us = (UsuarioResolucao) session.getAttribute("usuario");
-            /* if (us.getUrePermissao() == 3) {
-             return true;
-             }*/
+            if (us.getUreTxLogin().equals("elvis.souza") || us.getUreTxLogin().equals("usuario") || us.getUreTxLogin().equals("joao.carvalho") || us.getUreTxLogin().equals("gregorio.dantas")) {
+                return true;
+            }
         }
         return false;
     }
@@ -184,7 +184,7 @@ public class AutenticadorController {
     }
 
     public String getAno() {
-        Calendar cal = GregorianCalendar.getInstance();        
+        Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(new Date(System.currentTimeMillis()));
         return LocaleController.getMessage("/Bundle.properties", "footerMsgApplication", "" + cal.get(Calendar.YEAR));
     }

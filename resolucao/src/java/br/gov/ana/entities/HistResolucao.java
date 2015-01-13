@@ -23,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,9 +39,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "HistResolucao.findByHreFlag", query = "SELECT h FROM HistResolucao h WHERE h.hreFlag = :hreFlag"),
     @NamedQuery(name = "HistResolucao.findByHreDtOperacao", query = "SELECT h FROM HistResolucao h WHERE h.hreDtOperacao = :hreDtOperacao")})
 public class HistResolucao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id    
+    @Id
     @Column(name = "HRE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal hreId;
@@ -158,5 +160,28 @@ public class HistResolucao implements Serializable {
     public String toString() {
         return this.hreDs;
     }
-    
+
+    @XmlTransient
+    public String getAcao() {
+        String retorno = "";
+        if (hreFlag != null) {
+            if (hreFlag == 0) {
+                retorno = "Alteração";
+            } else if (hreFlag == 1) {
+                retorno = "Inclusão";
+            } else if (hreFlag == 2) {
+                retorno = "Exclusão";
+            }
+        }
+        return retorno;
+    }
+
+    @XmlTransient
+    public String getEntidade() {
+        String retorno = "";
+        if (hreTpeId != null && hreTpeId.getTpeNm() != null) {
+            retorno = hreTpeId.getTpeNm().replaceAll("br.gov.ana.entities.", "");
+        }
+        return retorno;
+    }
 }

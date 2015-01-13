@@ -4,6 +4,10 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.controllers.util.JsfUtil;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -45,9 +49,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AtoLegal.findByAleVersao", query = "SELECT a FROM AtoLegal a WHERE a.aleVersao = :aleVersao"),
     @NamedQuery(name = "AtoLegal.findByAleStatus", query = "SELECT a FROM AtoLegal a WHERE a.aleStatus = :aleStatus")})
 public class AtoLegal implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id    
+    @Id
     @Column(name = "ALE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal aleId;
@@ -187,5 +192,52 @@ public class AtoLegal implements Serializable {
     public String toString() {
         return this.aleNumero;
     }
-    
+
+    @XmlTransient
+    public String getAtoLegal() {
+        return aleNumero + " de " + aleAno;
+    }
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getAleId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getAleId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getAleId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getAleId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (aleId != null) {
+            return " Id: " + aleId.intValue()
+                    + "; Nome: " + aleNumero
+                    + "; Descricao: " + JsfUtil.formatData(aleDt) + " "
+                    + "; Tipo: " + aleTalId.getLabelTipoAtoLegal() + " "
+                    + "; Status: " + aleStatus + "; ";
+
+        } else {
+            return "";
+        }
+    }
+
+    @XmlTransient
+    public String getStatusAtoLegal() {
+        String retorno = "Inativo";
+        if (aleStatus != null) {
+            if (aleStatus == 1) {
+                retorno = "Ativo";
+            }
+        }
+
+        return retorno;
+    }
 }

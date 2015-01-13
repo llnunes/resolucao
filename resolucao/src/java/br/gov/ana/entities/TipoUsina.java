@@ -4,6 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,9 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoUsina.findByTpuDs", query = "SELECT t FROM TipoUsina t WHERE t.tpuDs = :tpuDs"),
     @NamedQuery(name = "TipoUsina.findByTpuStatus", query = "SELECT t FROM TipoUsina t WHERE t.tpuStatus = :tpuStatus")})
 public class TipoUsina implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id    
+    @Id
     @Column(name = "TPU_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal tpuId;
@@ -136,5 +140,34 @@ public class TipoUsina implements Serializable {
     public String toString() {
         return this.tpuNm;
     }
-    
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getTpuId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getTpuId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getTpuId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getTpuId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (tpuId != null) {
+            return " Id: " + tpuId.intValue()
+                    + "; Nome: " + tpuNm
+                    + "; Descricao: " + tpuDs + "; "
+                    + "; Status: " + tpuStatus + "; ";
+
+        } else {
+            return "";
+        }
+    }
 }

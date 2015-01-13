@@ -4,6 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,9 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Cargo.findByCrgDs", query = "SELECT c FROM Cargo c WHERE c.crgDs = :crgDs"),
     @NamedQuery(name = "Cargo.findByCrgStatus", query = "SELECT c FROM Cargo c WHERE c.crgStatus = :crgStatus")})
 public class Cargo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id    
+    @Id
     @Column(name = "CRG_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal crgId;
@@ -135,5 +139,32 @@ public class Cargo implements Serializable {
     public String toString() {
         return this.crgNm;
     }
-    
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getCrgId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getCrgId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getCrgId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getCrgId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (crgId != null) {
+            return " Id: " + crgId.intValue()
+                    + "; Descricao: " + crgDs
+                    + "; Status: " + crgStatus + "; ";
+        } else {
+            return "";
+        }
+    }
 }

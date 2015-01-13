@@ -4,9 +4,11 @@
  */
 package br.gov.ana.hidroinfoana.entities;
 
+import br.gov.ana.entities.Usina;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,7 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "HidroInfoAna2.dbo.SUBBACIA")
 @XmlRootElement
-
 public class Subbacia implements Serializable {
 
     private static final long serialVersionUID = 1L;

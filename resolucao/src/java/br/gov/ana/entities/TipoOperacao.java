@@ -4,6 +4,9 @@
  */
 package br.gov.ana.entities;
 
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,9 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoOperacao.findByTopDs", query = "SELECT t FROM TipoOperacao t WHERE t.topDs = :topDs"),
     @NamedQuery(name = "TipoOperacao.findByTopStatus", query = "SELECT t FROM TipoOperacao t WHERE t.topStatus = :topStatus")})
 public class TipoOperacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id    
+    @Id
     @Column(name = "TOP_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal topId;
@@ -135,5 +139,33 @@ public class TipoOperacao implements Serializable {
     public String toString() {
         return this.topNm;
     }
-    
+
+    @XmlTransient
+    public CriacaoHist getHistoricoCriacao() throws Exception {
+        if (getTopId() != null) {
+            return new RegistraHistorico().getCriacaoHist(getTopId(), this.getClass().getName());
+        }
+        return null;
+
+    }
+
+    @XmlTransient
+    public AlteracaoHist getHistoricoAlteracao() throws Exception {
+        if (getTopId() != null) {
+            return new RegistraHistorico().getAlteracaoHist(getTopId(), this.getClass().getName());
+        }
+        return null;
+    }
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (topId != null) {
+            return " Id: " + topId.intValue()
+                    + "; Nome: " + topNm
+                    + "; Descricao: " + topDs + "; "
+                    + "; Status: " + topStatus + "; ";
+        } else {
+            return "";
+        }
+    }
 }
