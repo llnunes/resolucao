@@ -1,67 +1,123 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ListAreaTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListAreaEmpty}" rendered="#{areaController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{areaController.items.rowCount > 0}">
-                    <h:outputText value="#{areaController.pagination.pageFirstItem + 1}..#{areaController.pagination.pageLastItem + 1}/#{areaController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{areaController.previous}" value="#{bundle.Previous} #{areaController.pagination.pageSize}" rendered="#{areaController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{areaController.next}" value="#{bundle.Next} #{areaController.pagination.pageSize}" rendered="#{areaController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{areaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAreaTitle_areId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.areId}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAreaTitle_areNm}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.areNm}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAreaTitle_areDs}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.areDs}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListAreaTitle_areStatus}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.areStatus}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink action="#{areaController.prepareView}" value="#{bundle.ListAreaViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{areaController.prepareEdit}" value="#{bundle.ListAreaEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{areaController.destroy}" value="#{bundle.ListAreaDestroyLink}"/>
-                        </h:column>
-                    </h:dataTable>
-                </h:panelGroup>
-                <br />
-                <h:commandLink action="#{areaController.prepareCreate}" value="#{bundle.ListAreaCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListAreaIndexLink}"/>
-            </h:form>
+            <!--<h:form id="formList" styleClass="jsfcrud_list_form">-->
+            <p:growl id="messages" life="3000" />
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <h:panelGroup >
+
+                <p:dataTable id="tbl" value="#{areaController.lista}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" widgetVar="areaTable"
+                             currentPageReportTemplate="#{bundle.currentPageReportTemplateArea}"  paginatorTemplate="#{bundle.paginatorTemplate}"
+                             rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}" emptyMessage="#{bundle.ListAreaEmpty}" 
+                             rowKey="#{item.areId}" selection="#{areaController.selectedArea}" selectionMode="single" styleClass="mystyle" >
+
+                    <f:facet id="global" name="header">
+                        <p:outputPanel id="test" >
+                            <h:outputText value="#{bundle.searchAllFields}" />
+                            <p:inputText id="globalFilter" onkeyup="areaTable.filter();" style="width: 200px;" >
+                                <p:focus for="globalFilter" />
+                            </p:inputText>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column styleClass="firstColumn" filterBy="#{item.areId}" sortBy="#{item.areId}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListAreaTitle_areId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.areId}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.areNm}#{filterSearchController.removeAcentos(item.areNm)}" 
+                              sortBy="#{item.areNm}#{filterSearchController.removeAcentos(item.areNm)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListAreaTitle_areNm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.areNm}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.areDs}#{filterSearchController.removeAcentos(item.areDs)}"
+                              sortBy="#{item.areDs}#{filterSearchController.removeAcentos(item.areDs)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListAreaTitle_areDesc}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.areDs}"/>
+                    </p:column>
+
+                    <p:column style="width:3%" exportable="false">
+                        <div class="cabecalho">
+                            <div class="imagem">
+                                <p:commandLink update=":formList:displayView" oncomplete="areaDialogView.show()" onerror="areaDialogView.hide();" title="#{bundle.MsgVisualizar}" styleClass="ui-icon ui-icon-search">
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{areaController.selectedArea}" />
+                                </p:commandLink>
+                            </div>                 
+                            <div class="titulo">
+                                <p:commandLink ajax="false"  action="#{areaController.prepareEdit}" rendered="#{!autenticadorController.loginVisualizador}" title="#{bundle.ListAreaEditLink}" styleClass="ui-icon ui-icon-pencil" >
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{areaController.selectedArea}" />
+                                </p:commandLink>
+                            </div>
+                        </div>                     
+                    </p:column>
+
+                    <f:facet name="footer">                            
+                        <p:commandButton id="createCommand" rendered="#{!autenticadorController.loginVisualizador}" ajax="false" icon="#{bundle.icone_documento}" action="#{areaController.prepareCreate}" value="#{bundle.ListAreaCreateLink}"/>
+                        <p:commandButton id="viewCommand"  value="#{bundle.MsgVisualizar}" icon="#{bundle.icone_pesquisa}"  update=":formList:displayView" oncomplete="areaDialogView.show()" actionListener="#{areaController.prepareView}" />
+                        <p:commandButton id="editCommand" ajax="false" action="#{areaController.prepareEdit}" value="#{bundle.ListAreaEditLink}" icon="#{bundle.icone_pencil}" />
+                        <p:commandButton id="deleteCommand" ajax="false" rendered="#{autenticadorController.loginAdmin}" onclick="confirmationDestroy.show();" value="#{bundle.ListAreaDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
+
+                        <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_Area}" postProcessor="#{areaController.postProcessorXLS}"/>
+                        </p:commandButton>
+                        <p:commandButton id="excelExportPagAtual" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportPagAtualFileName_Area}" pageOnly="true" postProcessor="#{areaController.postProcessorXLS}"/>
+                        </p:commandButton>
+                    </f:facet>
+
+                </p:dataTable>
+                <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                    <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide(); #{areaController.prepareList}" icon="#{bundle.icone_listar}" action="#{areaController.destroy}" update="tbl" />
+                    <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide();" type="button"/>
+
+                </p:confirmDialog>
+
+                <p:dialog id="dialogView" header="#{bundle.AreaDialogView_header}" widgetVar="areaDialogView" resizable="false" modal="true"
+                          width="500" >
+
+                    <h:panelGrid id="displayView" columns="2" cellpadding="4">                          
+
+                        <h:outputText value="#{bundle.ViewAreaLabel_areId}"/>
+                        <h:outputText value="#{areaController.selected.areId}" title="#{bundle.ViewAreaTitle_areId}"/>
+                        <h:outputText value="#{bundle.ViewAreaLabel_areNm}"/>
+                        <h:outputText value="#{areaController.selected.areNm}" title="#{bundle.ViewAreaTitle_areNm}"/>
+                        <h:outputText value="#{bundle.ViewAreaLabel_areDesc}"/>
+                        <h:outputText value="#{areaController.selected.areDs}" title="#{bundle.ViewAreaTitle_areDesc}"/>  
+
+                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty areaController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputText id="nomeCriador" value="#{areaController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty areaController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty areaController.selected.historicoCriacao.dataHora}"/>
+                        <h:outputText id="dataCriacao" value="#{areaController.selected.historicoCriacao.dataHora}" rendered="#{not empty areaController.selected.historicoCriacao.dataHora}"/>     
+                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty areaController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputText id="nomeAlterador" value="#{areaController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty areaController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty areaController.selected.historicoAlteracao.dataHora}"/>
+                        <h:outputText id="dataAlteracao" value="#{areaController.selected.historicoAlteracao.dataHora}" rendered="#{not empty areaController.selected.historicoAlteracao.dataHora}" /> 
+
+                    </h:panelGrid>
+                </p:dialog>
+
+            </h:panelGroup>                            
         </ui:define>
     </ui:composition>
 

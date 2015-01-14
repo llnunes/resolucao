@@ -25,7 +25,6 @@ public class RegistraHistorico implements Serializable {
     private FacesContext facesContext;
     private HistResolucaoController controllerHistResolucao;
     private TipoEntidadeController controllerTipoEntidade;
-    
 
     private UsuarioResolucao usuarioLogado() {
         UsuarioResolucao usuario = null;
@@ -99,6 +98,12 @@ public class RegistraHistorico implements Serializable {
 
         return hist;
     }
-    
-    
+
+    public CriacaoHist getCriacaoHist(Integer orgId, String name) throws Exception {
+        return getCriacaoHist(new BigDecimal(orgId), name);
+    }
+
+    public AlteracaoHist getAlteracaoHist(Integer orgId, String name) throws Exception {
+        return getAlteracaoHist(new BigDecimal(orgId), name);
+    }
 }

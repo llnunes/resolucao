@@ -2,9 +2,17 @@ package br.gov.ana.controllers;
 
 import br.gov.ana.entities.AtoLegal;
 import br.gov.ana.controllers.util.JsfUtil;
+import br.gov.ana.datamodels.AtoLegalDataModel;
+import br.gov.ana.exceptions.AtoLegalException;
 import br.gov.ana.facade.AtoLegalFacade;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
+import br.gov.ana.tests.Singleton;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
@@ -22,8 +30,17 @@ public class AtoLegalController implements Serializable {
     private AtoLegal current;
     @EJB
     private br.gov.ana.facade.AtoLegalFacade ejbFacade;
+    private List<AtoLegal> lista;
+    private CriacaoHist criacaoHist = new CriacaoHist();
+    private AlteracaoHist alteracaoHist = new AlteracaoHist();
+    private String dadosTemporariosHistorico;
+    private AtoLegalDataModel atoLegalDataModel;
 
     public AtoLegalController() {
+    }
+
+    public void postProcessorXLS(Object document) {
+        JsfUtil.postProcessorXLS(document);
     }
 
     public AtoLegal getSelected() {
@@ -33,27 +50,82 @@ public class AtoLegalController implements Serializable {
         return current;
     }
 
+    public AtoLegal getSelectedAtoLegal() {
+        return current;
+    }
+
+    public void setSelectedAtoLegal(AtoLegal current) {
+        this.current = current;
+    }
+
+    public AtoLegalDataModel getAtoLegalDataModel() {
+        if (lista == null) {
+            lista = new ArrayList<AtoLegal>();
+            lista = ejbFacade.findAllAtivos();
+            atoLegalDataModel = new AtoLegalDataModel(lista);
+        }
+        return atoLegalDataModel;
+    }
+
+    public void setAtoLegalDataModel(AtoLegalDataModel atoLegalDataModel) {
+        this.atoLegalDataModel = atoLegalDataModel;
+    }
+
+    public List<AtoLegal> getLista() {
+        if (lista == null) {
+            lista = new ArrayList<AtoLegal>();
+            lista = ejbFacade.findAllAtivos();
+        }
+        return lista;
+    }
+
+    public void setLista(List<AtoLegal> lista) {
+        this.lista = lista;
+    }
+
     private AtoLegalFacade getFacade() {
         return ejbFacade;
     }
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "/atoLegal/List";
     }
 
     public String prepareView() {
-        return "View";
+
+        try {
+            if (current == null || current.getAleId() == null) {
+                throw new Exception(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+            }
+
+            criacaoHist = new RegistraHistorico().getCriacaoHist(current.getAleId(), current.getClass().getName());
+            alteracaoHist = new RegistraHistorico().getAlteracaoHist(current.getAleId(), current.getClass().getName());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+
+        return "/atoLegal/View";
     }
 
     public String prepareCreate() {
         current = new AtoLegal();
-        return "Create";
+        return "/atoLegal/Create";
     }
 
     public String create() {
         try {
+            if (validaAtoLegalRepetidoCreate()) {
+                throw new AtoLegalException(ResourceBundle.getBundle("/Bundle").getString("AtoLegalJaCadastradoCreate"));
+            }
+
+            current.setAleStatus(1);
             getFacade().create(current);
+
+            //Registra o historico
+            new RegistraHistorico().registraHistoricoGeral(current.getAleId(), current.getClass().getName(), 1);
+
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AtoLegalCreated"));
             return prepareCreate();
         } catch (Exception e) {
@@ -63,14 +135,45 @@ public class AtoLegalController implements Serializable {
     }
 
     public String prepareEdit() {
-        return "Edit";
+
+        try {
+            if (current == null || current.getAleId() == null) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+                return "/atoLegal/List";
+            }
+            dadosTemporariosHistorico = current.getHistoricoDescricao();
+            criacaoHist = new RegistraHistorico().getCriacaoHist(current.getAleId(), current.getClass().getName());
+            alteracaoHist = new RegistraHistorico().getAlteracaoHist(current.getAleId(), current.getClass().getName());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+
+        if (current.getAleId() != null) {
+            Singleton.getInstance().setId(current.getAleId());
+        }
+        return "/atoLegal/Edit";
     }
 
     public String update() {
         try {
+
+            if (current.getAleId() == null) {
+                current.setAleId(Singleton.getInstance().getId());
+            }
+            if (validaAtoLegalRepetidoUpdate()) {
+                throw new AtoLegalException(ResourceBundle.getBundle("/Bundle").getString("AtoLegalJaCadastradoUpdate"));
+            }
+
             getFacade().edit(current);
+
+            //Registra o historico update                
+            new RegistraHistorico().registraHistorico(current.getAleId(), current.getClass().getName(), 0, "Antes: " + dadosTemporariosHistorico + " Depois: " + current.getHistoricoDescricao());
+            // Atualiza as informações caso o usuário altere novamente sem voltar para a lista;
+            dadosTemporariosHistorico = current.getHistoricoDescricao();
+
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AtoLegalUpdated"));
-            return "View";
+            return "/atoLegal/View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -80,19 +183,82 @@ public class AtoLegalController implements Serializable {
     public String destroy() {
         performDestroy();
         recreateModel();
-        return "List";
+        return "/atoLegal/List";
     }
 
     private void performDestroy() {
-        try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AtoLegalDeleted"));
+        try {            
+            if (current == null || current.getAleId() == null) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+
+            } else {
+                current.setAleStatus(0);
+                getFacade().edit(current);
+                new RegistraHistorico().registraHistorico(current.getAleId(), current.getClass().getName(), 2, current.getHistoricoDescricao());
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AtoLegalDeleted"));
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
     private void recreateModel() {
+        current = new AtoLegal();
+        lista = null;
+    }
+
+    public boolean validaAtoLegalRepetidoCreate() {
+        boolean retorno = false;
+
+        Integer numero = Integer.parseInt(current.getAleNumero());
+        current.setAleNumero(numero.toString());
+
+        AtoLegal at = getFacade().validaAtoLegalRepetido(current);
+
+        if (at != null && at.getAleId() != null) {
+            retorno = true;
+        }
+        return retorno;
+
+    }
+
+    public boolean validaAtoLegalRepetidoUpdate() {
+        boolean retorno = false;
+
+        Integer numero = Integer.parseInt(current.getAleNumero());
+        current.setAleNumero(numero.toString());
+
+        AtoLegal at = getFacade().validaAtoLegalRepetido(current);
+
+        if (at != null && at.getAleId() != null) {
+            if (at.getAleId().equals(current.getAleId())
+                    && at.getAleNumero().equals(current.getAleNumero())
+                    && at.getAleTalId().getTalId().equals(current.getAleTalId().getTalId())
+                    && at.getAleAno().equals(current.getAleAno())) {
+                retorno = false;
+            } else {
+                retorno = true;
+            }
+        }
+
+        return retorno;
+
+    }
+
+    public CriacaoHist getCriacaoHist() {
+        return criacaoHist;
+    }
+
+    public void setCriacaoHist(CriacaoHist criacaoHist) {
+        this.criacaoHist = criacaoHist;
+    }
+
+    public AlteracaoHist getAlteracaoHist() {
+        return alteracaoHist;
+    }
+
+    public void setAlteracaoHist(AlteracaoHist alteracaoHist) {
+        this.alteracaoHist = alteracaoHist;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

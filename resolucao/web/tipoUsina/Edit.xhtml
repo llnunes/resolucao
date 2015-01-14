@@ -1,39 +1,54 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.EditTipoUsinaTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendTipoUsinaTitle}"></h:outputText>
+                </f:facet>
+
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditTipoUsinaLabel_tpuId}" for="tpuId" />
-                    <h:inputText id="tpuId" value="#{tipoUsinaController.selected.tpuId}" title="#{bundle.EditTipoUsinaTitle_tpuId}" />
+                    <h:outputLabel value="#{bundle.EditTipoUsinaLabel_tpuId}" for="tpuId" />                        
+                    <p:inputText id="tpuId" readonly="true" value="#{tipoUsinaController.selected.tpuId}" title="#{bundle.EditTipoUsinaTitle_tpuId}" />                        
+
                     <h:outputLabel value="#{bundle.EditTipoUsinaLabel_tpuNm}" for="tpuNm" />
-                    <h:inputText id="tpuNm" value="#{tipoUsinaController.selected.tpuNm}" title="#{bundle.EditTipoUsinaTitle_tpuNm}" required="true" requiredMessage="#{bundle.EditTipoUsinaRequiredMessage_tpuNm}"/>
+                    <p:inputText id="tpuNm" size="70" maxlength="100" value="#{tipoUsinaController.selected.tpuNm}" title="#{bundle.EditTipoUsinaTitle_tpuNm}" required="true" requiredMessage="#{bundle.EditTipoUsinaRequiredMessage_tpuNm}">
+                        <p:focus for="tpuNm"/>
+                    </p:inputText>
                     <h:outputLabel value="#{bundle.EditTipoUsinaLabel_tpuDs}" for="tpuDs" />
-                    <h:inputText id="tpuDs" value="#{tipoUsinaController.selected.tpuDs}" title="#{bundle.EditTipoUsinaTitle_tpuDs}" />
-                    <h:outputLabel value="#{bundle.EditTipoUsinaLabel_tpuStatus}" for="tpuStatus" />
-                    <h:inputText id="tpuStatus" value="#{tipoUsinaController.selected.tpuStatus}" title="#{bundle.EditTipoUsinaTitle_tpuStatus}" required="true" requiredMessage="#{bundle.EditTipoUsinaRequiredMessage_tpuStatus}"/>
+                    <p:inputText id="tpuDs" size="70" maxlength="255" value="#{tipoUsinaController.selected.tpuDs}" title="#{bundle.EditTipoUsinaTitle_tpuDs}" />
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty controleDocumentoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{tipoUsinaController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty controleDocumentoController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{tipoUsinaController.selected.historicoCriacao.dataHora}" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty controleDocumentoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{tipoUsinaController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty controleDocumentoController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{tipoUsinaController.selected.historicoAlteracao.dataHora}" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.dataHora}" /> 
+
                 </h:panelGrid>
-                <h:commandLink action="#{tipoUsinaController.update}" value="#{bundle.EditTipoUsinaSaveLink}"/>
-                <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditTipoUsinaViewLink}"/>
-                <br />
-                <h:commandLink action="#{tipoUsinaController.prepareList}" value="#{bundle.EditTipoUsinaShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditTipoUsinaIndexLink}" />
-            </h:form>
+                <br/>
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{tipoUsinaController.update}" value="#{bundle.EditTipoUsinaSaveLink}"/> &nbsp;                
+                <p:commandButton ajax="false" action="#{tipoUsinaController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.EditTipoUsinaShowAllLink}" immediate="true"/>
+
+            </p:panel>
+
         </ui:define>
     </ui:composition>
 

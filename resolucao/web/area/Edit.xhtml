@@ -1,39 +1,57 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.EditAreaTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendAreaTitle}"></h:outputText>
+                </f:facet>
+
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditAreaLabel_areId}" for="areId" />
-                    <h:inputText id="areId" value="#{areaController.selected.areId}" title="#{bundle.EditAreaTitle_areId}" />
+                    <p:inplace>
+                        <p:inputText id="areId" readonly="true" value="#{areaController.selected.areId}" title="#{bundle.EditAreaTitle_areId}" />
+                    </p:inplace>
                     <h:outputLabel value="#{bundle.EditAreaLabel_areNm}" for="areNm" />
-                    <h:inputText id="areNm" value="#{areaController.selected.areNm}" title="#{bundle.EditAreaTitle_areNm}" required="true" requiredMessage="#{bundle.EditAreaRequiredMessage_areNm}"/>
-                    <h:outputLabel value="#{bundle.EditAreaLabel_areDs}" for="areDs" />
-                    <h:inputText id="areDs" value="#{areaController.selected.areDs}" title="#{bundle.EditAreaTitle_areDs}" />
-                    <h:outputLabel value="#{bundle.EditAreaLabel_areStatus}" for="areStatus" />
-                    <h:inputText id="areStatus" value="#{areaController.selected.areStatus}" title="#{bundle.EditAreaTitle_areStatus}" required="true" requiredMessage="#{bundle.EditAreaRequiredMessage_areStatus}"/>
+                    <p:inputText id="areNm" size="70" maxlength="100" value="#{areaController.selected.areNm}" title="#{bundle.EditAreaTitle_areNm}" required="true" requiredMessage="#{bundle.EditAreaRequiredMessage_areNm}">
+                        <p:focus for="areNm"/>
+                    </p:inputText>
+                    <h:outputLabel value="#{bundle.EditAreaLabel_areDesc}" for="areDesc" />
+                    <p:inputText id="areDesc" size="70" maxlength="255" value="#{areaController.selected.areDs}" title="#{bundle.EditAreaTitle_areDesc}" />
+
+
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty areaController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{areaController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty areaController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty areaController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{areaController.selected.historicoCriacao.dataHora}" rendered="#{not empty areaController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty areaController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{areaController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty areaController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty areaController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{areaController.selected.historicoAlteracao.dataHora}" rendered="#{not empty areaController.selected.historicoAlteracao.dataHora}" /> 
+
                 </h:panelGrid>
-                <h:commandLink action="#{areaController.update}" value="#{bundle.EditAreaSaveLink}"/>
+
                 <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditAreaViewLink}"/>
-                <br />
-                <h:commandLink action="#{areaController.prepareList}" value="#{bundle.EditAreaShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditAreaIndexLink}" />
-            </h:form>
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{areaController.update}" value="#{bundle.EditAreaSaveLink}"/> &nbsp;                
+                <p:commandButton ajax="false" action="#{areaController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.EditAreaShowAllLink}" immediate="true"/>
+            </p:panel>            
         </ui:define>
     </ui:composition>
 

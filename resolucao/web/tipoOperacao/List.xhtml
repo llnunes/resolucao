@@ -1,67 +1,125 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ListTipoOperacaoTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListTipoOperacaoEmpty}" rendered="#{tipoOperacaoController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{tipoOperacaoController.items.rowCount > 0}">
-                    <h:outputText value="#{tipoOperacaoController.pagination.pageFirstItem + 1}..#{tipoOperacaoController.pagination.pageLastItem + 1}/#{tipoOperacaoController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{tipoOperacaoController.previous}" value="#{bundle.Previous} #{tipoOperacaoController.pagination.pageSize}" rendered="#{tipoOperacaoController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{tipoOperacaoController.next}" value="#{bundle.Next} #{tipoOperacaoController.pagination.pageSize}" rendered="#{tipoOperacaoController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{tipoOperacaoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoOperacaoTitle_topId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.topId}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoOperacaoTitle_topNm}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.topNm}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoOperacaoTitle_topDs}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.topDs}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoOperacaoTitle_topStatus}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.topStatus}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink action="#{tipoOperacaoController.prepareView}" value="#{bundle.ListTipoOperacaoViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{tipoOperacaoController.prepareEdit}" value="#{bundle.ListTipoOperacaoEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{tipoOperacaoController.destroy}" value="#{bundle.ListTipoOperacaoDestroyLink}"/>
-                        </h:column>
-                    </h:dataTable>
-                </h:panelGroup>
-                <br />
-                <h:commandLink action="#{tipoOperacaoController.prepareCreate}" value="#{bundle.ListTipoOperacaoCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListTipoOperacaoIndexLink}"/>
-            </h:form>
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <!--<h:form id="formList" styleClass="jsfcrud_list_form">-->
+
+            <p:growl id="messages" life="3000" />
+
+            <h:panelGroup >
+
+                <p:dataTable id="tbl" value="#{tipoOperacaoController.lista}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" widgetVar="tipoOperacaoTable"
+                             currentPageReportTemplate="#{bundle.currentPageReportTemplateTipoOperacao}"  paginatorTemplate="#{bundle.paginatorTemplate}"
+                             rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}" emptyMessage="#{bundle.ListTipoOperacaoEmpty}" 
+                             rowKey="#{item.topId}" selection="#{tipoOperacaoController.selectedTipoOperacao}" selectionMode="single" filteredValue="#{tipoOperacaoController.lista}"
+                             styleClass="mystyle">
+
+                    <f:facet id="global" name="header">
+                        <p:outputPanel id="test" >
+                            <h:outputText value="#{bundle.searchAllFields}" />
+                            <p:inputText id="globalFilter" onkeyup="tipoOperacaoTable.filter()" style="width: 200px;" >
+                                <p:focus for="globalFilter" />
+                            </p:inputText>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column styleClass="firstColumn"  filterBy="#{item.topId}" sortBy="#{item.topId}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListTipoOperacaoTitle_topId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.topId}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.topNm}#{filterSearchController.removeAcentos(item.topNm)}" 
+                              sortBy="#{item.topNm}#{filterSearchController.removeAcentos(item.topNm)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListTipoOperacaoTitle_topNm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.topNm}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.topDs}#{filterSearchController.removeAcentos(item.topDs)}" 
+                              sortBy="#{item.topDs}#{filterSearchController.removeAcentos(item.topDs)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListTipoOperacaoTitle_topDs}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.topDs}"/>
+                    </p:column>
+
+                    <p:column style="width:3%" exportable="false">
+                        <div class="cabecalho">
+                            <div class="imagem">
+                                <p:commandLink update=":formList:displayView" oncomplete="tipoOperacaoDialogView.show()" actionListener="#{tipoOperacaoController.prepareView}" onerror="tipoOperacaoDialogView.hide();" title="#{bundle.MsgVisualizar}" styleClass="ui-icon ui-icon-search">
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{tipoOperacaoController.selectedTipoOperacao}" />
+                                </p:commandLink>
+                            </div>                 
+                            <div class="titulo">
+                                <p:commandLink ajax="false"  action="#{tipoOperacaoController.prepareEdit}" rendered="#{!autenticadorController.loginVisualizador}" title="#{bundle.ListAreaEditLink}" styleClass="ui-icon ui-icon-pencil" >
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{tipoOperacaoController.selectedTipoOperacao}" />
+                                </p:commandLink>
+                            </div>
+                        </div>                     
+                    </p:column>
+
+                    <f:facet name="footer">                            
+                        <p:commandButton id="createCommand" rendered="#{!autenticadorController.loginVisualizador}" ajax="false" icon="#{bundle.icone_documento}" action="#{tipoOperacaoController.prepareCreate}" value="#{bundle.ListTipoOperacaoCreateLink}"/>
+                        <p:commandButton id="viewCommand"  value="#{bundle.MsgVisualizar}" icon="#{bundle.icone_pesquisa}"  update=":formList:displayView" oncomplete="tipoOperacaoDialogView.show()" actionListener="#{tipoOperacaoController.prepareView}" />
+                        <p:commandButton id="editCommand" ajax="false" action="#{tipoOperacaoController.prepareEdit}" value="#{bundle.ListTipoOperacaoEditLink}" icon="#{bundle.icone_pencil}" />
+                        <p:commandButton id="deleteCommand" ajax="false" rendered="#{autenticadorController.loginAdmin}" onclick="confirmationDestroy.show();" value="#{bundle.ListTipoOperacaoDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
+
+                        <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_TipoOperacao}" postProcessor="#{tipoOperacaoController.postProcessorXLS}"/>
+                        </p:commandButton>
+                        <p:commandButton id="excelExportPagAtual" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportPagAtualFileName_TipoOperacao}" pageOnly="true" postProcessor="#{tipoOperacaoController.postProcessorXLS}"/>
+                        </p:commandButton>
+                    </f:facet>                       
+
+                </p:dataTable>
+                <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                    <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide(); #{tipoOperacaoController.prepareList}" icon="#{bundle.icone_listar}" action="#{tipoOperacaoController.destroy}" update="tbl"/>
+                    <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide();" type="button"/>
+                </p:confirmDialog>
+
+                <p:dialog id="dialogView" header="#{bundle.TipoOperacaoDialogView_header}" widgetVar="tipoOperacaoDialogView" resizable="false" modal="true"
+                          width="500" >
+
+                    <h:panelGrid id="displayView" columns="2" cellpadding="4">                          
+
+                        <h:outputText value="#{bundle.ViewTipoOperacaoLabel_topId}"/>
+                        <h:outputText value="#{tipoOperacaoController.selected.topId}" title="#{bundle.ViewTipoOperacaoTitle_topId}"/>
+                        <h:outputText value="#{bundle.ViewTipoOperacaoLabel_topNm}"/>
+                        <h:outputText value="#{tipoOperacaoController.selected.topNm}" title="#{bundle.ViewTipoOperacaoTitle_topNm}"/>
+                        <h:outputText value="#{bundle.ViewTipoOperacaoLabel_topDs}"/>
+                        <h:outputText value="#{tipoOperacaoController.selected.topDs}" title="#{bundle.ViewTipoOperacaoTitle_topDs}"/>  
+
+                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputText id="nomeCriador" value="#{tipoOperacaoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.dataHora}"/>
+                        <h:outputText id="dataCriacao" value="#{tipoOperacaoController.selected.historicoCriacao.dataHora}" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.dataHora}"/>     
+                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty tipoOperacaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputText id="nomeAlterador" value="#{tipoOperacaoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty tipoOperacaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty tipoOperacaoController.selected.historicoAlteracao.dataHora}"/>
+                        <h:outputText id="dataAlteracao" value="#{tipoOperacaoController.selected.historicoAlteracao.dataHora}" rendered="#{not empty tipoOperacaoController.selected.historicoAlteracao.dataHora}" /> 
+
+                    </h:panelGrid>
+                </p:dialog>
+
+            </h:panelGroup>               
+            <!--</h:form>-->
         </ui:define>
     </ui:composition>
 

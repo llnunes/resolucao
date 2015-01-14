@@ -1,38 +1,41 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.CreateTipoOperacaoTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateTipoOperacaoLabel_topId}" for="topId" />
-                    <h:inputText id="topId" value="#{tipoOperacaoController.selected.topId}" title="#{bundle.CreateTipoOperacaoTitle_topId}" />
-                    <h:outputLabel value="#{bundle.CreateTipoOperacaoLabel_topNm}" for="topNm" />
-                    <h:inputText id="topNm" value="#{tipoOperacaoController.selected.topNm}" title="#{bundle.CreateTipoOperacaoTitle_topNm}" required="true" requiredMessage="#{bundle.CreateTipoOperacaoRequiredMessage_topNm}"/>
-                    <h:outputLabel value="#{bundle.CreateTipoOperacaoLabel_topDs}" for="topDs" />
-                    <h:inputText id="topDs" value="#{tipoOperacaoController.selected.topDs}" title="#{bundle.CreateTipoOperacaoTitle_topDs}" />
-                    <h:outputLabel value="#{bundle.CreateTipoOperacaoLabel_topStatus}" for="topStatus" />
-                    <h:inputText id="topStatus" value="#{tipoOperacaoController.selected.topStatus}" title="#{bundle.CreateTipoOperacaoTitle_topStatus}" required="true" requiredMessage="#{bundle.CreateTipoOperacaoRequiredMessage_topStatus}"/>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{tipoOperacaoController.create}" value="#{bundle.CreateTipoOperacaoSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{tipoOperacaoController.prepareList}" value="#{bundle.CreateTipoOperacaoShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateTipoOperacaoIndexLink}"/>
-            </h:form>
+            <!--<h:form>-->
+                <p:growl id="messages" life="3000"/>
+                <p:panel>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.LegendTipoOperacaoTitle}"/>
+                    </f:facet>
+                    <h:panelGrid columns="2">
+                        <ui:remove>
+                            <h:outputLabel value="#{bundle.CreateTipoOperacaoLabel_topId}" for="topId" />
+                            <p:inputText id="topId" value="#{tipoOperacaoController.selected.topId}" title="#{bundle.CreateTipoOperacaoTitle_topId}" required="true" requiredMessage="#{bundle.CreateTipoOperacaoRequiredMessage_topId}"/>
+                        </ui:remove>
+                        <h:outputLabel value="#{bundle.CreateTipoOperacaoLabel_topNm}" for="topNm" />
+                        <p:inputText id="topNm" size="70" maxlength="100" value="#{tipoOperacaoController.selected.topNm}" title="#{bundle.CreateTipoOperacaoTitle_topNm}" required="true" requiredMessage="#{bundle.CreateTipoOperacaoRequiredMessage_topNm}"/>
+                        <h:outputLabel value="#{bundle.CreateTipoOperacaoLabel_topDs}" for="topDs" />
+                        <p:inputText id="topDs" size="70" maxlength="255" value="#{tipoOperacaoController.selected.topDs}" title="#{bundle.CreateTipoOperacaoTitle_topDs}" />
+                    </h:panelGrid>
+                    <br />
+                    <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{tipoOperacaoController.create}" value="#{bundle.CreateTipoOperacaoSaveLink}" /> &nbsp;
+                    <p:commandButton ajax="false" action="#{tipoOperacaoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.CreateTipoOperacaoShowAllLink}" immediate="true"/>
+
+                </p:panel>
+            <!--</h:form>-->
         </ui:define>
     </ui:composition>
 

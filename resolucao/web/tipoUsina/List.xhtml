@@ -1,67 +1,125 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ListTipoUsinaTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListTipoUsinaEmpty}" rendered="#{tipoUsinaController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{tipoUsinaController.items.rowCount > 0}">
-                    <h:outputText value="#{tipoUsinaController.pagination.pageFirstItem + 1}..#{tipoUsinaController.pagination.pageLastItem + 1}/#{tipoUsinaController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{tipoUsinaController.previous}" value="#{bundle.Previous} #{tipoUsinaController.pagination.pageSize}" rendered="#{tipoUsinaController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{tipoUsinaController.next}" value="#{bundle.Next} #{tipoUsinaController.pagination.pageSize}" rendered="#{tipoUsinaController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{tipoUsinaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoUsinaTitle_tpuId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tpuId}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoUsinaTitle_tpuNm}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tpuNm}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoUsinaTitle_tpuDs}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tpuDs}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTipoUsinaTitle_tpuStatus}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tpuStatus}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink action="#{tipoUsinaController.prepareView}" value="#{bundle.ListTipoUsinaViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{tipoUsinaController.prepareEdit}" value="#{bundle.ListTipoUsinaEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{tipoUsinaController.destroy}" value="#{bundle.ListTipoUsinaDestroyLink}"/>
-                        </h:column>
-                    </h:dataTable>
-                </h:panelGroup>
-                <br />
-                <h:commandLink action="#{tipoUsinaController.prepareCreate}" value="#{bundle.ListTipoUsinaCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListTipoUsinaIndexLink}"/>
-            </h:form>
+
+            <p:growl id="messages" life="3000" />
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <p:dataTable id="tbl" value="#{tipoUsinaController.lista}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" widgetVar="tipoUsinaTable"
+                         currentPageReportTemplate="#{bundle.currentPageReportTemplateTipoUsina}"  paginatorTemplate="#{bundle.paginatorTemplate}"
+                         rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}" emptyMessage="#{bundle.ListTipoUsinaEmpty}" 
+                         rowKey="#{item.tpuId}" selection="#{tipoUsinaController.selectedTipoUsina}" selectionMode="single"
+                         filteredValue="#{tipoUsinaController.lista}" styleClass="mystyle">
+
+                <ui:remove>
+                    <p:ajax event="rowDblselect" listener="#{tipoUsinaController.onDblRowSelect(event)}" />
+                </ui:remove>
+
+                <f:facet id="global" name="header">
+                    <p:outputPanel id="test" >
+                        <h:outputText value="#{bundle.searchAllFields}" />
+                        <p:inputText id="globalFilter" onkeyup="tipoUsinaTable.filter()" style="width: 200px;" >
+                            <p:focus for="globalFilter" />
+                        </p:inputText>
+                    </p:outputPanel>
+                </f:facet>
+
+                <p:column styleClass="firstColumn" filterBy="#{item.tpuId}" sortBy="#{item.tpuId}">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListTipoUsinaTitle_tpuId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tpuId}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.tpuNm}" sortBy="#{item.tpuNm}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListTipoUsinaTitle_tpuNm}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tpuNm}"/>
+                </p:column>
+
+                <p:column filterBy="#{item.tpuDs}#{filterSearchController.removeAcentos(item.tpuDs)}" sortBy="#{item.tpuDs}#{filterSearchController.removeAcentos(item.tpuDs)}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListTipoUsinaTitle_tpuDs}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tpuDs}"/>
+                </p:column>
+
+                <p:column style="width:3%" exportable="false">
+                    <div class="cabecalho">
+                        <div class="imagem">
+                            <p:commandLink update=":formList:displayView" oncomplete="tipoUsinaDialogView.show()" onerror="tipoUsinaDialogView.hide();" title="#{bundle.MsgVisualizar}" styleClass="ui-icon ui-icon-search">
+                                <f:setPropertyActionListener value="#{item}" 
+                                                             target="#{tipoUsinaController.selectedTipoUsina}" />
+                            </p:commandLink>
+                        </div>                 
+                        <div class="titulo">
+                            <p:commandLink ajax="false"  action="#{tipoUsinaController.prepareEdit}" rendered="#{!autenticadorController.loginVisualizador}" title="#{bundle.ListTipoUsinaEditLink}" styleClass="ui-icon ui-icon-pencil" >
+                                <f:setPropertyActionListener value="#{item}" 
+                                                             target="#{tipoUsinaController.selectedTipoUsina}" />
+                            </p:commandLink>
+                        </div>
+                    </div>                     
+                </p:column>
+
+                <f:facet name="footer">                            
+                    <p:commandButton id="createCommand" rendered="#{!autenticadorController.loginVisualizador}" ajax="false" icon="#{bundle.icone_documento}" action="#{tipoUsinaController.prepareCreate}" value="#{bundle.ListTipoUsinaCreateLink}"/>
+                    <p:commandButton id="viewCommand"  value="#{bundle.MsgVisualizar}" icon="#{bundle.icone_pesquisa}"  update=":formList:displayView" oncomplete="tipoUsinaDialogView.show()" actionListener="#{tipoUsinaController.prepareView}" />
+                    <p:commandButton id="editCommand" ajax="false" action="#{tipoUsinaController.prepareEdit}" value="#{bundle.ListTipoUsinaEditLink}" icon="#{bundle.icone_pencil}" rendered="#{!autenticadorController.loginVisualizador}"/>
+                    <p:commandButton id="deleteCommand" ajax="false" rendered="#{autenticadorController.loginAdmin}" onclick="confirmationDestroy.show();" value="#{bundle.ListTipoUsinaDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
+
+                    <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                        <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_TipoUsina}"  postProcessor="#{tipoUsinaController.postProcessorXLS}"/>
+                    </p:commandButton>
+                    <p:commandButton id="excelExportPagAtual" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                        <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportPagAtualFileName_TipoUsina}" pageOnly="true"  postProcessor="#{tipoUsinaController.postProcessorXLS}"/>
+                    </p:commandButton>
+                </f:facet>
+            </p:dataTable>
+
+            <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide(); #{tipoUsinaController.prepareList}" icon="#{bundle.icone_listar}" action="#{tipoUsinaController.destroy}" update="tbl"/>
+                <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide();" type="button"/>
+
+            </p:confirmDialog>
+
+            <p:dialog id="dialogView" header="#{bundle.TipoUsinaDialogView_header}" widgetVar="tipoUsinaDialogView" resizable="false" modal="true"
+                      width="500" >
+
+                <h:panelGrid id="displayView" columns="2" cellpadding="4">                          
+
+                    <h:outputText value="#{bundle.ViewTipoUsinaLabel_tpuId}"/>
+                    <h:outputText value="#{tipoUsinaController.selected.tpuId}" title="#{bundle.ViewTipoUsinaTitle_tpuId}"/>
+                    <h:outputText value="#{bundle.ViewTipoUsinaLabel_tpuNm}"/>
+                    <h:outputText value="#{tipoUsinaController.selected.tpuNm}" title="#{bundle.ViewTipoUsinaTitle_tpuNm}"/>
+                    <h:outputText value="#{bundle.ViewTipoUsinaLabel_tpuDs}"/>
+                    <h:outputText value="#{tipoUsinaController.selected.tpuDs}" title="#{bundle.ViewTipoUsinaTitle_tpuDs}"/>  
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{tipoUsinaController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{tipoUsinaController.selected.historicoCriacao.dataHora}" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{tipoUsinaController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{tipoUsinaController.selected.historicoAlteracao.dataHora}" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.dataHora}" />
+
+                </h:panelGrid>
+            </p:dialog>
+
         </ui:define>
     </ui:composition>
 

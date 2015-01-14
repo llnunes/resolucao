@@ -1,46 +1,52 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.CreateResponsavelTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-            </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspId}" for="rspId" />
-                    <h:inputText id="rspId" value="#{responsavelController.selected.rspId}" title="#{bundle.CreateResponsavelTitle_rspId}" />
-                    <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspNm}" for="rspNm" />
-                    <h:inputText id="rspNm" value="#{responsavelController.selected.rspNm}" title="#{bundle.CreateResponsavelTitle_rspNm}" required="true" requiredMessage="#{bundle.CreateResponsavelRequiredMessage_rspNm}"/>
-                    <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspEmail}" for="rspEmail" />
-                    <h:inputText id="rspEmail" value="#{responsavelController.selected.rspEmail}" title="#{bundle.CreateResponsavelTitle_rspEmail}" />
-                    <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspStatus}" for="rspStatus" />
-                    <h:inputText id="rspStatus" value="#{responsavelController.selected.rspStatus}" title="#{bundle.CreateResponsavelTitle_rspStatus}" required="true" requiredMessage="#{bundle.CreateResponsavelRequiredMessage_rspStatus}"/>
-                    <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspCrgId}" for="rspCrgId" />
-                    <h:selectOneMenu id="rspCrgId" value="#{responsavelController.selected.rspCrgId}" title="#{bundle.CreateResponsavelTitle_rspCrgId}" >
-                        <f:selectItems value="#{cargoController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                    <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspAreId}" for="rspAreId" />
-                    <h:selectOneMenu id="rspAreId" value="#{responsavelController.selected.rspAreId}" title="#{bundle.CreateResponsavelTitle_rspAreId}" >
-                        <f:selectItems value="#{areaController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{responsavelController.create}" value="#{bundle.CreateResponsavelSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{responsavelController.prepareList}" value="#{bundle.CreateResponsavelShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateResponsavelIndexLink}"/>
-            </h:form>
+
+            <!--<h:form prependId="false">-->
+                <p:growl id="messages" life="3000"/>
+
+                <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+                </h:panelGroup>
+
+                <p:panel>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.LegendResponsavelTitle}"/>
+                    </f:facet>
+                    <h:panelGrid columns="2">                    
+                        <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspNm}" for="rspNm" />
+                        <p:inputText id="rspNm" size="70" maxlength="100" value="#{responsavelController.selected.rspNm}" title="#{bundle.CreateResponsavelTitle_rspNm}" required="true" requiredMessage="#{bundle.CreateResponsavelRequiredMessage_rspNm}"/>                        
+                        <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspEmail}" for="rspEmail" />
+                        <p:inputText id="rspEmail" size="70" maxlength="255" value="#{responsavelController.selected.rspEmail}" title="#{bundle.CreateResponsavelTitle_rspEmail}" >
+                            <f:validator for="rspEmail" validatorId="br.gov.ana.validators.EmailValidator"/>
+                        </p:inputText>
+                        <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspCrgId}" for="rspCrgId" />
+                        <p:selectOneMenu id="rspCrgId" value="#{responsavelController.selected.rspCrgId}" >
+                            <f:selectItems value="#{cargoController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
+                        <h:outputLabel value="#{bundle.CreateResponsavelLabel_rspAreId}" for="rspAreId" />
+                        <p:selectOneMenu id="rspAreId" value="#{responsavelController.selected.rspAreId}"  >
+                            <f:selectItems value="#{areaController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                    <br />
+
+                    <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{responsavelController.create}" value="#{bundle.CreateResponsavelSaveLink}" /> &nbsp;
+                    <p:commandButton ajax="false" action="#{responsavelController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.CreateResponsavelShowAllLink}" immediate="true"/>
+
+
+                </p:panel>
+            <!--</h:form>-->
         </ui:define>
     </ui:composition>
 

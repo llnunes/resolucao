@@ -3,6 +3,10 @@ package br.gov.ana.controllers;
 import br.gov.ana.entities.TipoUsina;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.facade.TipoUsinaFacade;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
+import br.gov.ana.tests.Singleton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,8 +29,23 @@ public class TipoUsinaController implements Serializable {
     @EJB
     private br.gov.ana.facade.TipoUsinaFacade ejbFacade;
     private List<TipoUsina> lista;
+    private CriacaoHist criacaoHist = new CriacaoHist();
+    private AlteracaoHist alteracaoHist = new AlteracaoHist();
+    private String dadosTemporariosHistorico;
 
     public TipoUsinaController() {
+    }
+
+    public void postProcessorXLS(Object document) {
+        JsfUtil.postProcessorXLS(document);
+    }
+
+    public void setSelectedTipoUsina(TipoUsina current) {
+        this.current = current;
+    }
+
+    public TipoUsina getSelectedTipoUsina() {
+        return this.current;
     }
 
     public TipoUsina getSelected() {
@@ -54,22 +73,38 @@ public class TipoUsinaController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "/tipoUsina/List";
     }
 
     public String prepareView() {
-        return "View";
+        if (current == null) {
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+            return "List";
+        }
+
+        try {
+            criacaoHist = new RegistraHistorico().getCriacaoHist(current.getTpuId(), current.getClass().getName());
+            alteracaoHist = new RegistraHistorico().getAlteracaoHist(current.getTpuId(), current.getClass().getName());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+        return "/tipoUsina/View";
     }
 
     public String prepareCreate() {
         current = new TipoUsina();
-        return "Create";
+        return "/tipoUsina/Create";
     }
 
     public String create() {
         try {
+            current.setTpuStatus(1);
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaCreated"));
+            //Registra o historico create
+            new RegistraHistorico().registraHistoricoGeral(current.getTpuId(), current.getClass().getName(), 1);
+
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaCreated") + " (" + current.getTpuId().intValue() + " - " + current.getTpuNm() + ")");
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -78,14 +113,46 @@ public class TipoUsinaController implements Serializable {
     }
 
     public String prepareEdit() {
-        return "Edit";
+        if (current == null || current.getTpuId() == null) {
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+            try {
+
+                // Recupera as informações antes de sofrer qualquer alteração;
+                dadosTemporariosHistorico = current.getHistoricoDescricao();
+                criacaoHist = new RegistraHistorico().getCriacaoHist(current.getTpuId(), current.getClass().getName());
+                alteracaoHist = new RegistraHistorico().getAlteracaoHist(current.getTpuId(), current.getClass().getName());
+            } catch (Exception e) {
+                JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                return null;
+            }
+            return "/tipoUsina/List";
+        }
+
+        if (current.getTpuId() != null) {
+            Singleton.getInstance().setId(current.getTpuId());
+        }
+
+        return "/tipoUsina/Edit";
     }
 
     public String update() {
         try {
-            getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaUpdated"));
-            return "View";
+            if (current == null) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+                return "/tipoUsina/Edit";
+            } else {
+                if (current.getTpuId() == null) {
+                    current.setTpuId(Singleton.getInstance().getId());
+                }
+
+                getFacade().edit(current);
+                //Registra o historico update                
+                new RegistraHistorico().registraHistorico(current.getTpuId(), current.getClass().getName(), 0, "Antes: " + dadosTemporariosHistorico + " Depois: " + current.getHistoricoDescricao());
+                // Atualiza as informações caso o usuário altere novamente sem voltar para a lista;
+                dadosTemporariosHistorico = current.getHistoricoDescricao();
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaUpdated"));
+                return prepareView();
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -95,19 +162,45 @@ public class TipoUsinaController implements Serializable {
     public String destroy() {
         performDestroy();
         recreateModel();
-        return "List";
+        return "/tipoUsina/List";
     }
 
     private void performDestroy() {
         try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaDeleted"));
+            if (current == null || current.getTpuId() == null) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+
+            } else {
+                current.setTpuStatus(0);
+                getFacade().edit(current);
+                new RegistraHistorico().registraHistorico(current.getTpuId(), current.getClass().getName(), 2, current.getHistoricoDescricao());
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoUsinaDeleted"));
+            }
+
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
     private void recreateModel() {
+        current = new TipoUsina();
+        lista = null;
+    }
+
+    public CriacaoHist getCriacaoHist() {
+        return criacaoHist;
+    }
+
+    public void setCriacaoHist(CriacaoHist criacaoHist) {
+        this.criacaoHist = criacaoHist;
+    }
+
+    public AlteracaoHist getAlteracaoHist() {
+        return alteracaoHist;
+    }
+
+    public void setAlteracaoHist(AlteracaoHist alteracaoHist) {
+        this.alteracaoHist = alteracaoHist;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {

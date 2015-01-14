@@ -1,39 +1,54 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.EditTipoOperacaoTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+            <!--<h:form>-->
+            <p:growl id="messages" life="3000"/>
+
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendTipoOperacaoTitle}"></h:outputText>
+                </f:facet>
+
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topId}" for="topId" />
-                    <h:inputText id="topId" value="#{tipoOperacaoController.selected.topId}" title="#{bundle.EditTipoOperacaoTitle_topId}" />
+                    <p:inplace id="basic" >
+                        <p:inputText id="topId" readonly="true" value="#{tipoOperacaoController.selected.topId}" title="#{bundle.EditTipoOperacaoTitle_topId}"/>
+                    </p:inplace>
                     <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topNm}" for="topNm" />
-                    <h:inputText id="topNm" value="#{tipoOperacaoController.selected.topNm}" title="#{bundle.EditTipoOperacaoTitle_topNm}" required="true" requiredMessage="#{bundle.EditTipoOperacaoRequiredMessage_topNm}"/>
+                    <p:inputText id="topNm" size="70" maxlength="200" value="#{tipoOperacaoController.selected.topNm}" title="#{bundle.EditTipoOperacaoTitle_topNm}" required="true" requiredMessage="#{bundle.EditTipoOperacaoRequiredMessage_topNm}"/>
                     <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topDs}" for="topDs" />
-                    <h:inputText id="topDs" value="#{tipoOperacaoController.selected.topDs}" title="#{bundle.EditTipoOperacaoTitle_topDs}" />
-                    <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topStatus}" for="topStatus" />
-                    <h:inputText id="topStatus" value="#{tipoOperacaoController.selected.topStatus}" title="#{bundle.EditTipoOperacaoTitle_topStatus}" required="true" requiredMessage="#{bundle.EditTipoOperacaoRequiredMessage_topStatus}"/>
+                    <p:inputText id="topDs" size="70" maxlength="255" value="#{tipoOperacaoController.selected.topDs}" title="#{bundle.EditTipoOperacaoTitle_topDs}" />
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{tipoOperacaoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{tipoOperacaoController.selected.historicoCriacao.dataHora}" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty tipoOperacaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{tipoOperacaoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty tipoOperacaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty tipoOperacaoController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{tipoOperacaoController.selected.historicoAlteracao.dataHora}" rendered="#{not empty tipoOperacaoController.selected.historicoAlteracao.dataHora}" /> 
+
                 </h:panelGrid>
-                <h:commandLink action="#{tipoOperacaoController.update}" value="#{bundle.EditTipoOperacaoSaveLink}"/>
                 <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditTipoOperacaoViewLink}"/>
-                <br />
-                <h:commandLink action="#{tipoOperacaoController.prepareList}" value="#{bundle.EditTipoOperacaoShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditTipoOperacaoIndexLink}" />
-            </h:form>
+
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{tipoOperacaoController.update}" value="#{bundle.EditTipoOperacaoSaveLink}"/> &nbsp;                
+                <p:commandButton ajax="false" action="#{tipoOperacaoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.EditTipoOperacaoShowAllLink}" immediate="true"/>
+
+            </p:panel>
+            <!--</h:form>-->
         </ui:define>
     </ui:composition>
 

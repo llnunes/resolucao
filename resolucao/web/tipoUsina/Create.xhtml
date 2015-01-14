@@ -1,38 +1,42 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.CreateTipoUsinaTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+
+
+            <p:growl id="messages" life="3000"/>
+
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendTipoUsinaTitle}"/>
+                </f:facet>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateTipoUsinaLabel_tpuId}" for="tpuId" />
-                    <h:inputText id="tpuId" value="#{tipoUsinaController.selected.tpuId}" title="#{bundle.CreateTipoUsinaTitle_tpuId}" />
+
                     <h:outputLabel value="#{bundle.CreateTipoUsinaLabel_tpuNm}" for="tpuNm" />
-                    <h:inputText id="tpuNm" value="#{tipoUsinaController.selected.tpuNm}" title="#{bundle.CreateTipoUsinaTitle_tpuNm}" required="true" requiredMessage="#{bundle.CreateTipoUsinaRequiredMessage_tpuNm}"/>
+                    <p:inputText id="tpuNm" size="70" maxlength="100" value="#{tipoUsinaController.selected.tpuNm}" title="#{bundle.CreateTipoUsinaTitle_tpuNm}" required="true" requiredMessage="#{bundle.CreateTipoUsinaRequiredMessage_tpuNm}">
+                        <p:focus for="tpuNm"/>
+                    </p:inputText>
                     <h:outputLabel value="#{bundle.CreateTipoUsinaLabel_tpuDs}" for="tpuDs" />
-                    <h:inputText id="tpuDs" value="#{tipoUsinaController.selected.tpuDs}" title="#{bundle.CreateTipoUsinaTitle_tpuDs}" />
-                    <h:outputLabel value="#{bundle.CreateTipoUsinaLabel_tpuStatus}" for="tpuStatus" />
-                    <h:inputText id="tpuStatus" value="#{tipoUsinaController.selected.tpuStatus}" title="#{bundle.CreateTipoUsinaTitle_tpuStatus}" required="true" requiredMessage="#{bundle.CreateTipoUsinaRequiredMessage_tpuStatus}"/>
+                    <p:inputText id="tpuDs" size="70" maxlength="255" value="#{tipoUsinaController.selected.tpuDs}" title="#{bundle.CreateTipoUsinaTitle_tpuDs}" />
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{tipoUsinaController.create}" value="#{bundle.CreateTipoUsinaSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{tipoUsinaController.prepareList}" value="#{bundle.CreateTipoUsinaShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateTipoUsinaIndexLink}"/>
-            </h:form>
+                <br/>
+
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{tipoUsinaController.create}" value="#{bundle.CreateTipoUsinaSaveLink}" /> &nbsp;
+                <p:commandButton ajax="false" action="#{tipoUsinaController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.CreateTipoUsinaShowAllLink}" immediate="true"/>
+            </p:panel>
+
         </ui:define>
     </ui:composition>
 

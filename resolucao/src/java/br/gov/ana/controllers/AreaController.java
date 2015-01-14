@@ -30,6 +30,7 @@ public class AreaController implements Serializable {
     private List<Area> lista;
     private CriacaoHist criacaoHist = new CriacaoHist();
     private AlteracaoHist alteracaoHist = new AlteracaoHist();
+    private String dadosTemporariosHistorico;
 
     public AreaController() {
     }
@@ -65,19 +66,38 @@ public class AreaController implements Serializable {
         return ejbFacade;
     }
 
+    public Area getSelectedArea() {
+        return this.current;
+    }
+
+    public void setSelectedArea(Area controle) {
+        this.current = controle;
+    }
+
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "/area/List";
     }
 
     public String prepareView() {
+        try {
+            if (current == null || current.getAreId() == null) {
+                throw new Exception(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+            }
 
-        return "View";
+            criacaoHist = new RegistraHistorico().getCriacaoHist(current.getAreId(), current.getClass().getName());
+            alteracaoHist = new RegistraHistorico().getAlteracaoHist(current.getAreId(), current.getClass().getName());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+
+        return "/area/View";
     }
 
     public String prepareCreate() {
         current = new Area();
-        return "Create";
+        return "/area/Create";
     }
 
     public String create() {
@@ -95,14 +115,31 @@ public class AreaController implements Serializable {
     }
 
     public String prepareEdit() {
-        return "Edit";
+        try {
+            if (current == null || current.getAreId() == null) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+                return "/area/List";
+            }
+            dadosTemporariosHistorico = current.getHistoricoDescricao();
+            criacaoHist = new RegistraHistorico().getCriacaoHist(current.getAreId(), current.getClass().getName());
+            alteracaoHist = new RegistraHistorico().getAlteracaoHist(current.getAreId(), current.getClass().getName());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+
+        return "/area/Edit";
     }
 
     public String update() {
         try {
             getFacade().edit(current);
             //Registra o historico
-            new RegistraHistorico().registraHistoricoGeral(current.getAreId(), current.getClass().getName(), 0);
+
+            new RegistraHistorico().registraHistorico(current.getAreId(), current.getClass().getName(), 0, "Antes: " + dadosTemporariosHistorico + " Depois: " + current.getHistoricoDescricao());
+            // Atualiza as informações caso o usuário altere novamente sem voltar para a lista;
+            dadosTemporariosHistorico = current.getHistoricoDescricao();
+
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AreaUpdated"));
             return "/area/View";
         } catch (Exception e) {
@@ -114,16 +151,20 @@ public class AreaController implements Serializable {
     public String destroy() {
         performDestroy();
         recreateModel();
-        return "List";
+        return "/area/List";
     }
 
     private void performDestroy() {
         try {
-            current.setAreStatus(0);
-            getFacade().edit(current);
-            //Registra o historico
-            new RegistraHistorico().registraHistoricoGeral(current.getAreId(), current.getClass().getName(), 2);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AreaDeleted"));
+            if (current == null || current.getAreId() == null) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+
+            } else {
+                current.setAreStatus(0);
+                getFacade().edit(current);
+                new RegistraHistorico().registraHistorico(current.getAreId(), current.getClass().getName(), 2, current.getHistoricoDescricao());
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("AreaDeleted"));
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -146,6 +187,7 @@ public class AreaController implements Serializable {
     }
 
     private void recreateModel() {
+        dadosTemporariosHistorico = "";
         lista = null;
     }
 

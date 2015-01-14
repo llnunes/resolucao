@@ -39,10 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orgao.findByOrgSg", query = "SELECT o FROM Orgao o WHERE o.orgSg = :orgSg"),
     @NamedQuery(name = "Orgao.findByOrgJurId", query = "SELECT o FROM Orgao o WHERE o.orgJurId = :orgJurId"),
     @NamedQuery(name = "Orgao.findByOrgNmRepresentante", query = "SELECT o FROM Orgao o WHERE o.orgNmRepresentante = :orgNmRepresentante"),
-    @NamedQuery(name = "Orgao.findByOrgTxTelefone", query = "SELECT o FROM Orgao o WHERE o.orgTxTelefone = :orgTxTelefone"),
-    @NamedQuery(name = "Orgao.findByOrgMunCd", query = "SELECT o FROM Orgao o WHERE o.orgMunCd = :orgMunCd"),
-    @NamedQuery(name = "Orgao.findByOrgTxCep", query = "SELECT o FROM Orgao o WHERE o.orgTxCep = :orgTxCep"),
-    @NamedQuery(name = "Orgao.findByOrgUfdCd", query = "SELECT o FROM Orgao o WHERE o.orgUfdCd = :orgUfdCd"),
+    @NamedQuery(name = "Orgao.findByOrgTxTelefone", query = "SELECT o FROM Orgao o WHERE o.orgTxTelefone = :orgTxTelefone"),   
+    @NamedQuery(name = "Orgao.findByOrgTxCep", query = "SELECT o FROM Orgao o WHERE o.orgTxCep = :orgTxCep"),    
     @NamedQuery(name = "Orgao.findByOrgCargo", query = "SELECT o FROM Orgao o WHERE o.orgCargo = :orgCargo"),
     @NamedQuery(name = "Orgao.findByOrgCnpj", query = "SELECT o FROM Orgao o WHERE o.orgCnpj = :orgCnpj"),
     @NamedQuery(name = "Orgao.findByOrgEmail", query = "SELECT o FROM Orgao o WHERE o.orgEmail = :orgEmail"),
@@ -77,14 +75,15 @@ public class Orgao implements Serializable {
     @Size(max = 15)
     @Column(name = "ORG_TX_TELEFONE")
     private String orgTxTelefone;
-    @Column(name = "ORG_MUN_CD")
-    private Integer orgMunCd;
+    @JoinColumn(name = "ORG_MUNCODIGO", referencedColumnName = "MUNCODIGO")
+    @ManyToOne
+    private Municipio orgMunCodigo;
     @Size(max = 8)
     @Column(name = "ORG_TX_CEP")
     private String orgTxCep;
-    @Size(max = 2)
-    @Column(name = "ORG_UFD_CD")
-    private String orgUfdCd;
+    @JoinColumn(name = "ORG_UFDCODIGO", referencedColumnName = "UFDCODIGO")
+    @ManyToOne
+    private Uf orgUfdCodigo;
     @Size(max = 80)
     @Column(name = "ORG_CARGO")
     private String orgCargo;
@@ -182,12 +181,12 @@ public class Orgao implements Serializable {
         this.orgTxTelefone = orgTxTelefone;
     }
 
-    public Integer getOrgMunCd() {
-        return orgMunCd;
+    public Municipio getOrgMunCodigo() {
+        return orgMunCodigo;
     }
 
-    public void setOrgMunCd(Integer orgMunCd) {
-        this.orgMunCd = orgMunCd;
+    public void setOrgMunCodigo(Municipio orgMunCodigo) {
+        this.orgMunCodigo = orgMunCodigo;
     }
 
     public String getOrgTxCep() {
@@ -198,12 +197,12 @@ public class Orgao implements Serializable {
         this.orgTxCep = orgTxCep;
     }
 
-    public String getOrgUfdCd() {
-        return orgUfdCd;
+    public Uf getOrgUfdCodigo() {
+        return orgUfdCodigo;
     }
 
-    public void setOrgUfdCd(String orgUfdCd) {
-        this.orgUfdCd = orgUfdCd;
+    public void setOrgUfdCodigo(Uf orgUfdCodigo) {
+        this.orgUfdCodigo = orgUfdCodigo;
     }
 
     public String getOrgCargo() {
@@ -348,8 +347,8 @@ public class Orgao implements Serializable {
                     + "; SIGLA: " + orgSg
                     + "; Nome: " + orgNm
                     + "; Endereco: " + (orgTxEndereco != null ? orgTxEndereco : "")
-                    + "; Municipio: " + (orgMunCd != null && orgMunCd.getMunNm() != null ? orgMunCd.getMunNm() : "")
-                    + "; UF: " + (orgUfdCd != null && orgUfdCd.getUfdNm() != null ? orgUfdCd.getUfdNm() : "")
+                    + "; Municipio: " + (orgMunCodigo != null && orgMunCodigo.getMunNome() != null ? orgMunCodigo.getMunNome() : "")
+                    + "; UF: " + (orgUfdCodigo != null && orgUfdCodigo.getUfdNome() != null ? orgUfdCodigo.getUfdNome() : "")
                     + "; Representante: " + (orgNmRepresentante != null ? orgNmRepresentante : "")
                     + "; Telefone: " + (orgTxTelefone != null ? orgTxTelefone : "")
                     + "; Cep: " + (orgTxCep != null ? orgTxCep : "")
@@ -357,7 +356,7 @@ public class Orgao implements Serializable {
                     + "; Email: " + (orgEmail != null ? orgEmail : "")
                     + "; Telefone2: " + (orgTxTelefone2 != null ? orgTxTelefone2 : "")
                     + "; Consorcio: " + (orgTxConsorcio != null ? orgTxConsorcio : "")
-                    + "; Status: " + (orgStatus != null ? orgStatus : "") + "; "
+                    + "; Status: " + (orgStgId.getStgNm() != null ? orgStgId.getStgNm() : "") + "; "
                     + "; Observacao: " + JsfUtil.cortarString(orgTxObservacao, 2500, "...");
         } else {
             return "";
