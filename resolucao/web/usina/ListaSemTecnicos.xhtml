@@ -25,10 +25,6 @@
                              rowKey="#{item.usiId}" emptyMessage="#{bundle.ListUsinaEmpty}"  selectionMode="single" selection="#{usinaController.selectedUsina}"
                              filteredValue="#{usinaController.listaSemTecnicos}" styleClass="mystyle">
 
-                    <ui:remove>
-                        <p:ajax event="rowDblselect" update="@all" listener="#{usinaController.onDblRowSelect(event)}" />
-                    </ui:remove>
-
                     <f:facet id="global" name="header">
                         <p:outputPanel id="test" >
                             <h:outputText value="#{bundle.searchAllFields}" />
@@ -52,12 +48,12 @@
                         <h:outputText value="#{item.usiId}"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.orgaoUsina}#{filterSearchController.removeAcentos(item.orgaoUsina)}" 
-                              filterBy="#{item.orgaoUsina}#{filterSearchController.removeAcentos(item.orgaoUsina)}" filterMatchMode="contains">
+                    <p:column sortBy="#{item.usiOrgId.orgNm}#{filterSearchController.removeAcentos(item.usiOrgId.orgNm)}" 
+                              filterBy="#{item.usiOrgId.orgNm}#{filterSearchController.removeAcentos(item.usiOrgId.orgNm)}" filterMatchMode="contains">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_uslOrgao}"/>
                         </f:facet>
-                        <h:outputText value="#{item.orgaoUsina}"  />
+                        <h:outputText value="#{item.usiOrgId.orgNm}"  />
                     </p:column>
 
                     <p:column styleClass="columnTipo" filterBy="#{item.usiTpuId.tpuNm}" sortBy="#{item.usiTpuId.tpuNm}" filterMatchMode="contains">
@@ -169,11 +165,11 @@
                         <h:outputText value="#{item.usiTxCep}" converter="inputConverter"/>
                     </p:column>
 
-                    <p:column exportable="true" style="display:none;" filterBy="#{item.usiDnsCd.dnsNm}" sortBy="#{item.usiDnsCd.dnsNm}">
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.usiSbcCodigo.sbcNome}" sortBy="#{item.usiSbcCodigo.sbcNome}">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiDnsCd}"/>
                         </f:facet>
-                        <h:outputText value="#{item.usiDnsCd.toString()}"/>
+                        <h:outputText value="#{item.usiSbcCodigo.sbcNome}"/>
                     </p:column>      
 
                     <p:column exportable="true" style="display:none;" >
@@ -202,7 +198,7 @@
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiDtaProjeto}"/>
                         </f:facet>
-                        <h:outputText value="#{item.usiDtaProjeto}">
+                        <h:outputText value="#{item.usiDtaOperacao}">
                             <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/> 
                         </h:outputText>
                     </p:column>
@@ -314,7 +310,7 @@
                         <h:outputText value="#{usinaController.selected.usiUssId.ussNm}" title="#{bundle.ViewUsinaTitle_usiSituacao}"/>
 
                         <h:outputLabel value="#{bundle.ViewUsinaLabel_usiDtaProjeto}" rendered="#{usinaController.emOperacao}"/>
-                        <h:outputText value="#{usinaController.selected.usiDtaProjeto}" rendered="#{usinaController.emOperacao}" title="#{bundle.ViewUsinaTitle_usiDtaProjeto}">
+                        <h:outputText value="#{usinaController.selected.usiDtaOperacao}" rendered="#{usinaController.emOperacao}" title="#{bundle.ViewUsinaTitle_usiDtaProjeto}">
                             <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
                         </h:outputText> 
 
@@ -331,7 +327,7 @@
                         <h:outputText value="#{usinaController.selected.usiTxCep}" converter="inputConverter" title="#{bundle.EditUsinaTitle_usiTxCep}"/> 
 
                         <h:outputLabel value="#{bundle.ViewUsinaLabel_usiDnsCd}"/>
-                        <h:outputText value="#{usinaController.selected.usiDnsCd.toString()}" title="#{bundle.ViewUsinaTitle_usiDnsCd}"/>             
+                        <h:outputText value="#{usinaController.selected.usiSbcCodigo.sbcNome}" title="#{bundle.ViewUsinaTitle_usiDnsCd}"/>             
 
                         <h:outputLabel value="#{bundle.ViewUsinaLocalizacaoLabel_uslRioCd}"/>
                         <h:outputText value="#{usinaController.selected.nmRio}" title="#{bundle.ViewUsinaLocalizacaoTitle_uslRioCd}"/>
@@ -340,7 +336,7 @@
                         <h:outputText value="#{usinaController.selected.usiTxObservacao}" title="#{bundle.ViewUsinaLabel_usiTxObservacao}"/>
 
                         <h:outputLabel value="#{bundle.UsinaLabel_usinaTecnico}" for="usiTecnicos"/>
-                        <p:dataList id="usiTecnicos" value="#{usinaController.selected.tecnicosSelecionados}" var="item" paginator="true" currentPageReportTemplate="Página {currentPage}/{totalPages} de {totalRecords} técnicos(s)." paginatorPosition="bottom" rows="10" rowsPerPageTemplate="10" type="none" 
+                        <p:dataList id="usiTecnicos" value="#{usinaController.selected.tecnicosSelecionados}" var="item" paginator="true" currentPageReportTemplate="PÃ¡gina {currentPage}/{totalPages} de {totalRecords} tÃ©cnicos(s)." paginatorPosition="bottom" rows="10" rowsPerPageTemplate="10" type="none" 
                                     paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}">
                             <h:outputText value="#{item.tecNm} (#{item.tecEmail})" style="margin-left:10px" />                        
                             <br />

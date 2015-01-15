@@ -97,13 +97,13 @@ public class UsinaFacade extends AbstractFacade<Usina> {
         }
     }
 
-    public List<Usina> findAllUsinaByUsiSituacao(String ORDER, BigDecimal s1, BigDecimal s2) {
+    public List<Usina> findAllUsinaByUsiSituacao(BigDecimal s1, BigDecimal s2) {
         try {
             Query q = em.createQuery("SELECT u FROM Usina u "
-                    + "WHERE u.usiUssId.ussId IN (:s1,:s2) ORDER BY :order ASC");
+                    + "WHERE u.usiUssId.ussId IN (:s1,:s2) ");
             q.setParameter("s1", s1);
             q.setParameter("s2", s2);
-            q.setParameter("order", ORDER);
+            
 
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {
@@ -111,15 +111,14 @@ public class UsinaFacade extends AbstractFacade<Usina> {
         }
     }
 
-    public List<Usina> findAllAtivos(String ORDER) {
+    public List<Usina> findAllAtivos() {
         try {
             // Query q = em.createQuery("SELECT u FROM Usina u WHERE (u.usiSituacao not like :usiSituacao AND u.usiSituacao not like :usiSituacao2) OR u.usiSituacao is null ORDER BY :order asc");
             Query q = em.createQuery("SELECT u FROM Usina u "
-                    + "WHERE u.usiUssId.ussId not in (:s1,:s2) OR u.usiUssId is null "
-                    + "ORDER BY :order ASC");
+                    + "WHERE u.usiUssId.ussId not in (:s1,:s2) OR u.usiUssId is null ");
             q.setParameter("s1", USINA_REVOGADA);
             q.setParameter("s2", USINA_INATIVA);
-            q.setParameter("order", ORDER);
+            
 
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {
@@ -127,21 +126,19 @@ public class UsinaFacade extends AbstractFacade<Usina> {
         }
     }
 
-    public List<Usina> findAllUsinaSemTecnico(String ORDER) {
+    public List<Usina> findAllUsinaSemTecnico() {
         try {
             //String select = "select distinct u from Usina u where u.usiId not in (select tu.tusUsiId.usiId from TecnicoUsina tu)";
             //String select = "select distinct u from Usina u LEFT JOIN u.tecnicoUsinaList tu where tu.tusTecId is null and (u.usiSituacao is null or u.usiSituacao like :s1 or u.usiSituacao like :s2 or u.usiSituacao like :s3) ORDER BY u.usiNm";
             String select = "select distinct u from Usina u "
                     + "LEFT JOIN u.tecnicoUsinaList tu "
                     + "where tu.tusTecId is null and "
-                    + "(u.usiUssId is null or u.usiUssId.ussId in (:s1, :s2, :s3)) "
-                    + "ORDER BY :order ASC";
+                    + "(u.usiUssId is null or u.usiUssId.ussId in (:s1, :s2, :s3)) ";
 
             Query q = em.createQuery(select);
             q.setParameter("s1", USINA_OUTORGADA);
             q.setParameter("s2", USINA_EM_CONSTRUCAO);
             q.setParameter("s3", USINA_EM_OPERACAO);
-            q.setParameter("order", ORDER);
 
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {

@@ -5,9 +5,12 @@
 package br.gov.ana.hidroinfoana.facade;
 
 import br.gov.ana.hidroinfoana.entities.Rio;
+import br.gov.ana.hidroinfoana.entities.Subbacia;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -15,6 +18,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class RioFacade extends AbstractFacade<Rio> {
+
     @PersistenceContext(unitName = "hidroinfoanaPU")
     private EntityManager em;
 
@@ -26,5 +30,15 @@ public class RioFacade extends AbstractFacade<Rio> {
     public RioFacade() {
         super(Rio.class);
     }
-    
+
+    public List<Rio> findRioBySubbacia(Subbacia subbacia) {
+        try {
+            Query q = em.createQuery("SELECT r FROM Rio r WHERE r.rioSubbacia = :subbacia");
+            q.setParameter("subbacia", subbacia);
+            return q.getResultList();
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

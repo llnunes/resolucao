@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template2.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUsinaTitle}"></h:outputText>
+
+        </ui:define>
+        <ui:define name="body">
+
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup  id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages  errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <p:focus context="panelUsina"/>  
+
+            <p:panel id="panelUsina">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendUsinaTitle}"></h:outputText>
+                </f:facet>
+
+                <h:panelGrid columns="2">
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiProcesso}" for="usiProcesso" />
+                    <p:inputMask mask="02501.00?9999/20?99" id="usiProcesso" converter="inputConverter" value="#{usinaController.selected.usiProcesso}" title="#{bundle.CreateUsinaTitle_usiProcesso}" >
+                        <p:focus for="usiProcesso"/>
+                    </p:inputMask> 
+
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_uslOrgao}" for="uslOrgao" />
+                    <p:selectOneMenu id="uslOrgao" value="#{usinaController.selected.usiOrgId}" filter="true" filterMatchMode="contains" style="width: 750px" required="true" requiredMessage="#{bundle.CreateUsinaRequiredMessage_ousOrgId}" >
+                        <f:selectItems value="#{orgaoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNm}" for="usiNm" />
+                    <p:inputText id="usiNm" size="70" maxlength="100" value="#{usinaController.selected.usiNm}" title="#{bundle.CreateUsinaTitle_usiNm}" required="true" requiredMessage="#{bundle.CreateUsinaRequiredMessage_usiNm}">
+                    </p:inputText>
+
+
+                    <h:outputLabel value="#{bundle.CreateAtoLegalLabel_atoLegal} "/>  
+
+
+                    <p:fieldset >
+                        <h:panelGroup>
+
+                            <h:outputLabel value="Tipo: " for="tipo"/>
+                            <p:selectOneMenu  id="tipo" value="#{usinaController.atoLegalSelecionado.aleTalId}" filter="true" filterMatchMode="contains" required="true" 
+                                              requiredMessage="#{bundle.CreateAtoLegalRequiredMessage_atoLegal}" > 
+                                <f:selectItems value="#{tipoAtoLegalController.itemsAvailableSelectOne}"/>                                    
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="Numero: " for="numero"/>
+                            <p:inputMask mask="9?9999" id="numero" required="true" size="6" value="#{usinaController.atoLegalSelecionado.aleNumero}"
+                                         requiredMessage="#{bundle.CreateAtoLegalRequiredMessage_aleNumero}" >                                                 
+                            </p:inputMask>                                                            
+
+                            <h:outputLabel value="Data: " for="aleDt"/>
+                            <p:calendar  id="aleDt" required="true" value="#{usinaController.atoLegalSelecionado.aleDt}" 
+                                         requiredMessage="#{bundle.CreateAtoLegalRequiredMessage_aleDt}"  maxdate="#{bundle.maxDateCalendar}" 
+                                         onkeyup="formatar(this, '##/##/####');" locale="#{bundle.localeApp}" 
+                                         size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}" >
+
+                                <f:convertDateTime for="aleDt" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>                                    
+                            </p:calendar>
+                        </h:panelGroup>
+                    </p:fieldset>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNuAreaDrenagem}" for="usiNuAreaDrenagem" />
+                    <h:panelGroup>
+                        <p:inputText id="usiNuAreaDrenagem" value="#{usinaController.selected.usiNuAreaDrenagem}"  title="#{bundle.CreateUsinaTitle_usiNuAreaDrenagem}" maxlength="18" onkeyup="mascara(this, valor);" > 
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="2" minFractionDigits="1"/>
+                        </p:inputText> <h:outputText value=" #{bundle.KM2}"/>
+                    </h:panelGroup>
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNuAreaIncremental}" for="usiNuAreaIncremental" /> 
+                    <h:panelGroup>
+                        <p:inputText id="usiNuAreaIncremental" value="#{usinaController.selected.usiNuAreaIncremental}" title="#{bundle.CreateUsinaTitle_usiNuAreaIncremental}" maxlength="18" onkeyup="mascara(this, valor);" > 
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="2" minFractionDigits="1"/>
+                        </p:inputText> <h:outputText value=" #{bundle.KM2}"/>
+                    </h:panelGroup>
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNuAreaInundada}" for="usiNuAreaInundada" />
+                    <h:panelGroup>   
+                        <p:inputText id="usiNuAreaInundada" value="#{usinaController.selected.usiNuAreaInundada}" title="#{bundle.CreateUsinaTitle_usiNuAreaInundada}" maxlength="18" onkeyup="mascara(this, valor);">
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="2" minFractionDigits="1"/>
+                        </p:inputText> <h:outputText value=" #{bundle.KM2}"/>
+                    </h:panelGroup>
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiNuPotencia}" for="usiNuPotencia" />
+                    <h:panelGroup >
+                        <p:inputText id="usiNuPotencia" value="#{usinaController.selected.usiNuPotencia}" title="#{bundle.CreateUsinaTitle_usiNuPotencia}" maxlength="18" onkeyup="mascara(this, valor);">
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="2" minFractionDigits="1"/>
+                        </p:inputText>
+                        <h:outputText value=" #{bundle.MW}"/>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiLatitude}" for="usiLatitude" />
+                    <h:panelGroup id="usiLatitude">   
+                        <h:selectBooleanCheckbox id="sinalLatitude" value="#{usinaController.sinalLatitude}"></h:selectBooleanCheckbox>
+                        <p:inputMask id="latG" mask="9?9"  styleClass="latG" size="5" maxlength="2" value="#{usinaController.latitude.graus}"  title="#{bundle.CreateUsinaTitle_usiLatG}">
+                            <f:validateLongRange maximum="90" minimum="-90"/>                                
+                        </p:inputMask> <font style="font-weight: bold; font-size: large">&deg; </font>
+                        <p:inputMask mask="9?9" id="latM" styleClass="latM" size="5" maxlength="2" value="#{usinaController.latitude.minutos}" title="#{bundle.CreateUsinaTitle_usiLatM}">
+                            <f:validateLongRange maximum="59" minimum="0" for="longM"/>
+                        </p:inputMask> <font style="font-weight: bold; font-size: large">&apos; </font>
+                        <p:inputText id="latS" styleClass="latS" size="5" maxlength="5" value="#{usinaController.latitude.segundos}" title="#{bundle.CreateUsinaTitle_usiLatS}" onkeyup="mascara(this, valor);">
+                            <f:validateDoubleRange maximum="59.99" minimum="0"/>
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="5" minFractionDigits="#{bundle.minFractionDigits}"  />
+                        </p:inputText> <font style="font-weight: bold; font-size: large">&apos;&apos; </font>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiLongitude}" for="usiLongitude" />
+                    <h:panelGroup id="usiLongitude">
+                        <h:selectBooleanCheckbox id="sinalLongitude" value="#{usinaController.sinalLongitude}"></h:selectBooleanCheckbox>
+                        <p:inputMask mask="9?99" id="longG" styleClass="longG" size="5" maxlength="3" value="#{usinaController.longitude.graus}" title="#{bundle.CreateUsinaTitle_usiLongG}">
+                            <f:validateLongRange maximum="180" minimum="-180"/>                                
+                        </p:inputMask> <font style="font-weight: bold; font-size: large">&deg; </font>
+                        <p:inputMask mask="9?9" id="longM" styleClass="longM" size="5" maxlength="2" value="#{usinaController.longitude.minutos}" title="#{bundle.CreateUsinaTitle_usiLongM}">
+                            <f:validateLongRange maximum="59" minimum="0" for="longM"/>
+                        </p:inputMask> <font style="font-weight: bold; font-size: large">&apos; </font>
+                        <p:inputText id="longS" styleClass="longS" size="5" maxlength="5" value="#{usinaController.longitude.segundos}" title="#{bundle.CreateUsinaTitle_usiLongS}" onkeyup="mascara(this, valor);">
+                            <f:validateDoubleRange maximum="59.99" minimum="0"/>
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="5" minFractionDigits="#{bundle.minFractionDigits}"  />
+                        </p:inputText> <font style="font-weight: bold; font-size: large">&apos;&apos; </font>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiTpuId}" for="usiTpuId" />                        
+                    <p:selectOneMenu id="usiTpuId" value="#{usinaController.selected.usiTpuId}" required="true" requiredMessage="#{bundle.CreateUsinaRequiredMessage_usiTpuId}">
+                        <f:selectItems value="#{tipoUsinaController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiSituacao}" for="usiSituacao" />     
+                    <h:panelGroup id="groupOperacao">
+                        <p:selectOneMenu id="usiSituacao" value="#{usinaController.selected.usiUssId}" required="true" requiredMessage="#{bundle.CreateUsinaRequiredMessage_usiSituacao}">
+                            <f:selectItems value="#{usinaSituacaoController.itemsAvailableSelectOne}"/>
+                            <p:ajax listener="#{usinaController.atualizaCampoDtEmOperacao}"  update=":formPrincipal:groupOperacao, :formPrincipal:usiDtaOperacaoLabel, :formPrincipal:usiDtaOperacao"/>-->
+                        </p:selectOneMenu>                         
+
+                        <h:outputLabel id="usiDtaOperacaoLabel" value="#{bundle.CreateUsinaTitle_usiDtaProjeto}" rendered="#{usinaController.emOperacao}" for="usiDtaOperacao" />
+                        <p:calendar  id="usiDtaOperacao" required="false" value="#{usinaController.dataEmOperacao}" maxdate="#{bundle.maxDateCalendar}" rendered="#{usinaController.emOperacao}" onkeyup="formatar(this, '##/##/####');" locale="#{bundle.localeApp}" 
+                                     size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}" >
+
+                            <f:convertDateTime for="usiDtaOperacao" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </p:calendar>                        
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLocalizacaoLabel_uslUfdCd}" />
+                    <h:panelGroup>
+                        <p:selectOneMenu id="uslUfdCd" value="#{usinaController.usinaLocalizacao.uslUfdCodigo}" >
+                            <f:selectItems value="#{unidadeFederacaoController.itemsAvailableSelectOne}" />
+                            <p:ajax update="uslMunCd"  listener="#{usinaController.carregaMunicipios}" />
+                        </p:selectOneMenu>
+
+                        <p:selectOneMenu id="uslUfdCd2" value="#{usinaController.usinaLocalizacao2.uslUfdCodigo}" >
+                            <f:selectItems value="#{unidadeFederacaoController.itemsAvailableSelectOne}" />
+                            <p:ajax update="uslMunCd2"  listener="#{usinaController.carregaMunicipios2}" />
+                        </p:selectOneMenu> 
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLocalizacaoLabel_uslMunCd}" />
+                    <h:panelGroup>
+                        <p:selectOneMenu id="uslMunCd" value="#{usinaController.usinaLocalizacao.uslMunCodigo}"  filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{usinaController.itemsAvailableSelectOneMunicipioByUf}"/>
+                        </p:selectOneMenu>                        
+                        <p:selectOneMenu id="uslMunCd2" value="#{usinaController.usinaLocalizacao2.uslMunCodigo}"   filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{usinaController.itemsAvailableSelectOneMunicipioByUf2}"/>
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiTxEndereco}" for="usiTxEndereco" />
+                    <h:panelGroup>
+                        <p:inputTextarea cols="55" rows="3" id="usiTxEndereco" counter="counter" counterTemplate="{0} caracteres restantes." value="#{usinaController.selected.usiTxEndereco}" title="#{bundle.CreateUsinaTitle_usiTxEndereco}" maxlength="4000" autoResize="false"/>
+                        <br /><h:outputText id="counter" /> 
+                    </h:panelGroup>
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiTxCep}" for="usiTxCep" />
+                    <p:inputMask converter="inputConverter" mask="99999-999" id="usiTxCep"  value="#{usinaController.selected.usiTxCep}"  title="#{bundle.CreateUsinaTitle_usiTxCep}" />
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLocalizacaoLabel_subbacia}"  />
+
+                    <p:selectOneMenu  id="subbacia" value="#{usinaController.subbacia}"   filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{subbaciaController.itemsAvailableSelectOne}"/>
+                        <p:ajax update="uslRioCd" listener="#{usinaController.carregaRios}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLocalizacaoLabel_uslRioCd}" for="uslRioCd" />
+                    <p:selectOneMenu id="uslRioCd" value="#{usinaController.usinaLocalizacao.uslRioCodigo}"  filter="true" filterMatchMode="contains" >
+                        <f:selectItems value="#{usinaController.itemsAvailableSelectOneRiosBySubbacia}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateUsinaLabel_usiTxObservacao}" for="usiTxObservacao" />
+                    <h:panelGroup>
+                        <p:inputTextarea autoResize="false" maxlength="4000" counter="counter2" counterTemplate="{0} caracteres restantes."  value="#{usinaController.selected.usiTxObservacao}" cols="75" rows="4" id="usiTxObservacao" title="#{bundle.CreateUsinaTitle_usiTxObservacao}"/>
+                        <br /><h:outputText id="counter2" /> 
+                    </h:panelGroup>                      
+
+                    <h:outputLabel value="#{bundle.UsinaLabelSelect_usinaTecnico}" for="tecPick" />
+                    <p:pickList id="tecPick" showSourceFilter="true" filterMatchMode="contains" showTargetFilter="true" value="#{usinaController.tecnicosDualList}"  converter="tecnicoConverter"  var="item" itemLabel="#{item}" itemValue="#{item}" >
+                        <f:facet name="sourceCaption">#{bundle.disponiveis}</f:facet>  
+                        <f:facet name="targetCaption">#{bundle.selecionados}</f:facet> 
+                    </p:pickList>   
+
+                </h:panelGrid>
+
+                <br />                   
+
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}"  update="messages" id="usuLocalizacaoCommand"  action="#{usinaController.create}" value="#{bundle.CreateUsinaSaveLink}" icon="#{bundle.icone_salvar}" />                    
+                <p:commandButton ajax="false" action="#{usinaController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.CreateUsinaShowAllLink}" immediate="true"/>
+
+                <ui:remove>
+                    <p:commandButton ajax="true"  value="#{bundle.UsinaDialogDadosAdicionais}" id="usinaDialog" widgetVar="usDialog" onclick="dialogo.show();"/>
+                </ui:remove>
+            </p:panel>
+
+        </ui:define>
+    </ui:composition>
+
+</html>
