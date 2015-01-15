@@ -79,7 +79,7 @@ public class TipoUsinaController implements Serializable {
     public String prepareView() {
         if (current == null) {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
-            return "List";
+            return "/tipoUsina/List";
         }
 
         try {
@@ -204,11 +204,11 @@ public class TipoUsinaController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        return JsfUtil.getSelectItems(ejbFacade.findAtivos(), false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        return JsfUtil.getSelectItems(ejbFacade.findAtivos(), true);
     }
 
     public TipoUsina getTipoUsina(java.math.BigDecimal id) {

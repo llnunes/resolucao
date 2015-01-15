@@ -1,45 +1,64 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ViewTipoAtoLegalTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendTipoAtoLegalTitle}"></h:outputText>    
+                </f:facet>
+
                 <h:panelGrid columns="2">
                     <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talId}"/>
                     <h:outputText value="#{tipoAtoLegalController.selected.talId}" title="#{bundle.ViewTipoAtoLegalTitle_talId}"/>
-                    <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talNm}"/>
-                    <h:outputText value="#{tipoAtoLegalController.selected.talNm}" title="#{bundle.ViewTipoAtoLegalTitle_talNm}"/>
                     <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talSigla}"/>
                     <h:outputText value="#{tipoAtoLegalController.selected.talSigla}" title="#{bundle.ViewTipoAtoLegalTitle_talSigla}"/>
+                    <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talNm}"/>
+                    <h:outputText value="#{tipoAtoLegalController.selected.talNm}" title="#{bundle.ViewTipoAtoLegalTitle_talNm}"/>
                     <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talDs}"/>
                     <h:outputText value="#{tipoAtoLegalController.selected.talDs}" title="#{bundle.ViewTipoAtoLegalTitle_talDs}"/>
                     <h:outputText value="#{bundle.ViewTipoAtoLegalLabel_talStatus}"/>
-                    <h:outputText value="#{tipoAtoLegalController.selected.talStatus}" title="#{bundle.ViewTipoAtoLegalTitle_talStatus}"/>
-                </h:panelGrid>
-                <br />
-                <h:commandLink action="#{tipoAtoLegalController.destroyAndView}" value="#{bundle.ViewTipoAtoLegalDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewTipoAtoLegalEditLink}"/>
-                <br />
-                <h:commandLink action="#{tipoAtoLegalController.prepareCreate}" value="#{bundle.ViewTipoAtoLegalCreateLink}" />
-                <br />
-                <h:commandLink action="#{tipoAtoLegalController.prepareList}" value="#{bundle.ViewTipoAtoLegalShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewTipoAtoLegalIndexLink}"/>
+                    <h:outputText value="#{tipoAtoLegalController.selected.statusTipoAtoLegal}" title="#{bundle.ViewTipoAtoLegalTitle_talStatus}"/>
 
-            </h:form>
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty tipoAtoLegalController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{tipoAtoLegalController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoAtoLegalController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty tipoAtoLegalController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{tipoAtoLegalController.selected.historicoCriacao.dataHora}" rendered="#{not empty tipoAtoLegalController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty tipoAtoLegalController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{tipoAtoLegalController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty tipoAtoLegalController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty tipoAtoLegalController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{tipoAtoLegalController.selected.historicoAlteracao.dataHora}" rendered="#{not empty tipoAtoLegalController.selected.historicoAlteracao.dataHora}" /> 
+
+
+                </h:panelGrid>
+
+                <br />
+                <p:commandButton id="deleteCommand" rendered="#{autenticadorController.loginAdmin}"  onclick="confirmationDestroy.show();" value="#{bundle.ViewTipoAtoLegalDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />&nbsp;
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_pencil}" action="Edit" value="#{bundle.ViewTipoAtoLegalEditLink}"/> &nbsp;                    
+                <p:commandButton ajax="false" action="#{tipoAtoLegalController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.ViewTipoAtoLegalShowAllLink}" immediate="true"/>                    
+
+            </p:panel>
+            <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide();" action="#{tipoAtoLegalController.destroy}" />
+                <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide();" type="button"/>
+
+            </p:confirmDialog>               
+
+
         </ui:define>
     </ui:composition>
 

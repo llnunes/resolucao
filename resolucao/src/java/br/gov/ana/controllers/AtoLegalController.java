@@ -262,11 +262,11 @@ public class AtoLegalController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        return JsfUtil.getSelectItems(ejbFacade.findAllAtivos(), false);
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        return JsfUtil.getSelectItems(ejbFacade.findAllAtivos(), true);
     }
 
     public AtoLegal getAtoLegal(java.math.BigDecimal id) {

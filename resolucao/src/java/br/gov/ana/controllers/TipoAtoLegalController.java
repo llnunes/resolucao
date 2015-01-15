@@ -3,8 +3,14 @@ package br.gov.ana.controllers;
 import br.gov.ana.entities.TipoAtoLegal;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.facade.TipoAtoLegalFacade;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
+import br.gov.ana.historico.RegistraHistorico;
+import br.gov.ana.tests.Singleton;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
@@ -22,8 +28,37 @@ public class TipoAtoLegalController implements Serializable {
     private TipoAtoLegal current;
     @EJB
     private br.gov.ana.facade.TipoAtoLegalFacade ejbFacade;
+    private List<TipoAtoLegal> lista;
+    /**/
+    private CriacaoHist criacaoHist = new CriacaoHist();
+    private AlteracaoHist alteracaoHist = new AlteracaoHist();
+    private String dadosTemporariosHistorico;
 
     public TipoAtoLegalController() {
+    }
+
+    public void postProcessorXLS(Object document) {
+        JsfUtil.postProcessorXLS(document);
+    }
+
+    public List<TipoAtoLegal> getLista() {
+        if (lista == null) {
+            lista = new ArrayList<TipoAtoLegal>();
+            lista = ejbFacade.findAllAtivos();
+        }
+        return lista;
+    }
+
+    public void setLista(List<TipoAtoLegal> lista) {
+        this.lista = lista;
+    }
+
+    public void setSelectedTipoAtoLegal(TipoAtoLegal current) {
+        this.current = current;
+    }
+
+    public TipoAtoLegal getSelectedTipoAtoLegal() {
+        return this.current;
     }
 
     public TipoAtoLegal getSelected() {
@@ -39,21 +74,36 @@ public class TipoAtoLegalController implements Serializable {
 
     public String prepareList() {
         recreateModel();
-        return "List";
+        return "/tipoAtoLegal/List";
     }
 
     public String prepareView() {
-        return "View";
+        try {
+            if (current == null || current.getTalId() == null) {
+                throw new Exception(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+            }
+
+            criacaoHist = new RegistraHistorico().getCriacaoHist(current.getTalId(), current.getClass().getName());
+            alteracaoHist = new RegistraHistorico().getAlteracaoHist(current.getTalId(), current.getClass().getName());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+
+        return "/tipoAtoLegal/View";
     }
 
     public String prepareCreate() {
         current = new TipoAtoLegal();
-        return "Create";
+        return "/tipoAtoLegal/Create";
     }
 
     public String create() {
         try {
+            current.setTalStatus(1);
             getFacade().create(current);
+            new RegistraHistorico().registraHistoricoGeral(current.getTalId(), current.getClass().getName(), 1);
+
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoAtoLegalCreated"));
             return prepareCreate();
         } catch (Exception e) {
@@ -63,14 +113,38 @@ public class TipoAtoLegalController implements Serializable {
     }
 
     public String prepareEdit() {
-        return "Edit";
+
+        try {
+            if (current == null || current.getTalId() == null) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+                return "/tipoAtoLegal/List";
+            }
+            dadosTemporariosHistorico = current.getHistoricoDescricao();
+            criacaoHist = new RegistraHistorico().getCriacaoHist(current.getTalId(), current.getClass().getName());
+            alteracaoHist = new RegistraHistorico().getAlteracaoHist(current.getTalId(), current.getClass().getName());
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            return null;
+        }
+        return "/tipoAtoLegal/Edit";
+
     }
 
     public String update() {
         try {
+            if (current.getTalId() == null) {
+                current.setTalId(Singleton.getInstance().getId());
+            }
+
             getFacade().edit(current);
+
+            //Registra o historico update                
+            new RegistraHistorico().registraHistorico(current.getTalId(), current.getClass().getName(), 0, "Antes: " + dadosTemporariosHistorico + " Depois: " + current.getHistoricoDescricao());
+            // Atualiza as informações caso o usuário altere novamente sem voltar para a lista;
+            dadosTemporariosHistorico = current.getHistoricoDescricao();
+
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoAtoLegalUpdated"));
-            return "View";
+            return "/tipoAtoLegal/View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -80,27 +154,53 @@ public class TipoAtoLegalController implements Serializable {
     public String destroy() {
         performDestroy();
         recreateModel();
-        return "List";
+        return "/tipoAtoLegal/List";
     }
 
     private void performDestroy() {
+
         try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoAtoLegalDeleted"));
+            if (current == null || current.getTalId() == null) {
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
+
+            } else {
+                current.setTalStatus(0);
+                getFacade().edit(current);
+                new RegistraHistorico().registraHistorico(current.getTalId(), current.getClass().getName(), 2, current.getHistoricoDescricao());
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("TipoAtoLegalDeleted"));
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
     private void recreateModel() {
+        current = new TipoAtoLegal();
+        lista = null;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
+        return JsfUtil.getSelectItems(ejbFacade.findAllAtivos(), false);
+    }
+
+    public CriacaoHist getCriacaoHist() {
+        return criacaoHist;
+    }
+
+    public void setCriacaoHist(CriacaoHist criacaoHist) {
+        this.criacaoHist = criacaoHist;
+    }
+
+    public AlteracaoHist getAlteracaoHist() {
+        return alteracaoHist;
+    }
+
+    public void setAlteracaoHist(AlteracaoHist alteracaoHist) {
+        this.alteracaoHist = alteracaoHist;
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        return JsfUtil.getSelectItems(ejbFacade.findAllAtivos(), true);
     }
 
     public TipoAtoLegal getTipoAtoLegal(java.math.BigDecimal id) {

@@ -1,43 +1,80 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.EditTecnicoTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+
+            <!--<h:form id="formPrincipal" prependId="false">-->
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>                
             </h:panelGroup>
-            <h:form>
+            <p:focus context="panelTecnicoEdit"/>  
+
+            <p:panel id="panelTecnicoEdit"> 
+
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendTecnicoTitle}"></h:outputText>
+                </f:facet>
+
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditTecnicoLabel_tecId}" for="tecId" />
-                    <h:inputText id="tecId" value="#{tecnicoController.selected.tecId}" title="#{bundle.EditTecnicoTitle_tecId}" />
+                    <p:inplace id="basic" >
+                        <p:inputText id="tecId" readonly="true" value="#{tecnicoController.selected.tecId}" title="#{bundle.EditTecnicoTitle_tecId}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecId}"/>
+                    </p:inplace>
                     <h:outputLabel value="#{bundle.EditTecnicoLabel_tecNm}" for="tecNm" />
-                    <h:inputText id="tecNm" value="#{tecnicoController.selected.tecNm}" title="#{bundle.EditTecnicoTitle_tecNm}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecNm}"/>
+                    <p:inputText id="tecNm" size="70" maxlength="104" value="#{tecnicoController.selected.tecNm}" title="#{bundle.EditTecnicoTitle_tecNm}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecNm}">
+                        <p:focus for="tecNm"/>
+                    </p:inputText>
                     <h:outputLabel value="#{bundle.EditTecnicoLabel_tecEmail}" for="tecEmail" />
-                    <h:inputText id="tecEmail" value="#{tecnicoController.selected.tecEmail}" title="#{bundle.EditTecnicoTitle_tecEmail}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecEmail}"/>
-                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecTelefone}" for="tecTelefone" />
-                    <h:inputText id="tecTelefone" value="#{tecnicoController.selected.tecTelefone}" title="#{bundle.EditTecnicoTitle_tecTelefone}" />
-                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecTelefone2}" for="tecTelefone2" />
-                    <h:inputText id="tecTelefone2" value="#{tecnicoController.selected.tecTelefone2}" title="#{bundle.EditTecnicoTitle_tecTelefone2}" />
-                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecStatus}" for="tecStatus" />
-                    <h:inputText id="tecStatus" value="#{tecnicoController.selected.tecStatus}" title="#{bundle.EditTecnicoTitle_tecStatus}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecStatus}"/>
+                    <p:inputText id="tecEmail" size="70" maxlength="512" value="#{tecnicoController.selected.tecEmail}" title="#{bundle.EditTecnicoTitle_tecEmail}" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecEmail}">
+                        <f:validator for="tecEmail" validatorId="br.gov.ana.validators.EmailValidator"/>
+                    </p:inputText>
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecTelefone}" for="tecTelefone" />                        
+                    <p:inputText onkeyup="mascara(this, mtel);" maxlength="15" id="tecTelefone" value="#{tecnicoController.selected.tecTelefone}" converter="inputConverter" title="#{bundle.EditTecnicoTitle_tecTelefone}" />
+
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecTelefone2}" for="tecTelefone2" />                        
+                    <p:inputText onkeyup="mascara(this, mtel);" maxlength="15" id="tecTelefone2" value="#{tecnicoController.selected.tecTelefone2}" converter="inputConverter" title="#{bundle.EditTecnicoTitle_tecTelefone2}" />
+
+                    <h:outputLabel value="#{bundle.EditTecnicoLabel_tecUsina}" for="usiPick"/>
+                    <p:pickList id="usiPick" showSourceFilter="true" filterMatchMode="contains" required="true" requiredMessage="#{bundle.EditTecnicoRequiredMessage_tecUsina}" showTargetFilter="true" value="#{tecnicoController.usinasDualList}"  converter="usinaConverter"  var="item" itemLabel="#{item}" itemValue="#{item}" >
+                        <f:facet name="sourceCaption">#{bundle.TecnicoUsinaDialogSourceCaption}</f:facet>
+                        <f:facet name="targetCaption">#{bundle.TecnicoUsinaDialogTargetCaption}</f:facet>
+                    </p:pickList>
+
+                    <ui:remove>
+                        <h:outputLabel value="#{bundle.EditTecnicoLabel_tecUsina}"/>                 
+                        <p:dataList id="dataListUsinas" value="#{tecnicoController.usinasList}" var="item" paginator="true" currentPageReportTemplate="Página {currentPage}/{totalPages} de {totalRecords} usinas(s)." paginatorPosition="bottom" rows="15" rowsPerPageTemplate="15,30,60" type="none" paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}">
+                            <h:outputText value="#{item.usiTpuId.tpuNm} #{item.usiNm} (#{item.orgaoUsina})" style="margin-left:10px" />                        
+                            <br />
+                        </p:dataList>
+                    </ui:remove>
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{tecnicoController.selected.historicoCriacao.nomeUsuario != null}"/>
+                    <h:outputText id="nomeCriador" value="#{tecnicoController.selected.historicoCriacao.nomeUsuario}" rendered="#{tecnicoController.selected.historicoCriacao.nomeUsuario != null}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{tecnicoController.selected.historicoCriacao.dataHora != null}"/>
+                    <h:outputText id="dataCriacao" value="#{tecnicoController.selected.historicoCriacao.dataHora}" rendered="#{tecnicoController.selected.historicoCriacao.dataHora != null}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{tecnicoController.selected.historicoAlteracao.nomeUsuario != null}"/>
+                    <h:outputText id="nomeAlterador" value="#{tecnicoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{tecnicoController.selected.historicoAlteracao.nomeUsuario != null}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{tecnicoController.selected.historicoAlteracao.dataHora != null}"/>
+                    <h:outputText id="dataAlteracao" value="#{tecnicoController.selected.historicoAlteracao.dataHora}" rendered="#{tecnicoController.selected.historicoAlteracao.dataHora != null}" /> 
+
                 </h:panelGrid>
-                <h:commandLink action="#{tecnicoController.update}" value="#{bundle.EditTecnicoSaveLink}"/>
-                <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditTecnicoViewLink}"/>
-                <br />
-                <h:commandLink action="#{tecnicoController.prepareList}" value="#{bundle.EditTecnicoShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditTecnicoIndexLink}" />
-            </h:form>
+
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{tecnicoController.update}" value="#{bundle.EditTecnicoSaveLink}"/>&nbsp;
+                <p:commandButton ajax="false" action="#{tecnicoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.EditTecnicoShowAllLink}" immediate="true"/>
+
+            </p:panel>
+            <!--</h:form>-->
         </ui:define>
     </ui:composition>
 

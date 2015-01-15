@@ -3,6 +3,8 @@ package br.gov.ana.hidroinfoana.controllers;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.hidroinfoana.entities.Orgao;
 import br.gov.ana.hidroinfoana.facade.OrgaoFacade;
+import br.gov.ana.historico.AlteracaoHist;
+import br.gov.ana.historico.CriacaoHist;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.SelectItem;
+import org.primefaces.component.datatable.DataTable;
 
 @ManagedBean(name = "orgaoController")
 @SessionScoped
@@ -24,7 +27,18 @@ public class OrgaoController implements Serializable {
     private Orgao current;
     @EJB
     private br.gov.ana.hidroinfoana.facade.OrgaoFacade ejbFacade;
+    @EJB
+    private br.gov.ana.hidroinfoana.facade.MunicipioFacade municipioFacade;
+    @EJB
+    private br.gov.ana.hidroinfoana.facade.EstacaoFacade estacaoFacade;
     private List<Orgao> lista;
+    private List<Orgao> listaInativos;
+    private CriacaoHist criacaoHist = new CriacaoHist();
+    private AlteracaoHist alteracaoHist = new AlteracaoHist();
+    private String dadosTemporariosHistorico;
+    private boolean existeNovaEmpresa;
+    private FacesContext facesContext;
+    private DataTable tabela;
 
     public OrgaoController() {
     }

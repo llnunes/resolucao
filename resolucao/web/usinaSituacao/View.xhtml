@@ -3,17 +3,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.ViewUsinaSituacaoTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+
+            <p:growl id="messages" life="3000"/>
+
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendUsinaSituacaoTitle}"></h:outputText>    
+                </f:facet>
+
                 <h:panelGrid columns="2">
                     <h:outputText value="#{bundle.ViewUsinaSituacaoLabel_ussId}"/>
                     <h:outputText value="#{usinaSituacaoController.selected.ussId}" title="#{bundle.ViewUsinaSituacaoTitle_ussId}"/>
@@ -22,20 +30,21 @@
                     <h:outputText value="#{bundle.ViewUsinaSituacaoLabel_ussDs}"/>
                     <h:outputText value="#{usinaSituacaoController.selected.ussDs}" title="#{bundle.ViewUsinaSituacaoTitle_ussDs}"/>
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{usinaSituacaoController.destroyAndView}" value="#{bundle.ViewUsinaSituacaoDestroyLink}"/>
-                <br />
-                <br />
-                <h:link outcome="Edit" value="#{bundle.ViewUsinaSituacaoEditLink}"/>
-                <br />
-                <h:commandLink action="#{usinaSituacaoController.prepareCreate}" value="#{bundle.ViewUsinaSituacaoCreateLink}" />
-                <br />
-                <h:commandLink action="#{usinaSituacaoController.prepareList}" value="#{bundle.ViewUsinaSituacaoShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewUsinaSituacaoIndexLink}"/>
 
-            </h:form>
+
+                <br />
+                <p:commandButton id="deleteCommand" rendered="#{autenticadorController.loginAdmin}"  onclick="confirmationDestroy.show()" value="#{bundle.ViewUsinaSituacaoDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />&nbsp;
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}"  action="Edit" value="#{bundle.ViewUsinaSituacaoEditLink}"/> &nbsp;                    
+                <p:commandButton ajax="false" action="#{usinaSituacaoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.ViewUsinaSituacaoShowAllLink}" immediate="true"/>                    
+
+            </p:panel>
+            <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide();" action="#{usinaSituacaoController.destroy}" />
+                <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide()" type="button"/>
+
+            </p:confirmDialog>
+
+
         </ui:define>
     </ui:composition>
 

@@ -1,39 +1,55 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.EditTipoDocumentoTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+            <!--<h:form>-->
+            <p:growl id="messages" life="3000"/>
+
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendTipoDocumentoTitle}"></h:outputText>
+                </f:facet>
+
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditTipoDocumentoLabel_tdcId}" for="tdcId" />
-                    <h:inputText id="tdcId" value="#{tipoDocumentoController.selected.tdcId}" title="#{bundle.EditTipoDocumentoTitle_tdcId}" />
+                    <p:inplace id="basic" >
+                        <p:inputText id="tdcId" readonly="true" value="#{tipoDocumentoController.selected.tdcId}" title="#{bundle.EditTipoDocumentoTitle_tdcId}" />
+                    </p:inplace>
                     <h:outputLabel value="#{bundle.EditTipoDocumentoLabel_tdcNm}" for="tdcNm" />
-                    <h:inputText id="tdcNm" value="#{tipoDocumentoController.selected.tdcNm}" title="#{bundle.EditTipoDocumentoTitle_tdcNm}" required="true" requiredMessage="#{bundle.EditTipoDocumentoRequiredMessage_tdcNm}"/>
+                    <p:inputText id="tdcNm" size="70" maxlength="100" value="#{tipoDocumentoController.selected.tdcNm}" title="#{bundle.EditTipoDocumentoTitle_tdcNm}" required="true" requiredMessage="#{bundle.EditTipoDocumentoRequiredMessage_tdcNm}"/>
                     <h:outputLabel value="#{bundle.EditTipoDocumentoLabel_tdcDs}" for="tdcDs" />
-                    <h:inputText id="tdcDs" value="#{tipoDocumentoController.selected.tdcDs}" title="#{bundle.EditTipoDocumentoTitle_tdcDs}" />
-                    <h:outputLabel value="#{bundle.EditTipoDocumentoLabel_tdcStatus}" for="tdcStatus" />
-                    <h:inputText id="tdcStatus" value="#{tipoDocumentoController.selected.tdcStatus}" title="#{bundle.EditTipoDocumentoTitle_tdcStatus}" required="true" requiredMessage="#{bundle.EditTipoDocumentoRequiredMessage_tdcStatus}"/>
+                    <p:inputText id="tdcDs" size="70" maxlength="255" value="#{tipoDocumentoController.selected.tdcDs}" title="#{bundle.EditTipoDocumentoTitle_tdcDs}" />
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty controleDocumentoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{tipoDocumentoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoDocumentoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty controleDocumentoController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{tipoDocumentoController.selected.historicoCriacao.dataHora}" rendered="#{not empty tipoDocumentoController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty controleDocumentoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{tipoDocumentoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty tipoDocumentoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty controleDocumentoController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{tipoDocumentoController.selected.historicoAlteracao.dataHora}" rendered="#{not empty tipoDocumentoController.selected.historicoAlteracao.dataHora}" /> 
+
                 </h:panelGrid>
-                <h:commandLink action="#{tipoDocumentoController.update}" value="#{bundle.EditTipoDocumentoSaveLink}"/>
+
                 <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditTipoDocumentoViewLink}"/>
-                <br />
-                <h:commandLink action="#{tipoDocumentoController.prepareList}" value="#{bundle.EditTipoDocumentoShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditTipoDocumentoIndexLink}" />
-            </h:form>
+
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{tipoDocumentoController.update}" value="#{bundle.EditTipoDocumentoSaveLink}"/> &nbsp;                
+                <p:commandButton ajax="false" action="#{tipoDocumentoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.EditTipoDocumentoShowAllLink}" immediate="true"/>
+
+            </p:panel>
+            <!--</h:form>-->
         </ui:define>
     </ui:composition>
 

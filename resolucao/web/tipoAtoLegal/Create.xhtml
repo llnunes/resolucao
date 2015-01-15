@@ -1,40 +1,49 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.CreateTipoAtoLegalTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+
+
+            <p:growl id="messages" life="3000"/>
+
+            <p:panel>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendTipoAtoLegalTitle}"/>
+                </f:facet>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateTipoAtoLegalLabel_talId}" for="talId" />
-                    <h:inputText id="talId" value="#{tipoAtoLegalController.selected.talId}" title="#{bundle.CreateTipoAtoLegalTitle_talId}" />
-                    <h:outputLabel value="#{bundle.CreateTipoAtoLegalLabel_talNm}" for="talNm" />
-                    <h:inputText id="talNm" value="#{tipoAtoLegalController.selected.talNm}" title="#{bundle.CreateTipoAtoLegalTitle_talNm}" required="true" requiredMessage="#{bundle.CreateTipoAtoLegalRequiredMessage_talNm}"/>
                     <h:outputLabel value="#{bundle.CreateTipoAtoLegalLabel_talSigla}" for="talSigla" />
-                    <h:inputText id="talSigla" value="#{tipoAtoLegalController.selected.talSigla}" title="#{bundle.CreateTipoAtoLegalTitle_talSigla}" required="true" requiredMessage="#{bundle.CreateTipoAtoLegalRequiredMessage_talSigla}"/>
+                    <p:inputText id="talSigla" size="10" maxlength="3" onblur="this.value = this.value.toUpperCase();" value="#{tipoAtoLegalController.selected.talSigla}" title="#{bundle.CreateTipoAtoLegalTitle_talSigla}" required="true" requiredMessage="#{bundle.CreateTipoAtoLegalRequiredMessage_talSigla}">
+                        <p:focus for="talSigla"/> 
+                    </p:inputText>
+
+
+                    <h:outputLabel value="#{bundle.CreateTipoAtoLegalLabel_talNm}" for="talNm" />
+                    <p:inputText id="talNm" size="70" maxlength="100" onblur="this.value = this.value.toUpperCase();"  value="#{tipoAtoLegalController.selected.talNm}" title="#{bundle.CreateTipoAtoLegalTitle_talNm}" required="true" requiredMessage="#{bundle.CreateTipoAtoLegalRequiredMessage_talNm}"/>
+
+
                     <h:outputLabel value="#{bundle.CreateTipoAtoLegalLabel_talDs}" for="talDs" />
-                    <h:inputText id="talDs" value="#{tipoAtoLegalController.selected.talDs}" title="#{bundle.CreateTipoAtoLegalTitle_talDs}" />
-                    <h:outputLabel value="#{bundle.CreateTipoAtoLegalLabel_talStatus}" for="talStatus" />
-                    <h:inputText id="talStatus" value="#{tipoAtoLegalController.selected.talStatus}" title="#{bundle.CreateTipoAtoLegalTitle_talStatus}" required="true" requiredMessage="#{bundle.CreateTipoAtoLegalRequiredMessage_talStatus}"/>
+                    <p:inputText id="talDs" size="70" maxlength="255"  value="#{tipoAtoLegalController.selected.talDs}" title="#{bundle.CreateTipoAtoLegalTitle_talDs}" />
+
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{tipoAtoLegalController.create}" value="#{bundle.CreateTipoAtoLegalSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{tipoAtoLegalController.prepareList}" value="#{bundle.CreateTipoAtoLegalShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateTipoAtoLegalIndexLink}"/>
-            </h:form>
+                <br/>
+
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{tipoAtoLegalController.create}" value="#{bundle.CreateTipoAtoLegalSaveLink}" /> &nbsp;
+                <p:commandButton ajax="false" action="#{tipoAtoLegalController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.CreateTipoAtoLegalShowAllLink}" immediate="true"/>
+            </p:panel>
+
+            <!--</h:form>-->
         </ui:define>
     </ui:composition>
 

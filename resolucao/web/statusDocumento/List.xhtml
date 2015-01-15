@@ -1,61 +1,107 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ListStatusDocumentoTitle}"></h:outputText>
+            <h:outputText value="#{bundle.ListStatusDocTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListStatusDocumentoEmpty}" rendered="#{statusDocumentoController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{statusDocumentoController.items.rowCount > 0}">
-                    <h:outputText value="#{statusDocumentoController.pagination.pageFirstItem + 1}..#{statusDocumentoController.pagination.pageLastItem + 1}/#{statusDocumentoController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{statusDocumentoController.previous}" value="#{bundle.Previous} #{statusDocumentoController.pagination.pageSize}" rendered="#{statusDocumentoController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{statusDocumentoController.next}" value="#{bundle.Next} #{statusDocumentoController.pagination.pageSize}" rendered="#{statusDocumentoController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{statusDocumentoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStatusDocumentoTitle_sdcId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.sdcId}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStatusDocumentoTitle_sdcNm}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.sdcNm}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListStatusDocumentoTitle_sdcDs}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.sdcDs}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink action="#{statusDocumentoController.prepareView}" value="#{bundle.ListStatusDocumentoViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{statusDocumentoController.prepareEdit}" value="#{bundle.ListStatusDocumentoEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{statusDocumentoController.destroy}" value="#{bundle.ListStatusDocumentoDestroyLink}"/>
-                        </h:column>
-                    </h:dataTable>
-                </h:panelGroup>
-                <br />
-                <h:commandLink action="#{statusDocumentoController.prepareCreate}" value="#{bundle.ListStatusDocumentoCreateLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListStatusDocumentoIndexLink}"/>
-            </h:form>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <p:growl id="messages" life="3000" />
+
+            <h:panelGroup >
+
+                <p:dataTable id="tbl" value="#{statusDocumentoController.lista}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" widgetVar="statusDocTable"
+                             currentPageReportTemplate="#{bundle.currentPageReportTemplateStatusDoc}"  paginatorTemplate="#{bundle.paginatorTemplate}"
+                             rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}" 
+                             emptyMessage="#{bundle.ListStatusDocEmpty}" rowKey="#{item.sdcId}" selection="#{statusDocumentoController.selectedStatusDoc}" 
+                             selectionMode="single" filteredValue="#{statusDocumentoController.lista}">
+
+                    <f:facet id="global" name="header">
+                        <p:outputPanel id="test" >
+                            <h:outputText value="#{bundle.searchAllFields}" />
+                            <p:inputText id="globalFilter" onkeyup="statusDocTable.filter()" style="width: 200px;" >
+                                <p:focus for="globalFilter" />
+                            </p:inputText>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column styleClass="firstColumn"  filterBy="#{item.sdcId}" sortBy="#{item.sdcId}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListStatusDocTitle_sdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sdcId}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.sdcNm}#{filterSearchController.removeAcentos(item.sdcNm)}" 
+                              sortBy="#{item.sdcNm}#{filterSearchController.removeAcentos(item.sdcNm)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListStatusDocTitle_sdcNm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sdcNm}"/>
+                    </p:column>
+                    <p:column filterBy="#{item.sdcDs}#{filterSearchController.removeAcentos(item.sdcDs)}" 
+                              sortBy="#{item.sdcDs}#{filterSearchController.removeAcentos(item.sdcDs)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListStatusDocTitle_sdcDs}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sdcDs}"/>
+                    </p:column>
+
+                    <f:facet name="footer">                            
+                        <p:commandButton id="createCommand" rendered="#{!autenticadorController.loginVisualizador}" ajax="false" icon="#{bundle.icone_documento}" action="#{statusDocumentoController.prepareCreate}" value="#{bundle.ListStatusDocCreateLink}"/>
+                        <p:commandButton id="viewCommand"  value="#{bundle.MsgVisualizar}" icon="#{bundle.icone_pesquisa}"  update=":formList:displayView" oncomplete="statusHistDocDialogView.show()" actionListener="#{statusDocumentoController.prepareView}" />
+                        <p:commandButton id="editCommand" ajax="false" action="#{statusDocumentoController.prepareEdit}" rendered="#{!autenticadorController.loginVisualizador}" value="#{bundle.ListStatusDocEditLink}" icon="#{bundle.icone_pencil}" />
+                        <p:commandButton id="deleteCommand" rendered="#{autenticadorController.loginAdmin}" onclick="confirmationDestroy.show()" value="#{bundle.ListStatusDocDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
+
+                        <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_StatusDoc}" postProcessor="#{statusDocumentoController.postProcessorXLS}"/>
+                        </p:commandButton>
+                        <p:commandButton id="excelExportPagAtual" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportPagAtualFileName_StatusDoc}" pageOnly="true" postProcessor="#{statusDocumentoController.postProcessorXLS}"/>
+                        </p:commandButton>
+                    </f:facet>
+                </p:dataTable>
+
+                <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                    <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide();" actionListener="#{statusDocumentoController.destroy}" />
+                    <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide()" type="button"/>
+
+                </p:confirmDialog>
+
+                <p:dialog id="dialogView" header="#{bundle.StatusDocDialogView_header}" widgetVar="statusHistDocDialogView" resizable="false"
+                          width="500" >
+
+                    <h:panelGrid id="displayView" columns="2" cellpadding="4">                          
+
+                        <h:outputText value="#{bundle.ViewStatusDocLabel_sdcId}"/>
+                        <h:outputText value="#{statusDocumentoController.selected.sdcId}" title="#{bundle.ViewStatusDocTitle_sdcId}"/>
+                        <h:outputText value="#{bundle.ViewStatusDocLabel_sdcNm}"/>
+                        <h:outputText value="#{statusDocumentoController.selected.sdcNm}" title="#{bundle.ViewStatusDocTitle_sdcNm}"/>
+                        <h:outputText value="#{bundle.ViewStatusDocLabel_sdcDs}"/>
+                        <h:outputText value="#{statusDocumentoController.selected.sdcDs}" title="#{bundle.ViewStatusDocTitle_sdcDs}"/>  
+
+                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty statusDocumentoController.criacaoHist.nomeUsuario}"/>
+                        <h:outputText id="nomeCriador" value="#{statusDocumentoController.criacaoHist.nomeUsuario}" rendered="#{not empty statusDocumentoController.criacaoHist.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty statusDocumentoController.criacaoHist.dataHora}"/>
+                        <h:outputText id="dataCriacao" value="#{statusDocumentoController.criacaoHist.dataHora}" rendered="#{not empty statusDocumentoController.criacaoHist.dataHora}"/>     
+                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty statusDocumentoController.alteracaoHist.nomeUsuario}"/>
+                        <h:outputText id="nomeAlterador" value="#{statusDocumentoController.alteracaoHist.nomeUsuario}" rendered="#{not empty statusDocumentoController.alteracaoHist.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty statusDocumentoController.alteracaoHist.dataHora}"/>
+                        <h:outputText id="dataAlteracao" value="#{statusDocumentoController.alteracaoHist.dataHora}" rendered="#{not empty statusDocumentoController.alteracaoHist.dataHora}" /> 
+
+                    </h:panelGrid>
+                </p:dialog>
+
+            </h:panelGroup>       
         </ui:define>
     </ui:composition>
 

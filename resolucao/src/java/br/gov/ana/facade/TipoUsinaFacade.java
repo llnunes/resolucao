@@ -19,6 +19,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class TipoUsinaFacade extends AbstractFacade<TipoUsina> {
+
     @PersistenceContext(unitName = "resolucaoPU")
     private EntityManager em;
 
@@ -30,7 +31,7 @@ public class TipoUsinaFacade extends AbstractFacade<TipoUsina> {
     public TipoUsinaFacade() {
         super(TipoUsina.class);
     }
-    
+
     public List<TipoUsina> findAllAtivos(String ORDER) {
         try {
             Query q = em.createQuery("SELECT tu FROM TipoUsina tu WHERE tu.tpuStatus = :status ORDER BY :order");
@@ -41,5 +42,14 @@ public class TipoUsinaFacade extends AbstractFacade<TipoUsina> {
             return null;
         }
     }
-    
+
+    public List<TipoUsina> findAtivos() {
+        try {
+            Query q = em.createQuery("SELECT tu FROM TipoUsina tu WHERE tu.tpuStatus = :status");
+            q.setParameter("status", REGISTRO_ATIVO);
+            return q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

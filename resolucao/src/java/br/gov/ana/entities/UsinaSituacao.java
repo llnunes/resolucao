@@ -36,9 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UsinaSituacao.findByUssNm", query = "SELECT u FROM UsinaSituacao u WHERE u.ussNm = :ussNm"),
     @NamedQuery(name = "UsinaSituacao.findByUssDs", query = "SELECT u FROM UsinaSituacao u WHERE u.ussDs = :ussDs")})
 public class UsinaSituacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id 
+    @Id
     @Column(name = "USS_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigDecimal ussId;
@@ -122,5 +123,16 @@ public class UsinaSituacao implements Serializable {
     public String toString() {
         return this.ussNm;
     }
-    
+
+    @XmlTransient
+    public String getHistoricoDescricao() {
+        if (ussId != null) {
+            return " Id: " + ussId.intValue()
+                    + "; Nome: " + ussNm
+                    + "; Descricao: " + ussDs + "; ";
+
+        } else {
+            return "";
+        }
+    }
 }

@@ -67,9 +67,8 @@ public class TecnicoFacade extends AbstractFacade<Tecnico> {
 
     public List<Tecnico> findAllAtivos() {
         try {
-            Query q = em.createQuery("SELECT t FROM Tecnico t WHERE t.tecStatus = :tecStatus ORDER BY :order ASC");
-            q.setParameter("tecStatus", REGISTRO_ATIVO); // 1 - Busca os Ativos
-            q.setParameter("order", "tecNm");
+            Query q = em.createQuery("SELECT t FROM Tecnico t WHERE t.tecStatus = :tecStatus");
+            q.setParameter("tecStatus", REGISTRO_ATIVO); // 1 - Busca os Ativos          
             return q.getResultList();
         } catch (Exception e) {
             return null;

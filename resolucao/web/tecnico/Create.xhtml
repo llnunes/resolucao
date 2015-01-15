@@ -1,43 +1,69 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.CreateTecnicoTitle}"></h:outputText>
         </ui:define>
-        <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+        <ui:define name="body" >    
+
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
+
+            <p:focus context="panelTecnico"/>  
+
+            <p:panel id="panelTecnico"> 
+
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendTecnicoTitle}"></h:outputText>
+                </f:facet>
+
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateTecnicoLabel_tecId}" for="tecId" />
-                    <h:inputText id="tecId" value="#{tecnicoController.selected.tecId}" title="#{bundle.CreateTecnicoTitle_tecId}" />
+                    <ui:remove>
+                        <h:outputLabel value="#{bundle.CreateTecnicoLabel_tecId}" for="tecId" />
+                        <p:inputText id="tecId" value="#{tecnicoController.selected.tecId}" title="#{bundle.CreateTecnicoTitle_tecId}" required="true" requiredMessage="#{bundle.CreateTecnicoRequiredMessage_tecId}"/>
+                    </ui:remove>
                     <h:outputLabel value="#{bundle.CreateTecnicoLabel_tecNm}" for="tecNm" />
-                    <h:inputText id="tecNm" value="#{tecnicoController.selected.tecNm}" title="#{bundle.CreateTecnicoTitle_tecNm}" required="true" requiredMessage="#{bundle.CreateTecnicoRequiredMessage_tecNm}"/>
+                    <p:inputText id="tecNm" size="70" maxlength="104" value="#{tecnicoController.selected.tecNm}" title="#{bundle.CreateTecnicoTitle_tecNm}" required="true" requiredMessage="#{bundle.CreateTecnicoRequiredMessage_tecNm}">
+                        <p:focus for="tecNm"/>
+                    </p:inputText>
                     <h:outputLabel value="#{bundle.CreateTecnicoLabel_tecEmail}" for="tecEmail" />
-                    <h:inputText id="tecEmail" value="#{tecnicoController.selected.tecEmail}" title="#{bundle.CreateTecnicoTitle_tecEmail}" required="true" requiredMessage="#{bundle.CreateTecnicoRequiredMessage_tecEmail}"/>
+                    <p:inputText id="tecEmail" size="70" maxlength="512" value="#{tecnicoController.selected.tecEmail}" title="#{bundle.CreateTecnicoTitle_tecEmail}" required="true" requiredMessage="#{bundle.CreateTecnicoRequiredMessage_tecEmail}" >
+                        <f:validator for="tecEmail" validatorId="br.gov.ana.validators.EmailValidator"/>
+                    </p:inputText>
                     <h:outputLabel value="#{bundle.CreateTecnicoLabel_tecTelefone}" for="tecTelefone" />
-                    <h:inputText id="tecTelefone" value="#{tecnicoController.selected.tecTelefone}" title="#{bundle.CreateTecnicoTitle_tecTelefone}" />
+                    <p:inputText onkeyup="mascara(this, mtel);" maxlength="15"  id="tecTelefone" converter="inputConverter" value="#{tecnicoController.selected.tecTelefone}" title="#{bundle.CreateTecnicoTitle_tecTelefone}" /> 
+
+                    <ui:remove>
+                        <h:inputText  id="tecTelefone" styleClass="new_telefone" value="#{tecnicoController.selected.tecTelefone}" title="#{bundle.CreateTecnicoTitle_tecTelefone}"/>
+                    </ui:remove>
+
                     <h:outputLabel value="#{bundle.CreateTecnicoLabel_tecTelefone2}" for="tecTelefone2" />
-                    <h:inputText id="tecTelefone2" value="#{tecnicoController.selected.tecTelefone2}" title="#{bundle.CreateTecnicoTitle_tecTelefone2}" />
-                    <h:outputLabel value="#{bundle.CreateTecnicoLabel_tecStatus}" for="tecStatus" />
-                    <h:inputText id="tecStatus" value="#{tecnicoController.selected.tecStatus}" title="#{bundle.CreateTecnicoTitle_tecStatus}" required="true" requiredMessage="#{bundle.CreateTecnicoRequiredMessage_tecStatus}"/>
+                    <p:inputText onkeyup="mascara(this, mtel);" maxlength="15" id="tecTelefone2" converter="inputConverter" value="#{tecnicoController.selected.tecTelefone2}" title="#{bundle.CreateTecnicoTitle_tecTelefone2}" /> 
+
+                    <h:outputLabel value="#{bundle.CreateTecnicoLabel_tecUsina}" for="usiPick"/>
+                    <p:pickList id="usiPick" showSourceFilter="true" required="true" requiredMessage="#{bundle.CreateTecnicoRequiredMessage_tecUsina}" showTargetFilter="true" 
+                                filterMatchMode="contains" value="#{tecnicoController.usinasDualList}"  converter="usinaConverter"  var="item" itemLabel="#{item}" itemValue="#{item}" >
+                        <f:facet name="sourceCaption">#{bundle.TecnicoUsinaDialogSourceCaption}</f:facet>
+                        <f:facet name="targetCaption">#{bundle.TecnicoUsinaDialogTargetCaption}</f:facet>
+                    </p:pickList>
+
                 </h:panelGrid>
-                <br />
-                <h:commandLink action="#{tecnicoController.create}" value="#{bundle.CreateTecnicoSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{tecnicoController.prepareList}" value="#{bundle.CreateTecnicoShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateTecnicoIndexLink}"/>
-            </h:form>
+
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{tecnicoController.create}" value="#{bundle.CreateTecnicoSaveLink}"/> &nbsp;
+                <p:commandButton ajax="false" action="#{tecnicoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.CreateTecnicoShowAllLink}" immediate="true"/>
+            </p:panel>
+
         </ui:define>
+
     </ui:composition>
 
 </html>

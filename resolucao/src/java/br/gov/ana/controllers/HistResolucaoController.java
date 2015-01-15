@@ -1,21 +1,14 @@
 package br.gov.ana.controllers;
 
 import br.gov.ana.entities.HistResolucao;
-import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.facade.HistResolucaoFacade;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-import javax.faces.model.SelectItem;
 
 @ManagedBean(name = "histResolucaoController")
 @SessionScoped
