@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListOrgaoInativosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup> 
+
+            <!--<h:form id="formList" styleClass="jsfcrud_list_form">-->
+            <p:growl id="messages" life="3000"/>              
+
+            <h:panelGroup >    
+                <p:dataTable id="tbl" value="#{orgaoController.listaInativos}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" widgetVar="orgaoInativosTable"
+                             currentPageReportTemplate="#{bundle.currentPageReportTemplateOrgao}"  paginatorTemplate="#{bundle.paginatorTemplate}"
+                             rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.orgId}" 
+                             selection="#{orgaoController.selectedOrgao}" emptyMessage="#{bundle.ListOrgaoEmpty}" selectionMode="single" filteredValue="#{orgaoController.listaInativos}" styleClass="mystyle">
+
+                    <f:facet id="global" name="header">
+                        <p:outputPanel id="test" >
+                            <h:outputText value="#{bundle.searchAllFields}" />
+                            <p:inputText id="globalFilter" onkeyup="orgaoInativosTable.filter()" style="width: 200px;" >
+                                <p:focus for="globalFilter" />
+                            </p:inputText>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column styleClass="firstColumn" sortBy="#{item.orgId}" filterBy="#{item.orgId}" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgId}"/>
+                    </p:column>
+                    <p:column style="width: 170px" sortBy="#{item.maskCnpj}" filterBy="#{item.maskCnpj}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgCnpj}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.maskCnpj}" converter="inputConverter"/>
+                    </p:column>
+
+                    <p:column styleClass="column150px" sortBy="#{item.orgSg}" filterBy="#{item.orgSg}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgSg}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgSg}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.orgNm}#{filterSearchController.removeAcentos(item.orgNm)}" 
+                              filterBy="#{item.orgNm}#{filterSearchController.removeAcentos(item.orgNm)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgNm}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.orgNm}"/>
+                    </p:column>                           
+
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgTxConsorcio}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgTxConsorcio}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgTxEndereco}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgTxEndereco}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.orgNmRepresentante}#{filterSearchController.removeAcentos(item.orgNmRepresentante)}" 
+                              filterBy="#{item.orgNmRepresentante}#{filterSearchController.removeAcentos(item.orgNmRepresentante)}" filterMatchMode="contains" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgNmRepresentante}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgNmRepresentante}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.orgMunCodigo.munNome}#{filterSearchController.removeAcentos(item.orgMunCodigo.munNome)}" 
+                              filterBy="#{item.orgMunCodigo.munNome}#{filterSearchController.removeAcentos(item.orgMunCodigo.munNome)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgMunCd}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgMunCodigo.munNome}"/>
+                    </p:column>   
+
+                    <p:column styleClass="columnUf" sortBy="#{item.orgUfdCodigo.ufdCodigo}" filterBy="#{item.orgUfdCodigo.ufdCodigo}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgUfdCd}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgUfdCodigo.ufdCodigo}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgTxCep}" />
+                        </f:facet>
+                        <h:outputText value="#{item.orgTxCep}" converter="inputConverter"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgCargo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgCargo}"/>
+                    </p:column>
+
+
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgTxTelefone}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgTxTelefone}" converter="inputConverter"/>
+                    </p:column>                       
+
+
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgTxTelefone2}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgTxTelefone2}" converter="inputConverter"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgEmail}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgEmail}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnStatus" sortBy="#{item.orgStgId.stgNm}" filterBy="#{item.orgStgId.stgNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgStatus}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgStgId.stgNm}" />
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgTxObservacao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgTxObservacao}"/>
+                    </p:column>
+
+                    <p:column style="width:3%" exportable="false">
+                        <div class="cabecalho">
+                            <div class="imagem">
+                                <p:commandLink update=":formList:displayView" oncomplete="orgaoDialogView.show()" onerror="orgaoDialogView.hide();" title="#{bundle.MsgVisualizar}" styleClass="ui-icon ui-icon-search">
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{orgaoController.selectedOrgao}" />
+                                </p:commandLink>
+                            </div>                 
+                            <div class="titulo">
+                                <p:commandLink ajax="false"  action="#{orgaoController.prepareEdit}" rendered="#{!autenticadorController.loginVisualizador}" title="#{bundle.ListAreaEditLink}" styleClass="ui-icon ui-icon-pencil" >
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{orgaoController.selectedOrgao}" />
+                                </p:commandLink>
+                            </div>
+                        </div>                     
+                    </p:column>
+
+                    <f:facet name="footer">                            
+                        <p:commandButton id="viewCommand"  value="#{bundle.MsgVisualizar}" actionListener="#{orgaoController.prepareView}" icon="#{bundle.icone_pesquisa}" onerror="orgaoDialogView.hide();"  update=":formList:displayView, :formList:messages" oncomplete="orgaoDialogView.show()" />
+                        <p:commandButton id="editCommand" ajax="false"  action="#{orgaoController.prepareEdit}" value="#{bundle.ViewOrgaoEditLink}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_pencil}" />
+                        <p:commandButton id="deleteCommand" ajax="false"  rendered="#{autenticadorController.loginAdmin}" onclick="confirmationDestroy.show();" value="#{bundle.ViewOrgaoDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
+
+                        <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_orgaos}" postProcessor="#{orgaoController.postProcessorXLS}"/>
+                        </p:commandButton>
+                        <p:commandButton id="excelExportPagAtual" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportPagAtualFileName_orgaos}" pageOnly="true" postProcessor="#{orgaoController.postProcessorXLS}"/>
+                        </p:commandButton>
+
+                    </f:facet>
+
+                </p:dataTable>
+
+                <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                    <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide(); #{orgaoController.prepareListaInativos}" action="#{orgaoController.destroy}" />
+                    <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide();" type="button"/>
+
+                </p:confirmDialog>
+
+                <p:dialog id="dialogView" header="#{bundle.OrgaoDialogView_header}" widgetVar="orgaoDialogView" resizable="false" modal="true"
+                          width="650" >
+
+                    <h:panelGrid id="displayView" columns="2" cellpadding="4">                          
+
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgId}"/>
+                        <h:outputText value="#{orgaoController.selected.orgId}" title="#{bundle.ViewOrgaoTitle_orgId}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgCnpj}" />
+                        <h:outputText value="#{orgaoController.selected.maskCnpj}" converter="inputConverter" title="#{bundle.ViewOrgaoTitle_orgCnpj}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgSg}"/>
+                        <h:outputText value="#{orgaoController.selected.orgSg}" title="#{bundle.ViewOrgaoTitle_orgSg}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgNm}"/>
+                        <h:outputText value="#{orgaoController.selected.orgNm}" title="#{bundle.ViewOrgaoTitle_orgNm}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgTxConsorcio}"/>
+                        <h:outputText value="#{orgaoController.selected.orgTxConsorcio}" title="#{bundle.ViewOrgaoTitle_orgTxConsorcio}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgTxEndereco}"/>
+                        <h:outputText value="#{orgaoController.selected.orgTxEndereco}" title="#{bundle.ViewOrgaoTitle_orgTxEndereco}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgUfdCd}"/>
+                        <h:outputText value="#{orgaoController.selected.orgUfdCodigo.ufdCodigo}" title="#{bundle.ViewOrgaoTitle_orgUfdCd}"/>                        
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgMunCd}"/>
+                        <h:outputText value="#{orgaoController.selected.orgMunCodigo.munNome}" title="#{bundle.ViewOrgaoTitle_orgMunCd}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgTxCep}" />
+                        <h:outputText value="#{orgaoController.selected.orgTxCep}" converter="inputConverter" title="#{bundle.ViewOrgaoTitle_orgTxCep}"/>                        
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgNmRepresentante}"/>
+                        <h:outputText value="#{orgaoController.selected.orgNmRepresentante}" title="#{bundle.ViewOrgaoTitle_orgNmRepresentante}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgCargo}"/>
+                        <h:outputText value="#{orgaoController.selected.orgCargo}" title="#{bundle.ViewOrgaoTitle_orgCargo}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgTxTelefone}"/>
+                        <h:outputText value="#{orgaoController.selected.orgTxTelefone}" converter="inputConverter" title="#{bundle.ViewOrgaoTitle_orgTxTelefone}"/>                        
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgTxTelefone2}"/>
+                        <h:outputText value="#{orgaoController.selected.orgTxTelefone2}" converter="inputConverter" title="#{bundle.ViewOrgaoTitle_orgTxTelefone2}"/>
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgEmail}"/>
+                        <h:outputText value="#{orgaoController.selected.orgEmail}" title="#{bundle.ViewOrgaoTitle_orgEmail}"/>                            
+
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgStatus}"/>
+                        <h:outputText value="#{orgaoController.selected.orgStgId.stgNm}" title="#{bundle.ViewOrgaoTitle_orgStatus}" />
+                        <h:outputText value="#{bundle.ViewOrgaoLabel_orgTxObservacao}"/>
+                        <h:outputText value="#{orgaoController.selected.orgTxObservacao}" title="#{bundle.ViewOrgaoTitle_orgTxObservacao}"/>
+
+
+                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty orgaoController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputText id="nomeCriador" value="#{orgaoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty orgaoController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty orgaoController.selected.historicoCriacao.dataHora}"/>
+                        <h:outputText id="dataCriacao" value="#{orgaoController.selected.historicoCriacao.dataHora}" rendered="#{not empty orgaoController.selected.historicoCriacao.dataHora}"/>     
+                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty orgaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputText id="nomeAlterador" value="#{orgaoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty orgaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty orgaoController.selected.historicoAlteracao.dataHora}"/>
+                        <h:outputText id="dataAlteracao" value="#{orgaoController.selected.historicoAlteracao.dataHora}" rendered="#{not empty orgaoController.selected.historicoAlteracao.dataHora}" /> 
+                    </h:panelGrid>
+                </p:dialog>
+
+            </h:panelGroup>
+            <!--</h:form>-->
+        </ui:define>
+    </ui:composition>
+
+</html>

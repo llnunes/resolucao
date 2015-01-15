@@ -4,6 +4,9 @@
  */
 package br.gov.ana.hidroinfoana.facade;
 
+import static br.gov.ana.controllers.util.ConstUtils.ORGAO_ATIVO;
+import static br.gov.ana.controllers.util.ConstUtils.ORGAO_INATIVO;
+
 import br.gov.ana.hidroinfoana.entities.Orgao;
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,6 +21,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class OrgaoFacade extends AbstractFacade<Orgao> {
+
     @PersistenceContext(unitName = "hidroinfoanaPU")
     private EntityManager em;
 
@@ -29,37 +33,33 @@ public class OrgaoFacade extends AbstractFacade<Orgao> {
     public OrgaoFacade() {
         super(Orgao.class);
     }
-    
+
     public Integer countAllOrgaoAtivos() {
         try {
-            Query q = em.createQuery("SELECT COUNT(o) FROM Orgao o WHERE o.orgStgId.stgId = :orgStgId AND o.orgStatus = :orgStatus");
-            q.setParameter("orgStgId", new BigDecimal("1")); // 1 - Busca os Ativos
-            q.setParameter("orgStatus", new BigDecimal("1"));
-            
+            Query q = em.createQuery("SELECT COUNT(o) FROM Orgao o WHERE o.orgStgId.stgId = :orgStgId");
+            q.setParameter("orgStgId", ORGAO_ATIVO); // 1 - Busca os Ativos            
+
             return Integer.parseInt(q.getSingleResult().toString());
         } catch (Exception e) {
             return 0;
         }
     }
 
-    public List<Orgao> findAllOrgaoAtivos(String order) {
+    public List<Orgao> findAllOrgaoAtivos() {
         try {
-            Query q = em.createQuery("SELECT o FROM Orgao o WHERE o.orgStgId.stgId = :orgStgId AND o.orgStatus = :orgStatus ORDER BY :order ASC");
-            q.setParameter("orgStgId", new BigDecimal("1")); // 1 - Busca os Ativos
-            q.setParameter("orgStatus", new BigDecimal("1"));
-            q.setParameter("order", order);
+            Query q = em.createQuery("SELECT o FROM Orgao o WHERE o.orgStgId.stgId = :orgStgId");
+            q.setParameter("orgStgId", ORGAO_ATIVO); // 1 - Busca os Ativos            
             return (List<Orgao>) q.getResultList();
         } catch (Exception e) {
             return null;
         }
     }
 
-    public List<Orgao> findAllOrgaoInativos(String order) {
+    public List<Orgao> findAllOrgaoInativos() {
         try {
-            Query q = em.createQuery("SELECT o FROM Orgao o WHERE o.orgStgId.stgId = :orgStgId AND o.orgStatus = :orgStatus ORDER BY :order ASC");
-            q.setParameter("orgStgId", new BigDecimal("2")); // 2 - Busca os Inativos
-            q.setParameter("orgStatus", new BigDecimal("1"));
-            q.setParameter("order", order);
+            Query q = em.createQuery("SELECT o FROM Orgao o WHERE o.orgStgId.stgId = :orgStgId");
+            q.setParameter("orgStgId", ORGAO_INATIVO); // 2 - Busca os Inativos
+
             return (List<Orgao>) q.getResultList();
         } catch (Exception e) {
             return null;
@@ -93,10 +93,10 @@ public class OrgaoFacade extends AbstractFacade<Orgao> {
 
             if (q.getSingleResult() != null) {
                 Orgao o = (Orgao) q.getSingleResult();
-                if (o.getOrgId().equals(orgId)) {
-                    retorno = 0;
-                } else {
+                if (o.getOrgId() != orgId.intValue()) {
                     retorno = q.getResultList().size();
+                } else {
+                    retorno = 0;
                 }
             }
 
@@ -113,5 +113,38 @@ public class OrgaoFacade extends AbstractFacade<Orgao> {
 
     public int existeEmpresaComMesmoNome(String valor, String campo, BigDecimal orgId) {
         return existeEmpresaComMesmoCnpj(valor, campo, orgId);
+    }
+
+    public int existeEmpresaComMesmoCnpj(String valor, String campo, Integer orgId) {
+        return existeEmpresaComMesmoCnpj(valor, campo, (orgId != null) ? new BigDecimal(orgId) : null);
+    }
+
+    public int existeEmpresaComMesmaSigla(String valor, String campo, Integer orgId) {
+        return existeEmpresaComMesmaSigla(valor, campo, (orgId != null) ? new BigDecimal(orgId) : null);
+    }
+
+    public int existeEmpresaComMesmoNome(String valor, String campo, Integer orgId) {
+        return existeEmpresaComMesmoNome(valor, campo, (orgId != null) ? new BigDecimal(orgId) : null);
+    }
+
+    public List<Orgao> findNullSenha() {
+        try {
+            Query q = em.createQuery("SELECT o FROM Orgao o WHERE o.orgSenha is null AND o.orgStgId.stgId = :orgStgId");
+            q.setParameter("orgStgId", ORGAO_ATIVO); // 1 - Busca os Ativos           
+
+            return (List<Orgao>) q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<Orgao> findNotNullSenha() {
+        try {
+            Query q = em.createQuery("SELECT o FROM Orgao o WHERE o.orgSenha is not null AND o.orgStgId.stgId = :orgStgId");
+            q.setParameter("orgStgId", ORGAO_ATIVO); // 1 - Busca os Ativos           
+            return (List<Orgao>) q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

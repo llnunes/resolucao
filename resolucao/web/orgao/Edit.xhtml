@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template2.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditOrgaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <!--<h:form prependId="false" id="formPrincipal">-->
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>               
+
+            <p:panel >
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendOrgaoTitle}"/>
+                </f:facet>
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgId}" for="orgId" />
+                    <p:inplace id="basic" >
+                        <p:inputText id="orgId" readonly="true" value="#{orgaoController.selected.orgId}" title="#{bundle.EditOrgaoTitle_orgId}" required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgId}"/>
+                    </p:inplace>
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgCnpj}" for="orgCnpj" />
+                    <p:inputMask mask="99.999.999/9999-99" id="orgCnpj" disabled="#{orgaoController.desabilitadoLoginAdminAlteracao}" converter="inputConverter" required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgCnpj}" value="#{orgaoController.selected.orgCnpj}" title="#{bundle.EditOrgaoTitle_orgCnpj}" >                        
+                        <p:focus for="orgCnpj"/>
+                    </p:inputMask>
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgSg}" for="orgSg" />
+                    <p:inputText id="orgSg" maxlength="20" value="#{orgaoController.selected.orgSg}" disabled="#{orgaoController.desabilitadoLoginAdminAlteracao}" onblur="this.value = this.value.toUpperCase()" title="#{bundle.EditOrgaoTitle_orgSg}" required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgSg}"/>
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgNm}" for="orgNm" />
+                    <p:inputText id="orgNm" size="70" maxlength="255" value="#{orgaoController.selected.orgNm}" disabled="#{orgaoController.desabilitadoLoginAdminAlteracao}" title="#{bundle.EditOrgaoTitle_orgNm}" required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgNm}"/>
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgTxConsorcio}" for="orgTxConsorcio" />
+                    <p:inputText id="orgTxConsorcio" maxlength="512" size="70" value="#{orgaoController.selected.orgTxConsorcio}" title="#{bundle.EditOrgaoTitle_orgTxConsorcio}" />                   
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgTxEndereco}" for="orgTxEndereco" />
+
+                    <h:panelGroup >
+                        <p:inputTextarea cols="55" rows="3" id="orgTxEndereco"  counter="counter" counterTemplate="{0} caracteres restantes."  value="#{orgaoController.selected.orgTxEndereco}" title="#{bundle.EditOrgaoTitle_orgTxEndereco}" maxlength="4000" autoResize="false"/>
+                        <br /><h:outputText id="counter" /> 
+                    </h:panelGroup>
+
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgUfdCd}"  />
+                    <p:selectOneMenu id="orgUfdCd" value="#{orgaoController.selected.orgUfdCodigo}" >
+                        <f:selectItems value="#{ufController.itemsAvailableSelectOne}"/>
+                        <p:ajax update=":formPrincipal:orgMunCd" 
+                                listener="#{orgaoController.carregaMunicipios}" />
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgMunCd}" for="orgMunCd" />
+                    <p:selectOneMenu id="orgMunCd" value="#{orgaoController.selected.orgMunCodigo}"  filter="true" filterMatchMode="contains" >
+                        <f:selectItems value="#{orgaoController.itemsAvailableSelectOneMunicipioByUf}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgTxCep}" for="orgTxCep" />
+                    <p:inputMask mask="99999-999" id="orgTxCep" converter="inputConverter" value="#{orgaoController.selected.orgTxCep}"  title="#{bundle.EditOrgaoTitle_orgTxCep}" />
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgNmRepresentante}" for="orgNmRepresentante" />
+                    <p:inputText id="orgNmRepresentante"  maxlength="100" size="70" value="#{orgaoController.selected.orgNmRepresentante}" title="#{bundle.EditOrgaoTitle_orgNmRepresentante}" />
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgCargo}" for="orgCargo" />
+                    <p:inputText id="orgCargo" maxlength="80" size="70" value="#{orgaoController.selected.orgCargo}" title="#{bundle.EditOrgaoTitle_orgCargo}" />
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgTxTelefone}" for="orgTxTelefone" />
+                    <p:inputText onkeyup="mascara(this, mtel);" maxlength="15" id="orgTxTelefone" converter="inputConverter" value="#{orgaoController.selected.orgTxTelefone}" title="#{bundle.EditOrgaoTitle_orgTxTelefone}" />
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgTxTelefone2}" for="orgTxTelefone2" />
+                    <p:inputText onkeyup="mascara(this, mtel);" maxlength="15" id="orgTxTelefone2" converter="inputConverter" value="#{orgaoController.selected.orgTxTelefone2}" title="#{bundle.EditOrgaoTitle_orgTxTelefone2}" />
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgEmail}" for="orgEmail" />
+                    <p:inputText id="orgEmail" maxlength="512" size="70" value="#{orgaoController.selected.orgEmail}" title="#{bundle.EditOrgaoTitle_orgEmail}" >
+                        <f:validator for="orgEmail" validatorId="br.gov.ana.validators.EmailValidator"/>
+                    </p:inputText>
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgStatus}" for="orgStatus"/>
+                    <p:selectOneMenu value="#{orgaoController.selected.orgStgId}" id="orgStatus" >                            
+                        <f:selectItems value="#{statusOrgaoController.itemsAvailableSelectMany}"/>                                
+                    </p:selectOneMenu>    
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgTxObservacao}" for="orgTxObservacao" />
+                    <h:panelGroup>
+                        <p:inputTextarea autoResize="false" maxlength="4000" counter="counter2" counterTemplate="{0} caracteres restantes."  value="#{orgaoController.selected.orgTxObservacao}" cols="75" rows="4" id="orgTxObservacao" title="#{bundle.EditOrgaoLabel_orgTxObservacao}"/>
+                        <br /><h:outputText id="counter2" /> 
+                    </h:panelGroup>
+
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty orgaoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{orgaoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty orgaoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty orgaoController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{orgaoController.selected.historicoCriacao.dataHora}" rendered="#{not empty orgaoController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty orgaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{orgaoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty orgaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty orgaoController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{orgaoController.selected.historicoAlteracao.dataHora}" rendered="#{not empty orgaoController.selected.historicoAlteracao.dataHora}" /> 
+
+
+                </h:panelGrid>
+
+                <br/>
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{orgaoController.update}" value="#{bundle.EditOrgaoSaveLink}"/> &nbsp;
+                <p:commandButton ajax="false" action="#{orgaoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.EditOrgaoShowAllLink}" immediate="true"/>
+                <p:commandButton ajax="false" action="#{orgaoController.prepareListaInativos}" value="#{bundle.EditOrgaoInativosShowAllLink}" immediate="true"/>
+            </p:panel>
+
+            <!--</h:form>-->
+        </ui:define>
+    </ui:composition>
+
+</html>

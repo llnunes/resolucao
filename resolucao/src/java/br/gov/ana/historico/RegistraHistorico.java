@@ -106,4 +106,8 @@ public class RegistraHistorico implements Serializable {
     public AlteracaoHist getAlteracaoHist(Integer orgId, String name) throws Exception {
         return getAlteracaoHist(new BigDecimal(orgId), name);
     }
+
+    public void registraHistoricoGeral(Integer orgId, String name, int flag) throws Exception {
+        registraHistoricoGeral(new BigDecimal(orgId), name, flag);
+    }
 }

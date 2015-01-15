@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"    
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templatemapa.xhtml">
+        <ui:define name="title">
+
+        </ui:define>
+        <ui:define name="body" > 
+            <p:growl id="messages"  showDetail="true" />
+
+            <h:outputLabel value="#{bundle.ListWebserviceTitle_empresa}" style="font-weight: bold" for="empresa" />
+            <p:selectOneMenu value="#{mapaUsinaController.empresa}" filter="true" filterMatchMode="contains"  id ="empresa"  >
+                <f:selectItems value="#{orgaoController.itemsAvailableSelectOne}"/>
+                <p:ajax listener="#{mapaUsinaController.atualizaMapa}" update=":formList:mapa, :formList:panelMapa"/>
+                <p:focus for="empresa"/>
+            </p:selectOneMenu> 
+
+            <p:panel id="panelMapa" header="#{bundle.titleGoogleUsinasMaps}">
+
+                <p:gmap id="mapa" center="#{bundle.centroDoMapa}" zoom="5" model="#{mapaUsinaController.model}" 
+                        type="TERRAIN" style="width:100%; height:650px;" widgetVar="tmap">    
+
+                    <p:ajax event="overlaySelect" listener="#{mapaUsinaController.onMarkerSelect}" />
+
+                    <p:gmapInfoWindow>  
+                        <p:outputPanel style="text-align:left; display:block; margin:auto;">  
+
+                            <h:panelGrid columns="2" >
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewOrgaoLabel_orgCnpj}"/>
+                                <h:outputText value="#{mapaUsinaController.usina.orgao.orgCnpj}" converter="inputConverter" />  
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewUsinaLabel_uslOrgao}"/>
+                                <h:outputText value="#{mapaUsinaController.usina.orgao.orgNm}" />  
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewOrgaoUsinaLabel_ousUsiId}"/>
+                                <h:outputText value="#{mapaUsinaController.marker.title}" />
+
+                                <h:outputText value="#{bundle.ViewUsinaLabel_usiProcesso}" style="font-weight: bold;"/>
+                                <h:outputLink styleClass="formataLink"  target="new"  id="linkProcesso" value="#{mapaUsinaController.pesquisaProcesso()}"  >
+                                    <h:outputText value="#{mapaUsinaController.usina.usiProcesso}" converter="inputConverter" title="#{bundle.ListControleDocumentoTitle_usiProcesso}"/> 
+                                </h:outputLink>                                 
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewUsinaLabel_usiLatitude}"/>
+                                <h:outputText value="#{mapaUsinaController.usina.usiLatitude}" >  
+                                    <f:converter converterId="latLong" />
+                                </h:outputText>
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewUsinaLabel_usiLongitude}"/>
+                                <h:outputText value="#{mapaUsinaController.usina.usiLongitude}" >
+                                    <f:converter converterId="latLong" />
+                                </h:outputText>                      
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ListUsinaLabel_usiNuAreaDrenagem}"/>
+                                <h:panelGroup>                                    
+                                    <h:outputText value="#{mapaUsinaController.usina.usiNuAreaDrenagem}" >  
+                                        <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                                    </h:outputText> <h:outputText value=" #{bundle.KM2}" rendered="#{not empty mapaUsinaController.usina.usiNuAreaDrenagem}"/> 
+                                </h:panelGroup>
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ListUsinaLabel_usiNuAreaIncremental}"/> 
+                                <h:panelGroup>                                                                 
+                                    <h:outputText value="#{mapaUsinaController.usina.usiNuAreaIncremental}" >  
+                                        <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                                    </h:outputText> <h:outputText value=" #{bundle.KM2}" rendered="#{not empty mapaUsinaController.usina.usiNuAreaIncremental}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ListUsinaLabel_usiNuAreaInundada}"/>
+                                <h:panelGroup>                                   
+                                    <h:outputText value="#{mapaUsinaController.usina.usiNuAreaInundada}" >  
+                                        <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                                    </h:outputText> <h:outputText value=" #{bundle.KM2}" rendered="#{not empty mapaUsinaController.usina.usiNuAreaInundada}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewUsinaLabel_usiNuPotencia}"/>
+                                <h:panelGroup>                                    
+                                    <h:outputText value="#{mapaUsinaController.usina.usiNuPotencia}" >                               
+                                        <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                                    </h:outputText> <h:outputText value=" #{bundle.MW}" rendered="#{not empty mapaUsinaController.usina.usiNuPotencia}"/>
+                                </h:panelGroup>
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewUsinaLabel_usiUfdCd}"/>
+                                <h:outputText value="#{mapaUsinaController.usina.siglaUf}" />
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewUsinaLabel_usiMunCd}"/>
+                                <h:outputText value="#{mapaUsinaController.usina.municipioNm}" />
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewUsinaLabel_usiRioCd}"/>
+                                <h:outputText value="#{mapaUsinaController.usina.nmRio}" />
+
+                                <p:outputLabel style="font-weight: bold;" value="#{bundle.ViewUsinaLabel_usiSituacao}"/>
+                                <h:outputText value="#{mapaUsinaController.usina.usiUssId.ussNm}" />
+
+                            </h:panelGrid>
+                        </p:outputPanel>  
+
+                    </p:gmapInfoWindow>  
+                </p:gmap>        
+
+            </p:panel> 
+
+            <p:ajaxStatus  onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+
+            <p:dialog modal="true" widgetVar="statusDialog" header="#{bundle.headerAjaxStatus}" 
+                      draggable="false" closable="false">
+                <p:graphicImage value="/imagens/ajaxloadingbar.gif" />
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</html>

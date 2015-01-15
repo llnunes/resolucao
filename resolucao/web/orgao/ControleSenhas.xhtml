@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core" >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.SendPasswordOrgaoUsuarioTitle}"/>
+        </ui:define>
+
+        <ui:define name="body">
+
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages id="messagesPanel" errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <p:tabView id="tabView">  
+                <p:tab id="tab1" title="#{bundle.ControleSenhaRegerarSenha_abaGerar}">
+                    <p:panel>                     
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.SendPasswordOrgaoUsuarioLegend}"/>
+                        </f:facet>
+
+                        <p:pickList id="pickSenhasGerar" value="#{empresasSenhasController.listaDupla}" showSourceFilter="true"  showTargetFilter="true" filterMatchMode="contains" itemLabel="#{empresa.orgNm}" var="empresa" itemValue="#{empresa}" converter="orgaoConverter" >
+                            <f:facet name="sourceCaption">#{bundle.ControleSenhaTitle_pickSenhasGerarSource}</f:facet>
+                            <f:facet name="targetCaption">#{bundle.ControleSenhaTitle_pickSenhasGerarTarget}</f:facet>
+                        </p:pickList>
+
+                        <p:commandButton ajax="true" value="#{bundle.ControleSenhaRegerarSenha_buttonGerar}" action="#{empresasSenhasController.gerarSenhas}" update=":formList:tabView:senhaGerada, :formList:tabView:tbl, :formList:tabView:tbl2, :formList:messages , :formList:messagesPanel,:formList:tabView:pickSenhasGerar" icon="ui-icon-transfer-e-w"/>
+                    </p:panel>
+
+                    <p:dataTable id="tbl" value="#{empresasSenhasController.listaDadosEmail}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" 
+                                 paginatorTemplate="#{bundle.paginatorTemplate}" rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}" 
+                                 currentPageReportTemplate="#{bundle.currentPageReportTemplateControleSenhas}" styleClass="mystyle" paginatorPosition="bottom" emptyMessage="#{bundle.ListaControleSenhaEmpty}" >
+
+                        <p:column style="width: 170px" sortBy="#{item.orgCnpj}">
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_orgCnpj}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.orgCnpj}" converter="inputConverter"/>
+                        </p:column>
+                        <p:column  sortBy="#{item.orgNm}">
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_orgNm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.orgNm}"/>
+                        </p:column>
+                        <p:column  sortBy="#{item.tecNm}" >
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_tecNm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecNm}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.tecEmail}" >
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_tecEmail}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecEmail}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.senha}">
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_orgSenha}">
+                                </h:outputText>
+                            </f:facet>
+                            <h:outputText value="#{item.senha}"/>
+                        </p:column>                       
+
+                        <f:facet name="footer">                                    
+
+                            <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                                <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportPagAtualFileName_ControleSenhas}"/>
+                            </p:commandButton>
+                            <p:commandButton id="excelExportPagAtual" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                                <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_ControleSenhas}" pageOnly="true"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dataTable>              
+                </p:tab>
+
+                <p:tab id="tab2" title="Regerar Senha">                   
+
+                    <p:growl id="messages" life="3000"/>
+                    <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                        <h:messages id="messagesPanel" errorStyle="color: red" infoStyle="color: green" layout="list"/>
+                    </h:panelGroup>
+
+                    <p:panel>                     
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.SendPasswordOrgaoUsuarioLegend}"/>
+                        </f:facet>
+                        <h:panelGrid columns="2">
+                            <h:outputLabel  for="senhaGerada" value="#{bundle.ControleSenhaTitle_orgComSenha}"/>
+                            <p:selectOneMenu id="senhaGerada" value="#{empresasSenhasController.orgaoU}" style="width: 750px" filter="true" filterMatchMode="contains">
+                                <f:selectItems value="#{empresasSenhasController.itemsAvailableSelectOneNotNullSenha}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:commandButton ajax="true" value="Regerar" action="#{empresasSenhasController.regerarSenha}" update=":formList:tabView:senhaGerada,:formList:tabView:tbl2, :formList:messages , :formList:messagesPanel" icon="ui-icon-transfer-e-w"/>
+                    </p:panel>
+
+                    <p:dataTable id="tbl2" value="#{empresasSenhasController.listaDadosEmailRegerar}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" 
+                                 paginatorTemplate="#{bundle.paginatorTemplate}" rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}" 
+                                 currentPageReportTemplate="#{bundle.currentPageReportTemplateControleSenhas}" styleClass="mystyle" paginatorPosition="bottom" emptyMessage="#{bundle.ListaControleSenhaEmpty}" >                       
+
+                        <p:column style="width: 170px" sortBy="#{item.orgCnpj}">
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_orgCnpj}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.orgCnpj}" converter="inputConverter"/>
+                        </p:column>
+                        <p:column sortBy="#{item.orgNm}">
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_orgNm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.orgNm}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.tecNm}" >
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_tecNm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecNm}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.tecEmail}" >
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_tecEmail}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tecEmail}"/>
+                        </p:column>
+                        <p:column sortBy="#{item.senha}">
+                            <f:facet name="header">
+                                <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ControleSenhaTitle_orgSenha}">
+                                </h:outputText>
+                            </f:facet>
+                            <h:outputText value="#{item.senha}"/>
+                        </p:column>                       
+
+                        <f:facet name="footer">                                    
+
+                            <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                                <p:dataExporter type="xls" target="tbl2" fileName="#{bundle.excelExportAllFileName_ControleSenhas}"/>
+                            </p:commandButton>
+                            <p:commandButton id="excelExportPagAtual" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                                <p:dataExporter type="xls" target="tbl2" fileName="#{bundle.excelExportPagAtualFileName_ControleSenhas}" pageOnly="true"/>
+                            </p:commandButton>
+                        </f:facet>
+
+                    </p:dataTable>
+
+                    <p:ajaxStatus  onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+
+                    <p:dialog modal="true" widgetVar="statusDialog" header="#{bundle.headerAjaxStatus}" 
+                              draggable="false" closable="false">
+                        <p:graphicImage value="/imagens/ajaxloadingbar.gif" />
+                    </p:dialog>                
+
+                </p:tab>
+            </p:tabView>
+        </ui:define>        
+
+    </ui:composition>
+
+</html>
+

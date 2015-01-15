@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" >
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListUsinaInativosTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <!--<h:form id="form" styleClass="jsfcrud_list_form">-->
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green"  layout="list"/>
+            </h:panelGroup>                
+            <h:panelGroup >
+                <p:dataTable id="tbl" value="#{usinaController.listaInativos}" var="item" paginator="true" 
+                             rows="#{bundle.rows}" pageLinks="5" 
+                             currentPageReportTemplate="#{bundle.currentPageReportTemplateUsina}"  paginatorTemplate="#{bundle.paginatorTemplate}" widgetVar="usinaInativasTable"
+                             rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}"                
+                             rowKey="#{item.usiId}" emptyMessage="#{bundle.ListUsinaEmpty}"  selectionMode="single" selection="#{usinaController.selectedUsina}"
+                             filteredValue="#{usinaController.listaInativos}" styleClass="mystyle">
+
+                    <ui:remove>
+                        <p:ajax event="rowDblselect"  listener="#{usinaController.onDblRowSelect(event)}" />
+                    </ui:remove>
+
+                    <f:facet id="global" name="header">
+                        <p:outputPanel id="test" >
+                            <h:outputText value="#{bundle.searchAllFields}" />
+                            <p:inputText id="globalFilter" onkeyup="usinaInativasTable.filter();" style="width: 200px;" >
+                                <p:focus for="globalFilter" />
+                            </p:inputText>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column styleClass="columnProcesso" filterBy="#{item.usiProcesso}" sortBy="#{item.usiProcesso}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiProcesso}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiProcesso}" converter="inputConverter"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" styleClass="firstColumn"  filterBy="#{item.usiId}" sortBy="#{item.usiId}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiId}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.orgaoUsina}#{filterSearchController.removeAcentos(item.orgaoUsina)}" 
+                              filterBy="#{item.orgaoUsina}#{filterSearchController.removeAcentos(item.orgaoUsina)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_uslOrgao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgaoUsina}"    />
+                    </p:column>
+
+                    <p:column styleClass="columnTipo" filterBy="#{item.usiTpuId.tpuNm}" sortBy="#{item.usiTpuId.tpuNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiTpuId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiTpuId.tpuNm}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.usiNm}#{filterSearchController.removeAcentos(item.usiNm)}" 
+                              filterBy="#{item.usiNm}#{filterSearchController.removeAcentos(item.usiNm)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiNm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiNm}"  />
+                    </p:column>
+
+
+                    <p:column exportable="true" style="display:none;" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiAtoLegal}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.valorAtoLegal}"/>
+                    </p:column>
+
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.usiNuAreaDrenagem}" sortBy="#{item.usiNuAreaDrenagem}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiNuAreaDrenagem}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiNuAreaDrenagem}">
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
+                        <h:outputText value=" #{bundle.KM2}" rendered="#{item.usiNuAreaDrenagem!=null}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnNumber" filterBy="#{item.usiNuAreaIncremental}" sortBy="#{item.usiNuAreaIncremental}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiNuAreaIncremental}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiNuAreaIncremental}">
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
+                        <h:outputText value=" #{bundle.KM2}" rendered="#{item.usiNuAreaIncremental!=null}"/>
+                    </p:column>
+
+                    <p:column  exportable="true" style="display:none;" filterBy="#{item.usiNuAreaInundada}" sortBy="#{item.usiNuAreaInundada}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiNuAreaInundada}"/>                                
+                        </f:facet>
+                        <h:outputText value="#{item.usiNuAreaInundada}" >
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>                            
+                        <h:outputText value=" #{bundle.KM2}" rendered="#{item.usiNuAreaInundada!=null}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.usiNuPotencia}" sortBy="#{item.usiNuPotencia}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiNuPotencia}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiNuPotencia}">
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
+                        <h:outputText value=" #{bundle.MW}" rendered="#{item.usiNuPotencia!=null}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnNumber" filterBy="#{item.usiLatitude}" sortBy="#{item.usiLatitude}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiLatitude}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiLatitude}">
+                            <f:converter converterId="latLong" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column styleClass="columnNumber" filterBy="#{item.usiLongitude}" sortBy="#{item.usiLongitude}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiLongitude}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiLongitude}">
+                            <f:converter converterId="latLong" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaLocalizacaoTitle_uslUfdCd}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.siglaUf}" />
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaLocalizacaoTitle_uslMunCd}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.municipioNm}" />                            
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiTxEndereco}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiTxEndereco}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiTxCep}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiTxCep}" converter="inputConverter"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.usiDnsCd.dnsNm}" sortBy="#{item.usiDnsCd.dnsNm}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiDnsCd}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiDnsCd.toString()}"/>
+                    </p:column>      
+
+                    <p:column exportable="true" style="display:none;" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaLocalizacaoTitle_uslRioCd}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nmRio}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" >
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiTxObservacao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiTxObservacao}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnStatus" filterBy="#{item.usiUssId.ussNm}" sortBy="#{item.usiUssId.ussNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiSituacao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiUssId.ussNm}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" sortBy="#{filterSearchController.customFormatDate1(item.usiDtaProjeto)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.usiDtaProjeto)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiDtaProjeto}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usiDtaProjeto}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/> 
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column exportable="true" style="display:none;"  filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.CreateTecnicoUsinaTitle_tusTecId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tecnicos}"/>
+                    </p:column>
+
+                    <p:column style="width:3%" exportable="false">
+                        <div class="cabecalho">
+                            <div class="imagem">
+                                <p:commandLink update=":formList:displayView" oncomplete="usinaDialogView.show()"  onerror="usinaDialogView.hide();" title="#{bundle.MsgVisualizar}" styleClass="ui-icon ui-icon-search">
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{usinaController.selectedUsina}" />
+                                </p:commandLink>
+                            </div>                 
+                            <div class="titulo">
+                                <p:commandLink ajax="false"  action="#{usinaController.prepareEdit}" rendered="#{!autenticadorController.loginVisualizador}" title="#{bundle.ListAreaEditLink}" styleClass="ui-icon ui-icon-pencil" >
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{usinaController.selectedUsina}" />
+                                </p:commandLink>
+                            </div>
+                        </div>                     
+                    </p:column>
+
+
+                    <f:facet name="footer">
+
+                        <p:commandButton id="viewCommand" value="#{bundle.MsgVisualizar}" icon="#{bundle.icone_pesquisa}" actionListener="#{usinaController.prepareView}" update=":formList:displayView" oncomplete="usinaDialogView.show()" />
+                        <p:commandButton id="editCommand" rendered="#{!autenticadorController.loginVisualizador}" ajax="false" action="#{usinaController.prepareEdit}" value="#{bundle.ViewUsinaEditLink}" icon="#{bundle.icone_pencil}" />                            
+
+                        <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter  type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_usinas}" postProcessor="#{usinaController.postProcessorXLS}"/>
+                        </p:commandButton>
+                        <p:commandButton id="excelExportPagAtual" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                            <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportPagAtualFileName_usinas}" pageOnly="true" postProcessor="#{usinaController.postProcessorXLS}"/>
+                        </p:commandButton>
+                    </f:facet>
+                </p:dataTable>          
+
+                <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                    <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide(); #{usinaController.prepareListaInativos}" action="#{usinaController.destroy}" update="tbl"/>
+                    <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide()" type="button"/>
+
+                </p:confirmDialog>
+
+                <p:dialog id="dialogView" header="#{bundle.UsinaDialogView_header}" widgetVar="usinaDialogView" resizable="false" 
+                          width="800" modal="true" >
+
+                    <h:panelGrid id="displayView" columns="2" cellpadding="4">                          
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiId}"/>
+                        <h:outputText value="#{usinaController.selected.usiId}" title="#{bundle.ViewUsinaTitle_usiId}"/>                            
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiProcesso}"/>
+                        <h:outputLink styleClass="formataLink"  target="new"  id="linkProcesso" value="#{usinaController.pesquisaProcesso()}"  >
+                            <h:outputText value="#{usinaController.selected.usiProcesso}" converter="inputConverter" title="#{bundle.ListControleDocumentoTitle_usiProcesso}"/> 
+                        </h:outputLink>                    
+
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_uslOrgao}"/>                        
+                        <h:outputText value="#{usinaController.selected.orgao.orgNm}"  title="#{bundle.ViewUsinaTitle_uslOrgao}"/> 
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiNm}"/>
+                        <h:outputText value="#{usinaController.selected.usiNm}" title="#{bundle.ViewUsinaTitle_usiNm}"/>
+
+                        <h:outputText value="#{bundle.ViewUsinaLabel_usiAtoLegal}"/>
+                        <h:outputText value="#{usinaController.selected.valorAtoLegal}"  title="#{bundle.ViewUsinaTitle_usiAtoLegal}"/> 
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiNuAreaDrenagem}"/>
+                        <h:panelGroup>
+                            <h:outputText value="#{usinaController.selected.usiNuAreaDrenagem}" title="#{bundle.ViewUsinaTitle_usiNuAreaDrenagem}"> 
+                                <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                            </h:outputText> <h:outputText value=" #{bundle.KM2}" rendered="#{usinaController.selected.usiNuAreaDrenagem!=null}"/> 
+                        </h:panelGroup>
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiNuAreaIncremental}"/>
+                        <h:panelGroup>
+                            <h:outputText value="#{usinaController.selected.usiNuAreaIncremental}" title="#{bundle.ViewUsinaTitle_usiNuAreaIncremental}">
+                                <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                            </h:outputText> <h:outputText value=" #{bundle.KM2}" rendered="#{usinaController.selected.usiNuAreaIncremental!=null}"/>
+                        </h:panelGroup>
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiNuAreaInundada}"/>
+                        <h:panelGroup>
+                            <h:outputText value="#{usinaController.selected.usiNuAreaInundada}" title="#{bundle.ViewUsinaTitle_usiNuAreaInundada}">
+                                <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                            </h:outputText> <h:outputText value=" #{bundle.KM2}" rendered="#{usinaController.selected.usiNuAreaInundada!=null}"/>
+                        </h:panelGroup>
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiNuPotencia}"/>
+                        <h:panelGroup>
+                            <h:outputText value="#{usinaController.selected.usiNuPotencia}" title="#{bundle.ViewUsinaTitle_usiNuPotencia}">
+                                <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                            </h:outputText> <h:outputText value=" #{bundle.MW}" rendered="#{usinaController.selected.usiNuPotencia!=null}"/>
+                        </h:panelGroup>
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiLatitude}"/>
+                        <h:outputText value="#{usinaController.selected.usiLatitude}">
+                            <f:converter converterId="latLong" />
+                        </h:outputText>
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiLongitude}"/>
+                        <h:outputText value="#{usinaController.selected.usiLongitude}">
+                            <f:converter converterId="latLong" />
+                        </h:outputText>
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiTpuId}"/>
+                        <h:outputText value="#{usinaController.selected.usiTpuId.tpuNm}" title="#{bundle.ViewUsinaTitle_usiTpuId}"/>                                                        
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiSituacao}"/>
+                        <h:outputText value="#{usinaController.selected.usiUssId.ussNm}" title="#{bundle.ViewUsinaTitle_usiSituacao}" />
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiDtaProjeto}" rendered="#{usinaController.emOperacao}"/>
+                        <h:outputText value="#{usinaController.selected.usiDtaProjeto}" rendered="#{usinaController.emOperacao}" title="#{bundle.ViewUsinaTitle_usiDtaProjeto}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>                        
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLocalizacaoLabel_uslUfdCd}"/>
+                        <h:outputText value="#{usinaController.selected.siglaUf} " title="#{bundle.ViewUsinaLocalizacaoTitle_uslUfdCd}"/>                            
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLocalizacaoLabel_uslMunCd}"/>                            
+                        <h:outputText value="#{usinaController.selected.municipioNm}" />
+
+                        <h:outputLabel value="#{bundle.EditUsinaLabel_usiTxEndereco}"/>
+                        <h:outputText value="#{usinaController.selected.usiTxEndereco}" title="#{bundle.EditUsinaTitle_usiTxEndereco}"/> 
+
+                        <h:outputLabel value="#{bundle.EditUsinaLabel_usiTxCep}"/>
+                        <h:outputText value="#{usinaController.selected.usiTxCep}" converter="inputConverter" title="#{bundle.EditUsinaTitle_usiTxCep}"/> 
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiDnsCd}"/>
+                        <h:outputText value="#{usinaController.selected.usiDnsCd.toString()}" title="#{bundle.ViewUsinaTitle_usiDnsCd}"/>             
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLocalizacaoLabel_uslRioCd}"/>
+                        <h:outputText value="#{usinaController.selected.nmRio}" title="#{bundle.ViewUsinaLocalizacaoTitle_uslRioCd}"/>
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiTxObservacao}"/>
+                        <h:outputText value="#{usinaController.selected.usiTxObservacao}" title="#{bundle.ViewUsinaLabel_usiTxObservacao}"/>
+
+                        <h:outputLabel value="#{bundle.UsinaLabel_usinaTecnico}" for="usiTecnicos"/>
+                        <p:dataList id="usiTecnicos" value="#{usinaController.selected.tecnicosSelecionados}" var="item" paginator="true" currentPageReportTemplate="Página {currentPage}/{totalPages} de {totalRecords} técnicos(s)." paginatorPosition="bottom" rows="10" rowsPerPageTemplate="10" type="none" 
+                                    paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}">
+                            <h:outputText value="#{item.tecNm} (#{item.tecEmail})" style="margin-left:10px" />                        
+                            <br />
+                        </p:dataList>  
+
+                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty usinaController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputText id="nomeCriador" value="#{usinaController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty usinaController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty usinaController.selected.historicoCriacao.dataHora}"/>
+                        <h:outputText id="dataCriacao" value="#{usinaController.selected.historicoCriacao.dataHora}" rendered="#{not empty usinaController.selected.historicoCriacao.dataHora}"/>     
+                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty usinaController.alteracaoHist.nomeUsuario}"/>
+                        <h:outputText id="nomeAlterador" value="#{usinaController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty usinaController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty usinaController.alteracaoHist.dataHora}"/>
+                        <h:outputText id="dataAlteracao" value="#{usinaController.selected.historicoAlteracao.dataHora}" rendered="#{not empty usinaController.selected.historicoAlteracao.dataHora}" /> 
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:panelGroup>
+
+            <!--</h:form>-->
+        </ui:define>
+    </ui:composition>
+</html>

@@ -39,8 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orgao.findByOrgSg", query = "SELECT o FROM Orgao o WHERE o.orgSg = :orgSg"),
     @NamedQuery(name = "Orgao.findByOrgJurId", query = "SELECT o FROM Orgao o WHERE o.orgJurId = :orgJurId"),
     @NamedQuery(name = "Orgao.findByOrgNmRepresentante", query = "SELECT o FROM Orgao o WHERE o.orgNmRepresentante = :orgNmRepresentante"),
-    @NamedQuery(name = "Orgao.findByOrgTxTelefone", query = "SELECT o FROM Orgao o WHERE o.orgTxTelefone = :orgTxTelefone"),   
-    @NamedQuery(name = "Orgao.findByOrgTxCep", query = "SELECT o FROM Orgao o WHERE o.orgTxCep = :orgTxCep"),    
+    @NamedQuery(name = "Orgao.findByOrgTxTelefone", query = "SELECT o FROM Orgao o WHERE o.orgTxTelefone = :orgTxTelefone"),
+    @NamedQuery(name = "Orgao.findByOrgTxCep", query = "SELECT o FROM Orgao o WHERE o.orgTxCep = :orgTxCep"),
     @NamedQuery(name = "Orgao.findByOrgCargo", query = "SELECT o FROM Orgao o WHERE o.orgCargo = :orgCargo"),
     @NamedQuery(name = "Orgao.findByOrgCnpj", query = "SELECT o FROM Orgao o WHERE o.orgCnpj = :orgCnpj"),
     @NamedQuery(name = "Orgao.findByOrgEmail", query = "SELECT o FROM Orgao o WHERE o.orgEmail = :orgEmail"),
@@ -75,13 +75,13 @@ public class Orgao implements Serializable {
     @Size(max = 15)
     @Column(name = "ORG_TX_TELEFONE")
     private String orgTxTelefone;
-    @JoinColumn(name = "ORG_MUNCODIGO", referencedColumnName = "MUNCODIGO")
+    @JoinColumn(name = "ORG_MUN_CD", referencedColumnName = "MUNCODIGO")
     @ManyToOne
     private Municipio orgMunCodigo;
     @Size(max = 8)
     @Column(name = "ORG_TX_CEP")
     private String orgTxCep;
-    @JoinColumn(name = "ORG_UFDCODIGO", referencedColumnName = "UFDCODIGO")
+    @JoinColumn(name = "ORG_UFD_CD", referencedColumnName = "UFDCODIGO")
     @ManyToOne
     private Uf orgUfdCodigo;
     @Size(max = 80)
@@ -279,6 +279,11 @@ public class Orgao implements Serializable {
 
     public void setEntidade(Entidade entidade) {
         this.entidade = entidade;
+    }
+
+    @XmlTransient
+    public String getMaskCnpj() {
+        return orgCnpj;
     }
 
     @Override

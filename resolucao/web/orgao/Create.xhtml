@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template2.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateOrgaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <!--<h:form prependId="false" id="formPrincipal">-->
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>                
+
+            <p:focus context="panelOrgao"/>  
+
+            <p:panel id="panelOrgao">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendOrgaoTitle}"></h:outputText>
+                </f:facet>                   
+                <h:panelGrid columns="2">
+                    <ui:remove>
+                        <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgId}" for="orgId" />
+                        <p:inputText id="orgId" value="#{orgaoController.selected.orgId}" title="#{bundle.CreateOrgaoTitle_orgId}" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgId}"/>
+                    </ui:remove>
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgCnpj}" for="orgCnpj" />
+
+                    <p:inputMask mask="99.999.999/9999-99" converter="inputConverter" id="orgCnpj" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgCnpj}" value="#{orgaoController.selected.orgCnpj}" title="#{bundle.CreateOrgaoTitle_orgCnpj}" >
+                    </p:inputMask>
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgSg}" for="orgSg" />
+                    <p:inputText size="70" onblur="this.value = this.value.toUpperCase();" id="orgSg" maxlength="20" value="#{orgaoController.selected.orgSg}" title="#{bundle.CreateOrgaoTitle_orgSg}" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgSg}"/>
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgNm}" for="orgNm" />
+                    <p:inputText size="70" id="orgNm" maxlength="255" value="#{orgaoController.selected.orgNm}" title="#{bundle.CreateOrgaoTitle_orgNm}" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgNm}"/>
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgTxConsorcio}" for="orgTxConsorcio" />
+                    <p:inputText id="orgTxConsorcio" maxlength="512" size="70" value="#{orgaoController.selected.orgTxConsorcio}" title="#{bundle.CreateOrgaoTitle_orgTxConsorcio}" />                    
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgTxEndereco}" for="orgTxEndereco" />
+                    <h:panelGroup>
+                        <p:inputTextarea rows="3" cols="72" id="orgTxEndereco" counter="counter" counterTemplate="{0} caracteres restantes." value="#{orgaoController.selected.orgTxEndereco}" title="#{bundle.CreateOrgaoTitle_orgTxEndereco}" maxlength="4000" autoResize="false"/> 
+                        <br /><h:outputText id="counter" /> 
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgUfdCd}" />
+
+                    <p:selectOneMenu value="#{orgaoController.selected.orgUfdCodigo}" id ="orgUfdCd" >
+                        <f:selectItems value="#{ufController.itemsAvailableSelectOne}"/>
+                        <p:ajax update=":formPrincipal:orgMunCd" 
+                                listener="#{orgaoController.carregaMunicipios}" />
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgMunCd}" for="orgMunCd" />
+                    <p:selectOneMenu id="orgMunCd" value="#{orgaoController.selected.orgMunCodigo}"   filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{orgaoController.itemsAvailableSelectOneMunicipioByUf}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgTxCep}" for="orgTxCep" />                        
+                    <p:inputMask mask="99999-999" id="orgTxCep" converter="inputConverter" value="#{orgaoController.selected.orgTxCep}" title="#{bundle.CreateOrgaoTitle_orgTxCep}" />
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgNmRepresentante}" for="orgNmRepresentante" />
+                    <p:inputText id="orgNmRepresentante" maxlength="100" size="70" value="#{orgaoController.selected.orgNmRepresentante}" title="#{bundle.CreateOrgaoTitle_orgNmRepresentante}" />                        
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgCargo}" for="orgCargo" />
+                    <p:inputText id="orgCargo" maxlength="80" size="70" value="#{orgaoController.selected.orgCargo}" title="#{bundle.CreateOrgaoTitle_orgCargo}" />                       
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgTxTelefone}" for="orgTxTelefone" />
+                    <p:inputText onkeyup="mascara(this, mtel);" maxlength="15" id="orgTxTelefone" converter="inputConverter" value="#{orgaoController.selected.orgTxTelefone}" title="#{bundle.CreateOrgaoTitle_orgTxTelefone}" />
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgTxTelefone2}" for="orgTxTelefone2" />
+                    <p:inputText onkeyup="mascara(this, mtel);" maxlength="15" id="orgTxTelefone2" converter="inputConverter" value="#{orgaoController.selected.orgTxTelefone2}" title="#{bundle.CreateOrgaoTitle_orgTxTelefone2}" />
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgEmail}" for="orgEmail" />
+                    <p:inputText maxlength="512" id="orgEmail" size="70" value="#{orgaoController.selected.orgEmail}" title="#{bundle.CreateOrgaoTitle_orgEmail}" >
+                        <f:validator for="orgEmail" validatorId="br.gov.ana.validators.EmailValidator"/>
+                    </p:inputText>
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgStatus}" for="orgStatus"/>
+                    <p:selectOneMenu value="#{orgaoController.selected.orgStgId}" id="orgStatus" >                            
+                        <f:selectItems value="#{statusOrgaoController.itemsAvailableSelectMany}"/>                            
+                    </p:selectOneMenu>                        
+
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgTxObservacao}" for="orgTxObservacao" />
+                    <h:panelGroup>
+                        <p:inputTextarea autoResize="false" maxlength="4000" counter="counter2" counterTemplate="{0} caracteres restantes."  value="#{orgaoController.selected.orgTxObservacao}" cols="75" rows="4" id="orgTxObservacao" title="#{bundle.CreateOrgaoTitle_orgTxObservacao}"/>
+                        <br /><h:outputText id="counter2" /> 
+                    </h:panelGroup>
+
+                </h:panelGrid>
+
+                <br />
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{orgaoController.create}" value="#{bundle.CreateOrgaoSaveLink}" />               
+                <p:commandButton ajax="false" action="#{orgaoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.CreateOrgaoShowAllLink}" immediate="true"/>
+
+            </p:panel>
+
+            <!--</h:form>-->
+        </ui:define>
+    </ui:composition>
+
+</html>
