@@ -180,7 +180,7 @@ public class TecnicoController implements Serializable {
 
     public String prepareEdit() {
 
-        if (current == null || current.getTecId() != null) {
+        if (current == null || current.getTecId() == null) {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
             return "/tecnico/List";
         } else {

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template2.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditControleDocumentoOuterTitle} (#{controleDocumentoOutrosController.selected.tcmTdcId.tdcNm})"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+            <!--<h:form id="formPrincipal">-->
+
+            <p:growl id="messages" life="3000"/>
+
+            <p:focus context="pnlHeaderDocs"/>  
+
+            <p:panel id="pnlHeaderDocs">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendControleDocumentoOuterTitle}"></h:outputText>
+                </f:facet>
+
+                <h:panelGrid columns="2">
+                    <ui:remove>
+                        <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmId}" for="tcmId" />                        
+                        <p:inplace id="basic" >
+                            <p:inputText id="tcmId" readonly="true" value="#{controleDocumentoOutrosController.selected.tcmId}" title="#{bundle.EditControleDocumentoTitle_tcmId}" />
+                        </p:inplace>                      
+                    </ui:remove>
+
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_orgaoUsina}" for="orgaoUsina" />
+                    <p:selectOneMenu id="orgaoUsina" value="#{controleDocumentoOutrosController.orgao}" editable="false" disabled="true"   >
+                        <f:selectItems value="#{orgaoController.itemsAvailableSelectOne}"/>                            
+                        <p:ajax update=":formPrincipal:tcmUsiId" listener="#{controleDocumentoOutrosController.carregaUsinaOutersDocs}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmUsiId}" for="tcmUsiId" />
+                    <h:panelGroup>
+                        <p:selectOneMenu id="tcmUsiId" value="#{controleDocumentoOutrosController.selected.tcmUsiId}" editable="false" disabled="true" >
+                            <f:selectItems value="#{controleDocumentoOutrosController.itemsAvailableSelectOneUsinasByOrgao}"/>
+                            <p:ajax update=":formPrincipal:tcmUsiId"  listener="#{controleDocumentoOutrosController.filtraPorUsina}" />
+                        </p:selectOneMenu>  
+
+                        <h:outputLabel value="#{bundle.EditUsinaLabel_usiProcesso}" for="usiProcesso" />                        
+                        <p:inputText id="usiProcesso" converter="inputConverter" size="30" readonly="true" disabled="true" value="#{controleDocumentoOutrosController.selected.tcmUsiId.usiProcesso}" title="#{bundle.EditUsinaTitle_usiProcesso}"/>
+                        &nbsp;         
+
+                        <h:outputLink styleClass="formataLink"  target="new" id="linkProcesso" value="#{controleDocumentoOutrosController.pesquisaProcesso()}" rendered="#{controleDocumentoOutrosController.existeProcesso()}" >
+                            <h:graphicImage value="#{bundle.imgProton}" height="18" rendered="#{controleDocumentoOutrosController.existeProcesso()}" title="#{bundle.abrirProcessoProton}"/>
+                        </h:outputLink> 
+                    </h:panelGroup>
+
+                    <ui:remove>
+                        <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTxNumero}" for="tcmTxNumero" />
+                        <p:inputText id="tcmTxNumero" value="#{controleDocumentoOutrosController.selected.tcmTxNumero}" size="80" maxlength="255" title="#{bundle.EditControleDocumentoTitle_tcmTxNumero}" />
+                    </ui:remove>
+
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTdcId}" for="tcmTdcId" />
+                    <h:panelGroup>
+                        <p:inputText id="tcmTdcId" size="69" readonly="true" disabled="true" value="#{controleDocumentoOutrosController.selected.tcmTdcId.tdcNm}" title="#{bundle.EditControleDocumentoTitle_tcmTdcId}"/>
+                        <ui:remove>                            
+                            <p:selectOneMenu id="tcmTdcId" editable="true" disabled="true" value="#{controleDocumentoOutrosController.selected.tcmTdcId}" >
+                                <f:selectItems value="#{tipoDocumentoController.itemsAvailableSelectOnePrincipais}"/>
+                                <ui:remove><p:ajax update="@form" listener="#{controleDocumentoOutrosController.ocultaCamposOuterDocs}"/></ui:remove>
+                            </p:selectOneMenu>
+                        </ui:remove>
+
+                        <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTxNumero}" for="tcmTxNumero" />     
+                        <p:inputMask mask="999/2099" id="tcmTxNumero"  converter="protonInputConverter" value="#{controleDocumentoOutrosController.selected.tcmTxNumero}" maxlength="1"  title="#{bundle.EditControleDocumentoTitle_tcmTxNumero}" />
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmDtCadastro}" for="tcmDtCadastro" />
+                    <h:panelGroup>
+                        <p:calendar  id="tcmDtCadastro" maxdate="#{bundle.maxDateCalendar}" value="#{controleDocumentoOutrosController.selected.tcmDtCadastro}" onkeypress="formatar(this, '##/##/####');" locale="#{bundle.localeApp}" size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}" required="true" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_tcmDtCadastro}"   title="#{bundle.EditControleDocumentoTitle_tcmDtCadastro}" >                                
+                            <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </p:calendar>
+
+                        <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmProton}" for="tcmProton" />                        
+                        <p:inputMask mask="999999/2099" id="tcmProton" converter="protonInputConverter" value="#{controleDocumentoOutrosController.selected.tcmProton}" maxlength="25" required="true" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_tcmProton}" title="#{bundle.EditControleDocumentoTitle_tcmProton}" />
+                        &nbsp;   
+                        <h:outputLink styleClass="formataLink"  target="new" id="linkProton" value="#{controleDocumentoOutrosController.pesquisaProton()}" rendered="#{controleDocumentoOutrosController.existeProton()}" >
+                            <h:graphicImage value="#{bundle.imgProton}" height="18" rendered="#{controleDocumentoOutrosController.existeProton()}" title="#{bundle.abrirProcessoProton}"/>
+                        </h:outputLink>                    
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmDtExpedicao}" for="tcmDtExpedicao" />
+                    <p:calendar id="tcmDtExpedicao" locale="#{bundle.localeApp}" maxdate="#{bundle.maxDateCalendar}" onkeypress="formatar(this, '##/##/####');" 
+                                size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}" 
+                                value="#{controleDocumentoOutrosController.selected.tcmDtExpedicao}"  >
+                        <f:convertDateTime for="dtaExp" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                    </p:calendar>
+
+
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_hdcTopId}" for="hdcTopId" />
+                    <p:selectOneMenu id="hdcTopId" value="#{controleDocumentoOutrosController.selected.tcmTopId}" required="true" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_hdcTopId}">
+                        <f:selectItems value="#{tipoOperacaoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel id="label_rspAreId_outerdocs" value="#{bundle.EditResponsavelLabel_rspAreId}" for="rspAreId" /> 
+                    <h:panelGroup id="pg_rspAreId_outerdocs">
+
+                        <p:selectOneMenu value="#{controleDocumentoOutrosController.area}" id="rspAreId" >
+                            <f:selectItems value="#{controleDocumentoOutrosController.itemsAvailableSelectOne}"/>                                
+                            <p:ajax update="tcmRspId" listener="#{controleDocumentoOutrosController.carregaResponsaveis}"/>
+                        </p:selectOneMenu>  
+
+                        <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmRspId}" for="tcmRspId" /> 
+                        <p:selectOneMenu value="#{controleDocumentoOutrosController.selected.tcmRspId}" id="tcmRspId" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_tcmRspId}">
+                            <f:selectItems value="#{controleDocumentoOutrosController.itemsAvailableSelectOneResponsaveisPorArea}"/>
+                        </p:selectOneMenu> 
+                    </h:panelGroup>
+
+                    <ui:remove>
+                        <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmSdcId}" for="tcmSdcId" rendered="#{controleDocumentoOutrosController.exibePanel}"/>                        
+                        <p:inputText id="tcmSdcId" size="30" readonly="true" disabled="true" value="#{controleDocumentoOutrosController.selected.tcmSdcId.sdcNm}" title="#{bundle.EditControleDocumentoTitle_tcmSdcId}" rendered="#{controleDocumentoOutrosController.exibePanel}"/>
+                    </ui:remove>
+
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTxObservacao}" for="tcmTxObservacao" />
+                    <h:panelGroup>
+                        <p:inputTextarea autoResize="false" maxlength="4000" counter="counter2" counterTemplate="{0} caracteres restantes."  value="#{controleDocumentoOutrosController.selected.tcmTxObservacao}" cols="75" rows="4" id="tcmTxObservacao" title="#{bundle.EditControleDocumentoTitle_tcmTxObservacao}"/>
+                        <br /><h:outputText id="counter2" /> 
+                    </h:panelGroup>
+
+                    <h:outputLabel id="labelOficio" value="#{controleDocumentoOutrosController.headerPanel}" rendered="#{controleDocumentoOutrosController.exibePanel}"/>
+
+                    <p:panel id="panelOficio" header="#{controleDocumentoOutrosController.headerPanel}" rendered="#{controleDocumentoOutrosController.exibePanel}">
+                        <h:panelGrid columns="2">
+                            <ui:remove>
+                                <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmId}" for="tcmId2" />                        
+                                <p:inplace id="basic2" >
+                                    <p:inputText id="tcmId2" readonly="true" value="#{controleDocumentoOutrosController.oficio.tcmId}" title="#{bundle.EditControleDocumentoTitle_tcmId}" />
+                                </p:inplace>                  
+                            </ui:remove>
+
+                            <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTxNumero}" for="tcmTxNumeroOficio"/>
+                            <h:panelGroup>
+                                <p:inputMask mask="999/2099" id="tcmTxNumeroOficio" converter="protonInputConverter" value="#{controleDocumentoOutrosController.oficio.tcmTxNumero}" size="15" maxlength="15" title="#{bundle.CreateControleDocumentoTitle_tcmTxNumero}" />                        
+
+                                <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmDtCadastro}" for="dtaCadOficio" />
+                                <p:calendar id="dtaCadOficio" locale="#{bundle.localeApp}" maxdate="#{bundle.maxDateCalendar}" onkeypress="formatar(this, '##/##/####');" size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}"  value="#{controleDocumentoOutrosController.oficio.tcmDtCadastro}"  >
+                                    <f:convertDateTime for="dtaCadOficio" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </p:calendar>
+
+                                <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmDtExpedicao}" for="dtaExpOficio" />
+                                <p:calendar id="dtaExpOficio" locale="#{bundle.localeApp}" maxdate="#{bundle.maxDateCalendar}" onkeypress="formatar(this, '##/##/####');" size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}"  value="#{controleDocumentoOutrosController.oficio.tcmDtExpedicao}"  >
+                                    <f:convertDateTime for="dtaExpOficio" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </p:calendar>
+                                &nbsp;
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmProton}" for="tcmProtonOficio"/>
+                                &nbsp;
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputMask mask="999999/2099" id="tcmProtonOficio" converter="protonInputConverter" value="#{controleDocumentoOutrosController.oficio.tcmProton}" maxlength="25" title="#{bundle.EditControleDocumentoTitle_tcmProton}" />                        
+                                &nbsp;   
+                                <h:outputLink styleClass="formataLink"  target="new" id="linkProtonOficio" value="#{controleDocumentoOutrosController.pesquisaProtonOficio()}" rendered="#{controleDocumentoOutrosController.existeProtonOficio()}" >
+                                    <h:graphicImage value="#{bundle.imgProton}" height="18" rendered="#{controleDocumentoOutrosController.existeProtonOficio()}" title="#{bundle.abrirProcessoProton}"/>
+                                </h:outputLink> 
+
+                            </h:panelGroup>
+
+                            <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmSdcId}" for="tcmSdcId" />
+                            <p:selectOneMenu id="tcmSdcId" value="#{controleDocumentoOutrosController.oficio.tcmSdcId}" required="true" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_tcmSdcId}"  >
+                                <f:selectItems value="#{statusDocController.itemsAvailableSelectOneCartaExterna}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="#{bundle.EditControleDocumentoLabel_tcmTxObservacao}" for="tcmTxObservacaoOficio" />
+                            <h:panelGroup>
+                                <p:inputTextarea id="tcmTxObservacaoOficio"  autoResize="false" maxlength="4000" counter="counter4" counterTemplate="{0} caracteres restantes."  value="#{controleDocumentoOutrosController.oficio.tcmTxObservacao}" cols="75" rows="4" title="#{bundle.EditControleDocumentoTitle_tcmTxObservacao}"/>
+                                <br /><h:outputText id="counter4" /> 
+
+                            </h:panelGroup> 
+                        </h:panelGrid>
+                    </p:panel>
+
+
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty controleDocumentoOutrosController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{controleDocumentoOutrosController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty controleDocumentoOutrosController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty controleDocumentoOutrosController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{controleDocumentoOutrosController.selected.historicoCriacao.dataHora}" rendered="#{not empty controleDocumentoOutrosController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty controleDocumentoOutrosController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{controleDocumentoOutrosController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty controleDocumentoOutrosController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty controleDocumentoOutrosController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{controleDocumentoOutrosController.selected.historicoAlteracao.dataHora}" rendered="#{not empty controleDocumentoOutrosController.selected.historicoAlteracao.dataHora}" /> 
+
+                </h:panelGrid>
+
+                <br />
+
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{controleDocumentoOutrosController.updateOuterDocs}" value="#{bundle.EditControleDocumentoSaveLink}"/> &nbsp;                
+                <p:commandButton ajax="false" action="#{controleDocumentoOutrosController.prepareListaOuterDocumentos}" icon="#{bundle.icone_listar}" value="#{bundle.EditControleDocumentoOuterShowAllLink}" immediate="true"/> &nbsp;                
+
+            </p:panel>
+            <!--</h:form>-->
+        </ui:define>
+    </ui:composition>
+
+</html>

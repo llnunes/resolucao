@@ -1,73 +1,99 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/template.xhtml">
+    <ui:composition template="/template2.xhtml">
         <ui:define name="title">
             <h:outputText value="#{bundle.CreateControleDocumentoTitle}"></h:outputText>
         </ui:define>
+
         <ui:define name="body">
-            <h:panelGroup id="messagePanel" layout="block">
-                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
             </h:panelGroup>
-            <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmId}" for="tcmId" />
-                    <h:inputText id="tcmId" value="#{controleDocumentoController.selected.tcmId}" title="#{bundle.CreateControleDocumentoTitle_tcmId}" />
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmDtCadastro}" for="tcmDtCadastro" />
-                    <h:inputText id="tcmDtCadastro" value="#{controleDocumentoController.selected.tcmDtCadastro}" title="#{bundle.CreateControleDocumentoTitle_tcmDtCadastro}" >
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:inputText>
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmDtExpedicao}" for="tcmDtExpedicao" />
-                    <h:inputText id="tcmDtExpedicao" value="#{controleDocumentoController.selected.tcmDtExpedicao}" title="#{bundle.CreateControleDocumentoTitle_tcmDtExpedicao}" >
-                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                    </h:inputText>
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmTxNumero}" for="tcmTxNumero" />
-                    <h:inputText id="tcmTxNumero" value="#{controleDocumentoController.selected.tcmTxNumero}" title="#{bundle.CreateControleDocumentoTitle_tcmTxNumero}" />
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmTxObservacao}" for="tcmTxObservacao" />
-                    <h:inputTextarea rows="4" cols="30" id="tcmTxObservacao" value="#{controleDocumentoController.selected.tcmTxObservacao}" title="#{bundle.CreateControleDocumentoTitle_tcmTxObservacao}" />
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmProton}" for="tcmProton" />
-                    <h:inputText id="tcmProton" value="#{controleDocumentoController.selected.tcmProton}" title="#{bundle.CreateControleDocumentoTitle_tcmProton}" />
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmIcObrigatorio}" for="tcmIcObrigatorio" />
-                    <h:inputText id="tcmIcObrigatorio" value="#{controleDocumentoController.selected.tcmIcObrigatorio}" title="#{bundle.CreateControleDocumentoTitle_tcmIcObrigatorio}" />
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmDocVinculo}" for="tcmDocVinculo" />
-                    <h:inputText id="tcmDocVinculo" value="#{controleDocumentoController.selected.tcmDocVinculo}" title="#{bundle.CreateControleDocumentoTitle_tcmDocVinculo}" />
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmStatus}" for="tcmStatus" />
-                    <h:inputText id="tcmStatus" value="#{controleDocumentoController.selected.tcmStatus}" title="#{bundle.CreateControleDocumentoTitle_tcmStatus}" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmStatus}"/>
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmUsiId}" for="tcmUsiId" />
-                    <h:selectOneMenu id="tcmUsiId" value="#{controleDocumentoController.selected.tcmUsiId}" title="#{bundle.CreateControleDocumentoTitle_tcmUsiId}" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmUsiId}">
-                        <f:selectItems value="#{usinaController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmTopId}" for="tcmTopId" />
-                    <h:selectOneMenu id="tcmTopId" value="#{controleDocumentoController.selected.tcmTopId}" title="#{bundle.CreateControleDocumentoTitle_tcmTopId}" >
-                        <f:selectItems value="#{tipoOperacaoController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmTdcId}" for="tcmTdcId" />
-                    <h:selectOneMenu id="tcmTdcId" value="#{controleDocumentoController.selected.tcmTdcId}" title="#{bundle.CreateControleDocumentoTitle_tcmTdcId}" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmTdcId}">
-                        <f:selectItems value="#{tipoDocumentoController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmSdcId}" for="tcmSdcId" />
-                    <h:selectOneMenu id="tcmSdcId" value="#{controleDocumentoController.selected.tcmSdcId}" title="#{bundle.CreateControleDocumentoTitle_tcmSdcId}" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmSdcId}">
-                        <f:selectItems value="#{statusDocumentoController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmRspId}" for="tcmRspId" />
-                    <h:selectOneMenu id="tcmRspId" value="#{controleDocumentoController.selected.tcmRspId}" title="#{bundle.CreateControleDocumentoTitle_tcmRspId}" >
-                        <f:selectItems value="#{responsavelController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
+            <!--<h:form>-->
+            <p:growl id="messages" life="3000"/>
+
+            <p:focus context="panelDocumento"/>  
+
+            <p:panel id="panelDocumento">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendControleDocumentoTitle}"/>
+                </f:facet>
+
+                <h:panelGrid columns="2" >
+
+                    <h:outputLabel id="orgaoUsina_label" value="#{bundle.CreateControleDocumentoLabel_orgaoUsina}" for="orgaoUsina" />
+                    <p:selectOneMenu id="orgaoUsina" value="#{controleDocumentoController.orgao}" filter="true" filterMatchMode="contains" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_orgaoUsina}" >
+                        <f:selectItems id="opt_orgaos" value="#{orgaoController.itemsAvailableSelectOne}"/>
+                        <p:ajax update="tcmUsiId" listener="#{controleDocumentoController.carregaUsina}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel id="tcmUsiId_label" value="#{bundle.CreateControleDocumentoLabel_tcmUsiId}" for="tcmUsiId" />
+                    <p:selectOneMenu id="tcmUsiId" value="#{controleDocumentoController.selected.tcmUsiId}" filter="true" filterMatchMode="contains" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmUsiId}"  >
+                        <f:selectItems id="opt_documentos" value="#{controleDocumentoController.itemsAvailableSelectOneUsinasByOrgao}"/>                            
+                    </p:selectOneMenu>
+
+                    <h:panelGroup>
+                        <h:outputLabel id="tcmTdcId_label" value="#{bundle.CreateControleDocumentoLabel_tcmTdcId}" for="tcmTdcId" />
+                        &nbsp;
+                    </h:panelGroup>
+
+                    <p:selectOneMenu id="tcmTdcId" value="#{controleDocumentoController.selected.tcmTdcId}" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmTdcId}"  >
+                        <f:selectItems id="opt_tipodocumento" value="#{tipoDocumentoController.itemsAvailableSelectOnePrincipais}"/>
+                    </p:selectOneMenu>                        
+
+
+                    <h:outputLabel id="tcmTxNumero_label" value="#{bundle.CreateControleDocumentoLabel_tcmTxNumero}" for="tcmTxNumero" />     
+                    <p:inputMask mask="9" id="tcmTxNumero" maxlength="1" validator="br.gov.ana.validators.NumeroDocValidator"  value="#{controleDocumentoController.selected.tcmTxNumero}" title="#{bundle.CreateControleDocumentoTitle_tcmTxNumero}"  />
+
+                    <h:outputLabel id="tcmDtCadastro_label" value="#{bundle.CreateControleDocumentoLabel_tcmDtCadastro}" for="tcmDtCadastro" />                        
+                    <h:panelGroup>
+                        <p:calendar  id="tcmDtCadastro" maxdate="#{bundle.maxDateCalendar}" onkeyup="formatar(this, '##/##/####');" locale="#{bundle.localeApp}" size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmDtCadastro}"  value="#{controleDocumentoController.selected.tcmDtCadastro}" title="#{bundle.CreateControleDocumentoTitle_tcmDtCadastro}" >
+                            <f:convertDateTime for="tcmDtCadastro" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </p:calendar> 
+
+                        <h:outputLabel id="tcmProton_label" value="#{bundle.CreateControleDocumentoLabel_tcmProton}" for="tcmProton" />     
+                        <p:inputMask mask="999999/2099" converter="protonInputConverter" id="tcmProton" value="#{controleDocumentoController.selected.tcmProton}" maxlength="25" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmProton}" title="#{bundle.CreateControleDocumentoTitle_tcmProton}" />
+                    </h:panelGroup>                    
+
+                    <h:outputLabel id="hdcTopId_label" value="#{bundle.CreateHistoricoDocumentoLabel_hdcTopId}" for="hdcTopId" />
+                    <p:selectOneMenu id="hdcTopId" value="#{controleDocumentoController.selected.tcmTopId}" required="true" requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_hdcTopId}">
+                        <f:selectItems id="opt_tipooperacao" value="#{tipoOperacaoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel id="rspAreId_label" value="#{bundle.CreateResponsavelLabel_rspAreId}" for="rspAreId" /> 
+                    <p:selectOneMenu value="#{controleDocumentoController.area}" id="rspAreId">
+                        <f:selectItems id="opt_areas" value="#{areaController.itemsAvailableSelectOne}"/>
+                        <p:ajax update="tcmRspId" listener="#{controleDocumentoController.carregaResponsaveis}"/>
+                    </p:selectOneMenu>  
+
+                    <h:outputLabel id="tcmRspId_label"  value="#{bundle.CreateControleDocumentoLabel_tcmRspId}" for="tcmRspId" /> 
+                    <p:selectOneMenu id="tcmRspId"  value="#{controleDocumentoController.selected.tcmRspId}"  requiredMessage="#{bundle.CreateControleDocumentoRequiredMessage_tcmRspId}">
+                        <f:selectItems id="opt_responsaveis" value="#{controleDocumentoController.itemsAvailableSelectOneResponsaveisPorArea}"/>
+                    </p:selectOneMenu>         
+
+
+                    <h:outputLabel id="tcmTxObservacao_label" value="#{bundle.CreateControleDocumentoLabel_tcmTxObservacao}" for="tcmTxObservacao" />
+                    <h:panelGroup id="panelGroup_doc">
+                        <p:inputTextarea autoResize="false" maxlength="4000" counter="counter2" counterTemplate="{0} caracteres restantes."  value="#{controleDocumentoController.selected.tcmTxObservacao}" cols="75" rows="4" id="tcmTxObservacao" title="#{bundle.CreateControleDocumentoTitle_tcmTxObservacao}"/>
+                        <br /><h:outputText id="counter2" /> 
+                    </h:panelGroup>                        
+
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{controleDocumentoController.create}" value="#{bundle.CreateControleDocumentoSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{controleDocumentoController.prepareList}" value="#{bundle.CreateControleDocumentoShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.CreateControleDocumentoIndexLink}"/>
-            </h:form>
+
+                <p:commandButton id="create_label" ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{controleDocumentoController.create}" value="#{bundle.CreateControleDocumentoSaveLink}" /> &nbsp;
+                <p:commandButton id="lista_label" ajax="false" action="#{controleDocumentoController.prepareListaDocumentos}" value="#{bundle.CreateControleDocumentoShowAllLink}" immediate="true"/>
+
+            </p:panel>
+            <!--</h:form>-->
         </ui:define>
     </ui:composition>
 
 </html>
+

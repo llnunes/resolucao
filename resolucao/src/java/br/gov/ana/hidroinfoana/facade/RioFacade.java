@@ -34,7 +34,7 @@ public class RioFacade extends AbstractFacade<Rio> {
     public List<Rio> findRioBySubbacia(Subbacia subbacia) {
         try {
             Query q = em.createQuery("SELECT r FROM Rio r WHERE r.rioSubbacia = :subbacia");
-            q.setParameter("subbacia", subbacia);
+            q.setParameter("subbacia", subbacia.getSbcCodigo());
             return q.getResultList();
 
         } catch (Exception e) {

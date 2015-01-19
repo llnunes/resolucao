@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"                
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+    <div>
+        <p:commandButton id="dynaButton" value="#{bundle.menuListaDocumentos}" type="button" title="#{bundle.MsgCliqueAquiDocumentos}" styleClass="estilobotaodocumentos" icon="#{bundle.icone_expandir}" />
+        <p:menu overlay="true" trigger="dynaButton" my="left top" at="bottom left"  styleClass="meumenu">
+            <p:submenu label="#{bundle.menuOpcoes}" styleClass="meumenu">
+                <p:menuitem icon="#{bundle.icone_projetos}" value="#{bundle.abaProjetoDeInstalacao_title}"  action="#{controleDocumentoController.prepareListaProjetos}" immediate="true" ajax="false"/>
+                <p:menuitem icon="#{bundle.icone_relatorios}" value="#{bundle.abaRelatorioDeInstalacao_title}" action="#{controleDocumentoController.prepareListaRelatorioDeInstalacao}" immediate="true" ajax="false"/>
+                <p:menuitem icon="#{bundle.icone_relatorio_anual}" value="#{bundle.abaRelatorioAnual_title}" action="#{controleDocumentoController.prepareListaRelatorioAnual}" immediate="true" ajax="false"/>
+                <p:menuitem icon="#{bundle.icone_relatorio_396}" value="#{bundle.abaRelatorioDados396_title}" action="#{controleDocumentoController.prepareListaRelatorioDados396}" immediate="true" ajax="false"/>
+                <p:menuitem icon="#{bundle.icone_proposta_batimetria}" value="#{bundle.abaPropostaBatimetria_title}" action="#{controleDocumentoController.prepareListaBatimetria}" immediate="true" ajax="false"/>
+                <p:menuitem icon="#{bundle.icone_relatorio_batimetria}" value="#{bundle.abaLevantamentoBatimetria_title}" action="#{controleDocumentoController.prepareListaRelatorioBatimetria}" immediate="true" ajax="false"/>
+            </p:submenu>
+        </p:menu>
+    </div>
+    <br/>
+</ui:composition>
+

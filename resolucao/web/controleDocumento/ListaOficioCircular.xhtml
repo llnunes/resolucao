@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListControleDocumentoOficiosCircularesTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block" >
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list" />
+            </h:panelGroup>
+
+            <p:growl id="messages" life="3000" />
+
+            <p:panel id="panelFiltro_OficiosCirculares" header="#{bundle.filtroPesquisa}" >
+
+                <h:panelGrid columns="2" border="0" >
+
+                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_incluirCgh}" for="cgh_OficiosCirculares" />
+
+                    <p:selectOneMenu id="cgh_OficiosCirculares" value="#{controleDocumentoOutrosController.incluiCgh}" >                            
+                        <f:selectItem itemLabel="#{bundle.MsgDialog_sim}" itemValue="#{true}" />
+                        <f:selectItem itemLabel="#{bundle.MsgDialog_nao}" itemValue="#{false}"/>
+                        <p:ajax update="orgaoUsina_OficiosCirculares, :formList:tbl_OficiosCirculares" listener="#{controleDocumentoOutrosController.carregaOutersDocsOficiosCirculares}"/>
+                    </p:selectOneMenu> 
+
+                    <h:outputLabel value="#{bundle.EditControleDocumentoLabel_orgaoUsina}" for="orgaoUsina_OficiosCirculares" />
+                    <p:selectOneMenu id="orgaoUsina_OficiosCirculares" value="#{controleDocumentoOutrosController.orgao}"  filter="true" filterMatchMode="contains" >
+                        <f:selectItems value="#{orgaoController.itemsAvailableSelectOne}"/>
+                        <p:ajax update="tcmUsiId_OficiosCirculares,:formList:tbl_OficiosCirculares" listener="#{controleDocumentoOutrosController.carregaUsinaFiltroOutersDocsOficiosCirculares}"/>
+                    </p:selectOneMenu>
+
+
+                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmUsiId}" for="tcmUsiId_OficiosCirculares" />
+                    <p:selectOneMenu  id="tcmUsiId_OficiosCirculares" value="#{controleDocumentoOutrosController.selected.tcmUsiId}"  filter="true" filterMatchMode="contains" >                            
+                        <f:selectItems value="#{controleDocumentoOutrosController.itemsAvailableSelectOneUsinasByOrgaoFiltro}"/>   
+                        <p:ajax update="@form, :formList:tbl_OficiosCirculares"  listener="#{controleDocumentoOutrosController.carregaOutersDocsOficiosCirculares}" />
+                    </p:selectOneMenu>                     
+
+                </h:panelGrid>
+
+                <br/> 
+            </p:panel>
+
+            <h:panelGroup>
+
+                <p:dataTable id="tbl_OficiosCirculares" 
+                             value="#{controleDocumentoOutrosController.listaOutersDocsOficiosCirculares}" var="item"  paginator="true"
+                             rows="#{bundle.rows}" pageLinks="5" widgetVar="controleDocumentoTable_OficiosCirculares"
+                             currentPageReportTemplate="#{bundle.currentPageReportTemplateControleDocumento}"  paginatorTemplate="#{bundle.paginatorTemplate}"
+                             rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}" paginatorPosition="#{bundle.paginatorPosition}" 
+                             emptyMessage="#{bundle.ListControleDocumentoEmpty}" rowKey="#{item.tcmId}" 
+                             selection="#{controleDocumentoOutrosController.selectedControleDocumento}" selectionMode="single" 
+                             filteredValue="#{controleDocumentoOutrosController.listaOutersDocsOficiosCirculares}" styleClass="mystyle" >
+
+                    <f:facet id="global" name="header">
+                        <p:outputPanel id="test" >
+                            <h:outputText value="#{bundle.searchAllFields}" />
+                            <p:inputText id="globalFilter" onkeyup="controleDocumentoTable.filter();" style="width: 200px;" >
+                                <p:focus for="globalFilter" />
+                            </p:inputText>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column exportable="true" style="display:none;"  styleClass="firstColumn" filterBy="#{item.tcmId}" sortBy="#{item.tcmId}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmId}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnProcesso" filterBy="#{item.tcmUsiId.usiProcesso}" sortBy="#{item.tcmUsiId.usiProcesso}" sortFunction="#{usinaController.sortByUsiProcesso}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_usiProcesso}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmUsiId.usiProcesso}" converter="inputConverter"/>
+                    </p:column>
+
+                    <p:column style="width: 450px;" 
+                              sortBy="#{item.tcmUsiId.orgaoUsina}#{filterSearchController.removeAcentos(item.tcmUsiId.orgaoUsina)}" 
+                              filterBy="#{item.tcmUsiId.orgaoUsina}#{filterSearchController.removeAcentos(item.tcmUsiId.orgaoUsina)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_orgaoUsina}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmUsiId.orgaoUsina}" />
+                    </p:column>
+
+                    <p:column  styleClass="columnTipo" filterBy="#{item.tcmUsiId.usiTpuId.tpuNm}" sortBy="#{item.tcmUsiId.usiTpuId.tpuNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tpuNm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmUsiId.usiTpuId.tpuNm}"/>                        
+                    </p:column>
+
+                    <p:column style="width: 150px;"                               
+                              sortBy="#{item.tcmUsiId.usiNm}#{filterSearchController.removeAcentos(item.tcmUsiId.usiNm)}" 
+                              filterBy="#{item.tcmUsiId.usiNm}#{filterSearchController.removeAcentos(item.tcmUsiId.usiNm)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmUsiId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmUsiId.usiNm}" />                        
+                    </p:column>
+
+                    <p:column style="display: none" exportable="true" filterBy="#{item.tcmUsiId.usiUssId.ussNm}" sortBy="#{item.tcmUsiId.usiUssId.ussNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiSituacao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmUsiId.usiUssId.ussNm}"/>                        
+                    </p:column>
+
+                    <p:column style="width: 100px; text-align: center;" filterBy="#{item.tcmTdcId.tdcNm}" sortBy="#{item.tcmTdcId.tdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tpuNm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmTdcId.tdcNm}" />
+                    </p:column>                 
+
+                    <p:column style="width: 60px; text-align: center;" 
+                              sortBy="#{filterSearchController.customFormatDate1(item.tcmDtCadastro)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.tcmDtCadastro)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmDtCadastro}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmDtCadastro}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="width: 60px; text-align: center;" filterBy="#{item.tcmTxNumero}" sortBy="#{item.tcmTxNumero}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmTxNumero}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmTxNumero}" converter="protonInputConverter"/>
+                    </p:column>
+
+                    <p:column style="width: 60px; text-align: center;" filterBy="#{item.tcmProton}" sortBy="#{item.tcmProton}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmProton}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmProton}" converter="protonInputConverter"/>                      
+                    </p:column>                     
+
+                    <p:column style="width: 60px;  text-align: center;" filterBy="#{item.docPrincipal}" sortBy="#{item.docPrincipal}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="Nivel Doc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.docPrincipal}"/>                      
+                    </p:column>
+
+                    <p:column style="width: 60px;  text-align: center;" filterBy="#{item.tcmSdcId.sdcNm}" sortBy="#{item.tcmSdcId.sdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmSdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmSdcId.sdcNm}"/>
+                    </p:column> 
+
+                    <!---->
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:outputText value=""/>
+                    </p:column>
+
+                    <!--OFICIO -->
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficioOutrosDocs.tcmTdcId.tdcNm}" sortBy="#{item.oficioOutrosDocs.tcmTdcId.tdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmTdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficioOutrosDocs.tcmTdcId.tdcNm}" rendered="#{item.oficioOutrosDocs.tcmTxNumero != null or item.oficioOutrosDocs.tcmProton != null}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficioOutrosDocs.tcmProton}" sortBy="#{item.oficioOutrosDocs.tcmProton}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmProton}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficioOutrosDocs.tcmProton}" converter="protonInputConverter"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficioOutrosDocs.tcmTxNumero}" sortBy="#{item.oficioOutrosDocs.tcmTxNumero}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmTxNumero}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficioOutrosDocs.tcmTxNumero}" converter="protonInputConverter"/>
+                    </p:column>
+                    <p:column exportable="true" style="display:none;"
+                              sortBy="#{filterSearchController.customFormatDate1(item.oficioOutrosDocs.tcmDtCadastro)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.oficioOutrosDocs.tcmDtCadastro)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmDtCadastro}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficioOutrosDocs.tcmDtCadastro}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column exportable="true" style="display:none;" 
+                              sortBy="#{filterSearchController.customFormatDate1(item.oficioOutrosDocs.tcmDtExpedicao)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.oficioOutrosDocs.tcmDtExpedicao)}"  filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmDtExpedicao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficioOutrosDocs.tcmDtExpedicao}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column exportable="true" style="width: 90px; display:none;" filterBy="#{item.oficioOutrosDocs.tcmSdcId.sdcNm}" sortBy="#{item.oficioOutrosDocs.tcmSdcId.sdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmSdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficioOutrosDocs.tcmSdcId.sdcNm}" rendered="#{item.oficioOutrosDocs.tcmTxNumero != null or item.oficioOutrosDocs.tcmProton != null}"/>
+                    </p:column>                       
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficioOutrosDocs.tcmTxObservacao}" sortBy="#{item.oficioOutrosDocs.tcmTxObservacao}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListControleDocumentoTitle_tcmTxObservacao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficioOutrosDocs.tcmTxObservacao}"/>
+                    </p:column>
+
+                    <p:column style="width:3%" exportable="false">
+                        <div class="cabecalho">
+
+                            <div class="titulo">
+                                <p:commandLink ajax="false"  action="#{controleDocumentoOutrosController.prepareEditOuterDocs}" rendered="#{!autenticadorController.loginVisualizador}" title="#{bundle.ListAreaEditLink}" styleClass="ui-icon ui-icon-pencil" >
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{controleDocumentoOutrosController.selectedControleDocumento}" />
+                                </p:commandLink>
+                            </div>
+                        </div>                     
+                    </p:column>
+
+                    <f:facet name="footer">                            
+                        <p:commandButton id="createCommand" rendered="#{!autenticadorController.loginVisualizador}" ajax="false" icon="#{bundle.icone_documento}" action="#{controleDocumentoOutrosController.prepareCreateOuterDocs}" value="#{bundle.ListControleDocumentoOuterCreateLink}"/>
+                        <p:commandButton id="viewCommand"  value="#{bundle.MsgVisualizar}" icon="#{bundle.icone_pesquisa}"  update=":formList:displayView_OficiosCirculares" oncomplete="controleDocumentoOutrosDialogView.show()" actionListener="#{controleDocumentoOutrosController.prepareViewOuterDocs}" />
+                        <p:commandButton id="editCommand" ajax="false" action="#{controleDocumentoOutrosController.prepareEditOuterDocs}" value="#{bundle.ListControleDocumentoEditLink}" icon="#{bundle.icone_pencil}" rendered="#{!autenticadorController.loginVisualizador}"/>
+                        <p:commandButton id="deleteCommand" ajax="false" rendered="#{autenticadorController.loginAdmin}" onclick="confirmationDestroy.show();" value="#{bundle.ListControleDocumentoDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
+
+                        <p:commandButton id="excelExportAll_OficiosCirculares" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter type="xls" target="tbl_OficiosCirculares" fileName="#{bundle.excelExportAllFileName_ControleDocumento}" postProcessor="#{controleDocumentoOutrosController.postProcessorXLS}"/>
+                        </p:commandButton>
+                        <p:commandButton id="excelExportPagAtual_OficiosCirculares" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                            <p:dataExporter type="xls" target="tbl_OficiosCirculares" fileName="#{bundle.excelExportPagAtualFileName_ControleDocumento}" pageOnly="true" postProcessor="#{controleDocumentoOutrosController.postProcessorXLS}"/>
+                        </p:commandButton>
+                    </f:facet>
+
+                </p:dataTable>
+
+                <p:confirmDialog id="confirmDestroy_OficiosCirculares" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                    <p:commandButton id="confirm_OficiosCirculares" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide(); #{controleDocumentoOutrosController.prepareListOficiosCirculares}" icon="#{bundle.icone_listar}" action="#{controleDocumentoOutrosController.destroyOficioCircular}" update="tbl_OficiosCirculares"/>
+                    <p:commandButton id="decline_OficiosCirculares"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide();" type="button"/>
+
+                </p:confirmDialog>
+
+                <p:dialog id="dialogView_OficiosCirculares" header="#{bundle.ControleDocumentoDialogView_header}" widgetVar="controleDocumentoOutrosDialogView" resizable="false" modal="true" width="750" >
+
+                    <h:panelGrid id="displayView_OficiosCirculares" columns="2" cellpadding="4" >                         
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmId}"/>
+                        <h:outputText value="#{controleDocumentoOutrosController.selected.tcmId}" title="#{bundle.ViewControleDocumentoTitle_tcmId}"/>                           
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiProcesso}"/>                       
+                        <h:outputLink styleClass="formataLink"  target="new"  id="linkProcesso_OficiosCirculares" value="#{controleDocumentoOutrosController.pesquisaProcesso()}"  >
+                            <h:outputText value="#{controleDocumentoOutrosController.selected.tcmUsiId.usiProcesso}" converter="inputConverter" title="#{bundle.ListControleDocumentoTitle_usiProcesso}"/> 
+                        </h:outputLink>                
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmProton}"/>
+
+                        <h:outputLink styleClass="formataLink"  target="new" id="linkProton_OficiosCirculares" value="#{controleDocumentoOutrosController.pesquisaProton()}" >
+                            <h:outputText value="#{controleDocumentoOutrosController.selected.tcmProton}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmProton}"/>
+                        </h:outputLink>
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxNumero}"/>
+                        <h:outputText value="#{controleDocumentoOutrosController.selected.tcmTxNumero}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxNumero}"/>                            
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmDtCadastro}"/>                            
+                        <h:outputText value="#{controleDocumentoOutrosController.selected.tcmDtCadastro}" title="#{bundle.ViewControleDocumentoTitle_tcmDtCadastro}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_orgaoUsina}"/>
+                        <h:outputText value="#{controleDocumentoOutrosController.selected.tcmUsiId.orgaoUsina}" title="#{bundle.ViewControleDocumentoTitle_orgaoUsina}"/>
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmUsiId}"/>
+                        <h:outputText value="#{controleDocumentoOutrosController.selected.tcmUsiId.usiNm}" title="#{bundle.ViewControleDocumentoTitle_tcmUsiId}"/>
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTdcId}"/>                                             
+                        <h:outputText value="#{controleDocumentoOutrosController.selected.tcmTdcId.tdcNm}" title="#{bundle.ViewControleDocumentoTitle_tcmTdcId}"/>
+
+                        <ui:remove>
+                            <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmIcObrigatorio}"/>
+                            <h:outputText value="#{controleDocumentoOutrosController.selected.obrigatorio}" title="#{bundle.ViewControleDocumentoTitle_tcmIcObrigatorio}"/>
+                        </ui:remove>
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxObservacao}"/>
+                        <h:outputText value="#{controleDocumentoOutrosController.selected.tcmTxObservacao}" converter="tamanhoStringConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxObservacao}"/>
+
+                        <h:outputLabel id="labelOficio_OficiosCirculares" value="#{controleDocumentoOutrosController.headerPanel}" rendered="#{controleDocumentoOutrosController.exibePanel}"/>
+                        <p:panel id="panelOficio_OficiosCirculares" style="width: 500px;" header="#{controleDocumentoOutrosController.headerPanel}" rendered="#{controleDocumentoOutrosController.exibePanel}">      
+                            <h:panelGrid columns="2">
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxNumero}"/>
+
+                                <h:outputText value="#{controleDocumentoOutrosController.oficio.tcmTxNumero}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxNumero}"/>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmDtCadastro}"/>
+                                <h:outputText value="#{controleDocumentoOutrosController.oficio.tcmDtCadastro}" title="#{bundle.ViewControleDocumentoTitle_tcmDtCadastro}">
+                                    <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmDtExpedicao}"/>
+                                <h:outputText value="#{controleDocumentoOutrosController.oficio.tcmDtExpedicao}" title="#{bundle.ViewControleDocumentoTitle_tcmDtExpedicao}">
+                                    <f:convertDateTime pattern="#{bundle.patternApp}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmProton}"/>
+                                <h:outputLink styleClass="formataLink" target="new" id="linkProtonOficio_OficiosCirculares" value="#{controleDocumentoOutrosController.pesquisaProtonOficio()}" >
+                                    <h:outputText value="#{controleDocumentoOutrosController.oficio.tcmProton}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmProton}"/>
+                                </h:outputLink>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmSdcId}"/>
+                                <h:outputText value="#{controleDocumentoOutrosController.oficio.tcmSdcId.sdcNm}" title="#{bundle.ViewControleDocumentoTitle_tcmSdcId}"/>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxObservacao}"/>
+                                <h:outputText value="#{controleDocumentoOutrosController.oficio.tcmTxObservacao}" converter="tamanhoStringConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxObservacao}"/>
+                            </h:panelGrid>
+
+                        </p:panel>
+
+
+                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador_OficiosCirculares" rendered="#{not empty controleDocumentoOutrosController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputText id="nomeCriador_OficiosCirculares" value="#{controleDocumentoOutrosController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty controleDocumentoOutrosController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao_OficiosCirculares" rendered="#{not empty controleDocumentoOutrosController.selected.historicoCriacao.dataHora}"/>
+                        <h:outputText id="dataCriacao_OficiosCirculares" value="#{controleDocumentoOutrosController.selected.historicoCriacao.dataHora}" rendered="#{not empty controleDocumentoOutrosController.selected.historicoCriacao.dataHora}"/>     
+                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador_OficiosCirculares" rendered="#{not empty controleDocumentoOutrosController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputText id="nomeAlterador_OficiosCirculares" value="#{controleDocumentoOutrosController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty controleDocumentoOutrosController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao_OficiosCirculares" rendered="#{not empty controleDocumentoOutrosController.selected.historicoAlteracao.dataHora}"/>
+                        <h:outputText id="dataAlteracao_OficiosCirculares" value="#{controleDocumentoOutrosController.selected.historicoAlteracao.dataHora}" rendered="#{not empty controleDocumentoOutrosController.selected.historicoAlteracao.dataHora}" /> 
+
+                    </h:panelGrid>
+                </p:dialog>
+
+            </h:panelGroup>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

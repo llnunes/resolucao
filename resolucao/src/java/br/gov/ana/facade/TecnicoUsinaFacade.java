@@ -36,7 +36,7 @@ public class TecnicoUsinaFacade extends AbstractFacade<TecnicoUsina> {
     
     public List<Usina> findUsinaByTecnico(Tecnico tecnico) {
         try {
-            Query q = em.createQuery("SELECT DISTINCT tu.tusUsiId FROM TecnicoUsina tu JOIN tu.tusUsiId u JOIN tu.tusTecId t WHERE tu.tusTecId = :tecId AND tu.tusUsiId.usiUssId.ussId not in (:s1,:s2)");
+            Query q = em.createQuery("SELECT tu.tusUsiId FROM TecnicoUsina tu JOIN tu.tusUsiId u JOIN tu.tusTecId t WHERE tu.tusTecId = :tecId AND tu.tusUsiId.usiUssId.ussId not in (:s1,:s2)");
             q.setParameter("tecId", tecnico);
             q.setParameter("s1", USINA_REVOGADA);
             q.setParameter("s2", USINA_INATIVA);
@@ -48,7 +48,7 @@ public class TecnicoUsinaFacade extends AbstractFacade<TecnicoUsina> {
 
     public List<TecnicoUsina> findTecnicoUsinaByUsina(Usina tusUsiId) {
         try {
-            Query q = em.createQuery("SELECT DISTINCT tus FROM TecnicoUsina tus WHERE tus.tusUsiId = :tusUsiId AND tus.tusUsiId.usiUssId.ussId not in (:s1,:s2)");
+            Query q = em.createQuery("SELECT tus FROM TecnicoUsina tus WHERE tus.tusUsiId = :tusUsiId AND tus.tusUsiId.usiUssId.ussId not in (:s1,:s2)");
             q.setParameter("tusUsiId", tusUsiId);
             q.setParameter("s1", USINA_REVOGADA);
             q.setParameter("s2", USINA_INATIVA);
@@ -61,7 +61,7 @@ public class TecnicoUsinaFacade extends AbstractFacade<TecnicoUsina> {
     // Pesquisa todos os tecnicos já relacionados a uma Usina
     public List<Tecnico> findTecnicosJaRelacionadosByUsina(Usina tusUsiId) {
         try {
-            Query q = em.createQuery("SELECT DISTINCT tus.tusTecId FROM TecnicoUsina tus WHERE "
+            Query q = em.createQuery("SELECT tus.tusTecId FROM TecnicoUsina tus WHERE "
                     + "tus.tusUsiId = :tusUsiId AND tus.tusTecId.tecStatus = :tecStatus AND tus.tusUsiId.usiUssId.ussId not in (:s1,:s2) ORDER BY tus.tusTecId.tecNm");
             q.setParameter("tusUsiId", tusUsiId);
             q.setParameter("tecStatus", REGISTRO_ATIVO);
@@ -76,7 +76,7 @@ public class TecnicoUsinaFacade extends AbstractFacade<TecnicoUsina> {
     // Pesquisa todos os tecnicos não relacionados a uma Usina
     public List<Tecnico> findTecnicosNaoRelacionadosByUsina(Usina tusUsiId) {
         try {
-            Query q = em.createQuery("SELECT DISTINCT t FROM Tecnico t WHERE "
+            Query q = em.createQuery("SELECT t FROM Tecnico t WHERE "
                     + "t.tecId NOT IN (SELECT tus.tusTecId.tecId FROM TecnicoUsina tus WHERE tus.tusUsiId = :tusUsiId AND tus.tusUsiId.usiUssId.ussId not in (:s1,:s2)) "
                     + "AND t.tecStatus = :tecStatus ORDER BY t.tecNm ");
             q.setParameter("tusUsiId", tusUsiId);

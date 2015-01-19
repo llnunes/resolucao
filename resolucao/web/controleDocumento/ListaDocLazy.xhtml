@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.abaProjetoDeInstalacao_title}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block" >
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>           
+
+            <p:growl id="messages" life="3000" />
+
+            <p:panel id="panelFiltro_Projeto" header="#{bundle.filtroPesquisa}" >
+                <h:panelGrid columns="2" border="0" >
+
+                    <h:outputLabel value="#{bundle.CreateControleDocumentoLabel_incluirCgh}" for="cgh_Projeto" />
+
+                    <p:selectOneMenu id="cgh_Projeto" value="#{controleDocumentoLazyController.incluiCgh}" >                                                                              
+                        <f:selectItem itemLabel="#{bundle.MsgDialog_sim}" itemValue="#{true}" />     
+                        <f:selectItem itemLabel="#{bundle.MsgDialog_nao}" itemValue="#{false}"/>                                   
+                        <p:ajax update="orgaoUsina_Projeto, :formList:tbl_Projeto" listener="#{controleDocumentoLazyController.carregaCGHsListaGeral}"/>
+                    </p:selectOneMenu> 
+
+                    <p:outputLabel value="#{bundle.EditControleDocumentoLabel_orgaoUsina}" for="orgaoUsina_Projeto" />
+                    <p:selectOneMenu id="orgaoUsina_Projeto" value="#{controleDocumentoLazyController.orgao}" filter="true" filterMatchMode="contains"> 
+                        <f:selectItems value="#{orgaoController.itemsAvailableSelectOne}"/>
+                        <p:ajax update="tcmUsiId_Projeto,:formList:tbl_Projeto" listener="#{controleDocumentoLazyController.carregaUsinaFiltro}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmUsiId}" for="tcmUsiId_Projeto"/>
+                    <p:selectOneMenu  id="tcmUsiId_Projeto" value="#{controleDocumentoLazyController.selected.tcmUsiId}" filter="true" filterMatchMode="contains" >
+                        <f:selectItems value="#{controleDocumentoLazyController.itemsAvailableSelectOneUsinasByOrgaoFiltro}"/>
+                        <p:ajax update="@form"  listener="#{controleDocumentoLazyController.carregaCGHsListaGeral}" />
+                    </p:selectOneMenu>
+
+                </h:panelGrid>
+                <br/> 
+            </p:panel>
+            <br/>
+            <h:panelGroup>
+                <p:dataTable id="tbl_Projeto" value="#{controleDocumentoLazyController.lista}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" widgetVar="listaControleDocumentoTable"
+                             currentPageReportTemplate="#{bundle.currentPageReportTemplateControleDocumento}"  paginatorTemplate="#{bundle.paginatorTemplate}"
+                             rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}" emptyMessage="#{bundle.ListControleDocumentoEmpty}" 
+                             rowKey="#{item.tcmId}" selection="#{controleDocumentoLazyController.selectedControleDocumento}" selectionMode="single" 
+                             filteredValue="#{controleDocumentoLazyController.listFilterProjetos}" lazy="true" styleClass="mystyle" >
+
+
+                    <p:column exportable="true"   styleClass="firstColumn" style="display: none;" filterBy="#{item.tcmId}" sortBy="#{item.tcmId}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmId}"/>
+                        </f:facet>
+                        <p:outputLabel value="#{item.tcmId}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnProcesso" filterBy="#{item.processoUsina}"  sortBy="#{item.processoUsina}" sortFunction="#{controleDocumentoLazyController.sortByUsiProcesso}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_usiProcesso}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.processoUsina}" converter="inputConverter"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.orgaoUsina}" 
+                              filterBy="#{item.orgaoUsina}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_orgaoUsina}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.orgaoUsina}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnTipo" filterBy="#{item.tipoUsina}" sortBy="#{item.tipoUsina}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tpuNm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoUsina}"/>                        
+                    </p:column>
+
+                    <p:column sortBy="#{item.usina}" 
+                              filterBy="#{item.usina}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmUsiId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.usina}"/>                        
+                    </p:column>
+
+                    <p:column styleClass="columnNumber" filterBy="#{item.tcmProton}" sortBy="#{item.tcmProton}" sortFunction="#{controleDocumentoLazyController.sortByTcmProton}"  filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmProton}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmProton}" converter="protonInputConverter"/>
+
+                    </p:column>                        
+
+                    <p:column styleClass="firstColumn" filterBy="#{item.tcmTxNumero}" sortBy="#{item.tcmTxNumero}"  filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTxNumero}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmTxNumero}" converter="protonInputConverter"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.tcmTdcId.tdcNm}" sortBy="#{item.tcmTdcId.tdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmTdcId.tdcNm}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.tcmTxObservacao}" sortBy="#{item.tcmTxObservacao}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTxObservacao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmTxObservacao}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnNumber" sortBy="#{filterSearchController.customFormatDate1(item.tcmDtCadastro)}" filterBy="#{filterSearchController.customFormatDate(item.tcmDtCadastro)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmDtCadastro}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmDtCadastro}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>                      
+
+                    <p:column styleClass="columnTipo" filterBy="#{item.tcmRspId.rspAreId.areNm}" sortBy="#{item.tcmRspId.rspAreId.areNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListResponsavelTitle_rspAreId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmRspId.rspAreId.areNm}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnStatus" filterBy="#{item.tcmSdcId.sdcNm}" sortBy="#{item.tcmSdcId.sdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmSdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tcmSdcId.sdcNm}" />
+                    </p:column>
+                    <!---->
+                    <p:column exportable="true" style="display:none;">
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:outputText value=""/>
+                    </p:column>
+
+                    <!--NOTA TECNICA-->
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.notaTecnica.tcmTdcId.tdcNm}" sortBy="#{item.notaTecnica.tcmTdcId.tdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.notaTecnica.tcmTdcId.tdcNm}" rendered="#{item.notaTecnica.tcmTxNumero != null or item.notaTecnica.tcmProton != null}"/>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.notaTecnica.tcmTdcId.tdcNm}" sortBy="#{item.notaTecnica.tcmTxNumero}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTxNumero}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.notaTecnica.tcmTxNumero}" converter="protonInputConverter"/>
+                    </p:column>
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.notaTecnica.tcmProton}" sortBy="#{item.notaTecnica.tcmProton}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmProton}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.notaTecnica.tcmProton}" converter="protonInputConverter" />
+                    </p:column>
+                    <p:column exportable="true" style="display:none;" sortBy="#{filterSearchController.customFormatDate1(item.notaTecnica.tcmDtCadastro)}" filterBy="#{filterSearchController.customFormatDate(item.notaTecnica.tcmDtCadastro)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmDtCadastro}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.notaTecnica.tcmDtCadastro}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column exportable="true" style="display:none;" sortBy="#{filterSearchController.customFormatDate1(item.notaTecnica.tcmDtExpedicao)}" filterBy="#{filterSearchController.customFormatDate(item.notaTecnica.tcmDtExpedicao)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmDtExpedicao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.notaTecnica.tcmDtExpedicao}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.notaTecnica.tcmSdcId.sdcNm}" sortBy="#{item.notaTecnica.tcmSdcId.sdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmSdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.notaTecnica.tcmSdcId.sdcNm}" rendered="#{item.notaTecnica.tcmTxNumero != null or item.notaTecnica.tcmProton != null}"/>
+                    </p:column>
+
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.notaTecnica.tcmTxObservacao}" sortBy="#{item.notaTecnica.tcmTxObservacao}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTxObservacao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.notaTecnica.tcmTxObservacao}"/>
+                    </p:column>
+
+                    <!--OFICIO -->
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficio.tcmTdcId.tdcNm}" sortBy="#{item.oficio.tcmTdcId.tdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficio.tcmTdcId.tdcNm}" rendered="#{item.oficio.tcmTxNumero != null or item.oficio.tcmProton != null}"/>
+                    </p:column>
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficio.tcmProton}" sortBy="#{item.oficio.tcmProton}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmProton}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficio.tcmProton}"  converter="protonInputConverter"/>
+
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficio.tcmTxNumero}" sortBy="#{item.oficio.tcmTxNumero}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTxNumero}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficio.tcmTxNumero}" converter="protonInputConverter" />
+                    </p:column>
+                    <p:column exportable="true" style="display:none;" sortBy="#{filterSearchController.customFormatDate1(item.oficio.tcmDtCadastro)}" filterBy="#{filterSearchController.customFormatDate(item.oficio.tcmDtCadastro)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmDtCadastro}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficio.tcmDtCadastro}">
+                            <f:convertDateTime locale="#{bundle.localeApp}" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column exportable="true" style="display:none;" sortBy="#{filterSearchController.customFormatDate1(item.oficio.tcmDtExpedicao)}" filterBy="#{filterSearchController.customFormatDate(item.oficio.tcmDtExpedicao)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmDtExpedicao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficio.tcmDtExpedicao}">
+                            <f:convertDateTime locale="#{bundle.localeApp}" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficio.tcmSdcId.sdcNm}" sortBy="#{item.oficio.tcmSdcId.sdcNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmSdcId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficio.tcmSdcId.sdcNm}" rendered="#{item.oficio.tcmTxNumero != null or item.oficio.tcmProton != null}"/>
+                    </p:column>                       
+
+                    <p:column exportable="true" style="display:none;" filterBy="#{item.oficio.tcmTxObservacao}" sortBy="#{item.oficio.tcmTxObservacao}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTxObservacao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficio.tcmTxObservacao}"/>
+                    </p:column>
+
+                    <p:column styleClass="columnNotaOficio" exportable="false" filterBy="#{item.notaTecnica.tcmTxNumero}" sortBy="#{item.notaTecnica.tcmTxNumero}" sortFunction="#{controleDocumentoLazyController.sortByNumeroNotaOficio}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTxNota}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.notaTecnica.tcmTxNumero}" converter="protonInputConverter"/>
+                    </p:column>                       
+
+                    <p:column styleClass="columnNotaOficio" exportable="false" filterBy="#{item.oficio.tcmTxNumero}" sortBy="#{item.oficio.tcmTxNumero}" sortFunction="#{controleDocumentoLazyController.sortByNumeroNotaOficio}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmTxOficio}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.oficio.tcmTxNumero}" converter="protonInputConverter"/>
+                    </p:column>
+
+                    <p:column style="width:3%" exportable="false">
+                        <div class="cabecalho">                                        
+                            <div class="titulo">
+                                <p:commandLink ajax="false"  action="#{controleDocumentoLazyController.prepareEdit}" rendered="#{!autenticadorController.loginVisualizador}" title="#{bundle.ListAreaEditLink}" styleClass="ui-icon ui-icon-pencil" >
+                                    <f:setPropertyActionListener value="#{item}" 
+                                                                 target="#{controleDocumentoLazyController.selectedControleDocumento}" />
+                                </p:commandLink>
+                            </div>
+                        </div>                     
+                    </p:column>
+
+                    <f:facet name="footer">                            
+                        <p:commandButton id="createCommand_Projeto" rendered="#{!autenticadorController.loginVisualizador}" ajax="false" icon="#{bundle.icone_documento}"  action="#{controleDocumentoLazyController.prepareCreate}" value="#{bundle.ListControleDocumentoCreateLink}"/>
+                        <p:commandButton id="viewCommand_Projeto"  value="#{bundle.MsgVisualizar}" icon="#{bundle.icone_pesquisa}"  update=":formList:displayView_Projeto" oncomplete="controleDocumentoDialogView_Projeto.show()" onerror="controleDocumentoDialogView_Projeto.hide()" actionListener="#{controleDocumentoLazyController.prepareView}" />
+                        <p:commandButton id="editCommand_Projeto" ajax="false" action="#{controleDocumentoLazyController.prepareEdit}"  value="#{bundle.ListControleDocumentoEditLink}" icon="#{bundle.icone_pencil}" rendered="#{!autenticadorController.loginVisualizador}"/>
+                        <p:commandButton id="deleteCommand_Projeto" ajax="false" rendered="#{autenticadorController.loginAdmin}" onclick="confirmationDestroy_Projeto.show();" value="#{bundle.ListControleDocumentoDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
+
+                        <p:commandButton id="excelExportAll_Projeto"  ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter type="xls" target=":formList:tbl_Projeto" fileName="#{bundle.excelExportAllFileName_ControleDocumento}" postProcessor="#{controleDocumentoLazyController.postProcessorXLS}"/>
+                        </p:commandButton>
+                        <p:commandButton id="excelExportPagAtual_Projeto" ajax="false" value="#{bundle.excelExportPagAtual}" icon="#{bundle.icone_calculadora}">
+                            <p:dataExporter type="xls" target=":formList:tbl_Projeto" fileName="#{bundle.excelExportPagAtualFileName_ControleDocumento}" pageOnly="true" postProcessor="#{controleDocumentoLazyController.postProcessorXLS}"/>
+                        </p:commandButton>
+                    </f:facet>
+
+                </p:dataTable>
+
+                <p:confirmDialog id="confirmDestroy_Projeto" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy_Projeto">
+                    <p:commandButton id="confirm_Projeto" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy_Projeto.hide(); #{controleDocumentoLazyController.prepareList}" icon="#{bundle.icone_listar}" action="#{controleDocumentoLazyController.destroyDocsPrincipais}" update="tbl"/>
+                    <p:commandButton id="decline_Projeto"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy_Projeto.hide();" type="button"/>
+
+                </p:confirmDialog>
+
+                <p:dialog id="dialogView_Projeto" position="center"   modal="false" header="#{bundle.ControleDocumentoDialogView_header}" widgetVar="controleDocumentoDialogView_Projeto" resizable="false"
+                          width="930" >
+
+                    <h:panelGrid id="displayView_Projeto" columns="2" cellpadding="4">
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmId}"/>
+                        <h:outputText value="#{controleDocumentoLazyController.selected.tcmId}" title="#{bundle.ViewControleDocumentoTitle_tcmId}"/>                           
+
+                        <h:outputLabel value="#{bundle.ViewUsinaLabel_usiProcesso}"/>
+
+                        <h:outputLink styleClass="formataLink"  target="new"  id="linkProcesso_Projeto" value="#{controleDocumentoLazyController.pesquisaProcesso()}"  >
+                            <h:outputText value="#{controleDocumentoLazyController.selected.tcmUsiId.usiProcesso}" converter="inputConverter" title="#{bundle.ListControleDocumentoTitle_usiProcesso}"/> 
+                        </h:outputLink>
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmProton}"/>
+
+                        <h:outputLink styleClass="formataLink"  target="new" id="linkProton_Projeto" value="#{controleDocumentoLazyController.pesquisaProton()}" >
+                            <h:outputText value="#{controleDocumentoLazyController.selected.tcmProton}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmProton}"/>
+                        </h:outputLink>
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxNumero}"/>
+                        <h:outputText value="#{controleDocumentoLazyController.selected.tcmTxNumero}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxNumero}"/>                            
+
+                        <h:panelGroup>
+                            <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmDtCadastro}"/>                            
+                            &nbsp;
+                        </h:panelGroup>
+                        <h:outputText value="#{controleDocumentoLazyController.selected.tcmDtCadastro}" title="#{bundle.ViewControleDocumentoTitle_tcmDtCadastro}">
+                            <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>                          
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_orgaoUsina}"/>
+                        <h:outputText value="#{controleDocumentoLazyController.selected.tcmUsiId.orgaoUsina}" title="#{bundle.ViewControleDocumentoTitle_orgaoUsina}"/>
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmUsiId}"/>
+                        <h:outputText value="#{controleDocumentoLazyController.selected.tcmUsiId.usiNm}" title="#{bundle.ViewControleDocumentoTitle_tcmUsiId}"/>
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTdcId}"/>
+                        <h:outputText value="#{controleDocumentoLazyController.selected.tcmTdcId.tdcNm}" title="#{bundle.ViewControleDocumentoTitle_tcmTdcId}"/>
+
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmSdcId}"/>
+                        <h:outputText value="#{controleDocumentoLazyController.selected.tcmSdcId.sdcNm}" title="#{bundle.ViewControleDocumentoTitle_tcmSdcId}"/>
+
+                        <ui:remove>
+                            <h:outputText value="#{bundle.ViewControleDocumentoLabel_tcmIcObrigatorio}"/>
+                            <h:outputText value="#{controleDocumentoLazyController.selected.obrigatorio}" title="#{bundle.ViewControleDocumentoTitle_tcmIcObrigatorio}"/>
+                        </ui:remove>
+                        <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxObservacao}"/>
+                        <h:outputText value="#{controleDocumentoLazyController.selected.tcmTxObservacao}" converter="tamanhoStringConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxObservacao}"/>
+
+                        <h:outputLabel id="labelNotaTecnica_Projeto" value="#{bundle.HeaderPanelControleDocumento_notaTecnica}" rendered="#{controleDocumentoLazyController.exibePanel}" />
+                        <p:panel id="panelNotaTecnica_Projeto" style="width: 720px;" header="#{bundle.HeaderPanelControleDocumento_notaTecnica}" rendered="#{controleDocumentoLazyController.exibePanel}" >
+                            <h:panelGrid columns="2" >
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxNumero}"/>
+                                <h:outputText value="#{controleDocumentoLazyController.notaTecnica.tcmTxNumero}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxNumero}"/>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmDtCadastro}" />                 
+                                <h:outputText value="#{controleDocumentoLazyController.notaTecnica.tcmDtCadastro}" title="#{bundle.ViewControleDocumentoTitle_tcmDtCadastro}">
+                                    <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmProton}" />                               
+                                <h:outputLink styleClass="formataLink" target="new" id="linkProtonNota_Projeto" value="#{controleDocumentoLazyController.pesquisaProtonNota()}" >
+                                    <h:outputText value="#{controleDocumentoLazyController.notaTecnica.tcmProton}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmProton}"/>
+                                </h:outputLink>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmSdcId}"/>
+                                <h:outputText value="#{controleDocumentoLazyController.notaTecnica.tcmSdcId.sdcNm}" title="#{bundle.ViewControleDocumentoTitle_tcmSdcId}"/>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxConclusao}"/>
+                                <h:outputText value="#{controleDocumentoLazyController.notaTecnica.tcmTxObservacao}" converter="tamanhoStringConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxConclusao}"/>
+                            </h:panelGrid>
+
+                        </p:panel>
+
+                        <h:outputLabel id="labelOficio_Projeto" value="#{bundle.HeaderPanelControleDocumento_oficio}" rendered="#{controleDocumentoLazyController.exibePanel}"/>
+                        <p:panel id="panelOficio_Projeto" style="width: 720px;" header="#{bundle.HeaderPanelControleDocumento_oficio}" rendered="#{controleDocumentoLazyController.exibePanel}">      
+                            <h:panelGrid columns="2" >
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxNumero}"/>
+
+                                <h:outputText value="#{controleDocumentoLazyController.oficio.tcmTxNumero}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxNumero}"/>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmDtCadastro}"/>
+                                <h:outputText value="#{controleDocumentoLazyController.oficio.tcmDtCadastro}" title="#{bundle.ViewControleDocumentoTitle_tcmDtCadastro}">
+                                    <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmDtExpedicao}"/>
+                                <h:outputText value="#{controleDocumentoLazyController.oficio.tcmDtExpedicao}" title="#{bundle.ViewControleDocumentoTitle_tcmDtExpedicao}">
+                                    <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmProton}"/>                                                 
+                                <h:outputLink styleClass="formataLink" target="new" id="linkProtonOficio_Projeto" value="#{controleDocumentoLazyController.pesquisaProtonOficio()}" >
+                                    <h:outputText value="#{controleDocumentoLazyController.oficio.tcmProton}" converter="protonInputConverter" title="#{bundle.ViewControleDocumentoTitle_tcmProton}"/>
+                                </h:outputLink>
+
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmSdcId}"/>
+                                <h:outputText value="#{controleDocumentoLazyController.oficio.tcmSdcId.sdcNm}" title="#{bundle.ViewControleDocumentoTitle_tcmSdcId}"/>
+
+                                <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmTxObservacao}"/>
+                                <h:outputText value="#{controleDocumentoLazyController.oficio.tcmTxObservacao}" converter="tamanhoStringConverter" title="#{bundle.ViewControleDocumentoTitle_tcmTxObservacao}"/>
+                            </h:panelGrid>
+
+                        </p:panel>
+
+                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador_Projeto" rendered="#{not empty controleDocumentoLazyController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputText id="nomeCriador_Projeto" value="#{controleDocumentoLazyController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty controleDocumentoLazyController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao_Projeto" rendered="#{not empty controleDocumentoLazyController.selected.historicoCriacao.dataHora}"/>
+                        <h:outputText id="dataCriacao_Projeto" value="#{controleDocumentoLazyController.selected.historicoCriacao.dataHora}" rendered="#{not empty controleDocumentoLazyController.selected.historicoCriacao.dataHora}"/>     
+                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador_Projeto" rendered="#{not empty controleDocumentoLazyController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputText id="nomeAlterador_Projeto" value="#{controleDocumentoLazyController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty controleDocumentoLazyController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao_Projeto" rendered="#{not empty controleDocumentoLazyController.selected.historicoAlteracao.dataHora}"/>
+                        <h:outputText id="dataAlteracao_Projeto" value="#{controleDocumentoLazyController.selected.historicoAlteracao.dataHora}" rendered="#{not empty controleDocumentoLazyController.selected.historicoAlteracao.dataHora}" /> 
+
+                    </h:panelGrid>
+                </p:dialog>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+
+</html>

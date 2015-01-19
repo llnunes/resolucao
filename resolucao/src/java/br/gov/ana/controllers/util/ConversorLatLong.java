@@ -46,7 +46,7 @@ public class ConversorLatLong {
         //} else {
         //  decimal = new BigDecimal(grau.doubleValue() + (minuto.doubleValue() / 60) + (segundo.doubleValue() / 3600));
         //}
-        return decimal.multiply(BigDecimal.valueOf(-1));
+        return decimal.multiply(BigDecimal.valueOf(-1)).divide(BigDecimal.ONE, 7, RoundingMode.HALF_UP);
     }
 
     /**

@@ -137,6 +137,6 @@ public class Subbacia implements Serializable {
 
     @Override
     public String toString() {
-        return this.sbcNome;
+        return this.sbcCodigo + " - " + this.sbcNome;
     }
 }

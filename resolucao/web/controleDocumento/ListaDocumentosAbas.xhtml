@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"      
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListControleDocumentoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body" >
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block" >
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list" />
+            </h:panelGroup>
+                       
+            <p:growl id="messages" life="3000" />
+
+            <p:tabView id="tabViewDocs" dynamic="true" activeIndex="0" cache="false">
+                <p:ajax event="tabChange"  listener="#{controleDocumentoController.onTabChange}"  />
+                
+                <p:tab id="tabProjetos" titletip="1" title="#{bundle.abaProjetoDeInstalacao_title}" >                  
+                    <ui:include src="/controleDocumento/tabs/tabProjetos.xhtml" />                    
+                </p:tab>
+
+                <p:tab id="tabRelatorioDeInstalacao" titletip="2" title="#{bundle.abaRelatorioDeInstalacao_title}">
+                    <ui:include src="/controleDocumento/tabs/tabRelatorioDeInstalacao.xhtml"/>
+                </p:tab>
+
+                <p:tab id="tabRelatorioAnual" titletip="3" title="#{bundle.abaRelatorioAnual_title}">
+                    <ui:include src="/controleDocumento/tabs/tabRelatorioAnual.xhtml" />                    
+                </p:tab>
+
+                <p:tab id="tabRelatorioDados396" titletip="4" title="#{bundle.abaRelatorioDados396_title}">
+                    <ui:include src="/controleDocumento/tabs/tabRelatorioDados396.xhtml" />                    
+                </p:tab>
+
+                <p:tab id="tabBatimetria" titletip="5" title="#{bundle.abaPropostaBatimetria_title}">
+                    <ui:include src="/controleDocumento/tabs/tabBatimetria.xhtml" /> 
+                </p:tab>
+
+                <p:tab id="tabRelatorioBatimetria" titletip="6" title="#{bundle.abaLevantamentoBatimetria_title}">
+                    <ui:include src="/controleDocumento/tabs/tabRelatorioBatimetria.xhtml" />              
+                </p:tab>
+
+            </p:tabView>   
+
+        </ui:define>
+    </ui:composition>
+</html>

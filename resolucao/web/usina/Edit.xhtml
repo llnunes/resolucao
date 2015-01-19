@@ -157,11 +157,11 @@
                     <h:outputLabel value="#{bundle.EditUsinaLocalizacaoLabel_uslUfdCd}"  />
                     <h:panelGroup>
                         <p:selectOneMenu id="uslUfdCd" value="#{usinaController.usinaLocalizacao.uslUfdCodigo}" >                            
-                            <f:selectItems value="#{unidadeFederacaoController.itemsAvailableSelectOne}" />
+                            <f:selectItems value="#{ufController.itemsAvailableSelectOne}" />
                             <p:ajax update=":formPrincipal:uslMunCd"  listener="#{usinaController.carregaMunicipios}" />
                         </p:selectOneMenu>
                         <p:selectOneMenu id="uslUfdCd2" value="#{usinaController.usinaLocalizacao2.uslUfdCodigo}" >                            
-                            <f:selectItems value="#{unidadeFederacaoController.itemsAvailableSelectOne}" />
+                            <f:selectItems value="#{ufController.itemsAvailableSelectOne}" />
                             <p:ajax update=":formPrincipal:uslMunCd2"  listener="#{usinaController.carregaMunicipios}" />
                         </p:selectOneMenu>
                     </h:panelGroup>
