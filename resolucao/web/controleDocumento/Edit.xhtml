@@ -91,7 +91,7 @@
 
                         <p:selectOneMenu value="#{controleDocumentoController.area}" id="rspAreId" >
                             <f:selectItems id="select_rspAreId" value="#{areaController.itemsAvailableSelectOne}"/>                                
-                            <p:ajax id="ajax_rspAreId" update="tcmRspId" listener="#{controleDocumentoController.carregaResponsaveis}"/>
+                            <p:ajax id="ajax_rspAreId" update=":formPrincipal:tcmRspId" listener="#{controleDocumentoController.carregaResponsaveis}"/>
                         </p:selectOneMenu>  
 
                         <h:outputLabel id="tcmRspId_label" value="#{bundle.EditControleDocumentoLabel_tcmRspId}" for="tcmRspId" /> 
@@ -148,7 +148,7 @@
 
                             <h:outputLabel id="tcmSdcIdNotaTecnica_label" value="#{bundle.EditControleDocumentoLabel_tcmSdcId}" for="tcmSdcIdNotaTecnica" />                            
                             <p:selectOneMenu id="tcmSdcIdNotaTecnica" value="#{controleDocumentoController.notaTecnica.tcmSdcId}" required="#{controleDocumentoController.requiredNota}" requiredMessage="#{bundle.EditControleDocumentoRequiredMessage_nota_tcmSdcId}" >
-                                <f:selectItems id="select_tcmSdcIdNotaTecnica" value="#{statusDocController.itemsAvailableSelectOneNotaTecnica}"/>
+                                <f:selectItems id="select_tcmSdcIdNotaTecnica" value="#{statusDocumentoController.itemsAvailableSelectOneNotaTecnica}"/>
                             </p:selectOneMenu>
 
                             <h:outputLabel id="tcmTxObservacaoNotaTecnica_label" value="#{bundle.CreateControleDocumentoLabel_tcmTxConclusao}" for="tcmTxObservacaoNotaTecnica" />

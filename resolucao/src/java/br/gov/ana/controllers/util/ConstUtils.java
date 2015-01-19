@@ -78,6 +78,7 @@ public abstract class ConstUtils {
     public static final BigDecimal STATUS_EM_ANALISE = new BigDecimal("2");
     public static final BigDecimal STATUS_REPROVADO = new BigDecimal("3");
     public static final BigDecimal STATUS_RESPONDIDO = new BigDecimal("4");
+    public static final BigDecimal STATUS_APROVADO_COM_RESSALVAS = new BigDecimal("5");
     
     public static final BigDecimal USINA_OUTORGADA = new BigDecimal("1");
     public static final BigDecimal USINA_EM_CONSTRUCAO = new BigDecimal("2");

@@ -54,7 +54,7 @@
                     <ui:remove>
                         <h:outputLabel value="#{bundle.EditTecnicoLabel_tecUsina}"/>                 
                         <p:dataList id="dataListUsinas" value="#{tecnicoController.usinasList}" var="item" paginator="true" currentPageReportTemplate="Página {currentPage}/{totalPages} de {totalRecords} usinas(s)." paginatorPosition="bottom" rows="15" rowsPerPageTemplate="15,30,60" type="none" paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}">
-                            <h:outputText value="#{item.usiTpuId.tpuNm} #{item.usiNm} (#{item.orgaoUsina})" style="margin-left:10px" />                        
+                            <h:outputText value="#{item.usiTpuId.tpuNm} #{item.usiNm} (#{item.orgao.orgNm})" style="margin-left:10px" />                        
                             <br />
                         </p:dataList>
                     </ui:remove>

@@ -103,7 +103,7 @@ public class UsinaFacade extends AbstractFacade<Usina> {
                     + "WHERE u.usiUssId.ussId IN (:s1,:s2) ");
             q.setParameter("s1", s1);
             q.setParameter("s2", s2);
-            
+
 
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {
@@ -118,7 +118,7 @@ public class UsinaFacade extends AbstractFacade<Usina> {
                     + "WHERE u.usiUssId.ussId not in (:s1,:s2) OR u.usiUssId is null ");
             q.setParameter("s1", USINA_REVOGADA);
             q.setParameter("s2", USINA_INATIVA);
-            
+
 
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {
@@ -213,5 +213,17 @@ public class UsinaFacade extends AbstractFacade<Usina> {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public List<Usina> findUsinaByOrgao(Orgao orgao) {
+
+        try {
+            Query q = em.createQuery("SELECT u FROM Usina u WHERE u.usiOrgId = :orgao");
+            q.setParameter("orgao", orgao);
+            return q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }

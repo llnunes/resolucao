@@ -79,12 +79,12 @@
                         <h:outputText value="#{item.tcmUsiId.usiProcesso}" converter="inputConverter"/>
                     </p:column>
 
-                    <p:column sortBy="#{item.tcmUsiId.orgaoUsina}#{filterSearchController.removeAcentos(item.tcmUsiId.orgaoUsina)}" 
-                              filterBy="#{item.tcmUsiId.orgaoUsina}#{filterSearchController.removeAcentos(item.tcmUsiId.orgaoUsina)}" filterMatchMode="contains">
+                    <p:column sortBy="#{item.tcmUsiId.usiOrgId.orgNm}#{filterSearchController.removeAcentos(item.tcmUsiId.usiOrgId.orgNm)}" 
+                              filterBy="#{item.tcmUsiId.usiOrgId.orgNm}#{filterSearchController.removeAcentos(item.tcmUsiId.usiOrgId.orgNm)}" filterMatchMode="contains">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_orgaoUsina}"/>
                         </f:facet>
-                        <h:outputText value="#{item.tcmUsiId.orgaoUsina}" />
+                        <h:outputText value="#{item.tcmUsiId.usiOrgId.orgNm}" />
                     </p:column>
 
                     <p:column styleClass="columnTipo" filterBy="#{item.tcmUsiId.usiTpuId.tpuNm}" sortBy="#{item.tcmUsiId.usiTpuId.tpuNm}" filterMatchMode="contains">
@@ -363,7 +363,7 @@
                         </ui:remove>   
 
                         <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_orgaoUsina}"/>
-                        <h:outputText value="#{controleDocumentoController.selected.tcmUsiId.orgaoUsina}" title="#{bundle.ViewControleDocumentoTitle_orgaoUsina}"/>
+                        <h:outputText value="#{controleDocumentoController.selected.tcmUsiId.usiOrgId.orgNm}" title="#{bundle.ViewControleDocumentoTitle_orgaoUsina}"/>
 
                         <h:outputLabel value="#{bundle.ViewControleDocumentoLabel_tcmUsiId}"/>
                         <h:outputText value="#{controleDocumentoController.selected.tcmUsiId.usiNm}" title="#{bundle.ViewControleDocumentoTitle_tcmUsiId}"/>

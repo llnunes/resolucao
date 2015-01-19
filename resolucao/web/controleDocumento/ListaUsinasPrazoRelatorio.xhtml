@@ -61,12 +61,12 @@
                     </p:column>                                           
 
 
-                    <p:column sortBy="#{item.orgaoUsina}#{filterSearchController.removeAcentos(item.orgaoUsina)}" 
-                              filterBy="#{item.orgaoUsina}#{filterSearchController.removeAcentos(item.orgaoUsina)}" filterMatchMode="contains" >
+                    <p:column sortBy="#{item.orgao.orgNm}#{filterSearchController.removeAcentos(item.orgao.orgNm)}" 
+                              filterBy="#{item.orgao.orgNm}#{filterSearchController.removeAcentos(item.orgao.orgNm)}" filterMatchMode="contains" >
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_uslOrgao}"/>
                         </f:facet>
-                        <h:outputText value="#{item.orgaoUsina}" rendered="#{item.orgaoUsina !=null}"/>
+                        <h:outputText value="#{item.orgao.orgNm}" rendered="#{item.orgao.orgNm !=null}"/>
                     </p:column>
 
                     <p:column exportable="true" style="display:none;">
