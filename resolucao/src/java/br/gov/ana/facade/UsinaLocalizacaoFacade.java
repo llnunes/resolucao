@@ -53,4 +53,10 @@ public class UsinaLocalizacaoFacade extends AbstractFacade<UsinaLocalizacao> {
         Query q = em.createNamedQuery("UsinaLocalizacao.deleteUsinaLocalizacaoByUsina").setParameter("uslUsiId", uslUsiId);
         q.executeUpdate();
     }
+
+    public List<UsinaLocalizacao> findLocalizacaoByUsina(Usina usina) {
+        Query q = em.createQuery("SELECT ul FROM UsinaLocalizacao ul WHERE ul.uslUsiId = :usina");
+        q.setParameter("usina", usina);
+        return q.getResultList();
+    }
 }

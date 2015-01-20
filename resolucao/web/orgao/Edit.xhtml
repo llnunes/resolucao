@@ -30,7 +30,7 @@
 
                     <h:outputLabel value="#{bundle.EditOrgaoLabel_orgEntidade}" for="entidade"/>
                     <p:selectOneMenu value="#{orgaoController.selected.entidade}" id="entidade" filter="true" filterMatchMode="contains" 
-                                     required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgEntidade}">                            
+                                     required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgEntidade}" disabled="#{orgaoController.desabilitadoLoginAdminAlteracao}">                            
                         <f:selectItems value="#{entidadeController.itemsAvailableSelectMany}"/>                                
                     </p:selectOneMenu>   
 

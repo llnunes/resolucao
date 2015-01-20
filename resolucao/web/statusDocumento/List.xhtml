@@ -23,7 +23,7 @@
                 <p:dataTable id="tbl" value="#{statusDocumentoController.lista}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" widgetVar="statusDocTable"
                              currentPageReportTemplate="#{bundle.currentPageReportTemplateStatusDoc}"  paginatorTemplate="#{bundle.paginatorTemplate}"
                              rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}" 
-                             emptyMessage="#{bundle.ListStatusDocEmpty}" rowKey="#{item.sdcId}" selection="#{statusDocumentoController.selectedStatusDoc}" 
+                             emptyMessage="#{bundle.ListStatusDocEmpty}" rowKey="#{item.sdcId}" selection="#{statusDocumentoController.selectedStatusDocumento}" 
                              selectionMode="single" filteredValue="#{statusDocumentoController.lista}">
 
                     <f:facet id="global" name="header">

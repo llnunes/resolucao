@@ -108,13 +108,13 @@
                         <h:outputText value="#{bundle.ViewTipoDocumentoLabel_tdcDs}"/>
                         <h:outputText value="#{tipoDocumentoController.selected.tdcDs}" title="#{bundle.ViewTipoDocumentoTitle_tdcDs}"/>  
 
-                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty controleDocumentoController.selected.historicoCriacao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty tipoDocumentoController.selected.historicoCriacao.nomeUsuario}"/>
                         <h:outputText id="nomeCriador" value="#{tipoDocumentoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoDocumentoController.selected.historicoCriacao.nomeUsuario}"/>
-                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty controleDocumentoController.selected.historicoCriacao.dataHora}"/>
+                        <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty tipoDocumentoController.selected.historicoCriacao.dataHora}"/>
                         <h:outputText id="dataCriacao" value="#{tipoDocumentoController.selected.historicoCriacao.dataHora}" rendered="#{not empty tipoDocumentoController.selected.historicoCriacao.dataHora}"/>     
-                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty controleDocumentoController.selected.historicoAlteracao.nomeUsuario}"/>
+                        <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty tipoDocumentoController.selected.historicoAlteracao.nomeUsuario}"/>
                         <h:outputText id="nomeAlterador" value="#{tipoDocumentoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty tipoDocumentoController.selected.historicoAlteracao.nomeUsuario}"/>
-                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty controleDocumentoController.selected.historicoAlteracao.dataHora}"/>
+                        <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty tipoDocumentoController.selected.historicoAlteracao.dataHora}"/>
                         <h:outputText id="dataAlteracao" value="#{tipoDocumentoController.selected.historicoAlteracao.dataHora}" rendered="#{not empty tipoDocumentoController.selected.historicoAlteracao.dataHora}" /> 
 
                     </h:panelGrid>

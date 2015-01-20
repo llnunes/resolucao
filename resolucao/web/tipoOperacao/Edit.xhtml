@@ -32,6 +32,7 @@
                     <h:outputLabel value="#{bundle.EditTipoOperacaoLabel_topDs}" for="topDs" />
                     <p:inputText id="topDs" size="70" maxlength="255" value="#{tipoOperacaoController.selected.topDs}" title="#{bundle.EditTipoOperacaoTitle_topDs}" />
 
+
                     <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.nomeUsuario}"/>
                     <h:outputText id="nomeCriador" value="#{tipoOperacaoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.nomeUsuario}"/>
                     <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty tipoOperacaoController.selected.historicoCriacao.dataHora}"/>

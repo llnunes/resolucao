@@ -31,13 +31,13 @@
                     <h:outputText value="#{tipoUsinaController.selected.tpuDs}" title="#{bundle.ViewTipoUsinaTitle_tpuDs}"/>
 
 
-                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty controleDocumentoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.nomeUsuario}"/>
                     <h:outputText id="nomeCriador" value="#{tipoUsinaController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.nomeUsuario}"/>
-                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty controleDocumentoController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.dataHora}"/>
                     <h:outputText id="dataCriacao" value="#{tipoUsinaController.selected.historicoCriacao.dataHora}" rendered="#{not empty tipoUsinaController.selected.historicoCriacao.dataHora}"/>     
-                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty controleDocumentoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.nomeUsuario}"/>
                     <h:outputText id="nomeAlterador" value="#{tipoUsinaController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.nomeUsuario}"/>
-                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty controleDocumentoController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.dataHora}"/>
                     <h:outputText id="dataAlteracao" value="#{tipoUsinaController.selected.historicoAlteracao.dataHora}" rendered="#{not empty tipoUsinaController.selected.historicoAlteracao.dataHora}" /> 
 
                 </h:panelGrid>

@@ -19,6 +19,7 @@ import static br.gov.ana.controllers.util.ConstUtils.TIPO_OFICIO_CIRCULAR;
 import static br.gov.ana.controllers.util.ConstUtils.STATUS_APROVADO;
 
 import br.gov.ana.controllers.comuns.UsinaMapa;
+import br.gov.ana.entities.TipoUsina;
 import br.gov.ana.entities.Usina;
 import br.gov.ana.hidroinfoana.entities.Orgao;
 import java.math.BigDecimal;
@@ -225,5 +226,33 @@ public class UsinaFacade extends AbstractFacade<Usina> {
             return null;
         }
 
+    }
+    
+     public List findOrgaoUsinaByOrgaoUsina(Orgao orgao, Usina usina) {
+        try {
+            Query q = em.createQuery("SELECT u FROM Usina u "
+                    + "WHERE (u.usiOrgId = :orgao) AND ( UPPER(u.usiNm) like UPPER(:usiNm)) ");
+            q.setParameter("orgao", orgao);
+            q.setParameter("usiNm", usina.getUsiNm());
+
+            return q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+     
+     public List<Usina> findUsinaByOrgaoTipoEUsina(Orgao orgao, TipoUsina usiTpuId, String usiNm) {
+        try {
+            Query q = em.createQuery("SELECT u FROM Usina u WHERE u.usiOrgId = :orgao "
+                    + "AND u.usiTpuId = :usiTpuId AND UPPER(u.usiNm) LIKE UPPER(:usiNm)");
+            
+            q.setParameter("orgao", orgao);
+            q.setParameter("usiTpuId", usiTpuId);            
+            q.setParameter("usiNm", usiNm);            
+
+            return (List<Usina>) q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

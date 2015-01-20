@@ -3,6 +3,7 @@ package br.gov.ana.controllers;
 import br.gov.ana.controllers.comuns.CalculoCoordenada;
 import br.gov.ana.controllers.comuns.Latitude;
 import br.gov.ana.controllers.comuns.Longitude;
+import br.gov.ana.controllers.util.ConstUtils;
 import br.gov.ana.controllers.util.ConversorLatLong;
 import br.gov.ana.entities.Usina;
 import br.gov.ana.controllers.util.JsfUtil;
@@ -271,11 +272,13 @@ public class UsinaController implements Serializable {
                 setDataEmOperacao(current.getUsiDtaOperacao());
                 atualizaCampoDtEmOperacao();
 
-                if (current.getUsinaLocalizacaoList() != null && current.getUsinaLocalizacaoList().size() > 0) {
-                    usinaLocalizacao = current.getUsinaLocalizacaoList().get(0);
+                List<UsinaLocalizacao> lstLocalizacao = usinaLocalizacaoFacade.findLocalizacaoByUsina(current);
+
+                if (lstLocalizacao != null && lstLocalizacao.size() > 0) {
+                    usinaLocalizacao = lstLocalizacao.get(0);
                 }
-                if (current.getUsinaLocalizacaoList().size() > 1 && current.getUsinaLocalizacaoList().get(1) != null) {
-                    usinaLocalizacao2 = current.getUsinaLocalizacaoList().get(1);
+                if (lstLocalizacao != null && lstLocalizacao.size() > 1) {
+                    usinaLocalizacao2 = lstLocalizacao.get(1);
                 }
             } catch (Exception e) {
                 JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -315,10 +318,10 @@ public class UsinaController implements Serializable {
             current.setUsiSbcCodigo(subbacia);
 
             current.setUsiDtaOperacao(getDataEmOperacao());
-            /*
-             if (verificaOrgaoUsinaCreate()) {
-             throw new OrgaoUsinaException(ResourceBundle.getBundle("/Bundle").getString("NomeUsinaJaCadastradaCreate") + uslOrgao.getOusOrgId().getOrgNm());
-             }*/
+
+            if (verificaOrgaoUsinaCreate()) {
+                throw new OrgaoUsinaException(ResourceBundle.getBundle("/Bundle").getString("NomeUsinaJaCadastradaCreate") + current.getUsiOrgId().getOrgNm());
+            }
 
             getFacade().create(current);
 
@@ -329,13 +332,6 @@ public class UsinaController implements Serializable {
 
             salvarAtoLegal("inserir");
             /*Usina Ato Legal*/
-
-            /*Necessário para o Sistema exibir os relacionamentos, pois no WebLogic os relacionamentos não são exibidos.*/
-            listUsinaLocalizacao.add(usinaLocalizacao);
-            listUsinaLocalizacao.add(usinaLocalizacao2);
-
-            current.setUsinaLocalizacaoList(listUsinaLocalizacao);
-            current.setTecnicoUsinaList(tecnicoUsinaList);
 
             getFacade().edit(current);
 
@@ -374,11 +370,14 @@ public class UsinaController implements Serializable {
                 atoLegalSelecionado = atoLegalFacade.recuperaAtoLegalPorUsina(current);
 
                 subbacia = current.getUsiSbcCodigo();
-                if (current.getUsinaLocalizacaoList() != null && current.getUsinaLocalizacaoList().size() > 0) {
-                    usinaLocalizacao = current.getUsinaLocalizacaoList().get(0);
+
+                List<UsinaLocalizacao> lstLocalizacao = usinaLocalizacaoFacade.findLocalizacaoByUsina(current);
+
+                if (lstLocalizacao != null && lstLocalizacao.size() > 0) {
+                    usinaLocalizacao = lstLocalizacao.get(0);
                 }
-                if (current.getUsinaLocalizacaoList() != null && current.getUsinaLocalizacaoList().size() > 1) {
-                    usinaLocalizacao2 = current.getUsinaLocalizacaoList().get(1);
+                if (lstLocalizacao != null && lstLocalizacao.size() > 1) {
+                    usinaLocalizacao2 = lstLocalizacao.get(1);
                 }
 
                 criacaoHist = new RegistraHistorico().getCriacaoHist(current.getUsiId(), current.getClass().getName());
@@ -409,10 +408,10 @@ public class UsinaController implements Serializable {
                 if (current.getUsiId() == null) {
                     current.setUsiId(Singleton.getInstance().getId());
                 }
-                /*
-                 if (verificaOrgaoUsinaUpdate()) {
-                 throw new OrgaoUsinaException(ResourceBundle.getBundle("/Bundle").getString("NomeUsinaJaCadastradaUpdate") + uslOrgao.getOusOrgId().getOrgNm());
-                 }*/
+
+                if (verificaOrgaoUsinaUpdate()) {
+                    throw new OrgaoUsinaException(ResourceBundle.getBundle("/Bundle").getString("NomeUsinaJaCadastradaUpdate") + current.getUsiOrgId().getOrgNm());
+                }
 
                 //current.setUsiAleId(atoLegal);
 
@@ -472,12 +471,15 @@ public class UsinaController implements Serializable {
     public String destroy() {
         performDestroy();
         recreateModel();
-        return "List";
+        return "/usina/List";
     }
 
     private void performDestroy() {
         try {
-            getFacade().remove(current);
+            //DELETE LOGICO
+            new RegistraHistorico().registraHistorico(current.getUsiId(), current.getClass().getName(), 2, current.getHistoricoDescricao());
+            current.setUsiUssId(usinaSituacaoFacade.find(ConstUtils.USINA_INATIVA));
+            getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UsinaDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -536,7 +538,9 @@ public class UsinaController implements Serializable {
                 tecnicoUsinaFacade.create(tecUsina);
                 tecnicoUsinaList.add(tecUsina);
             }
+            current.setTecnicoUsinaList(tecnicoUsinaList);
         }
+
     }
 
     public String getQtdUsinasPorTipo() {
@@ -978,28 +982,28 @@ public class UsinaController implements Serializable {
      * 
      * VALIDA SE JA EXISTE USINA COM MESMO NOME E DA MESMA EMPRESA.
      */
-    /*
-     private boolean verificaOrgaoUsinaCreate() {
-     return !orgaoUsinaFacade.findOrgaoUsinaByOrgaoUsina(uslOrgao.getOusOrgId(), current).isEmpty();
-     }
+    private boolean verificaOrgaoUsinaCreate() {
+        return !usinaFacade.findOrgaoUsinaByOrgaoUsina(current.getOrgao(), current).isEmpty();
+    }
 
-     private boolean verificaOrgaoUsinaUpdate() {
-     boolean retorno = false;
-     List<Usina> list = orgaoUsinaFacade.findUsinaByOrgaoTipoEUsina(uslOrgao.getOusOrgId(), current.getUsiTpuId(), current.getUsiNm());
+    private boolean verificaOrgaoUsinaUpdate() {
+        boolean retorno = false;
+        List<Usina> list = usinaFacade.findUsinaByOrgaoTipoEUsina(current.getOrgao(), current.getUsiTpuId(), current.getUsiNm());
 
-     if (!list.isEmpty()) {
+        if (!list.isEmpty()) {
 
-     for (Usina usi : list) {
-     if (!current.getTipoUsina().trim().equals(tipoAnterioUsina) || !current.getUsiNm().trim().equalsIgnoreCase(nomeAnteriorUsina)) {
-     if (usi.getTipoUsina().trim().equals(current.getTipoUsina().trim()) && usi.getUsiNm().trim().equalsIgnoreCase(current.getUsiNm().trim())) {
-     retorno = true;
-     }
-     }
-     }
-     }
+            for (Usina usi : list) {
+                if (!current.getTipoUsina().trim().equals(tipoAnterioUsina) || !current.getUsiNm().trim().equalsIgnoreCase(nomeAnteriorUsina)) {
+                    if (usi.getTipoUsina().trim().equals(current.getTipoUsina().trim()) && usi.getUsiNm().trim().equalsIgnoreCase(current.getUsiNm().trim())) {
+                        retorno = true;
+                    }
+                }
+            }
+        }
 
-     return retorno;
-     }*/
+        return retorno;
+    }
+
     /**
      * ************
      */

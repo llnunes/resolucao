@@ -106,7 +106,7 @@ public class StatusDocumentoController implements Serializable {
             getFacade().create(current);
             //Registra o historico
             new RegistraHistorico().registraHistoricoGeral(current.getSdcId(), current.getClass().getName(), 1);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("StatusDocumentoCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("StatusDocCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -141,7 +141,7 @@ public class StatusDocumentoController implements Serializable {
             // Atualiza as informações caso o usuário altere novamente sem voltar para a lista;
             dadosTemporariosHistorico = current.getHistoricoDescricao();
 
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("StatusDocumentoUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("StatusDocUpdated"));
             return "/statusDocumento/View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -163,7 +163,7 @@ public class StatusDocumentoController implements Serializable {
             } else {
                 getFacade().remove(current);
                 new RegistraHistorico().registraHistorico(current.getSdcId(), current.getClass().getName(), 2, current.getHistoricoDescricao());
-                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("StatusDocumentoDeleted"));
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("StatusDocDeleted"));
             }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
