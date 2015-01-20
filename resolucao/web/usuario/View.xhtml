@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewUsuarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <!--<h:form prependId="false">-->
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <p:panel>
+
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendUsuarioTitle}"/>
+                </f:facet>
+
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_ureId}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureId}" title="#{bundle.ViewUsuarioTitle_ureId}"/>
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_ureNm}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureNm}" title="#{bundle.ViewUsuarioTitle_ureNm}"/>                       
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_ureTxLogin}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureTxLogin}" title="#{bundle.ViewUsuarioTitle_ureTxLogin}"/>    
+                    <h:outputText value="#{bundle.ViewUsuarioLabel_ureEmail}"/>
+                    <h:outputText value="#{usuarioResolucaoController.selected.ureEmail}" title="#{bundle.ViewUsuarioTitle_ureEmail}"/>
+
+                    <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty usuarioResolucaoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputText id="nomeCriador" value="#{usuarioResolucaoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty usuarioResolucaoController.selected.historicoCriacao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.createDate}" for="dataCriacao" rendered="#{not empty usuarioResolucaoController.selected.historicoCriacao.dataHora}"/>
+                    <h:outputText id="dataCriacao" value="#{usuarioResolucaoController.selected.historicoCriacao.dataHora}" rendered="#{not empty usuarioResolucaoController.selected.historicoCriacao.dataHora}"/>     
+                    <h:outputLabel value="#{bundle.updateBy}" for="nomeAlterador" rendered="#{not empty usuarioResolucaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputText id="nomeAlterador" value="#{usuarioResolucaoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty usuarioResolucaoController.selected.historicoAlteracao.nomeUsuario}"/>
+                    <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty usuarioResolucaoController.selected.historicoAlteracao.dataHora}"/>
+                    <h:outputText id="dataAlteracao" value="#{usuarioResolucaoController.selected.historicoAlteracao.dataHora}" rendered="#{not empty usuarioResolucaoController.selected.historicoAlteracao.dataHora}" />
+
+                </h:panelGrid>
+                <br />
+                <p:commandButton id="deleteCommand" rendered="#{autenticadorController.loginAdmin}"  onclick="confirmationDestroy.show();" value="#{bundle.ViewUsuarioDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_pencil}" action="#{usuarioResolucaoController.prepareEdit}" value="#{bundle.ViewUsuarioEditLink}"/>&nbsp;                    
+                <p:commandButton ajax="false" action="#{usuarioResolucaoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.ViewUsuarioShowAllLink}"/> 
+            </p:panel>
+
+            <p:confirmDialog id="confirmDestroy" message="#{bundle.MsgConfirmDestroy_message}" header="#{bundle.MsgConfirmDestroy_header}" severity="alert" widgetVar="confirmationDestroy">
+                <p:commandButton id="confirm" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy.hide();" action="#{usuarioResolucaoController.destroy}" />
+                <p:commandButton id="decline"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy.hide();" type="button"/>
+
+            </p:confirmDialog>
+
+            <!--</h:form>-->
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template2.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUsuarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <!--<h:form prependId="false">-->
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <p:panel>
+
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.LegendUsuarioTitle}"/>
+                </f:facet>
+                <h:panelGrid columns="2">
+                    <ui:remove>
+                        <h:outputLabel value="#{bundle.CreateUsuarioLabel_ureId}" for="ureId" />                            
+                        <p:inputText  id="ureId" value="#{usuarioResolucaoController.selected.ureId}" title="#{bundle.CreateUsuarioTitle_ureId}" />
+                    </ui:remove>
+                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_ureNm}" for="ureNm" />
+                    <p:inputText styleClass="widthInput" maxlength="255" autocomplete="false" id="ureNm" value="#{usuarioResolucaoController.selected.ureNm}" title="#{bundle.CreateUsuarioTitle_ureNm}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_ureNm}">
+
+                        <p:focus for="ureNm"/>
+                    </p:inputText>                        
+                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_ureTxLogin}" for="ureTxLogin" />
+                    <p:inputText autocomplete="false" id="ureTxLogin" maxlength="255" value="#{usuarioResolucaoController.selected.ureTxLogin}" title="#{bundle.CreateUsuarioTitle_ureTxLogin}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_ureTxLogin}"/>
+
+                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_ureEmail}" for="ureEmail" />
+                    <p:inputText styleClass="widthInput" autocomplete="false" id="ureEmail" maxlength="255" value="#{usuarioResolucaoController.selected.ureEmail}" title="#{bundle.CreateUsuarioTitle_ureEmail}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_ureEmail}">                            
+                        <f:validator for="ureEmail" validatorId="br.gov.ana.validators.EmailValidator"/>
+                    </p:inputText>
+                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_ureTxSenha}" for="ureTxSenha" />
+                    <p:password autocomplete="false" id="ureTxSenha" maxlength="255" value="#{usuarioResolucaoController.selected.ureTxSenha}" title="#{bundle.CreateUsuarioTitle_ureTxSenha}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_ureTxSenha}"/>
+
+                </h:panelGrid>
+                <br/>
+                <p:commandButton ajax="false" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_salvar}" action="#{usuarioResolucaoController.create}" value="#{bundle.CreateUsuarioSaveLink}" />&nbsp;           
+                <p:commandButton ajax="false" action="#{usuarioResolucaoController.prepareList}" icon="#{bundle.icone_listar}" value="#{bundle.CreateUsuarioShowAllLink}" immediate="true"/>
+
+            </p:panel>
+            <!--</h:form>-->
+        </ui:define>
+    </ui:composition>
+
+</html>

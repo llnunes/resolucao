@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template2.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ChangePass_alterarSenhaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <!--<h:form id="formPrincipal">-->
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list"/>
+            </h:panelGroup>
+
+            <p:panel>                  
+
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ChangePass_redefinirSenhaTitle}"/>
+                </f:facet>
+
+                <h:panelGrid columns="2">                       
+                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_ureId}" for="ureId"/>
+                    <h:outputText id="ureId" value="#{changePassController.loginUsuario.ureId}"/>
+
+                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_ureTxLogin}" for="ureTxLogin"/>
+                    <h:outputText id="ureTxLogin" value="#{changePassController.loginUsuario.ureTxLogin}"/>
+
+                    <h:outputLabel value="#{bundle.CreateUsuarioLabel_ureNm}" for="ureNm"/>
+                    <h:outputText id="ureNm" value="#{changePassController.loginUsuario.ureNm}"/>
+
+                    <h:outputLabel value="#{bundle.ChangePassLabel_novaSenha}" for="novaSenha"/>
+                    <p:password id="novaSenha"  autocomplete="false" value="#{changePassController.novaSenha}" title="#{bundle.ChangePassTitle_novaSenha}" required="true" requiredMessage="#{bundle.ChangePassRequiredMessage_novaSenha}">
+                        <p:focus for="novaSenha"/>
+                    </p:password>
+
+                    <h:outputLabel value="#{bundle.ChangePassLabel_confirmaSenha}" for="confirmaSenha" />
+                    <p:password id="confirmaSenha"  autocomplete="false" value="#{changePassController.confirmaSenha}" title="#{bundle.ChangePassTitle_confirmaSenha}" required="true" requiredMessage="#{bundle.ChangePassRequiredMessage_confirmaSenha}"/>
+                </h:panelGrid>
+                <br/>
+                <p:commandButton ajax="false" icon="#{bundle.icone_salvar}" action="#{changePassController.alterarSenha}" value="#{bundle.CreateUsuarioSaveLink}" />&nbsp;
+
+            </p:panel>
+            <!--</h:form>-->
+        </ui:define>
+    </ui:composition>
+
+</html>
