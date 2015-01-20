@@ -4,6 +4,7 @@
  */
 package br.gov.ana.facade;
 
+import br.gov.ana.controllers.util.ConstUtils;
 import br.gov.ana.entities.UsuarioResolucao;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -43,8 +44,8 @@ public class UsuarioResolucaoFacade extends AbstractFacade<UsuarioResolucao> {
 
     public List<UsuarioResolucao> findAllUsuarioAtivo() {
         try {
-            Query q = em.createQuery("SELECT u FROM UsuarioResolucao u WHERE u.ureStatus = 1 ORDER BY :order");
-            q.setParameter("order", "ureNm");
+            Query q = em.createQuery("SELECT u FROM UsuarioResolucao u WHERE u.ureStatus = :status ");
+            q.setParameter("status", ConstUtils.REGISTRO_ATIVO);
             return (List<UsuarioResolucao>) q.getResultList();
         } catch (Exception e) {
             return null;

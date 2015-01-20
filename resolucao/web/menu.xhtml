@@ -16,7 +16,7 @@
                 <p:menuitem ajax="false" value="#{bundle.menuNova}" immediate="true" action="#{orgaoController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
                 <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="#{orgaoController.prepareList}" icon="#{bundle.icone_pesquisa}" />
                 <p:menuitem ajax="false" value="#{bundle.menuListaInativas}" immediate="true" action="#{orgaoController.prepareListaInativos}" icon="#{bundle.icone_pesquisa}"/>
-                <p:menuitem ajax="false" value="#{bundle.menuControleSenhas}" immediate="true" rendered="#{autenticadorController.loginAdmin}" action="/orgaoUsuario/ControleSenhas" icon="#{bundle.icone_cadeado}"/>
+                <p:menuitem ajax="false" value="#{bundle.menuControleSenhas}" immediate="true" rendered="#{autenticadorController.loginAdmin}" action="/orgao/ControleSenhas" icon="#{bundle.icone_cadeado}"/>
 
             </p:submenu>
         </p:submenu>
@@ -115,7 +115,7 @@
         </p:submenu>
 
         <p:submenu label="#{bundle.menuUsuarios}" rendered="#{autenticadorController.loginAdmin}" icon="#{bundle.icone_usuario}">
-            <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{usuarioController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
+            <p:menuitem ajax="false" value="#{bundle.menuNovo}" immediate="true" action="#{usuarioResolucaoController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
             <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="/usuario/List" icon="#{bundle.icone_pesquisa}"/>
 
         </p:submenu>
@@ -125,9 +125,6 @@
         <p:menuitem ajax="false" value="#{bundle.menuHistResolucao}" immediate="true" rendered="#{autenticadorController.loginAdmin}" action="#{histResolucaoController.prepareList()}" icon="#{bundle.icone_historico}"/>
 
         <p:submenu label="#{bundle.menuConfiguracoes}" rendered="#{autenticadorController.loginAdmin}" icon="#{bundle.icone_configuracao}">
-            <p:menuitem ajax="false" value="#{bundle.menuEmpresaEstacao}" immediate="true" action="#{orgaoEstacaoController.prepareList}" icon="#{bundle.icone_pesquisa}" rendered="#{autenticadorController.loginAdmin}"/>
-            <p:menuitem ajax="false" value="#{bundle.menuEmpresaUsuario}" immediate="true" action="#{orgaoUsuarioController.prepareList}" icon="#{bundle.icone_pesquisa}" rendered="#{autenticadorController.loginAdmin}"/>
-            <p:menuitem ajax="false" value="#{bundle.menuEmpresaUnidade}" immediate="true" action="#{orgaoUnidadeController.prepareList}" icon="#{bundle.icone_pesquisa}" rendered="#{autenticadorController.loginAdmin}"/>
 
         </p:submenu>
 

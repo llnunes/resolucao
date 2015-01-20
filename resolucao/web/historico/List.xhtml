@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.HistResolucaoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block" >
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list" />
+            </h:panelGroup>
+
+            <p:growl id="messages" life="3000"/>
+
+            <h:panelGroup >    
+                <p:dataTable id="tbl" value="#{histResolucaoController.lista}" var="item"  paginator="true" rows="#{bundle.rows}" pageLinks="5" widgetVar="histTable"
+                             currentPageReportTemplate="#{bundle.currentPageReportTemplateHist}"  paginatorTemplate="#{bundle.paginatorTemplate}"
+                             rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.hreId}" 
+                             emptyMessage="#{bundle.ListHistResolucaoEmpty}" selection="#{histResolucaoController.selected}" selectionMode="single" 
+                             filteredValue="#{histResolucaoController.lista}">
+
+                    <p:column sortBy="#{item.hreId}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListHistResolucaoTitle_hreId}"/>
+                        </f:facet>
+
+                        <h:outputText value="#{item.hreId}"/>
+                    </p:column>
+
+                    <p:column style="width: 200px;" sortBy="#{item.hreUreId.ureNm}#{filterSearchController.removeAcentos(item.hreUreId.ureNm)}" 
+                              filterBy="#{item.hreUreId.ureNm}#{filterSearchController.removeAcentos(item.hreUreId.ureNm)}"  filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListHistResolucaoTitle_hreUreId}"/>
+                        </f:facet>
+
+                        <h:outputText value="#{item.hreUreId.ureNm}"/>
+                    </p:column>
+
+                    <p:column style="width: 170px;" sortBy="#{filterSearchController.customFormatDate1(item.hreDtOperacao)}" filterBy="#{filterSearchController.customFormatDate(item.hreDtOperacao)}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListHistResolucaoTitle_hreDtOperacao}"/>
+                        </f:facet>
+
+                        <h:outputText value="#{item.hreDtOperacao}">
+                            <f:convertDateTime pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListHistResolucaoTitle_acao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.acao}" />
+                    </p:column>
+
+                    <p:column filterBy="#{item.entidade}" filterMatchMode="contains">
+                        <f:facet name="header" >
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListHistResolucaoTitle_entidade}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.entidade}" />
+                    </p:column>
+
+                    <p:column style="text-align: right;" filterBy="#{item.hreRegistroId}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListHistResolucaoTitle_hreRegistroId}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.hreRegistroId}" />
+                    </p:column>
+
+                    <p:column sortBy="#{item.hreDs}#{filterSearchController.removeAcentos(item.hreDs)}" 
+                              filterBy="#{item.hreDs}#{filterSearchController.removeAcentos(item.hreDs)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListHistResolucaoTitle_hreDs}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.hreDs}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGroup>      
+
+        </ui:define>
+    </ui:composition>
+</html>
