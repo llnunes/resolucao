@@ -34,8 +34,8 @@
                             </p:inputText>
                         </p:outputPanel>
                     </f:facet>
-                    
-                  
+
+
 
                     <p:column styleClass="firstColumn" sortBy="#{item.orgId}" filterBy="#{item.orgId}" >
                         <f:facet name="header"> 
@@ -203,7 +203,7 @@
                     <h:panelGrid id="displayView" columns="2" cellpadding="4">                          
 
                         <h:outputText value="#{bundle.ViewOrgaoLabel_orgId}"/>
-                        <h:outputText value="#{orgaoController.selected.orgId}" title="#{bundle.ViewOrgaoTitle_orgId}"/>
+                        <h:outputText value="#{orgaoController.selected.orgId}" title="#{bundle.ViewOrgaoTitle_orgId}"/>                        
                         <h:outputText value="#{bundle.ViewOrgaoLabel_orgCnpj}" />
                         <h:outputText value="#{orgaoController.selected.maskCnpj}" converter="inputConverter" title="#{bundle.ViewOrgaoTitle_orgCnpj}"/>
                         <h:outputText value="#{bundle.ViewOrgaoLabel_orgSg}"/>

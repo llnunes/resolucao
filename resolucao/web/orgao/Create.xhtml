@@ -30,6 +30,12 @@
                         <p:inputText id="orgId" value="#{orgaoController.selected.orgId}" title="#{bundle.CreateOrgaoTitle_orgId}" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgId}"/>
                     </ui:remove>
 
+                    <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgEntidade}" for="entidade"/>
+
+                    <p:selectOneMenu id="entidade" value="#{orgaoController.entidade}"  filter="true" filterMatchMode="contains" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgEntidade}">
+                        <f:selectItems value="#{entidadeController.itemsAvailableSelectOne}"/>                        
+                    </p:selectOneMenu>
+
                     <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgCnpj}" for="orgCnpj" />
 
                     <p:inputMask mask="99.999.999/9999-99" converter="inputConverter" id="orgCnpj" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgCnpj}" value="#{orgaoController.selected.orgCnpj}" title="#{bundle.CreateOrgaoTitle_orgCnpj}" >

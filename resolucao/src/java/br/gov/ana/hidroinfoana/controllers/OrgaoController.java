@@ -4,6 +4,7 @@ import static br.gov.ana.controllers.util.ConstUtils.ORGAO_INATIVO;
 
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.exceptions.OrgaoException;
+import br.gov.ana.hidroinfoana.entities.Entidade;
 import br.gov.ana.hidroinfoana.entities.Municipio;
 import br.gov.ana.hidroinfoana.entities.Orgao;
 import br.gov.ana.hidroinfoana.facade.OrgaoFacade;
@@ -40,8 +41,12 @@ public class OrgaoController implements Serializable {
     private br.gov.ana.hidroinfoana.facade.EstacaoFacade estacaoFacade;
     @EJB
     private br.gov.ana.hidroinfoana.facade.StatusOrgaoFacade statusOrgaoFacade;
+    @EJB
+    private br.gov.ana.hidroinfoana.facade.EntidadeFacade entidadeFacade;
+    
     private List<Orgao> lista;
     private List<Orgao> listaInativos;
+    private Entidade entidade = new Entidade();
     private CriacaoHist criacaoHist = new CriacaoHist();
     private AlteracaoHist alteracaoHist = new AlteracaoHist();
     private String dadosTemporariosHistorico;
@@ -134,12 +139,15 @@ public class OrgaoController implements Serializable {
 
     public String prepareCreate() {
         current = new Orgao();
+        entidade = new Entidade();
         return "/orgao/Create";
     }
 
     public String create() {
         try {
             validaRegrasDeNegocio();
+
+            current.setOrgId(current.getEntidade().getEntCodigo());
 
             getFacade().create(current);
 
@@ -162,7 +170,7 @@ public class OrgaoController implements Serializable {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
                 return "/orgao/List";
             }
-
+           
             // Recupera as informações antes de sofrer qualquer alteração;
             dadosTemporariosHistorico = current.getHistoricoDescricao();
             criacaoHist = new RegistraHistorico().getCriacaoHist(current.getOrgId(), current.getClass().getName());
@@ -221,10 +229,7 @@ public class OrgaoController implements Serializable {
 
                 //Registra o Historica da exclusão	
                 new RegistraHistorico().registraHistorico(new BigDecimal(current.getOrgId()), current.getClass().getName(), 2, current.getHistoricoDescricao());
-                current.setOrgNm(current.getOrgNm() + "_");
-                current.setOrgSg(current.getOrgSg() + "_");
-                current.setOrgCnpj(current.getOrgCnpj() + "0");
-
+          
                 current.setOrgStgId(statusOrgaoFacade.find(ORGAO_INATIVO));
 
                 getFacade().edit(current);
@@ -240,6 +245,7 @@ public class OrgaoController implements Serializable {
     private void recreateModel() {
         dadosTemporariosHistorico = "";
         current = new Orgao();
+        entidade = new Entidade();
         lista = null;
         listaInativos = null;
     }
@@ -255,6 +261,14 @@ public class OrgaoController implements Serializable {
         if (getFacade().existeEmpresaComMesmoNome(current.getOrgNm(), "orgNm", current.getOrgId()) >= 1) {
             throw new OrgaoException(ResourceBundle.getBundle("/Bundle").getString("NomeOrgaoJaCadastrado"));
         }
+    }
+
+    public Entidade getEntidade() {
+        return entidade;
+    }
+
+    public void setEntidade(Entidade entidade) {
+        this.entidade = entidade;
     }
 
     public CriacaoHist getCriacaoHist() {

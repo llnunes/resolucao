@@ -147,6 +147,6 @@ public class Entidade implements Serializable {
 
     @Override
     public String toString() {
-        return this.entNome;
+        return this.entNome + " (" + this.entCodigo + ")";
     }
 }

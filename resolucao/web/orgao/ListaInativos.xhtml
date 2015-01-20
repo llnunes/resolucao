@@ -170,7 +170,6 @@
                     <f:facet name="footer">                            
                         <p:commandButton id="viewCommand"  value="#{bundle.MsgVisualizar}" actionListener="#{orgaoController.prepareView}" icon="#{bundle.icone_pesquisa}" onerror="orgaoDialogView.hide();"  update=":formList:displayView, :formList:messages" oncomplete="orgaoDialogView.show()" />
                         <p:commandButton id="editCommand" ajax="false"  action="#{orgaoController.prepareEdit}" value="#{bundle.ViewOrgaoEditLink}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_pencil}" />
-                        <p:commandButton id="deleteCommand" ajax="false"  rendered="#{autenticadorController.loginAdmin}" onclick="confirmationDestroy.show();" value="#{bundle.ViewOrgaoDestroyLink}" type="button" icon="#{bundle.icone_lixeira}" />
 
                         <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
                             <p:dataExporter type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_orgaos}" postProcessor="#{orgaoController.postProcessorXLS}"/>
@@ -196,6 +195,7 @@
 
                         <h:outputText value="#{bundle.ViewOrgaoLabel_orgId}"/>
                         <h:outputText value="#{orgaoController.selected.orgId}" title="#{bundle.ViewOrgaoTitle_orgId}"/>
+
                         <h:outputText value="#{bundle.ViewOrgaoLabel_orgCnpj}" />
                         <h:outputText value="#{orgaoController.selected.maskCnpj}" converter="inputConverter" title="#{bundle.ViewOrgaoTitle_orgCnpj}"/>
                         <h:outputText value="#{bundle.ViewOrgaoLabel_orgSg}"/>

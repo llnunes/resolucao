@@ -25,9 +25,15 @@
 
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditOrgaoLabel_orgId}" for="orgId" />
-                    <p:inplace id="basic" >
-                        <p:inputText id="orgId" readonly="true" value="#{orgaoController.selected.orgId}" title="#{bundle.EditOrgaoTitle_orgId}" required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgId}"/>
-                    </p:inplace>
+
+                    <p:inputText id="orgId" size="5" readonly="true" value="#{orgaoController.selected.orgId}" title="#{bundle.EditOrgaoTitle_orgId}" required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgId}"/>
+
+                    <h:outputLabel value="#{bundle.EditOrgaoLabel_orgEntidade}" for="entidade"/>
+                    <p:selectOneMenu value="#{orgaoController.selected.entidade}" id="entidade" filter="true" filterMatchMode="contains" 
+                                     required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgEntidade}">                            
+                        <f:selectItems value="#{entidadeController.itemsAvailableSelectMany}"/>                                
+                    </p:selectOneMenu>   
+
                     <h:outputLabel value="#{bundle.EditOrgaoLabel_orgCnpj}" for="orgCnpj" />
                     <p:inputMask mask="99.999.999/9999-99" id="orgCnpj" disabled="#{orgaoController.desabilitadoLoginAdminAlteracao}" converter="inputConverter" required="true" requiredMessage="#{bundle.EditOrgaoRequiredMessage_orgCnpj}" value="#{orgaoController.selected.orgCnpj}" title="#{bundle.EditOrgaoTitle_orgCnpj}" >                        
                         <p:focus for="orgCnpj"/>

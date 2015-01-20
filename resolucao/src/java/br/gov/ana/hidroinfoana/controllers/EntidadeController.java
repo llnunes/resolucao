@@ -100,7 +100,7 @@ public class EntidadeController implements Serializable {
     }
 
     public SelectItem[] getItemsAvailableSelectOne() {
-        return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
+        return JsfUtil.getSelectItems(ejbFacade.findAllNaoRelacionados(), true);
     }
 
     public Entidade getEntidade(java.lang.Integer id) {
