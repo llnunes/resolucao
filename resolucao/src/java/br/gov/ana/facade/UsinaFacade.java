@@ -170,19 +170,19 @@ public class UsinaFacade extends AbstractFacade<Usina> {
     }
 
     public List<UsinaMapa> findAllUsinasCoordenadas(Orgao orgao) {
-        String sql = "SELECT new br.gov.ana.controllers.comuns.UsinaMapa (u.usiId, u.usiProcesso, ou.ousOrgId.orgCnpj, "
-                + " ou.ousOrgId.orgNm ,u.usiTpuId.tpuNm, u.usiNm, u.usiLatitude, u.usiLongitude, u.usiNuAreaDrenagem, "
+        String sql = "SELECT new br.gov.ana.controllers.comuns.UsinaMapa (u.usiId, u.usiProcesso, u.usiOrgId.orgCnpj, "
+                + " u.usiOrgId.orgNm ,u.usiTpuId.tpuNm, u.usiNm, u.usiLatitude, u.usiLongitude, u.usiNuAreaDrenagem, "
                 + " u.usiNuAreaIncremental, u.usiNuAreaInundada, u.usiNuPotencia, u.usiUssId.ussNm) "
-                + "FROM Usina u LEFT JOIN u.orgaoUsinaList ou "
-                + "WHERE u.usiLatitude IS NOT NULL AND u.usiLongitude IS NOT NULL AND ou.ousOrgId.orgId.orgStgId.stgId <> :orgaoSituacao  AND u.usiUssId.ussId NOT IN ( :usinaSituacao1, :usinaSituacao2 )";
+                + "FROM Usina u  "
+                + "WHERE u.usiLatitude IS NOT NULL AND u.usiLongitude IS NOT NULL AND u.usiOrgId.orgId.orgStgId.stgId <> :orgaoSituacao  AND u.usiUssId.ussId NOT IN ( :usinaSituacao1, :usinaSituacao2 )";
         try {
             Query q;
             if (orgao != null) {
-                q = em.createQuery(sql + " AND ou.ousOrgId = :orgao ORDER BY u.usiNm ");
+                q = em.createQuery(sql + " AND u.usiOrgId = :orgao ORDER BY u.usiNm ");
                 q.setParameter("orgao", orgao);
 
             } else {
-                q = em.createQuery(sql + " ORDER BY u.usiNm ");
+                q = em.createQuery(sql);
             }
             q.setParameter("orgaoSituacao", ORGAO_INATIVO);
             q.setParameter("usinaSituacao", USINA_INATIVA);
@@ -195,16 +195,16 @@ public class UsinaFacade extends AbstractFacade<Usina> {
     }
 
     public List<Usina> findAllUsinasCoordenadasEnt(Orgao orgao) {
-        String sql = "SELECT u FROM Usina u LEFT JOIN u.orgaoUsinaList ou "
-                + "WHERE u.usiLatitude IS NOT NULL AND u.usiLongitude IS NOT NULL AND ou.ousOrgId.orgStgId.stgId <> :orgaoSituacao  AND u.usiUssId.ussId NOT IN ( :usinaSituacao1, :usinaSituacao2 ) ";
+        String sql = "SELECT u FROM Usina u  "
+                + "WHERE u.usiLatitude IS NOT NULL AND u.usiLongitude IS NOT NULL AND u.usiOrgId.orgStgId.stgId <> :orgaoSituacao  AND u.usiUssId.ussId NOT IN ( :usinaSituacao1, :usinaSituacao2 ) ";
         try {
             Query q;
             if (orgao != null) {
-                q = em.createQuery(sql + " AND ou.ousOrgId = :orgao ORDER BY u.usiNm ");
+                q = em.createQuery(sql + " AND u.usiOrgId = :orgao ORDER BY u.usiNm ");
                 q.setParameter("orgao", orgao);
 
             } else {
-                q = em.createQuery(sql + " ORDER BY u.usiNm ");
+                q = em.createQuery(sql);
             }
             q.setParameter("orgaoSituacao", ORGAO_INATIVO);
             q.setParameter("usinaSituacao1", USINA_INATIVA);

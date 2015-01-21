@@ -4,7 +4,12 @@
  */
 package br.gov.ana.hidroinfoana.facade;
 
+import br.gov.ana.controllers.comuns.RelEmpresas;
+import br.gov.ana.controllers.comuns.RelEstacoes;
+import br.gov.ana.hidroinfoana.entities.Estacao;
 import br.gov.ana.hidroinfoana.entities.Horaria;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +30,22 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
 
     public HorariaFacade() {
         super(Horaria.class);
+    }
+
+    public List<RelEmpresas> getListaEmpresasOperandoWebService(Date dataInicial, Date dataFinal) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<RelEstacoes> getListaEstacoesPorEstacao(Estacao estacao) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<RelEmpresas> getListaEmpresasOperandoWebService() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<RelEstacoes> getListaEstacoesComDadosWebService(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
