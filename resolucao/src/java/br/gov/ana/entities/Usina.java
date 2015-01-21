@@ -88,7 +88,7 @@ public class Usina implements Serializable {
     @Column(name = "USI_LONGITUDE")
     private BigDecimal usiLongitude;
     @JoinColumn(name = "USI_SBCCODIGO", referencedColumnName = "SBCCODIGO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Subbacia usiSbcCodigo;
     @Column(name = "USI_DTA_OPERACAO")
     @Temporal(TemporalType.TIMESTAMP)
@@ -111,7 +111,7 @@ public class Usina implements Serializable {
     private List<UsinaEstacao> usinaEstacaoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ualUsiId")
     private List<UsinaAtoLegal> usinaAtoLegalList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uslUsiId")
+    @OneToMany(mappedBy = "uslUsiId", fetch = FetchType.EAGER)
     private List<UsinaLocalizacao> usinaLocalizacaoList;
     @JoinColumn(name = "USI_USS_ID", referencedColumnName = "USS_ID")
     @ManyToOne(optional = false)

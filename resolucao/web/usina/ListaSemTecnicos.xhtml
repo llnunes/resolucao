@@ -193,8 +193,8 @@
                         <h:outputText value="#{item.usiUssId.ussNm}"/>
                     </p:column>
 
-                    <p:column exportable="true" style="display:none;" sortBy="#{filterSearchController.customFormatDate1(item.usiDtaProjeto)}" 
-                              filterBy="#{filterSearchController.customFormatDate(item.usiDtaProjeto)}" filterMatchMode="contains">
+                    <p:column exportable="true" style="display:none;" sortBy="#{filterSearchController.customFormatDate1(item.usiDtaOperacao)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.usiDtaOperacao)}" filterMatchMode="contains">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListUsinaTitle_usiDtaProjeto}"/>
                         </f:facet>

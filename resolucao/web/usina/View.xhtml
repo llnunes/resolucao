@@ -109,7 +109,7 @@
                     <h:outputText value="#{usinaController.selected.usiTxObservacao}" title="#{bundle.ViewUsinaLabel_usiTxObservacao}"/> 
 
                     <h:outputLabel value="#{bundle.UsinaTecnicoDialogTargetCaption}" for="usiTecnicos"/>
-                    <p:dataList id="usiTecnicos" value="#{usinaController.tecnicosRelacionados}" var="item" paginator="true" currentPageReportTemplate="Página {currentPage}/{totalPages} de {totalRecords} técnicos(s)." paginatorPosition="bottom" rows="10" rowsPerPageTemplate="10" type="none" 
+                    <p:dataList id="usiTecnicos" value="#{usinaController.tecnicosRelacionados}" var="item" paginator="true" currentPageReportTemplate="P&aacute;gina {currentPage}/{totalPages} de {totalRecords} t&eacute;cnicos(s)." paginatorPosition="bottom" rows="10" rowsPerPageTemplate="10" type="none" 
                                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink} {RowsPerPageDropdown}">
                         <h:outputText value="#{item.tecNm} (#{item.tecEmail})" style="margin-left:10px" />                        
                         <br />

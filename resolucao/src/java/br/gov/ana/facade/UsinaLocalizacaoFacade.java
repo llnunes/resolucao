@@ -35,7 +35,7 @@ public class UsinaLocalizacaoFacade extends AbstractFacade<UsinaLocalizacao> {
     public boolean findByUsinaRio(UsinaLocalizacao ul) throws Exception {
         boolean retorno = true;
 
-        Query q = em.createNamedQuery("UsinaLocalizacao.findByUsinaRio").setParameter("uslUsiId", ul.getUslUsiId());
+        Query q = em.createQuery("SELECT u FROM UsinaLocalizacao u WHERE u.uslUsiId = :uslUsiId").setParameter("uslUsiId", ul.getUslUsiId());
         List<UsinaLocalizacao> lista = (List<UsinaLocalizacao>) q.getResultList();
 
         //Rio rioTemp = ul.getUslRiocodigo();
@@ -50,13 +50,13 @@ public class UsinaLocalizacaoFacade extends AbstractFacade<UsinaLocalizacao> {
     }
 
     public void deleteUsinaLocalizacaoByUsina(Usina uslUsiId) throws Exception {
-        Query q = em.createNamedQuery("UsinaLocalizacao.deleteUsinaLocalizacaoByUsina").setParameter("uslUsiId", uslUsiId);
+        Query q = em.createQuery("DELETE FROM UsinaLocalizacao u WHERE u.uslUsiId = :uslUsiId").setParameter("uslUsiId", uslUsiId);
         q.executeUpdate();
     }
 
     public List<UsinaLocalizacao> findLocalizacaoByUsina(Usina usina) {
         Query q = em.createQuery("SELECT ul FROM UsinaLocalizacao ul WHERE ul.uslUsiId = :usina");
         q.setParameter("usina", usina);
-        return q.getResultList();
+        return (List<UsinaLocalizacao>) q.getResultList();
     }
 }

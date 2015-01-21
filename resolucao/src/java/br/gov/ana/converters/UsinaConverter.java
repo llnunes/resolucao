@@ -32,7 +32,7 @@ public class UsinaConverter implements Converter {
         }
         UsinaController controller = (UsinaController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "usinaController");
-        return controller.getFacade().find(getKey(value));
+        return controller.getEjbFacade().find(getKey(value));
     }
 
     java.math.BigDecimal getKey(String value) {
