@@ -1,5 +1,6 @@
 package br.gov.ana.controllers;
 
+import br.gov.ana.controllers.util.ConstUtils;
 import static br.gov.ana.controllers.util.ConstUtils.TIPO_NOTA;
 import static br.gov.ana.controllers.util.ConstUtils.TIPO_OFICIO;
 import static br.gov.ana.controllers.util.ConstUtils.STATUS_EM_ANALISE;
@@ -279,7 +280,7 @@ public class ControleDocumentoController implements Serializable {
             if (tpuDoc != null && tpuDoc.getTdcId() != null) {
                 listaDocumentosSemNovaVersao = ejbFacade.findAllReprovadosSemNovaVersao(tpuDoc);
             } else {
-                listaDocumentosSemNovaVersao = ejbFacade.findAllReprovadosSemNovaVersao(tipoDocumentoFacade.find(new BigDecimal("1")));
+                listaDocumentosSemNovaVersao = ejbFacade.findAllReprovadosSemNovaVersao(tipoDocumentoFacade.find(ConstUtils.TIPO_PROJETO));
             }
         }
         return listaDocumentosSemNovaVersao;
@@ -584,7 +585,7 @@ public class ControleDocumentoController implements Serializable {
     }
 
     public String prepareListaUsinasPrazoRelatorio() {
-        recreateModel();
+        recreateModel();       
         return "/controleDocumento/ListaUsinasPrazoRelatorio";
     }
 
@@ -873,7 +874,7 @@ public class ControleDocumentoController implements Serializable {
                     }
                 }
 
-                if (current.getTcmUsiId() != null ) {
+                if (current.getTcmUsiId() != null) {
                     this.orgao = current.getTcmUsiId().getOrgao();
                 }
 

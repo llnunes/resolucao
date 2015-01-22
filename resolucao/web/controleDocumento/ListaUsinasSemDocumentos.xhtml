@@ -139,18 +139,18 @@
                         <h:outputText value="#{item.orgao.orgTxEndereco}"/>
                     </p:column>
 
-                    <p:column exportable="true" style="display:none;" sortBy="#{item.orgao.orgMunCd.munNm}" filterBy="#{item.orgao.orgMunCd.munNm}" filterMatchMode="contains">
+                    <p:column exportable="true" style="display:none;" sortBy="#{item.orgao.orgMunCodigo.munNome}" filterBy="#{item.orgao.orgMunCodigo.munNome}" filterMatchMode="contains">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgMunCd}"/>
                         </f:facet>
-                        <h:outputText value="#{item.orgao.orgMunCd.munNm}"/>
+                        <h:outputText value="#{item.orgao.orgMunCodigo.munNome}"/>
                     </p:column>   
 
-                    <p:column exportable="true" style="display:none;" styleClass="columnUf" sortBy="#{item.orgao.orgUfdCd.ufdSg}" filterBy="#{item.orgao.orgUfdCd.ufdSg}" filterMatchMode="contains">
+                    <p:column exportable="true" style="display:none;" styleClass="columnUf" sortBy="#{item.orgao.orgUfdCodigo.ufdCodigo}" filterBy="#{item.orgao.orgUfdCodigo.ufdCodigo}" filterMatchMode="contains">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgUfdCd}"/>
                         </f:facet>
-                        <h:outputText value="#{item.orgao.orgUfdCd.ufdSg}"/>
+                        <h:outputText value="#{item.orgao.orgUfdCodigo.ufdCodigo}"/>
                     </p:column>
 
                     <p:column styleClass="firstColumn" sortBy="#{item.orgao.orgTxCep}" filterBy="#{item.orgao.orgTxCep}" exportable="true" style="display:none;">

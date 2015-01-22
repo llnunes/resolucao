@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <ui:remove><h:outputText value="#{bundle.ListWebserviceTitle_relatorioCvhms}"></h:outputText></ui:remove>
+        </ui:define>
+        <ui:define name="body">
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block" >
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list" />
+            </h:panelGroup>
+            <div align="center">
+                <p:panel header="#{bundle.ListWebserviceTitle_relatorioCvhms}" style="width: 70%;">
+
+                    <h:outputLabel value="#{bundle.ListHistResolucaoTitle_dataInicial}"  for="dataInicial"/>
+                    <p:calendar id="dataInicial" onkeyup="formatar(this, '##/##/####');" maxdate="#{bundle.maxDateCalendar}" value="#{relatorioCVHMsController.dataInicial}" required="true" requiredMessage="#{bundle.ListHistResolucaoRequiredMessage_dataInicial}" locale="#{bundle.localeApp}" size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}">
+                        <f:convertDateTime for="dataInicial" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                    </p:calendar>&nbsp;
+
+                    <h:outputLabel value="#{bundle.ListHistResolucaoTitle_dataFinal}" for="dataFinal"/>
+                    <p:calendar id="dataFinal" onkeyup="formatar(this, '##/##/####');" maxdate="#{bundle.maxDateCalendar}" value="#{relatorioCVHMsController.dataFinal}" required="true" requiredMessage="#{bundle.ListHistResolucaoRequiredMessage_dataFinal}" locale="#{bundle.localeApp}" size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}">
+                        <f:convertDateTime for="dataFinal" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                    </p:calendar>
+
+                    <p:commandButton id="downloadLink" ajax="false" icon="#{bundle.icone_checar}" update=":formList:tbl" value="#{bundle.ListHistResolucaoButton_gerarRelatorio}" action="#{relatorioCVHMsController.gerarRelatorio()}"  />
+
+                    <p:dataTable id="tbl" value="#{relatorioCVHMsController.listaNovasCvhms}" var="item"  paginator="true" rows="#{bundle.rows}" 
+                                 pageLinks="5" widgetVar="porEstacaoTable" currentPageReportTemplate="#{bundle.currentPageReportTemplate}"  
+                                 paginatorTemplate="#{bundle.paginatorTemplate}" rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  
+                                 paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.estId}" emptyMessage="#{bundle.ListEstacaoEmpty}" 
+                                 filteredValue="#{relatorioCVHMsController.listaNovasCvhms}" styleClass="mystyle">
+
+                        <p:column filterBy="#{item.estEmpresa.orgNm}" sortBy="#{item.estEmpresa.orgNm}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrgaoEstacaoTitle_oesOrgId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estEmpresa.orgNm}"/>
+                        </p:column>
+
+                        <p:column filterBy="#{item.estNm}" sortBy="#{item.estNm}" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estNm}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estNm}"/>
+                        </p:column>
+
+                        <p:column filterBy="#{item.estCdFlu}" sortBy="#{item.estCdFlu}" style="width: 10%;" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estCdFlu}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estCdFlu}" style="text-align: right !important; "/>
+                        </p:column>
+
+                        <p:column filterBy="#{item.estCdPlu}" sortBy="#{item.estCdPlu}" style="width: 10%;" filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstacaoTitle_estCdPlu}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estCdPlu}" style="text-align: right !important;"/>
+                        </p:column>
+
+                        <p:column filterBy="#{item.estDataAtivacao}" sortBy="#{item.estDataAtivacao}" style="width: 10%"  filterMatchMode="contains">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ViewEstacaoTitle_hceDtAtivacao}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estDataAtivacao}" >
+                                <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                                <p:dataExporter  type="xls" target="tbl" fileName="#{bundle.excelExportAllFileName_estacoes}" postProcessor="#{relatorioCVHMsController.postProcessorXLS}"/>
+                            </p:commandButton>
+                        </f:facet>
+
+                    </p:dataTable>                  
+
+                </p:panel>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>

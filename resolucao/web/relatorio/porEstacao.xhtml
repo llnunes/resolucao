@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListWebserviceTitle_relatorioPorEstacao}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block" >
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list" />
+            </h:panelGroup>
+
+            <p:panel header="#{bundle.ListWebserviceTitle_criterios}"> 
+
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <h:outputLabel value="#{bundle.ListWebserviceTitle_empresa}" for="empresa" />
+                    <p:selectOneMenu value="#{relatorioWebServiceController.empresa}" filter="true" filterMatchMode="contains"  id ="empresa"  >
+                        <f:selectItems value="#{orgaoController.itemsAvailableSelectOne}"/>
+                        <p:ajax listener="#{relatorioWebServiceController.alteraEstacoes}" update=":formList:tblPorEstacao, :formList:estacao"/>
+                        <p:focus for="empresa"/>
+                    </p:selectOneMenu>  
+
+                    <h:outputLabel value="#{bundle.ListWebserviceTitle_estacao}" for="estacao" />
+                    <p:selectOneMenu value="#{relatorioWebServiceController.estacao}" filter="true" filterMatchMode="contains" id ="estacao" >
+                        <f:selectItems value="#{relatorioWebServiceController.estacoesSelectOne}"/>
+                        <p:ajax listener="#{relatorioWebServiceController.alteraDadosListaEstacao}" update="@form" />
+                    </p:selectOneMenu>  
+
+                    <ui:remove>
+                        <h:outputLabel value="Período: " for="dataInicial"/>
+                        <h:panelGroup>
+
+                            <p:calendar id="dataInicial" onkeyup="formatar(this, '##/##/####');" maxdate="#{bundle.maxDateCalendar}" value="#{relatorioWebServiceController.periodoInicial}" 
+                                        locale="#{bundle.localeApp}" size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}">
+                                <f:convertDateTime for="dataInicial" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                            </p:calendar>&nbsp;
+
+                            <h:outputLabel value=" a " for="dataFinal"/>
+                            <p:calendar id="dataFinal" onkeyup="formatar(this, '##/##/####');" maxdate="#{bundle.maxDateCalendar}" value="#{relatorioWebServiceController.periodoFinal}"  
+                                        locale="#{bundle.localeApp}" size="18" maxlength="10" navigator="true" showOn="button" pattern="#{bundle.patternApp}">
+                                <f:convertDateTime for="dataFinal" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
+                            </p:calendar>
+
+                            &nbsp;
+                            <p:commandButton value="Pesquisar"/>
+
+                        </h:panelGroup> 
+                    </ui:remove>
+                </h:panelGrid>
+
+                <p:dataTable id="tblPorEstacao" value="#{relatorioWebServiceController.listaPorEstacao}" var="item"  paginator="true" rows="#{bundle.rows}" 
+                             pageLinks="5" widgetVar="porEstacaoTable" currentPageReportTemplate="#{bundle.currentPageReportTemplate}"  
+                             paginatorTemplate="#{bundle.paginatorTemplate}" rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  
+                             paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.estId}" emptyMessage="#{bundle.ListEstacaoEmpty}" 
+                             filteredValue="#{relatorioWebServiceController.listaPorEstacao}" styleClass="mystyle">
+
+                    <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgId}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.orgId}"/>
+                    </p:column>  
+
+                    <p:column exportable="true" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_empresa}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.orgNm}"/>
+                    </p:column>    
+
+                    <p:column exportable="true"  filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estNm}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.estNm}"/>
+                    </p:column>
+
+
+                    <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estCdFlu}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.estCdFlu}"/>
+                    </p:column>       
+
+
+                    <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estCdPlu}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.estCdPlu}"/>
+                    </p:column>  
+
+
+                    <p:column exportable="true" styleClass="column100px" sortBy="#{item.varNm}" filterBy="#{item.varNm}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_variavel}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.varNm}"/>
+                    </p:column>                                                          
+
+                    <p:column exportable="true" styleClass="column100px" sortBy="#{item.mdhNuNotafinalmetafiltro}" filterBy="#{item.mdhNuNotafinalmetafiltro}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_nota}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.mdhNuNotafinalmetafiltro}">
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
+                    </p:column>    
+
+                    <p:column exportable="true" styleClass="column100px" sortBy="#{item.mdhVr}" filterBy="#{item.mdhVr}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_valor}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.mdhVr}">
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
+                    </p:column>    
+
+                    <p:column exportable="true" styleClass="column150px"
+                              sortBy="#{filterSearchController.customFormatDate1(item.dtPrimeiroDado)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.dtPrimeiroDado)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtHoraDaMedicao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dtPrimeiroDado}">
+                            <f:convertDateTime pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column exportable="true" styleClass="column150px" sortBy="#{filterSearchController.customFormatDate1(item.dtUltimoDado)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.dtUltimoDado)}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtHoraChegadaANA}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dtUltimoDado}">
+                            <f:convertDateTime  pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter  type="xls" target="tblPorEstacao" fileName="#{bundle.excelExportAllFileName_estacoes}" postProcessor="#{relatorioWebServiceController.postProcessorXLS}"/>
+                        </p:commandButton>
+                    </f:facet>
+
+                </p:dataTable>                  
+
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+</html>

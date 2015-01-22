@@ -28,7 +28,12 @@ public class DadosHistorico implements Serializable {
         this.usuNome = usuNome;
         this.flagAcao = JsfUtil.getFlagHistorico(flagAcao);
         this.dataAcao = dataAcao;
-        this.entidade = entidade.replace("br.gov.ana.entities.", "");
+        
+        if (entidade.contains("hidroinfoana")){
+            this.entidade = entidade.replace("br.gov.ana.hidroinfoana.entities.", "");
+        } else {
+            this.entidade = entidade.replace("br.gov.ana.entities.", "");
+        }        
         this.descAcao = descAcao;
     }
 

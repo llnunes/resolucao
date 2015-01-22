@@ -4,6 +4,7 @@
  */
 package br.gov.ana.facade;
 
+import br.gov.ana.controllers.util.ConstUtils;
 import br.gov.ana.entities.ControleDocumento;
 import br.gov.ana.entities.TipoDocumento;
 import br.gov.ana.entities.Usina;
@@ -57,10 +58,11 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
     public List<ControleDocumento> findAllReprovadosSemNovaVersao(TipoDocumento tipoDocumento) {
         try {
             /*Condição adicionada: AND cdo.tcmStatus = 1*/
-            Query q = em.createQuery("SELECT cd FROM ControleDocumento cd Where cd.tcmId in "
-                    + " (SELECT MAX(cdo.tcmId) FROM ControleDocumento cdo WHERE cdo.tcmTdcId = :tipoDocumento AND cdo.tcmStatus = 1 GROUP BY cdo.tcmUsiId ) AND cd.tcmSdcId.sdcId = 3 ");
-            q.setParameter("tipoDocumento", tipoDocumento);
-            return q.getResultList();
+            Query q = em.createQuery("SELECT cd FROM ControleDocumento cd Where cd.tcmId in  (SELECT MAX(cdo.tcmId) FROM ControleDocumento cdo WHERE cdo.tcmTdcId.tdcId = :tipoDocumento AND cdo.tcmStatus = :status GROUP BY cdo.tcmUsiId.usiId ) AND cd.tcmSdcId.sdcId = :reprovado ");
+            q.setParameter("tipoDocumento", tipoDocumento.getTdcId());
+            q.setParameter("status", ConstUtils.REGISTRO_ATIVO);
+            q.setParameter("reprovado", ConstUtils.STATUS_REPROVADO);
+            return (List<ControleDocumento>) q.getResultList();
         } catch (Exception e) {
             return null;
         }
@@ -167,7 +169,7 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
      */
     public ControleDocumento findDocumento(ControleDocumento tcmDocVinculo, BigDecimal tdcId) {
         try {
-            Query q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId = :tdcId AND cd.tcmDocVinculo = :tcmDocVinculo ORDER BY cd.tcmDtCadastro DESC");
+            Query q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId = :tdcId AND cd.tcmDocVinculo = :tcmDocVinculo ");
             q.setParameter("tdcId", tdcId);
             q.setParameter("tcmDocVinculo", tcmDocVinculo);
             q.setParameter("status", 1);
@@ -180,7 +182,7 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
 
     public List<ControleDocumento> findAllOrderByTcmDtCadastro() {
         try {
-            Query q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status ORDER BY cd.tcmDtCadastro DESC");
+            Query q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status ");
             q.setParameter("status", 1);
             return (List<ControleDocumento>) q.getResultList();
         } catch (Exception e) {
@@ -192,16 +194,12 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
         try {
 
             Query q = em.createQuery("SELECT u FROM Usina u WHERE u.usiId NOT IN (SELECT cd.tcmUsiId.usiId FROM ControleDocumento cd WHERE cd.tcmTdcId = :tpuDoc AND cd.tcmStatus = 1) "
-                    + "AND u.usiUssId.ussId NOT IN (:s1,:s2) ORDER BY :usiId");
+                    + "AND u.usiUssId.ussId NOT IN (:s1,:s2)");
 
-//            Query q = em.createQuery("SELECT u FROM Usina u WHERE "
-//                    + "u.usiId NOT IN (SELECT DISTINCT cd.tcmUsiId.usiId  FROM ControleDocumento cd WHERE cd.tcmTdcId = :tpuDoc) "
-//                    + "ORDER BY :order");
             q.setParameter("s1", new BigDecimal("4"));
             q.setParameter("s2", new BigDecimal("5"));
             q.setParameter("tpuDoc", tpuDoc);
-            q.setParameter("usiId", "usiId");
-
+            
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {
             return null;
@@ -210,19 +208,14 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
 
     public List<Usina> findAllUsinaSemDocumentosExcetoCghs(TipoDocumento tpuDoc) {
         try {
-//            Query q = em.createQuery("SELECT u FROM Usina u WHERE u.usiTpuId.tpuId <> :tpuId "
-//                    + "AND (u.usiUssId IS NULL OR u.usiUssId.ussId NOT IN (:s1,:s2)) "
-//                    + "AND u.usiId NOT IN (SELECT DISTINCT cd.tcmUsiId.usiId FROM ControleDocumento cd WHERE cd.tcmTdcId = :tpuDoc) "
-//                    + "ORDER BY :order");
 
             Query q = em.createQuery("SELECT u FROM Usina u WHERE u.usiId NOT IN (SELECT cd.tcmUsiId.usiId FROM ControleDocumento cd WHERE cd.tcmTdcId = :tpuDoc AND cd.tcmStatus = 1) "
-                    + "AND u.usiUssId.ussId NOT IN (:s1,:s2) AND u.usiTpuId.tpuId <> :tpuId ORDER BY :usiId");
+                    + "AND u.usiUssId.ussId NOT IN (:s1,:s2) AND u.usiTpuId.tpuId <> :tpuId");
 
             q.setParameter("tpuId", new BigDecimal("3"));
             q.setParameter("tpuDoc", tpuDoc);
             q.setParameter("s1", new BigDecimal("4"));
-            q.setParameter("s2", new BigDecimal("5"));
-            q.setParameter("usiId", "usiId");
+            q.setParameter("s2", new BigDecimal("5"));            
 
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {
@@ -234,9 +227,9 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
         try {
             Query q = null;
             if (incluiCgh) {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND cd.tcmTdcId.tdcId NOT IN (1,2,3,4,5,6,7,9,12) ORDER BY cd.tcmId DESC");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND cd.tcmTdcId.tdcId NOT IN (1,2,3,4,5,6,7,9,12) ");
             } else {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND u.usiTpuId.tpuId <> :tpuId AND cd.tcmTdcId.tdcId NOT IN (1,2,3,4,5,6,7,9,12) ORDER BY cd.tcmDtCadastro DESC");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND u.usiTpuId.tpuId <> :tpuId AND cd.tcmTdcId.tdcId NOT IN (1,2,3,4,5,6,7,9,12) ");
                 q.setParameter("tpuId", 3);
             }
 
@@ -252,8 +245,7 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
      * Pesquisa todos os controles de documentos que não são principais.
      * (1,2,3,4,5,6,9,12)
      */
-    public List<ControleDocumento> findAllOutersDocs(Orgao orgao, boolean incluiCgh) {
-        String ORDER = " ORDER BY cd.tcmDtCadastro DESC ";
+    public List<ControleDocumento> findAllOutersDocs(Orgao orgao, boolean incluiCgh) {     
         try {
 
             String select = "SELECT cd FROM ControleDocumento cd "
@@ -261,17 +253,17 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
             Query q = null;
             if (incluiCgh) {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHER cd.tcmStatus = :status AND u.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12)" + ORDER);
+                    q = em.createQuery(select + " WHER cd.tcmStatus = :status AND u.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12)" );
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12)" + ORDER);
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12)" );
                 }
             } else {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12) AND u.usiTpuId.tpuId <> :tpuId" + ORDER);
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12) AND u.usiTpuId.tpuId <> :tpuId" );
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12) AND u.usiTpuId.tpuId <> :tpuId" + ORDER);
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12) AND u.usiTpuId.tpuId <> :tpuId" );
                 }
                 q.setParameter("tpuId", 3);
             }
@@ -293,9 +285,9 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
         try {
             Query q = null;
             if (incluiCgh) {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND cd.tcmTdcId.tdcId " + parametros + " ORDER BY cd.tcmId DESC");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND cd.tcmTdcId.tdcId " + parametros + " ");
             } else {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND u.usiTpuId.tpuId <> :tpuId AND cd.tcmTdcId.tdcId " + parametros + " ORDER BY cd.tcmDtCadastro DESC");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND u.usiTpuId.tpuId <> :tpuId AND cd.tcmTdcId.tdcId " + parametros + " ");
                 q.setParameter("tpuId", 3);
             }
 
@@ -315,7 +307,7 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
         } else {
             parametros = " = 7 ";
         }
-        String ORDER = " ORDER BY cd.tcmDtCadastro DESC ";
+        
         try {
 
             String select = "SELECT cd FROM ControleDocumento cd "
@@ -323,17 +315,17 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
             Query q = null;
             if (incluiCgh) {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHER cd.tcmStatus = :status AND u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId " + parametros + " " + ORDER);
+                    q = em.createQuery(select + " WHER cd.tcmStatus = :status AND u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId " + parametros + " " );
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId " + parametros + " " + ORDER);
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId " + parametros + " " );
                 }
             } else {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId " + parametros + " AND u.usiTpuId.tpuId <> :tpuId" + ORDER);
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId " + parametros + " AND u.usiTpuId.tpuId <> :tpuId" );
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId " + parametros + " AND u.usiTpuId.tpuId <> :tpuId" + ORDER);
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId " + parametros + " AND u.usiTpuId.tpuId <> :tpuId" );
                 }
                 q.setParameter("tpuId", 3);
             }
@@ -348,9 +340,9 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
         try {
             Query q = null;
             if (incluiCgh) {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmTdcId = :tpuDoc AND cd.tcmSdcId.sdcId = :sdcId ORDER BY cd.tcmDtCadastro DESC");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmTdcId = :tpuDoc AND cd.tcmSdcId.sdcId = :sdcId ");
             } else {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND (cd.tcmTdcId = :tpuDoc AND cd.tcmSdcId.sdcId = :sdcId) AND u.usiTpuId.tpuId <> :tpuId ORDER BY cd.tcmDtCadastro DESC");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND (cd.tcmTdcId = :tpuDoc AND cd.tcmSdcId.sdcId = :sdcId) AND u.usiTpuId.tpuId <> :tpuId ");
                 q.setParameter("tpuId", 3);
             }
 
@@ -367,9 +359,9 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
         try {
             Query q = null;
             if (incluiCgh) {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND (cd.tcmTdcId = :tpuDoc AND cd.tcmSdcId.sdcId = :sdcId) ORDER BY cd.tcmDtCadastro DESC");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND (cd.tcmTdcId = :tpuDoc AND cd.tcmSdcId.sdcId = :sdcId) ");
             } else {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND (cd.tcmTdcId = :tpuDoc AND cd.tcmSdcId.sdcId = :sdcId) AND u.usiTpuId.tpuId <> :tpuId ORDER BY cd.tcmDtCadastro DESC");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND (cd.tcmTdcId = :tpuDoc AND cd.tcmSdcId.sdcId = :sdcId) AND u.usiTpuId.tpuId <> :tpuId ");
                 q.setParameter("tpuId", 3);
             }
             q.setParameter("tpuDoc", tpuDoc);

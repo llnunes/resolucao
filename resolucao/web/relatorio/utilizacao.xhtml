@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListWebserviceTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block" >
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list" />
+            </h:panelGroup>
+
+
+            <p:panel header="#{bundle.ListWebserviceTitle_informacoes}">               
+                <p:tabView >                  
+                    <p:tab id="tabEmpresas" title="#{bundle.ListWebserviceTitle_empresas}">
+
+                        <p:dataTable id="tblEmpresas" value="#{relatorioWebServiceController.listaGeralEmpresas}" filteredValue="#{relatorioWebServiceController.filteredEmpresas}" var="item"  paginator="true" rows="#{bundle.rows}" 
+                                     pageLinks="5" widgetVar="orgaoTable" currentPageReportTemplate="#{bundle.currentPageReportTemplateOrgao}"  
+                                     paginatorTemplate="#{bundle.paginatorTemplate}" rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  
+                                     paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.orgId}" emptyMessage="#{bundle.ListOrgaoEmpty}" styleClass="mystyle">
+
+                            <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.orgId}" filterBy="#{item.orgId}" >
+                                <f:facet name="header"> 
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgId}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.orgId}"/>
+                            </p:column>
+
+                            <p:column exportable="true" style="width: 170px" sortBy="#{item.orgCnpj}" filterBy="#{item.orgCnpj}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgCnpj}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.orgCnpj}" converter="inputConverter"/>
+                            </p:column>
+
+                            <p:column exportable="true" sortBy="#{item.orgNm}#{filterSearchController.removeAcentos(item.orgNm)}" 
+                                      filterBy="#{item.orgNm}#{filterSearchController.removeAcentos(item.orgNm)}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgNm}"/>
+                                </f:facet> 
+                                <h:outputText value="#{item.orgNm}"/>
+                            </p:column>    
+
+
+                            <p:column exportable="true" styleClass="column150px" sortBy="#{filterSearchController.customFormatDate1(item.dtPrimeiroDado)}" 
+                                      filterBy="#{filterSearchController.customFormatDate(item.dtPrimeiroDado)}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtPrimeiroDado}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dtPrimeiroDado}">
+                                    <f:convertDateTime pattern="#{bundle.patternAppDataHora}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column exportable="true" styleClass="column150px" sortBy="#{filterSearchController.customFormatDate1(item.dtUltimoDado)}" 
+                                      filterBy="#{filterSearchController.customFormatDate(item.dtUltimoDado)}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtUltimoDado}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dtUltimoDado}" >
+                                    <f:convertDateTime pattern="#{bundle.patternAppDataHora}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                                    <p:dataExporter  type="xls" target="tblEmpresas" fileName="#{bundle.excelExportAllFileName_orgaos}" postProcessor="#{relatorioWebServiceController.postProcessorXLS}"/>
+                                </p:commandButton>
+                            </f:facet>
+
+                        </p:dataTable>
+
+                    </p:tab>
+                    <p:tab id="tabEstacoes" title="#{bundle.ListWebserviceTitle_estacoes}">
+                        <p:dataTable id="tblEstacoes" filteredValue="#{relatorioWebServiceController.filteredEstacoes}" value="#{relatorioWebServiceController.listaGeralEstacoes}" var="item"  paginator="true" rows="#{bundle.rows}" 
+                                     pageLinks="5" widgetVar="estacaoTable" currentPageReportTemplate="#{bundle.currentPageReportTemplateEstacoes}"  
+                                     paginatorTemplate="#{bundle.paginatorTemplate}" rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  
+                                     paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.estId}" emptyMessage="#{bundle.ListEstacaoEmpty}" >
+
+                            <p:column exportable="true" sortBy="#{item.orgId}" styleClass="firstColumn" filterBy="#{item.orgId}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgId}"/>
+                                </f:facet> 
+                                <h:outputText value="#{item.orgId}"/>
+                            </p:column>    
+
+                            <p:column exportable="true" 
+                                      sortBy="#{item.orgNm}#{filterSearchController.removeAcentos(item.orgNm)}" 
+                                      filterBy="#{item.orgNm}#{filterSearchController.removeAcentos(item.orgNm)}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_empresa}"/>
+                                </f:facet> 
+                                <h:outputText value="#{item.orgNm}"/>
+                            </p:column>    
+
+                            <p:column exportable="true" sortBy="#{item.estNm}#{filterSearchController.removeAcentos(item.estNm)}" 
+                                      filterBy="#{item.estNm}#{filterSearchController.removeAcentos(item.estNm)}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estNm}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.estNm}"/>
+                            </p:column>
+
+                            <p:column exportable="true" styleClass="column150px" sortBy="#{item.estCdFlu}" filterBy="#{item.estCdFlu}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estCdFlu}"/>
+                                </f:facet> 
+                                <h:outputText value="#{item.estCdFlu}"/>
+                            </p:column>       
+
+                            <p:column exportable="true" styleClass="column150px" sortBy="#{item.estCdPlu}" filterBy="#{item.estCdPlu}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estCdPlu}"/>
+                                </f:facet> 
+                                <h:outputText value="#{item.estCdPlu}"/>
+                            </p:column>  
+
+                            <ui:remove>
+                                <p:column exportable="true" styleClass="column100px" sortBy="#{item.varNm}" filterBy="#{item.varNm}" filterMatchMode="contains">
+                                    <f:facet name="header">
+                                        <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_variavel}"/>
+                                    </f:facet> 
+                                    <h:outputText value="#{item.varNm}"/>
+                                </p:column>                                                          
+                            </ui:remove>
+
+                            <p:column exportable="true" styleClass="column150px"
+                                      sortBy="#{filterSearchController.customFormatDate1(item.dtPrimeiroDado)}" 
+                                      filterBy="#{filterSearchController.customFormatDate(item.dtPrimeiroDado)}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtPrimeiroDado}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dtPrimeiroDado}">
+                                    <f:convertDateTime pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column exportable="true" styleClass="column150px" sortBy="#{filterSearchController.customFormatDate1(item.dtUltimoDado)}" 
+                                      filterBy="#{filterSearchController.customFormatDate(item.dtUltimoDado)}" filterMatchMode="contains">
+                                <f:facet name="header">
+                                    <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtUltimoDado}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dtUltimoDado}">
+                                    <f:convertDateTime  pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                                    <p:dataExporter  type="xls" target="tblEstacoes" fileName="#{bundle.excelExportAllFileName_estacoes}" postProcessor="#{relatorioWebServiceController.postProcessorXLS}"/>
+                                </p:commandButton>
+                            </f:facet>
+
+                        </p:dataTable>
+                    </p:tab>                
+                </p:tabView>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+
+</html>

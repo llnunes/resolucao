@@ -34,9 +34,7 @@ public class EstacaoFacade extends AbstractFacade<Estacao> {
     }
 
     public List<EstacaoMapa> findAllEstacoesCoordenadas(Orgao orgao) {
-                    
-        //Query q1 = em.createQuery("SELECT o FROM Origem o WHERE o.ogmCodigo");
-        
+            
         String sql = "SELECT new br.gov.ana.controllers.comuns.EstacaoMapa ( e.estNome, e.estCodigoAdicional, e.estAneelPlu, o.orgId, o.orgNm, o.orgCnpj, e.estAltitude, e.estLatitude, e.estLongitude, e.estStatus.steDescricao, s.sbcCodigo, s.sbcNome, rio.rioCodigo, rio.rioNome, mun.munUf.ufdCodigo, mun.munNome) "
                 + "FROM Estacao e JOIN e.estResponsavel r JOIN r.orgao o JOIN e.estSubbacia s JOIN e.estRio rio JOIN e.estMunicipio mun "
                 + "WHERE e.estResponsavel IS NOT NULL AND e.estLatitude IS NOT NULL AND e.estLongitude IS NOT NULL AND e.estOrigem.ogmCodigo = 3 ";

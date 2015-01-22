@@ -8,6 +8,7 @@ package br.gov.ana.controllers;
 import br.gov.ana.controllers.comuns.DadosHistorico;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.entities.HistResolucao;
+import br.gov.ana.entities.UsuarioResolucao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ public class RelatorioAtividadesController {
     @EJB
     private br.gov.ana.facade.HistResolucaoFacade histResolucaoFacade;
     private HistResolucao histResolucao;
-    //private Usuario usuario = new Usuario();
+    private UsuarioResolucao usuario = new UsuarioResolucao();
     private Date dataInicial;
     private Date dataFinal;
     private List<DadosHistorico> lista;
@@ -87,12 +88,12 @@ public class RelatorioAtividadesController {
     public void setHistResolucao(HistResolucao histResolucao) {
         this.histResolucao = histResolucao;
     }
-    /*
-     public Usuario getUsuario() {
-     return usuario;
-     }
 
-     public void setUsuario(Usuario usuario) {
-     this.usuario = usuario;
-     }*/
+    public UsuarioResolucao getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioResolucao usuario) {
+        this.usuario = usuario;
+    }
 }

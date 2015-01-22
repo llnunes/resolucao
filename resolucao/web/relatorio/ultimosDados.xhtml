@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/templateclean.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListWebserviceTitle_ultimosDados}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+
+            <h:panelGroup id="messagePanel" styleClass="ajustaListaMensagemErro"  layout="block" >
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="list" />
+            </h:panelGroup>
+
+
+            <p:poll interval="1800" update=":formClean:tblUltimosDados:" listener="#{relatorioWebServiceController.carregaDados}"/>
+
+            <p:panel header="Filtro">
+
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                    <p:outputLabel for="variavel" value="Variável:" /> 
+                    <p:selectOneRadio id="variavel" value="#{relatorioWebServiceController.variavel}" >
+                        <f:selectItem itemLabel="Chuva" itemValue="#{1}" />
+                        <f:selectItem itemLabel="Nível" itemValue="#{2}" />
+                        <f:selectItem itemLabel="Vazão" itemValue="#{3}" />
+                    </p:selectOneRadio>
+                    <p:commandButton action="#{relatorioWebServiceController.carregaDados}" value="Atualizar" update=":formClean:tblUltimosDados"/>
+
+                </h:panelGrid>
+
+
+                <p:dataTable id="tblUltimosDados" value="#{relatorioWebServiceController.listaUltimosDados}" filteredValue="#{relatorioWebServiceController.listaUltimosDados}"
+                             var="item"  paginator="true" rows="100" 
+                             pageLinks="5" widgetVar="ultimosDadosTable" currentPageReportTemplate="#{bundle.currentPageReportTemplateEstacoes}"  
+                             paginatorTemplate="#{bundle.paginatorTemplate}"   
+                             paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.codigoFlu}" emptyMessage="#{bundle.ListOrgaoEmpty}" styleClass="mystyle">
+
+                    <p:column exportable="true" sortBy="#{item.nome}" >
+                        <f:facet name="header"> 
+                            <h:outputText styleClass="cabecalhoNegrito" value="Estação"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nome}"/>
+                    </p:column>
+
+                    <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.codigoFlu}"  filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="Codigo FLU"/>
+                        </f:facet>
+                        <h:outputText value="#{item.codigoFlu}" />
+                    </p:column>
+
+                    <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.codigoPlu}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="Codigo PLU"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.codigoPlu}"/>
+                    </p:column>    
+
+
+                    <p:column exportable="true" styleClass="firstColumn" sortBy="#{filterSearchController.customFormatDate2(item.dhUltimaMedicao)}" 
+                              filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtHoraDaMedicao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dhUltimaMedicao}">
+                            <f:convertDateTime pattern="#{bundle.patternAppDataHora}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.variavel}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="Variável"/>
+                        </f:facet>
+                        <h:outputText value="#{item.variavel}" >
+                            <f:convertDateTime pattern="#{bundle.patternAppDataHora}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.valor}" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="Valor"/>
+                        </f:facet>
+                        <h:outputText value="#{item.valor}">
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
+                    </p:column>
+
+
+
+                    <f:facet name="footer">
+                        <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                            <p:dataExporter  type="xls" target="tblUltimosDados" fileName="#{bundle.excelExportAllFileName_ultimosDados}" postProcessor="#{relatorioWebServiceController.postProcessorXLS}"/>
+                        </p:commandButton>
+                    </f:facet>
+
+                </p:dataTable>
+            </p:panel>
+            <p:ajaxStatus  onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+
+            <p:dialog modal="true" widgetVar="statusDialog" header="#{bundle.headerAjaxStatus}" 
+                      draggable="false" closable="false">
+                <p:graphicImage value="/imagens/ajaxloadingbar.gif" />
+            </p:dialog>    
+
+        </ui:define>
+    </ui:composition>
+
+</html>
