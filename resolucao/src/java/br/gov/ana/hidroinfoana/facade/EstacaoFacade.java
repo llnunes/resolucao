@@ -34,7 +34,8 @@ public class EstacaoFacade extends AbstractFacade<Estacao> {
     }
 
     public List<EstacaoMapa> findAllEstacoesCoordenadas(Orgao orgao) {
-            
+    
+        
         String sql = "SELECT new br.gov.ana.controllers.comuns.EstacaoMapa ( e.estNome, e.estCodigoAdicional, e.estAneelPlu, o.orgId, o.orgNm, o.orgCnpj, e.estAltitude, e.estLatitude, e.estLongitude, e.estStatus.steDescricao, s.sbcCodigo, s.sbcNome, rio.rioCodigo, rio.rioNome, mun.munUf.ufdCodigo, mun.munNome) "
                 + "FROM Estacao e JOIN e.estResponsavel r JOIN r.orgao o JOIN e.estSubbacia s JOIN e.estRio rio JOIN e.estMunicipio mun "
                 + "WHERE e.estResponsavel IS NOT NULL AND e.estLatitude IS NOT NULL AND e.estLongitude IS NOT NULL AND e.estOrigem.ogmCodigo = 3 ";
@@ -55,7 +56,7 @@ public class EstacaoFacade extends AbstractFacade<Estacao> {
 
     public List<Estacao> findNovasCvhms(Date dataInicial, Date dataFinal) {
         try {
-            Query q = em.createQuery("SELECT e FROM Estacao e JOIN e.histCoordEstacaoList hce WHERE hce.hceDtAtivacao between :dataInicial AND :dataFinal");
+            Query q = em.createQuery("SELECT e FROM Estacao e WHERE e.estUltimaAtualizacao between :dataInicial AND :dataFinal");
 
             q.setParameter("dataInicial", dataInicial);
             q.setParameter("dataFinal", dataFinal);

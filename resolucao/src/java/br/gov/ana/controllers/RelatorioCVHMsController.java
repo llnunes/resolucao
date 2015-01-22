@@ -24,7 +24,7 @@ public class RelatorioCVHMsController {
 
     private Estacao current;
     @EJB
-    private br.gov.ana.hidroinfoana.facade.EstacaoFacade ejbFacade;
+    private br.gov.ana.hidroinfoana.facade.EstacaoFacade ejbFacade;   
     private List<Estacao> listaNovasCvhms;
     private Date dataInicial;
     private Date dataFinal;

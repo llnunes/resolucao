@@ -16,7 +16,7 @@
                 <p:menuitem ajax="false" value="#{bundle.menuNova}" immediate="true" action="#{orgaoController.prepareCreate}" rendered="#{!autenticadorController.loginVisualizador}" icon="#{bundle.icone_documento}"/>
                 <p:menuitem ajax="false" value="#{bundle.menuListaGeral}" immediate="true" action="#{orgaoController.prepareList}" icon="#{bundle.icone_pesquisa}" />
                 <p:menuitem ajax="false" value="#{bundle.menuListaInativas}" immediate="true" action="#{orgaoController.prepareListaInativos}" icon="#{bundle.icone_pesquisa}"/>
-                <p:menuitem ajax="false" value="#{bundle.menuControleSenhas}" immediate="true" rendered="#{autenticadorController.loginAdmin}" action="/orgao/ControleSenhas" icon="#{bundle.icone_cadeado}"/>
+                <ui:remove><p:menuitem ajax="false" value="#{bundle.menuControleSenhas}" immediate="true" rendered="#{autenticadorController.loginAdmin}" action="/orgao/ControleSenhas" icon="#{bundle.icone_cadeado}"/></ui:remove>                    
 
             </p:submenu>
         </p:submenu>
@@ -96,10 +96,10 @@
         <p:submenu label="#{bundle.menuRelatorios}">
             <p:submenu label="#{bundle.menuWebservice}"> 
 
-                <p:menuitem ajax="false" value="#{bundle.menuRelatorioWebservice}" immediate="true" action="#{relatorioWebServiceController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
-                <p:menuitem ajax="false" value="#{bundle.menuRelatorioWebserviceUtilizacao}" immediate="true" action="#{relatorioWebServiceController.prepareListUtilizacao}" icon="#{bundle.icone_pesquisa}"/>
-                <p:menuitem ajax="false" value="#{bundle.menuRelatorioWebservicePorEstacao}" immediate="true" action="#{relatorioWebServiceController.prepareListPorEstacao}" icon="#{bundle.icone_pesquisa}"/>
-                <p:menuitem ajax="false" value="Ultimos dados" immediate="true" action="#{relatorioWebServiceController.prepareListUltimosDados}" icon="#{bundle.icone_pesquisa}"/>
+                <ui:remove><p:menuitem ajax="false" value="#{bundle.menuRelatorioWebservice}" immediate="true" action="#{relatorioWebServiceController.prepareList}" icon="#{bundle.icone_pesquisa}"/></ui:remove>
+                <ui:remove><p:menuitem ajax="false" value="#{bundle.menuRelatorioWebserviceUtilizacao}" immediate="true" action="#{relatorioWebServiceController.prepareListUtilizacao}" icon="#{bundle.icone_pesquisa}"/></ui:remove>
+                <ui:remove><p:menuitem ajax="false" value="#{bundle.menuRelatorioWebservicePorEstacao}" immediate="true" action="#{relatorioWebServiceController.prepareListPorEstacao}" icon="#{bundle.icone_pesquisa}"/></ui:remove>
+                <ui:remove><p:menuitem ajax="false" value="Ultimos dados" immediate="true" action="#{relatorioWebServiceController.prepareListUltimosDados}" icon="#{bundle.icone_pesquisa}"/></ui:remove>
             </p:submenu>
 
             <p:submenu label="#{bundle.menuGerencial}"> 

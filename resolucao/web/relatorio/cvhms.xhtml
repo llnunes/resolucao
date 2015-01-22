@@ -36,39 +36,39 @@
                                  paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.estId}" emptyMessage="#{bundle.ListEstacaoEmpty}" 
                                  filteredValue="#{relatorioCVHMsController.listaNovasCvhms}" styleClass="mystyle">
 
-                        <p:column filterBy="#{item.estEmpresa.orgNm}" sortBy="#{item.estEmpresa.orgNm}" filterMatchMode="contains">
+                        <p:column filterBy="#{item.estResponsavel.orgao.orgNm}" sortBy="#{item.estResponsavel.orgao.orgNm}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListOrgaoEstacaoTitle_oesOrgId}"/>
                             </f:facet>
-                            <h:outputText value="#{item.estEmpresa.orgNm}"/>
+                            <h:outputText value="#{item.estResponsavel.orgao.orgNm}"/>
                         </p:column>
 
-                        <p:column filterBy="#{item.estNm}" sortBy="#{item.estNm}" filterMatchMode="contains">
+                        <p:column filterBy="#{item.estNome}" sortBy="#{item.estNome}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListEstacaoTitle_estNm}"/>
                             </f:facet>
-                            <h:outputText value="#{item.estNm}"/>
+                            <h:outputText value="#{item.estNome}"/>
                         </p:column>
 
-                        <p:column filterBy="#{item.estCdFlu}" sortBy="#{item.estCdFlu}" style="width: 10%;" filterMatchMode="contains">
+                        <p:column filterBy="#{item.estCodigoAdicional}" sortBy="#{item.estCodigoAdicional}" style="width: 10%;" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListEstacaoTitle_estCdFlu}"/>
                             </f:facet>
-                            <h:outputText value="#{item.estCdFlu}" style="text-align: right !important; "/>
+                            <h:outputText value="#{item.estCodigoAdicional}" style="text-align: right !important; "/>
                         </p:column>
 
-                        <p:column filterBy="#{item.estCdPlu}" sortBy="#{item.estCdPlu}" style="width: 10%;" filterMatchMode="contains">
+                        <p:column filterBy="#{item.estAneelPlu}" sortBy="#{item.estAneelPlu}" style="width: 10%;" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListEstacaoTitle_estCdPlu}"/>
                             </f:facet>
-                            <h:outputText value="#{item.estCdPlu}" style="text-align: right !important;"/>
+                            <h:outputText value="#{item.estAneelPlu}" style="text-align: right !important;"/>
                         </p:column>
 
-                        <p:column filterBy="#{item.estDataAtivacao}" sortBy="#{item.estDataAtivacao}" style="width: 10%"  filterMatchMode="contains">
+                        <p:column filterBy="#{item.estUltimaAtualizacao}" sortBy="#{item.estUltimaAtualizacao}" style="width: 10%"  filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ViewEstacaoTitle_hceDtAtivacao}"/>
                             </f:facet>
-                            <h:outputText value="#{item.estDataAtivacao}" >
+                            <h:outputText value="#{item.estUltimaAtualizacao}" >
                                 <f:convertDateTime pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
                             </h:outputText>
                         </p:column>
