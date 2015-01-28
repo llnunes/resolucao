@@ -4,5 +4,5 @@
     <keepgenerated>true</keepgenerated>
     <debug>false</debug>
   </jsp-descriptor>
-  <context-root>/resolucao</context-root>
+  <context-root>/samse</context-root>
 </weblogic-web-app>

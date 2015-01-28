@@ -232,7 +232,7 @@ h2 {
 }
 
 .ui-picklist-item.ui-corner-all.ui-state-highlight {  
-    background: url('/ResolucaoConjunta/javax.faces.resource/primefaces-sam/images/sprite.png.xhtml') repeat-x scroll left -1400px #2647A0;
+    background: url('/samse/javax.faces.resource/primefaces-sam/images/sprite.png.xhtml') repeat-x scroll left -1400px #2647A0;
     color: #FFF !important;
 }
 

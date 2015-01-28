@@ -123,7 +123,7 @@ public class ControleDeAcesso implements Filter {
             session.removeAttribute("usuario");
             log(e.getMessage());
             e.printStackTrace();
-            httpResponse.sendRedirect("/resolucao/login.xhtml");
+            httpResponse.sendRedirect("/samse/login.xhtml");
         }
 
         // If there was a problem, we want to rethrow it if it is
