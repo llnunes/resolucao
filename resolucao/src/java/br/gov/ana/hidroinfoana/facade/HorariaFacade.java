@@ -4,6 +4,7 @@
  */
 package br.gov.ana.hidroinfoana.facade;
 
+import br.gov.ana.controllers.comuns.RelDados;
 import br.gov.ana.controllers.comuns.RelEmpresas;
 import br.gov.ana.controllers.comuns.RelEstacoes;
 import br.gov.ana.hidroinfoana.entities.Estacao;
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -20,6 +22,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class HorariaFacade extends AbstractFacade<Horaria> {
+
     @PersistenceContext(unitName = "hidroinfoanaPU")
     private EntityManager em;
 
@@ -44,8 +47,18 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<RelEstacoes> getListaEstacoesComDadosWebService(boolean b) {
+    public List<RelEstacoes> getListaEstacoesComDadosWebService() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    public List<RelDados> getListaDadosWebService(Estacao estacao) {
+        try {
+            Query q = em.createQuery("SELECT h FROM Horaria h");
+
+            q.setMaxResults(10000);
+            return q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -32,7 +32,7 @@ public class RelatorioWebServiceController {
     @EJB
     private br.gov.ana.hidroinfoana.facade.OrgaoFacade orgaoFacade;
     @EJB
-    private br.gov.ana.hidroinfoana.facade.HorariaFacade horariaFacade;
+    private br.gov.ana.hidroinfoana.facade.HorariaFacade horariaFacade;       
     private List<RelEmpresas> listaEmpresas;
     //private List<MedHidrometeorologica> listaMedicoes;
     private List<RelEstacoes> listaEstacoes;
@@ -158,7 +158,7 @@ public class RelatorioWebServiceController {
 
             //listaEstacoes = medHidrometeorologicaFacade.getListaEstacoesComDadosWebService();
             //listaGeralEstacoes = medHidrometeorologicaFacade.getListaEstacoesComDadosWebService(getDataInicial(), getDataFinal(), false);
-            listaGeralEstacoes = horariaFacade.getListaEstacoesComDadosWebService(false);
+            listaGeralEstacoes = horariaFacade.getListaEstacoesComDadosWebService();
         }
         return listaGeralEstacoes;
     }
