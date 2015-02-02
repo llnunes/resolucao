@@ -9,6 +9,7 @@ import br.gov.ana.controllers.comuns.RelEmpresas;
 import br.gov.ana.controllers.comuns.RelEstacoes;
 import br.gov.ana.hidroinfoana.entities.Estacao;
 import br.gov.ana.hidroinfoana.entities.Horaria;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -52,11 +53,30 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
     }
 
     public List<RelDados> getListaDadosWebService(Estacao estacao) {
+        List<RelDados> listDados = new ArrayList<RelDados>();
         try {
-            Query q = em.createQuery("SELECT h FROM Horaria h");
-
-            q.setMaxResults(10000);
-            return q.getResultList();
+            if (estacao != null && estacao.getEstCodigo() != null) {
+                //Integer estCodigo, String estNm, String estCdFlu, String estCdPlu, Integer orgId, String orgNm, BigDecimal usiId, String usiNm, BigDecimal horNivel, BigDecimal horChuva, BigDecimal horVazao, Date horDataHora, Date horDataAmostra
+                //Query q1 = em.createQuery("SELECT he FROM Horaria he WHERE he.estacao.estResponsavel.orgao.orgNm");
+                //Query q2 = em.createQuery("SELECT ue FROM UsinaEstacao ue WHERE ue.uesUsiId.usiId");
+                /*Query q = em.createQuery("SELECT new br.gov.ana.controllers.comuns.RelDados(h.horariaPK.horEstacao, "
+                        + "h.estacao.estNome, h.estacao.estCodigoAdicional, h.estacao.estAneelPlu, h.estacao.estResponsavel.orgao.orgId, "
+                        + "h.estacao.estResponsavel.orgao.orgNm, ue.uesUsiId.usiId, ue.uesUsiId.usiNm, "
+                        + "h.horNivelPressao, h.horChuva, h.horVazao, h.horariaPK.horDataHora, "
+                        + "h.horDataHoraAmostra) FROM Horaria h LEFT JOIN h.estacao.usinaEstacaoList ue "
+                        + "WHERE h.estacao.estCodigo = :estacao  "
+                        + "ORDER BY h.horDataHoraAmostra");*/
+                Query q = em.createQuery("SELECT new br.gov.ana.controllers.comuns.RelDados(h.horariaPK.horEstacao, "
+                        + "h.estacao.estNome, h.estacao.estCodigoAdicional, h.estacao.estAneelPlu, "
+                        + "h.horNivelPressao, h.horChuva, h.horVazao, h.horariaPK.horDataHora, "
+                        + "h.horDataHoraAmostra) FROM Horaria h "
+                        + "WHERE h.estacao.estCodigo = :estacao  "
+                        + "ORDER BY h.horDataHoraAmostra");
+                q.setParameter("estacao", estacao.getEstCodigo());
+                q.setMaxResults(10000);
+                listDados = q.getResultList();
+            }
+            return listDados;
         } catch (Exception e) {
             return null;
         }

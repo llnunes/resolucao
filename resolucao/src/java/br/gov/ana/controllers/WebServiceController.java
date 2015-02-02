@@ -29,7 +29,7 @@ public class WebServiceController {
     private br.gov.ana.hidroinfoana.facade.HorariaFacade horariaFacade;
     @EJB
     private br.gov.ana.hidroinfoana.facade.EstacaoFacade estacaoFacade;
-    private Estacao estacao;
+    private Estacao estacao = new Estacao();
     private List<RelDados> listaDadosEstacao;
 
     public String prepareList() {
@@ -67,6 +67,7 @@ public class WebServiceController {
     }
 
     public void recreateModel() {
+        estacao = new Estacao();
         listaDadosEstacao = null;
     }
 }

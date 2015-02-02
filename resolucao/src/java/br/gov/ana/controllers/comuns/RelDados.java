@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class RelDados {
 
-    private BigDecimal estCodigo;
+    private Integer estCodigo;
     private String estNm;
     private String estCdFlu;
     private String estCdPlu;
@@ -30,10 +30,25 @@ public class RelDados {
     public RelDados() {
     }
 
-    public RelDados(BigDecimal estCodigo, String estNm, String estCdFlu, String estCdPlu, Integer orgId, String orgNm, BigDecimal usiId, String usiNm, BigDecimal horNivel, BigDecimal horChuva, BigDecimal horVazao, Date horDataHora, Date horDataAmostra) {
+    public RelDados(
+            Integer estCodigo, String estNm, String estCdFlu, Integer estCdPlu, BigDecimal horNivel, BigDecimal horChuva, BigDecimal horVazao, Date horDataHora, Date horDataAmostra) {
+        this.estCodigo = estCodigo;
         this.estNm = estNm;
         this.estCdFlu = estCdFlu;
-        this.estCdPlu = estCdPlu;
+        this.estCdPlu = (estCdPlu != null) ? estCdPlu.toString() : null;
+        this.horNivel = horNivel;
+        this.horChuva = horChuva;
+        this.horVazao = horVazao;
+        this.horDataHora = horDataHora;
+        this.horDataAmostra = horDataAmostra;
+    }
+  
+    public RelDados(
+            Integer estCodigo,String estNm, String estCdFlu, Integer estCdPlu, Integer orgId, String orgNm, BigDecimal usiId, String usiNm, 
+            BigDecimal horNivel, BigDecimal horChuva, BigDecimal horVazao,Date horDataHora, Date horDataAmostra) {
+        this.estNm = estNm;
+        this.estCdFlu = estCdFlu;
+        this.estCdPlu = (estCdPlu != null) ? estCdPlu.toString() : null;
         this.orgId = orgId;
         this.orgNm = orgNm;
         this.usiId = usiId;
@@ -45,11 +60,11 @@ public class RelDados {
         this.horDataAmostra = horDataAmostra;
     }
 
-    public BigDecimal getEstCodigo() {
+    public Integer getEstCodigo() {
         return estCodigo;
     }
 
-    public void setEstCodigo(BigDecimal estCodigo) {
+    public void setEstCodigo(Integer estCodigo) {
         this.estCodigo = estCodigo;
     }
 

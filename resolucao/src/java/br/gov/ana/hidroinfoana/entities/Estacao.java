@@ -4,6 +4,7 @@
  */
 package br.gov.ana.hidroinfoana.entities;
 
+import br.gov.ana.entities.UsinaEstacao;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -126,6 +127,8 @@ public class Estacao implements Serializable {
     private Coleta estColeta;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estacao")
     private List<TipoSensorEstacao> tipoSensorEstacaoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uesEstCodigo")
+    private List<UsinaEstacao> usinaEstacaoList;
 
     public Estacao() {
     }
@@ -403,6 +406,15 @@ public class Estacao implements Serializable {
         this.tipoSensorEstacaoList = tipoSensorEstacaoList;
     }
 
+    @XmlTransient
+    public List<UsinaEstacao> getUsinaEstacaoList() {
+        return usinaEstacaoList;
+    }
+
+    public void setUsinaEstacaoList(List<UsinaEstacao> usinaEstacaoList) {
+        this.usinaEstacaoList = usinaEstacaoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -425,6 +437,7 @@ public class Estacao implements Serializable {
 
     @Override
     public String toString() {
-        return this.estNome;
+        String retorno = estNome + " " + ((estCodigoAdicional != null) ? "(" + estCodigoAdicional : "(") + ((estAneelPlu != null && estCodigoAdicional != null) ? "/" + estAneelPlu + ")" : (estAneelPlu != null) ? estAneelPlu + ")" : ")");
+        return retorno;
     }
 }

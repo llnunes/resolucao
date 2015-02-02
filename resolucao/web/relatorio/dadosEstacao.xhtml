@@ -18,58 +18,79 @@
 
             <p:panel header="#{bundle.ListWebserviceTitle_criterios}"> 
 
-                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">               
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 
                     <h:outputLabel value="#{bundle.ListWebserviceTitle_estacao}" for="estacao" />
                     <p:selectOneMenu value="#{webServiceController.estacao}" filter="true" filterMatchMode="contains" id ="estacao" >
                         <f:selectItems value="#{webServiceController.estacoesSelectOne}"/>
-                        <p:ajax listener="#{webServiceController.alteraDadosListaEstacao}" update="@form" />
+                        <p:ajax listener="#{webServiceController.alteraDadosListaEstacao}" update="panelCabecalho, tblPorEstacao" />
                     </p:selectOneMenu>                     
-
                 </h:panelGrid>
+            </p:panel>
+
+            <p:panel header="Detalhes da Esta&ccedil;&atilde;o: " id="panelCabecalho" >
+                <h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="5">     
+                    <h:outputLabel value="Nome: " for="estNome" />
+                    <h:outputText value="#{webServiceController.estacao.estNome}" id="estNome" />
+                    <h:outputLabel value="Codigo FLU: " for="estFlu" />
+                    <h:outputText value="#{webServiceController.estacao.estCodigoAdicional}" id="estFlu" />
+                    <h:outputLabel value="Codigo PLU: " for="estPlu" />
+                    <h:outputText value="#{webServiceController.estacao.estAneelPlu}" id="estPlu" />
+                </h:panelGrid>
+                <hr /><br />
+
                 <p:dataTable id="tblPorEstacao" value="#{webServiceController.listaDadosEstacao}" var="item"  paginator="true" rows="#{bundle.rows}" 
                              pageLinks="5" widgetVar="porEstacaoTable" currentPageReportTemplate="#{bundle.currentPageReportTemplate}"  
                              paginatorTemplate="#{bundle.paginatorTemplate}" rowsPerPageTemplate="#{bundle.rowsPerPageTemplate}"  
                              paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.estCodigo}" emptyMessage="#{bundle.ListEstacaoEmpty}" 
                              filteredValue="#{webServiceController.listaDadosEstacao}" styleClass="mystyle">
 
-                    <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
+                    <p:column exportable="true" styleClass="column150px" sortBy="#{filterSearchController.customFormatDate1(item.horDataHora)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.horDataHora)}" filterMatchMode="contains">
                         <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListOrgaoTitle_orgId}"/>
-                        </f:facet> 
-                        <h:outputText value="#{item.orgId}"/>
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtHoraDaMedicao}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.horDataHora}">
+                            <f:convertDateTime  pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
                     </p:column>  
 
-                    <p:column exportable="true" filterMatchMode="contains">
+                    <p:column exportable="true" styleClass="column150px" sortBy="#{filterSearchController.customFormatDate1(item.horDataAmostra)}" 
+                              filterBy="#{filterSearchController.customFormatDate(item.horDataAmostra)}" filterMatchMode="contains">
                         <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_empresa}"/>
-                        </f:facet> 
-                        <h:outputText value="#{item.orgNm}"/>
-                    </p:column>    
-
-                    <p:column exportable="true"  filterMatchMode="contains">
-                        <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estNm}"/>
+                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtHoraChegadaANA}"/>
                         </f:facet>
-                        <h:outputText value="#{item.estNm}"/>
-                    </p:column>
-
+                        <h:outputText value="#{item.horDataAmostra}">
+                            <f:convertDateTime  pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
+                        </h:outputText>
+                    </p:column> 
 
                     <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
                         <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estCdFlu}"/>
+                            <h:outputText styleClass="cabecalhoNegrito" value="Chuva: "/>
                         </f:facet> 
-                        <h:outputText value="#{item.estCdFlu}"/>
+                        <h:outputText value="#{item.horChuva}" >
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
                     </p:column>       
 
+                    <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText styleClass="cabecalhoNegrito" value="Nivel"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.horNivel}" >
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
+                    </p:column>
 
                     <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
                         <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListEstacaoTitle_estCdPlu}"/>
+                            <h:outputText styleClass="cabecalhoNegrito" value="Vazao"/>
                         </f:facet> 
-                        <h:outputText value="#{item.estCdPlu}"/>
-                    </p:column>  
-
+                        <h:outputText value="#{item.horVazao}" >
+                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                        </h:outputText>
+                    </p:column>
 
                     <f:facet name="footer">
                         <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
