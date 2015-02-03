@@ -5,9 +5,9 @@
 package br.gov.ana.controllers;
 
 import br.gov.ana.controllers.comuns.RelDados;
-import br.gov.ana.controllers.comuns.RelEstacoes;
 import br.gov.ana.controllers.util.JsfUtil;
 import br.gov.ana.hidroinfoana.entities.Estacao;
+import br.gov.ana.hidroinfoana.entities.Horaria;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -31,10 +31,16 @@ public class WebServiceController {
     private br.gov.ana.hidroinfoana.facade.EstacaoFacade estacaoFacade;
     private Estacao estacao = new Estacao();
     private List<RelDados> listaDadosEstacao;
+    private List<RelDados> listaUltimosDados;
 
     public String prepareList() {
         recreateModel();
         return "/relatorio/dadosEstacao";
+    }
+
+    public String prepareListUltimosDados() {
+        recreateModel();
+        return "/relatorio/ultimos";
     }
 
     public List<RelDados> getListaDadosEstacao() {
@@ -47,6 +53,18 @@ public class WebServiceController {
 
     public void setListaDadosEstacao(List<RelDados> listaDadosEstacao) {
         this.listaDadosEstacao = listaDadosEstacao;
+    }
+
+    public List<RelDados> getListaUltimosDados() {
+        if (listaUltimosDados == null) {
+            listaUltimosDados = new ArrayList<RelDados>();
+            listaUltimosDados = horariaFacade.getListaUltimosDados();
+        }
+        return listaUltimosDados;
+    }
+
+    public void setListaUltimosDados(List<RelDados> listaUltimosDados) {
+        this.listaUltimosDados = listaUltimosDados;
     }
 
     public Estacao getEstacao() {
@@ -69,5 +87,6 @@ public class WebServiceController {
     public void recreateModel() {
         estacao = new Estacao();
         listaDadosEstacao = null;
+        listaUltimosDados = null;
     }
 }

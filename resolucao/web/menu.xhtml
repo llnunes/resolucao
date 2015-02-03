@@ -100,7 +100,7 @@
                 <ui:remove><p:menuitem ajax="false" value="#{bundle.menuRelatorioWebserviceUtilizacao}" immediate="true" action="#{relatorioWebServiceController.prepareListUtilizacao}" icon="#{bundle.icone_pesquisa}"/></ui:remove>
                 <ui:remove><p:menuitem ajax="false" value="#{bundle.menuRelatorioWebservicePorEstacao}" immediate="true" action="#{relatorioWebServiceController.prepareListPorEstacao}" icon="#{bundle.icone_pesquisa}"/></ui:remove>
                 <p:menuitem ajax="false" value="#{bundle.menuRelatorioWebservicePorEstacao}" immediate="true" action="#{webServiceController.prepareList}" icon="#{bundle.icone_pesquisa}"/>
-                <ui:remove><p:menuitem ajax="false" value="Ultimos dados" immediate="true" action="#{relatorioWebServiceController.prepareListUltimosDados}" icon="#{bundle.icone_pesquisa}"/></ui:remove>
+                <p:menuitem ajax="false" value="Ultimos dados" immediate="true" action="#{webServiceController.prepareListUltimosDados}" icon="#{bundle.icone_pesquisa}"/>
             </p:submenu>
 
             <p:submenu label="#{bundle.menuGerencial}"> 

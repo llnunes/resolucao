@@ -30,6 +30,17 @@ public class RelDados {
     public RelDados() {
     }
 
+    public RelDados(Integer estCodigo, String estNm, String estCdFlu, String estCdPlu, BigDecimal horChuva, BigDecimal horNivel, BigDecimal horVazao, Date horDataHora ) {
+        this.estCodigo = estCodigo;
+        this.estNm = estNm;
+        this.estCdFlu = estCdFlu;
+        this.estCdPlu = estCdPlu;
+        this.horChuva = horChuva;
+        this.horNivel = horNivel;
+        this.horVazao = horVazao;
+        this.horDataHora = horDataHora;
+    }
+
     public RelDados(
             Integer estCodigo, String estNm, String estCdFlu, Integer estCdPlu, BigDecimal horNivel, BigDecimal horChuva, BigDecimal horVazao, Date horDataHora, Date horDataAmostra) {
         this.estCodigo = estCodigo;
@@ -42,10 +53,10 @@ public class RelDados {
         this.horDataHora = horDataHora;
         this.horDataAmostra = horDataAmostra;
     }
-  
+
     public RelDados(
-            Integer estCodigo,String estNm, String estCdFlu, Integer estCdPlu, Integer orgId, String orgNm, BigDecimal usiId, String usiNm, 
-            BigDecimal horNivel, BigDecimal horChuva, BigDecimal horVazao,Date horDataHora, Date horDataAmostra) {
+            Integer estCodigo, String estNm, String estCdFlu, Integer estCdPlu, Integer orgId, String orgNm, BigDecimal usiId, String usiNm,
+            BigDecimal horNivel, BigDecimal horChuva, BigDecimal horVazao, Date horDataHora, Date horDataAmostra) {
         this.estNm = estNm;
         this.estCdFlu = estCdFlu;
         this.estCdPlu = (estCdPlu != null) ? estCdPlu.toString() : null;
