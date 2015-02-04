@@ -16,91 +16,99 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="list" />
             </h:panelGroup>
 
-
-            <p:panel header="Filtro">
-
-                <p:dataTable id="tblUltimosDados" value="#{webServiceController.listaUltimosDados}" filteredValue="#{webServiceController.listaUltimosDados}"
-                             var="item"  paginator="true" rows="100" 
-                             pageLinks="5" widgetVar="ultimosDadosTable" currentPageReportTemplate="#{bundle.currentPageReportTemplateEstacoes}"  
-                             paginatorTemplate="#{bundle.paginatorTemplate}"   
-                             paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.estCodigo}" emptyMessage="#{bundle.ListEstacaoEmpty}" styleClass="mystyle">
+            <p:dataTable id="tblUltimosDados" value="#{webServiceController.listaUltimosDados}" filteredValue="#{webServiceController.listaUltimosDados}"
+                         var="item"  paginator="true" rows="100" 
+                         pageLinks="5" widgetVar="ultimosDadosTable" currentPageReportTemplate="#{bundle.currentPageReportTemplateEstacoes}"  
+                         paginatorTemplate="#{bundle.paginatorTemplate}"   
+                         paginatorPosition="#{bundle.paginatorPosition}" rowKey="#{item.codigo}" emptyMessage="#{bundle.ListEstacaoEmpty}" styleClass="mystyle">
 
 
-                    <p:column exportable="true" sortBy="#{item.estNm}" filterBy="#{item.estNm}" filterMatchMode="contains">
-                        <f:facet name="header"> 
-                            <h:outputText styleClass="cabecalhoNegrito" value="Esta&ccedil;&atilde;o"/>
-                        </f:facet>
-                        <h:outputText value="#{item.estNm}"/>
-                    </p:column>
+                <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.codigo}" filterBy="#{item.codigo}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="Codigo"/>
+                    </f:facet> 
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column> 
 
-                    <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.estCdFlu}"  filterMatchMode="contains">
-                        <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="Codigo FLU"/>
-                        </f:facet>
-                        <h:outputText value="#{item.estCdFlu}" />
-                    </p:column>
+                <p:column exportable="true" sortBy="#{item.estNome}" filterBy="#{item.estNome}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="Nome"/>
+                    </f:facet> 
+                    <h:outputText value="#{item.estNome}"/>
+                </p:column> 
 
-                    <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.estCdPlu}" filterMatchMode="contains">
-                        <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="Codigo PLU"/>
-                        </f:facet> 
-                        <h:outputText value="#{item.estCdPlu}"/>
-                    </p:column>  
+                <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.estCodigoFlu}" filterBy="#{item.estCodigoFlu}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="Codigo FLU"/>
+                    </f:facet> 
+                    <h:outputText value="#{item.estCodigoFlu}"/>
+                </p:column>  
 
-                    <p:column exportable="true" styleClass="column150px" sortBy="#{filterSearchController.customFormatDate1(item.horDataHora)}" 
-                              filterBy="#{filterSearchController.customFormatDate(item.horDataHora)}" filterMatchMode="contains">
-                        <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtHoraDaMedicao}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.horDataHora}">
-                            <f:convertDateTime  pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
-                        </h:outputText>
-                    </p:column>  
+                <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.estCodigoPlu}" filterBy="#{item.estCodigoPlu}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="Codigo PLU"/>
+                    </f:facet> 
+                    <h:outputText value="#{item.estCodigoPlu}"/>
+                </p:column>  
 
-
-                    <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
-                        <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="Chuva: "/>
-                        </f:facet> 
-                        <h:outputText value="#{item.horChuva}" >
-                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
-                        </h:outputText>
-                    </p:column>       
-
-                    <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
-                        <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="Nivel"/>
-                        </f:facet> 
-                        <h:outputText value="#{item.horNivel}" >
-                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
-                        </h:outputText>
-                    </p:column>
-
-                    <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
-                        <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="Vazao"/>
-                        </f:facet> 
-                        <h:outputText value="#{item.horVazao}" >
-                            <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
-                        </h:outputText>
-                    </p:column>
-
-
-                    <f:facet name="footer">
-                        <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
-                            <p:dataExporter  type="xls" target="tblUltimosDados" fileName="#{bundle.excelExportAllFileName_ultimosDados}" postProcessor="#{webServiceController.postProcessorXLS}"/>
-                        </p:commandButton>
+                <p:column exportable="true" styleClass="firstColumn" sortBy="#{filterSearchController.customFormatDate1(item.horDataHora)}" 
+                          filterBy="#{filterSearchController.customFormatDate(item.horDataHora)}" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListWebserviceTitle_dtHoraDaMedicao}"/>
                     </f:facet>
+                    <h:outputText value="#{item.horDataHora}">
+                        <f:convertDateTime  pattern="#{bundle.patternAppDataHora}" timeZone="#{filterSearchController.timeZone}"/>
+                    </h:outputText>
+                </p:column>  
 
-                </p:dataTable>
-            </p:panel>
-            <p:ajaxStatus  onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
 
-            <p:dialog modal="true" widgetVar="statusDialog" header="#{bundle.headerAjaxStatus}" 
-                      draggable="false" closable="false">
-                <p:graphicImage value="/imagens/ajaxloadingbar.gif" />
-            </p:dialog>    
+                <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="Chuva: "/>
+                    </f:facet> 
+                    <h:outputText value="#{item.horChuva}" >
+                        <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                    </h:outputText>
+                </p:column>       
 
+                <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="Nivel"/>
+                    </f:facet> 
+                    <h:outputText value="#{item.horNivel}" >
+                        <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column exportable="true" styleClass="firstColumn" filterMatchMode="contains">
+                    <f:facet name="header">
+                        <h:outputText styleClass="cabecalhoNegrito" value="Vazao"/>
+                    </f:facet> 
+                    <h:outputText value="#{item.horVazao}" >
+                        <f:convertNumber locale="#{bundle.localeApp}" maxFractionDigits="#{bundle.maxFractionDigits}" minFractionDigits="#{bundle.minFractionDigits}"/>
+                    </h:outputText>
+                </p:column>
+
+
+                <f:facet name="footer">
+                    <p:commandButton id="excelExportAll" ajax="false" value="#{bundle.excelExportAll}" icon="#{bundle.icone_script}">
+                        <p:dataExporter  type="xls" target="tblUltimosDados" fileName="#{bundle.excelExportAllFileName_ultimosDados}" postProcessor="#{filterSearchController.postProcessorXLS}"/>
+                    </p:commandButton>
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px;" id="ajaxStatusPanel">
+                <f:facet name="start">
+                    <h:graphicImage id="loading_template" value="#{bundle.loadingGif}" />
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText id="txt_template" value="" />
+                </f:facet>
+            </p:ajaxStatus>            
+            
+            
         </ui:define>
     </ui:composition>
 

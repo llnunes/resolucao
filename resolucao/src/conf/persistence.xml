@@ -64,10 +64,6 @@
         <class>br.gov.ana.hidroinfoana.entities.Uf</class>
         <class>br.gov.ana.hidroinfoana.entities.Uso</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        <properties>
-            <property name="toplink.cache.shared.default" value="false"/>
-            <property name="toplink.logging.level" value="OFF"/>
-            <property name="eclipselink.logging.exceptions" value="false"/>
-        </properties>
+        <properties/> 
     </persistence-unit>
 </persistence>

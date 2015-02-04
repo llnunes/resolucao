@@ -23,11 +23,11 @@
 
                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 
-                    <p:outputLabel for="variavel" value="Variável:" /> 
+                    <p:outputLabel for="variavel" value="Variavel:" /> 
                     <p:selectOneRadio id="variavel" value="#{relatorioWebServiceController.variavel}" >
                         <f:selectItem itemLabel="Chuva" itemValue="#{1}" />
-                        <f:selectItem itemLabel="Nível" itemValue="#{2}" />
-                        <f:selectItem itemLabel="Vazão" itemValue="#{3}" />
+                        <f:selectItem itemLabel="Nivel" itemValue="#{2}" />
+                        <f:selectItem itemLabel="Vazao" itemValue="#{3}" />
                     </p:selectOneRadio>
                     <p:commandButton action="#{relatorioWebServiceController.carregaDados}" value="Atualizar" update=":formClean:tblUltimosDados"/>
 
@@ -42,7 +42,7 @@
 
                     <p:column exportable="true" sortBy="#{item.nome}" >
                         <f:facet name="header"> 
-                            <h:outputText styleClass="cabecalhoNegrito" value="Estação"/>
+                            <h:outputText styleClass="cabecalhoNegrito" value="Estacao"/>
                         </f:facet>
                         <h:outputText value="#{item.nome}"/>
                     </p:column>
@@ -74,7 +74,7 @@
 
                     <p:column exportable="true" styleClass="firstColumn" sortBy="#{item.variavel}" filterMatchMode="contains">
                         <f:facet name="header">
-                            <h:outputText styleClass="cabecalhoNegrito" value="Variável"/>
+                            <h:outputText styleClass="cabecalhoNegrito" value="Variavel"/>
                         </f:facet>
                         <h:outputText value="#{item.variavel}" >
                             <f:convertDateTime pattern="#{bundle.patternAppDataHora}" locale="#{bundle.localeApp}" timeZone="#{filterSearchController.timeZone}"/>

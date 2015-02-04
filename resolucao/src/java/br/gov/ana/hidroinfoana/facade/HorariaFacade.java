@@ -7,8 +7,12 @@ package br.gov.ana.hidroinfoana.facade;
 import br.gov.ana.controllers.comuns.RelDados;
 import br.gov.ana.controllers.comuns.RelEmpresas;
 import br.gov.ana.controllers.comuns.RelEstacoes;
+import br.gov.ana.controllers.comuns.RelWebservice;
 import br.gov.ana.hidroinfoana.entities.Estacao;
 import br.gov.ana.hidroinfoana.entities.Horaria;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,7 +86,7 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
         }
     }
 
-    public List<RelDados> getListaUltimosDados() {
+    public List<RelWebservice> getListaUltimosDados() {
         try {
 
             String sql = "select e.estcodigo, e.estnome, e.estcodigoadicional, e.estAneelPlu, H.HORCHUVA, H.HORNIVELADOTADO, h.horvazao, "
@@ -102,12 +106,35 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
              + " GROUP BY h.horariaPK.horEstacao");*/
 
             Query q = em.createNativeQuery("BEGIN " + sql + " END;");
-            
-            
-            
-            return q.getResultList();
+
+            return converter(q.getResultList());
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public List<RelWebservice> converter(List lista) throws ParseException {
+        List<RelWebservice> listaDados = new ArrayList<RelWebservice>();
+
+        for (Object record : lista) {
+            Object[] obj = (Object[]) record;
+            RelWebservice rel = new RelWebservice();
+            rel.setCodigo(new BigDecimal(obj[0].toString()));
+            rel.setEstNome(obj[1].toString());
+           
+            rel.setEstCodigoFlu((obj[2] != null && obj[2].toString().length() > 7) ? obj[2].toString() : null);
+            rel.setEstCodigoPlu((obj[3] != null) ? new BigDecimal(obj[3].toString()) : null);
+            rel.setHorChuva((obj[4] != null) ? new BigDecimal(obj[4].toString()) : null);
+            rel.setHorNivel((obj[5] != null) ? new BigDecimal(obj[5].toString()) : null);
+            rel.setHorVazao((obj[6] != null) ? new BigDecimal(obj[6].toString()) : null);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.s"); // 2014-09-22 15:00:00.0 // dd/MMM/yyyy HH:mm:ss
+            
+            rel.setHorDataHora((obj[7] != null) ? formatter.parse(obj[7].toString()) : null);
+
+            listaDados.add(rel);
+
+        }
+
+        return listaDados;
     }
 }
