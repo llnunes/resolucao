@@ -2,7 +2,7 @@
 <jdbc-data-source xmlns="http://xmlns.oracle.com/weblogic/jdbc-data-source">
     <name>resolucaods</name> 
     <jdbc-data-source-params>
-        <jndi-name>hidroinfoana2</jndi-name>
+        <jndi-name>hidroinfoana</jndi-name>
     </jdbc-data-source-params>
     <jdbc-data-source-params>
         <jndi-name>resolucaosqls</jndi-name>

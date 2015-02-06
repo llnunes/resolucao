@@ -221,7 +221,7 @@ public class RelatorioWebServiceController {
 
     public String prepareListUtilizacao() {
         recreateModel();
-        return "/relatorio/utilizacao";
+        return "/relatorio/transmissao";
     }
 
     public String prepareListPorEstacao() {

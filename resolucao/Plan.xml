@@ -8,7 +8,7 @@
     </variable>
   </variable-definition>
   <module-override>
-    <module-name>resolucao.war</module-name>
+    <module-name>resolucao2.war</module-name>
     <module-type>war</module-type>
     <module-descriptor external="false">
       <root-element>weblogic-web-app</root-element>
@@ -44,5 +44,5 @@
       <uri>WEB-INF/classes/META-INF/persistence.xml</uri>
     </module-descriptor>
   </module-override>
-  <config-root>C:\Users\lucas.nunes\Documents\NetBeansProjects\resolucao\dist\plan</config-root>
+  <config-root>C:\Users\lucas.nunes\Documents\NetBeansProjects\resolucao2\dist\plan</config-root>
 </deployment-plan>

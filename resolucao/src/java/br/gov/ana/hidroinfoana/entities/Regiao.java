@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lucas.nunes
  */
 @Entity
-@Table(name = "HidroInfoAna2.dbo.REGIAO")
+@Table(name = "HidroInfoAna.dbo.REGIAO")
 @XmlRootElement
 public class Regiao implements Serializable {
 

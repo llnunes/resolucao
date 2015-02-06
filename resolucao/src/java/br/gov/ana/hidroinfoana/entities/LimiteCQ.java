@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author lucas.nunes
  */
 @Entity
-@Table(name = "HidroInfoAna2.dbo.LIMITECQ")
+@Table(name = "HidroInfoAna.dbo.LIMITECQ")
 @XmlRootElement
 public class LimiteCQ implements Serializable {
 

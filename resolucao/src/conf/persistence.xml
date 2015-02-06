@@ -28,7 +28,7 @@
         <properties/>
     </persistence-unit>
     <persistence-unit name="hidroinfoanaPU" transaction-type="JTA">
-        <jta-data-source>hidroinfoana2</jta-data-source>
+        <jta-data-source>hidroinfoana</jta-data-source>
         <class>br.gov.ana.hidroinfoana.entities.Bacia</class>
         <class>br.gov.ana.hidroinfoana.entities.Coleta</class>
         <class>br.gov.ana.hidroinfoana.entities.Cor</class>

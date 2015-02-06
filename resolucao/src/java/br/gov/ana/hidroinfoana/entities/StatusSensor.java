@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lucas.nunes
  */
 @Entity
-@Table(name = "HidroInfoAna2.dbo.STATUSSENSOR")
+@Table(name = "HidroInfoAna.dbo.STATUSSENSOR")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "StatusSensor.findAll", query = "SELECT s FROM StatusSensor s"),

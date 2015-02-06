@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author lucas.nunes
  */
 @Entity
-@Table(name = "HidroInfoAna2.dbo.SENSORESTACAO")
+@Table(name = "HidroInfoAna.dbo.SENSORESTACAO")
 @XmlRootElement
 public class SensorEstacao implements Serializable {
 

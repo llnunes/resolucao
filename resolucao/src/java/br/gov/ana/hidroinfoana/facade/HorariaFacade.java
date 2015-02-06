@@ -54,6 +54,11 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
 
     public List<RelEstacoes> getListaEstacoesComDadosWebService() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*Query q = em.createQuery("SELECT h.estacao, MIN(h.horariaPK.horDataHora), MAX(h.horariaPK.horDataHora) FROM Horaria h GROUP BY h.estacao.estCodigo");
+
+        return q.getResultList();*/
+
+
     }
 
     public List<RelDados> getListaDadosWebService(Estacao estacao) {
@@ -75,7 +80,7 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
                         + "h.horNivelAdotado, h.horChuva, h.horVazao, h.horariaPK.horDataHora, "
                         + "h.horDataHoraAmostra) FROM Horaria h "
                         + "WHERE h.estacao.estCodigo = :estacao  "
-                        + "ORDER BY h.horDataHoraAmostra");
+                        + "ORDER BY h.horariaPK.horDataHora desc");
                 q.setParameter("estacao", estacao.getEstCodigo());
                 q.setMaxResults(10000);
                 listDados = q.getResultList();
@@ -121,14 +126,14 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
             RelWebservice rel = new RelWebservice();
             rel.setCodigo(new BigDecimal(obj[0].toString()));
             rel.setEstNome(obj[1].toString());
-           
+
             rel.setEstCodigoFlu((obj[2] != null && obj[2].toString().length() > 7) ? obj[2].toString() : null);
             rel.setEstCodigoPlu((obj[3] != null) ? new BigDecimal(obj[3].toString()) : null);
             rel.setHorChuva((obj[4] != null) ? new BigDecimal(obj[4].toString()) : null);
             rel.setHorNivel((obj[5] != null) ? new BigDecimal(obj[5].toString()) : null);
             rel.setHorVazao((obj[6] != null) ? new BigDecimal(obj[6].toString()) : null);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.s"); // 2014-09-22 15:00:00.0 // dd/MMM/yyyy HH:mm:ss
-            
+
             rel.setHorDataHora((obj[7] != null) ? formatter.parse(obj[7].toString()) : null);
 
             listaDados.add(rel);
