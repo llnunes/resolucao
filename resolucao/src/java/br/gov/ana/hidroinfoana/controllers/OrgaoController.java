@@ -3,6 +3,7 @@ package br.gov.ana.hidroinfoana.controllers;
 import static br.gov.ana.controllers.util.ConstUtils.ORGAO_INATIVO;
 
 import br.gov.ana.controllers.util.JsfUtil;
+import br.gov.ana.controllers.util.MD5;
 import br.gov.ana.exceptions.OrgaoException;
 import br.gov.ana.hidroinfoana.entities.Entidade;
 import br.gov.ana.hidroinfoana.entities.Municipio;
@@ -43,7 +44,6 @@ public class OrgaoController implements Serializable {
     private br.gov.ana.hidroinfoana.facade.StatusOrgaoFacade statusOrgaoFacade;
     @EJB
     private br.gov.ana.hidroinfoana.facade.EntidadeFacade entidadeFacade;
-    
     private List<Orgao> lista;
     private List<Orgao> listaInativos;
     private Entidade entidade = new Entidade();
@@ -53,6 +53,7 @@ public class OrgaoController implements Serializable {
     private boolean existeNovaEmpresa;
     private FacesContext facesContext;
     private DataTable tabela;
+    private String senha;
 
     public OrgaoController() {
     }
@@ -170,7 +171,7 @@ public class OrgaoController implements Serializable {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
                 return "/orgao/List";
             }
-           
+            senha = "";
             // Recupera as informações antes de sofrer qualquer alteração;
             dadosTemporariosHistorico = current.getHistoricoDescricao();
             criacaoHist = new RegistraHistorico().getCriacaoHist(current.getOrgId(), current.getClass().getName());
@@ -229,7 +230,7 @@ public class OrgaoController implements Serializable {
 
                 //Registra o Historica da exclusão	
                 new RegistraHistorico().registraHistorico(new BigDecimal(current.getOrgId()), current.getClass().getName(), 2, current.getHistoricoDescricao());
-          
+
                 current.setOrgStgId(statusOrgaoFacade.find(ORGAO_INATIVO));
 
                 getFacade().edit(current);
@@ -244,6 +245,7 @@ public class OrgaoController implements Serializable {
 
     private void recreateModel() {
         dadosTemporariosHistorico = "";
+        senha = "";
         current = new Orgao();
         entidade = new Entidade();
         lista = null;
@@ -347,8 +349,26 @@ public class OrgaoController implements Serializable {
         return "" + !JsfUtil.getLoginAdminAlteracao();
     }
 
+    public boolean getPermissaoGeracaoSenha() {
+        return JsfUtil.getLoginAdminAlteracao();
+    }
+
     public Orgao getOrgao(java.lang.Integer id) {
         return ejbFacade.find(id);
+    }
+
+    public void converter() {
+        if (senha != null) {
+            senha = MD5.md5(senha);
+        }
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @FacesConverter(forClass = Orgao.class)

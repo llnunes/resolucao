@@ -92,12 +92,24 @@
                         <f:selectItems value="#{statusOrgaoController.itemsAvailableSelectMany}"/>                                
                     </p:selectOneMenu>    
 
+                    <h:outputLabel value="#{bundle.EditOrgaoUsuarioLabel_useSe}" for="useSe" rendered="#{orgaoController.permissaoGeracaoSenha}"/>
+                    <h:panelGroup rendered="#{orgaoController.permissaoGeracaoSenha}">
+                        <p:inputText id="useSe" size="50" value="#{orgaoController.selected.orgSenha}" title="#{bundle.EditOrgaoUsuarioTitle_useSe}" /> <h:outputText value="Senha Criptografada" rendered="#{orgaoController.permissaoGeracaoSenha}"/>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="#{bundle.EditOrgaoUsuarioLabel_useSeNormal}" for="cripto" rendered="#{orgaoController.permissaoGeracaoSenha}"/>
+                    <h:panelGroup rendered="#{orgaoController.permissaoGeracaoSenha}">
+                        <p:inputText id="cripto" size="50" value="#{orgaoController.senha}"  rendered="#{orgaoController.permissaoGeracaoSenha}"> 
+                            <p:ajax event="keyup" update="out1" listener="#{orgaoController.converter}"/>
+                        </p:inputText>
+                        <h:outputText id="out1" value="#{orgaoController.senha}" />  
+                    </h:panelGroup>
+
                     <h:outputLabel value="#{bundle.EditOrgaoLabel_orgTxObservacao}" for="orgTxObservacao" />
                     <h:panelGroup>
                         <p:inputTextarea autoResize="false" maxlength="4000" counter="counter2" counterTemplate="{0} caracteres restantes."  value="#{orgaoController.selected.orgTxObservacao}" cols="75" rows="4" id="orgTxObservacao" title="#{bundle.EditOrgaoLabel_orgTxObservacao}"/>
                         <br /><h:outputText id="counter2" /> 
                     </h:panelGroup>
-
 
                     <h:outputLabel value="#{bundle.createBy}" for="nomeCriador" rendered="#{not empty orgaoController.selected.historicoCriacao.nomeUsuario}"/>
                     <h:outputText id="nomeCriador" value="#{orgaoController.selected.historicoCriacao.nomeUsuario}" rendered="#{not empty orgaoController.selected.historicoCriacao.nomeUsuario}"/>
@@ -107,7 +119,6 @@
                     <h:outputText id="nomeAlterador" value="#{orgaoController.selected.historicoAlteracao.nomeUsuario}" rendered="#{not empty orgaoController.selected.historicoAlteracao.nomeUsuario}"/>
                     <h:outputLabel value="#{bundle.updateDate}" for="dataAlteracao" rendered="#{not empty orgaoController.selected.historicoAlteracao.dataHora}"/>
                     <h:outputText id="dataAlteracao" value="#{orgaoController.selected.historicoAlteracao.dataHora}" rendered="#{not empty orgaoController.selected.historicoAlteracao.dataHora}" /> 
-
 
                 </h:panelGrid>
 

@@ -69,14 +69,10 @@ public class EstacaoFacade extends AbstractFacade<Estacao> {
 
     public List<Estacao> findEstacoesResolucao() {
         try {
-            Query q = em.createQuery("SELECT e FROM Estacao e WHERE "
-                    + " e.estTipo.tetCodigo = :tipo AND"
-                    + " e.estColeta.colCodigo = :coleta AND "
+            Query q = em.createQuery("SELECT e FROM Estacao e WHERE "                   
                     + " e.estOrigem.ogmCodigo = :origem AND "
                     + " e.estStatus.steCodigo = :status ");
-
-            q.setParameter("tipo", "H");
-            q.setParameter("coleta", "T");
+          
             q.setParameter("origem", 3);
             q.setParameter("status", 0);
 

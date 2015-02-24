@@ -56,7 +56,7 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         /*Query q = em.createQuery("SELECT h.estacao, MIN(h.horariaPK.horDataHora), MAX(h.horariaPK.horDataHora) FROM Horaria h GROUP BY h.estacao.estCodigo");
 
-        return q.getResultList();*/
+         return q.getResultList();*/
 
 
     }
@@ -114,6 +114,7 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
 
             return converter(q.getResultList());
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -124,8 +125,8 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
         for (Object record : lista) {
             Object[] obj = (Object[]) record;
             RelWebservice rel = new RelWebservice();
-            rel.setCodigo(new BigDecimal(obj[0].toString()));
-            rel.setEstNome(obj[1].toString());
+            rel.setCodigo((obj[0] != null) ? new BigDecimal(obj[0].toString()) : null);
+            rel.setEstNome((obj[1] != null) ? obj[1].toString() : null);
 
             rel.setEstCodigoFlu((obj[2] != null && obj[2].toString().length() > 7) ? obj[2].toString() : null);
             rel.setEstCodigoPlu((obj[3] != null) ? new BigDecimal(obj[3].toString()) : null);

@@ -250,7 +250,7 @@ public class TecnicoController implements Serializable {
 
     private void performDestroy() {
         try {
-            if (current == null || current.getTecId() != null) {
+            if (current == null || current.getTecId() == null) {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoItemSelected"));
 
             } else {
