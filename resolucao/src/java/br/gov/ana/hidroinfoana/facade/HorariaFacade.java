@@ -95,11 +95,11 @@ public class HorariaFacade extends AbstractFacade<Horaria> {
         try {
 
             String sql = "select e.estcodigo, e.estnome, e.estcodigoadicional, e.estAneelPlu, H.HORCHUVA, H.HORNIVELADOTADO, h.horvazao, "
-                    + "MXHORDATAHORA = (select max(hordatahora) MXHORDATAHORA FROM HORARIA HM WHERE H.HORESTACAO = HM.HORESTACAO GROUP BY HORESTACAO) "
-                    + "from estacao e, horaria h "
+                    + "MXHORDATAHORA = (select max(hordatahora) MXHORDATAHORA FROM HidroInfoAna.dbo.HORARIA HM WHERE H.HORESTACAO = HM.HORESTACAO GROUP BY HORESTACAO) "
+                    + "from HidroInfoAna.dbo.ESTACAO e, HidroInfoAna.dbo.HORARIA h "
                     + "where e.estcodigo = h.horestacao and e.estorigem = 3 "
                     + "AND (select max(hordatahora) MXHORDATAHORA FROM "
-                    + "HORARIA HM WHERE H.HORESTACAO = HM.HORESTACAO GROUP BY HORESTACAO) = H.HORDATAHORA order by estnome";
+                    + "HidroInfoAna.dbo.HORARIA HM WHERE H.HORESTACAO = HM.HORESTACAO GROUP BY HORESTACAO) = H.HORDATAHORA order by estnome";
 
             /*
              Query q = em.createQuery("SELECT h.estacao.estCodigo, h.estacao.estNome , h.estacao.estCodigoAdicional, h.estacao.estAneelPlu, h.horChuva, h.horNivelAdotado, h.horVazao, "
