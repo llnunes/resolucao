@@ -61,8 +61,8 @@ public class UsinaFacade extends AbstractFacade<Usina> {
         try {
             Query q = em.createQuery("SELECT u FROM Usina u "
                     + " WHERE u.usiUssId.ussId = :ussId1 AND "
-                    + "     u.usiId NOT IN (SELECT DISTINCT cde.tcmUsiId.usiId FROM ControleDocumento cde WHERE cde.tcmTdcId.tdcId = :tdcId AND cde.tcmStatus = :tcmStatus) AND "
-                    + "     u.usiId IN (SELECT DISTINCT cdu.tcmUsiId.usiId FROM ControleDocumento cdu WHERE "
+                    + "     u.usiId NOT IN (SELECT cde.tcmUsiId.usiId FROM ControleDocumento cde WHERE cde.tcmTdcId.tdcId = :tdcId AND cde.tcmStatus = :tcmStatus) AND "
+                    + "     u.usiId IN (SELECT cdu.tcmUsiId.usiId FROM ControleDocumento cdu WHERE "
                     + " cdu.tcmTdcId.tdcId = :tdcId1   AND "
                     + " cdu.tcmSdcId.sdcId = :tcmSdcId AND "
                     + " cdu.tcmStatus = :tcmStatus1 ) ");
@@ -83,8 +83,8 @@ public class UsinaFacade extends AbstractFacade<Usina> {
         try {
             Query q = em.createQuery("SELECT u FROM Usina u WHERE"
                     + " u.usiUssId.ussId = :ussId1 AND "
-                    + "     u.usiId NOT IN (SELECT DISTINCT cde.tcmUsiId.usiId FROM ControleDocumento cde WHERE cde.tcmTdcId.tdcId = :tdcId AND cde.tcmStatus = :tcmStatus) AND "
-                    + "     u.usiId IN (SELECT DISTINCT cdu.tcmUsiId.usiId FROM ControleDocumento cdu WHERE cdu.tcmTdcId.tdcId = :tdcId1 AND cdu.tcmStatus = :tcmStatus1) ");
+                    + "     u.usiId NOT IN (SELECT cde.tcmUsiId.usiId FROM ControleDocumento cde WHERE cde.tcmTdcId.tdcId = :tdcId AND cde.tcmStatus = :tcmStatus) AND "
+                    + "     u.usiId IN (SELECT cdu.tcmUsiId.usiId FROM ControleDocumento cdu WHERE cdu.tcmTdcId.tdcId = :tdcId1 AND cdu.tcmStatus = :tcmStatus1) ");
 
             q.setParameter("ussId1", USINA_EM_OPERACAO); // Usinas com situação "Em operação"     
             q.setParameter("tdcId", TIPO_PROJETO);  // Projeto de instalação
@@ -129,9 +129,9 @@ public class UsinaFacade extends AbstractFacade<Usina> {
 
     public List<Usina> findAllUsinaSemTecnico() {
         try {
-            //String select = "select distinct u from Usina u where u.usiId not in (select tu.tusUsiId.usiId from TecnicoUsina tu)";
-            //String select = "select distinct u from Usina u LEFT JOIN u.tecnicoUsinaList tu where tu.tusTecId is null and (u.usiSituacao is null or u.usiSituacao like :s1 or u.usiSituacao like :s2 or u.usiSituacao like :s3) ORDER BY u.usiNm";
-            String select = "select distinct u from Usina u "
+            //String select = "select u from Usina u where u.usiId not in (select tu.tusUsiId.usiId from TecnicoUsina tu)";
+            //String select = "select u from Usina u LEFT JOIN u.tecnicoUsinaList tu where tu.tusTecId is null and (u.usiSituacao is null or u.usiSituacao like :s1 or u.usiSituacao like :s2 or u.usiSituacao like :s3) ORDER BY u.usiNm";
+            String select = "select u from Usina u "
                     + "LEFT JOIN u.tecnicoUsinaList tu "
                     + "where tu.tusTecId is null and "
                     + "(u.usiUssId is null or u.usiUssId.ussId in (:s1, :s2, :s3)) ";

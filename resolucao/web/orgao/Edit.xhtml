@@ -101,7 +101,7 @@
                     <h:panelGroup rendered="#{orgaoController.permissaoGeracaoSenha}">
                         <p:inputText id="cripto" size="50" value="#{orgaoController.senha}"  rendered="#{orgaoController.permissaoGeracaoSenha}"> 
                             <p:ajax event="keyup" update="out1" listener="#{orgaoController.converter}"/>
-                        </p:inputText>
+                        </p:inputText> &nbsp;
                         <h:outputText id="out1" value="#{orgaoController.senha}" />  
                     </h:panelGroup>
 

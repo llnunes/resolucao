@@ -28,23 +28,11 @@
                     <p:selectOneMenu id="cgh_RelBatimetria" value="#{controleDocumentoController.incluiCgh}" >                                                                              
                         <f:selectItem itemLabel="#{bundle.MsgDialog_sim}" itemValue="#{true}" />
                         <f:selectItem itemLabel="#{bundle.MsgDialog_nao}" itemValue="#{false}"/>
-                        <p:ajax update="orgaoUsina_RelBatimetria, :formList:tbl_RelBatimetria" listener="#{controleDocumentoController.carregaCGHsListaGeral}"/>
+                        <p:ajax update=":formList:tbl_RelBatimetria" listener="#{controleDocumentoController.carregaCGHsListaGeral}"/>
                     </p:selectOneMenu> 
 
-                    <p:outputLabel value="#{bundle.EditControleDocumentoLabel_orgaoUsina}" for="orgaoUsina_RelBatimetria" />
-                    <p:selectOneMenu id="orgaoUsina_RelBatimetria" value="#{controleDocumentoController.orgao}"  filter="true" filterMatchMode="contains" > 
-                        <f:selectItems value="#{orgaoController.itemsAvailableSelectOne}"/>
-                        <p:ajax update="tcmUsiId_RelBatimetria,:formList:tbl_RelBatimetria" listener="#{controleDocumentoController.carregaUsinaFiltro}"/>
-                    </p:selectOneMenu>
-
-                    <p:outputLabel value="#{bundle.CreateControleDocumentoLabel_tcmUsiId}" for="tcmUsiId_RelBatimetria"/>
-                    <p:selectOneMenu  id="tcmUsiId_RelBatimetria" value="#{controleDocumentoController.selected.tcmUsiId}" filter="true" filterMatchMode="contains" >
-                        <f:selectItems value="#{controleDocumentoController.itemsAvailableSelectOneUsinasByOrgaoFiltro}"/>
-                        <p:ajax update="@form"  listener="#{controleDocumentoController.carregaCGHsListaGeral}" />
-                    </p:selectOneMenu>
-
                 </h:panelGrid>
-                <br/> 
+              
             </p:panel>
             <br/>
 

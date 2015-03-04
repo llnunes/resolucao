@@ -77,7 +77,7 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
             if (incluiCgh) {
                 q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND cd.tcmTdcId.tdcId = :tipo");
             } else {
-                q = em.createQuery("SELECT cd FROM ControleDocumento cd LEFT JOIN cd.tcmUsiId u WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND u.usiTpuId.tpuId <> :tipoUsina AND cd.tcmTdcId.tdcId  = :tipo ");
+                q = em.createQuery("SELECT cd FROM ControleDocumento cd WHERE cd.tcmStatus = :status AND cd.tcmUsiId = :usina AND cd.TcmUsiId.usiTpuId.tpuId <> :tipoUsina AND cd.tcmTdcId.tdcId  = :tipo ");
                 q.setParameter("tipoUsina", 3);
             }
 
@@ -100,24 +100,45 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
         //String ORDER = " ORDER BY cd.tcmDtCadastro DESC ";
         try {
 
-            String select = "SELECT cd FROM ControleDocumento cd "
-                    + "LEFT JOIN cd.tcmUsiId u ";
+            String select = "SELECT cd FROM ControleDocumento cd ";
             Query q = null;
             if (incluiCgh) {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND u.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId = :tipo");
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmUsiId.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId = :tipo");
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
                     q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId = :tipo");
                 }
+
             } else {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND u.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId = :tipo AND u.usiTpuId.tpuId <> :tpuId");
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmUsiId.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId = :tipo AND cd.tcmUsiId.usiTpuId.tpuId <> :tpuId");
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId = :tipo AND u.usiTpuId.tpuId <> :tpuId");
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId = :tipo AND cd.tcmUsiId.usiTpuId.tpuId <> :tpuId");
                 }
                 q.setParameter("tpuId", 3);
+            }
+            q.setParameter("tipo", tipo);
+            q.setParameter("status", 1);
+            return (List<ControleDocumento>) q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<ControleDocumento> findAllDocsPrincipais(boolean incluiCgh, BigDecimal tipo) {
+        //String ORDER = " ORDER BY cd.tcmDtCadastro DESC ";
+        try {
+
+            String select = "SELECT cd FROM ControleDocumento cd ";
+                    
+            Query q = null;
+            if (incluiCgh) {
+                q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId = :tipo");
+            } else {
+                q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId = :tipo AND cd.tcmUsiId.usiTpuId.tpuId <> :tpuId");
+                q.setParameter("tpuId", new BigDecimal("3"));
             }
             q.setParameter("tipo", tipo);
             q.setParameter("status", 1);
@@ -199,7 +220,7 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
             q.setParameter("s1", new BigDecimal("4"));
             q.setParameter("s2", new BigDecimal("5"));
             q.setParameter("tpuDoc", tpuDoc);
-            
+
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {
             return null;
@@ -215,7 +236,7 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
             q.setParameter("tpuId", new BigDecimal("3"));
             q.setParameter("tpuDoc", tpuDoc);
             q.setParameter("s1", new BigDecimal("4"));
-            q.setParameter("s2", new BigDecimal("5"));            
+            q.setParameter("s2", new BigDecimal("5"));
 
             return (List<Usina>) q.getResultList();
         } catch (Exception e) {
@@ -245,25 +266,25 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
      * Pesquisa todos os controles de documentos que não são principais.
      * (1,2,3,4,5,6,9,12)
      */
-    public List<ControleDocumento> findAllOutersDocs(Orgao orgao, boolean incluiCgh) {     
+    public List<ControleDocumento> findAllOutersDocs(Orgao orgao, boolean incluiCgh) {
         try {
 
-            String select = "SELECT cd FROM ControleDocumento cd "
-                    + "LEFT JOIN cd.tcmUsiId u ";
+            String select = "SELECT cd FROM ControleDocumento cd ";
+
             Query q = null;
             if (incluiCgh) {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHER cd.tcmStatus = :status AND u.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12)" );
+                    q = em.createQuery(select + " WHER cd.tcmStatus = :status AND cd.tcmUsiId.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12)");
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12)" );
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12)");
                 }
             } else {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12) AND u.usiTpuId.tpuId <> :tpuId" );
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmUsiId.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12) AND cd.tcmUsiId.usiTpuId.tpuId <> :tpuId");
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12) AND u.usiTpuId.tpuId <> :tpuId" );
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND  cd.tcmTdcId.tdcId not in (1,2,3,4,5,6,7,9,12) AND cd.tcmUsiId.usiTpuId.tpuId <> :tpuId");
                 }
                 q.setParameter("tpuId", 3);
             }
@@ -307,25 +328,26 @@ public class ControleDocumentoFacade extends AbstractFacade<ControleDocumento> {
         } else {
             parametros = " = 7 ";
         }
-        
+
         try {
 
             String select = "SELECT cd FROM ControleDocumento cd "
                     + "LEFT JOIN cd.tcmUsiId u ";
+
             Query q = null;
             if (incluiCgh) {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHER cd.tcmStatus = :status AND u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId " + parametros + " " );
+                    q = em.createQuery(select + " WHER cd.tcmStatus = :status AND cd.tcmUsiId.usiOrgId.orgId = :orgao AND cd.tcmTdcId.tdcId " + parametros + " ");
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId " + parametros + " " );
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId " + parametros + " ");
                 }
             } else {
                 if (orgao != null && orgao.getOrgId() != null) {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND u.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId " + parametros + " AND u.usiTpuId.tpuId <> :tpuId" );
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmUsiId.usiOrgId.orgId  = :orgao AND cd.tcmTdcId.tdcId " + parametros + " AND cd.tcmUsiId.usiTpuId.tpuId <> :tpuId");
                     q.setParameter("orgao", orgao.getOrgId());
                 } else {
-                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId " + parametros + " AND u.usiTpuId.tpuId <> :tpuId" );
+                    q = em.createQuery(select + " WHERE cd.tcmStatus = :status AND cd.tcmTdcId.tdcId " + parametros + " AND cd.tcmUsiId.usiTpuId.tpuId <> :tpuId");
                 }
                 q.setParameter("tpuId", 3);
             }

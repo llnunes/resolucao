@@ -424,12 +424,7 @@ public class ControleDocumentoController implements Serializable {
         if (listaRelatorio == null) {
             listaRelatorio = new ArrayList<ControleDocumento>();
 
-            if (current != null && current.getTcmUsiId() != null) {
-                listaRelatorio = ejbFacade.findAllControleDocumentoByUsina(current.getTcmUsiId(), incluiCgh, TIPO_RELATORIO_INSTALACAO);
-            } else {
-                listaRelatorio = ejbFacade.findAllDocsPrincipais(orgao, incluiCgh, TIPO_RELATORIO_INSTALACAO);
-            }
-
+            listaRelatorio = ejbFacade.findAllDocsPrincipais(incluiCgh, TIPO_RELATORIO_INSTALACAO);
         }
         return listaRelatorio;
     }
@@ -448,13 +443,7 @@ public class ControleDocumentoController implements Serializable {
     public List<ControleDocumento> getListaRelAnual() {
         if (listaRelAnual == null) {
             listaRelAnual = new ArrayList<ControleDocumento>();
-
-            if (current != null && current.getTcmUsiId() != null) {
-                listaRelAnual = ejbFacade.findAllControleDocumentoByUsina(current.getTcmUsiId(), incluiCgh, TIPO_RELATORIO_ANUAL);
-            } else {
-                listaRelAnual = ejbFacade.findAllDocsPrincipais(orgao, incluiCgh, TIPO_RELATORIO_ANUAL);
-            }
-
+            listaRelAnual = ejbFacade.findAllDocsPrincipais( incluiCgh, TIPO_RELATORIO_ANUAL);
         }
         return listaRelAnual;
     }
@@ -471,12 +460,7 @@ public class ControleDocumentoController implements Serializable {
         if (listaRel396 == null) {
             listaRel396 = new ArrayList<ControleDocumento>();
 
-            if (current != null && current.getTcmUsiId() != null) {
-                listaRel396 = ejbFacade.findAllControleDocumentoByUsina(current.getTcmUsiId(), incluiCgh, TIPO_RELATORIO_396);
-            } else {
-                listaRel396 = ejbFacade.findAllDocsPrincipais(orgao, incluiCgh, TIPO_RELATORIO_396);
-            }
-
+            listaRel396 = ejbFacade.findAllDocsPrincipais(incluiCgh, TIPO_RELATORIO_396);
         }
         return listaRel396;
     }
@@ -493,12 +477,7 @@ public class ControleDocumentoController implements Serializable {
         if (listaBatimetria == null) {
             listaBatimetria = new ArrayList<ControleDocumento>();
 
-            if (current != null && current.getTcmUsiId() != null) {
-                listaBatimetria = ejbFacade.findAllControleDocumentoByUsina(current.getTcmUsiId(), incluiCgh, TIPO_PROPOSTA_BATIMETRIA);
-            } else {
-                listaBatimetria = ejbFacade.findAllDocsPrincipais(orgao, incluiCgh, TIPO_PROPOSTA_BATIMETRIA);
-            }
-
+            listaBatimetria = ejbFacade.findAllDocsPrincipais(incluiCgh, TIPO_PROPOSTA_BATIMETRIA);
         }
         return listaBatimetria;
     }
@@ -515,12 +494,7 @@ public class ControleDocumentoController implements Serializable {
         if (listaRelBatimetria == null) {
             listaRelBatimetria = new ArrayList<ControleDocumento>();
 
-            if (current != null && current.getTcmUsiId() != null) {
-                listaRelBatimetria = ejbFacade.findAllControleDocumentoByUsina(current.getTcmUsiId(), incluiCgh, TIPO_RELATORIO_BATIMETRIA);
-            } else {
-                listaRelBatimetria = ejbFacade.findAllDocsPrincipais(orgao, incluiCgh, TIPO_RELATORIO_BATIMETRIA);
-            }
-
+            listaRelBatimetria = ejbFacade.findAllDocsPrincipais(incluiCgh, TIPO_RELATORIO_BATIMETRIA);
         }
         return listaRelBatimetria;
     }
@@ -537,12 +511,7 @@ public class ControleDocumentoController implements Serializable {
         if (lista == null) {
             lista = new ArrayList<ControleDocumento>();
 
-            if (current != null && current.getTcmUsiId() != null) {
-                lista = ejbFacade.findAllControleDocumentoByUsina(current.getTcmUsiId(), incluiCgh, TIPO_PROJETO);
-            } else {
-                lista = ejbFacade.findAllDocsPrincipais(orgao, incluiCgh, TIPO_PROJETO);
-            }
-
+            lista = ejbFacade.findAllDocsPrincipais(incluiCgh, TIPO_PROJETO);
         }
         return lista;
     }
@@ -585,7 +554,7 @@ public class ControleDocumentoController implements Serializable {
     }
 
     public String prepareListaUsinasPrazoRelatorio() {
-        recreateModel();       
+        recreateModel();
         return "/controleDocumento/ListaUsinasPrazoRelatorio";
     }
 

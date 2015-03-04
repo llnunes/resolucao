@@ -51,11 +51,10 @@ public class TecnicoFacade extends AbstractFacade<Tecnico> {
 
     public List<Tecnico> findTecnicosByOrgao(Orgao orgao) {
         try {
-            String select = "select distinct t from Tecnico t "
+            String select = "select t from Tecnico t "
                     + "INNER JOIN t.tecnicoUsinaList tu "
-                    + "INNER JOIN tu.tusUsiId u "
-                    + "INNER JOIN u.orgaoUsinaList ous "
-                    + "WHERE ous.ousOrgId = :orgId ";
+                    + "INNER JOIN tu.tusUsiId u "                   
+                    + "WHERE u.usiOrgId = :orgId ";
 
             Query q = em.createQuery(select).setParameter("orgId", orgao);
 
@@ -77,7 +76,7 @@ public class TecnicoFacade extends AbstractFacade<Tecnico> {
 
     public List<Tecnico> findTecnicoComMesmoEmail(Tecnico tecnico) {
         try {
-            Query q = em.createQuery("SELECT DISTINCT t FROM Tecnico t WHERE UPPER (t.tecEmail) LIKE UPPER(:email) AND t.tecStatus = :status ");
+            Query q = em.createQuery("SELECT t FROM Tecnico t WHERE UPPER (t.tecEmail) LIKE UPPER(:email) AND t.tecStatus = :status ");
             q.setParameter("email", (tecnico.getTecEmail() != null && !tecnico.getTecEmail().trim().equals("")) ? tecnico.getTecEmail().trim() : "");
             q.setParameter("status", REGISTRO_ATIVO); // 1 - Busca os Ativos
 

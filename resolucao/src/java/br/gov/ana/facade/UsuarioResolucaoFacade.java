@@ -6,6 +6,7 @@ package br.gov.ana.facade;
 
 import br.gov.ana.controllers.util.ConstUtils;
 import br.gov.ana.entities.UsuarioResolucao;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,9 +34,10 @@ public class UsuarioResolucaoFacade extends AbstractFacade<UsuarioResolucao> {
 
     public UsuarioResolucao logar(UsuarioResolucao usuario) {
         try {
-            Query q = em.createQuery("SELECT u FROM UsuarioResolucao u WHERE u.ureTxLogin = :ureTxLogin AND u.ureTxSenha = :ureTxSenha");
+            Query q = em.createQuery("SELECT u FROM UsuarioResolucao u WHERE u.ureTxLogin = :ureTxLogin AND u.ureTxSenha = :ureTxSenha AND u.ureStatus = :ureStatus");
             q.setParameter("ureTxLogin", usuario.getUreTxLogin());
             q.setParameter("ureTxSenha", usuario.getUreTxSenha());
+            q.setParameter("ureStatus", ConstUtils.REGISTRO_ATIVO);
             return (UsuarioResolucao) q.getSingleResult();
         } catch (Exception e) {
             return null;
