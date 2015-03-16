@@ -121,8 +121,8 @@ public class ControleDeAcesso implements Filter {
             }
         } catch (Exception e) {
             session.removeAttribute("usuario");
-            log(e.getMessage());
-            e.printStackTrace();
+            /*log(e.getMessage());
+            e.printStackTrace();*/
             httpResponse.sendRedirect("/samse/login.xhtml");
         }
 

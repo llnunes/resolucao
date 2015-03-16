@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lucas.nunes
  */
 @Entity
-@Table(name = "HidroInfoAna2.dbo.RIO")
+@Table(name = "HidroInfoAna.dbo.RIO")
 @XmlRootElement
 public class Rio implements Serializable {
 

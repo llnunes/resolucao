@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author lucas.nunes
  */
 @Entity
-@Table(name = "HidroInfoAna2.dbo.UF")
+@Table(name = "HidroInfoAna.dbo.UF")
 @XmlRootElement
 
 public class Uf implements Serializable {

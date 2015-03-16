@@ -73,7 +73,7 @@
                         <h:outputText value="#{item.tcmUsiId.usiOrgId.orgNm}"  />
                     </p:column>
 
-                    <p:column styleClass="columnTipo" filterBy="#{item.tcmUsiId.usiTpuId.tpuNm}" sortBy="#{item.tcmUsiId.usiTpuId.tpuNm}" filterMatchMode="contains">
+                    <p:column style="width: 125px; text-align: center;"  filterBy="#{item.tcmUsiId.usiTpuId.tpuNm}" sortBy="#{item.tcmUsiId.usiTpuId.tpuNm}" filterOptions="#{tipoUsinaController.itemsAvailableSelectOne}"  filterMatchMode="exact"  exportable="true">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tpuNm}"/>
                         </f:facet>
@@ -140,7 +140,7 @@
                         <h:outputText value="#{item.tcmRspId.rspAreId.areNm}"/>
                     </p:column>
 
-                    <p:column styleClass="columnStatus" filterBy="#{item.tcmSdcId.sdcNm}" sortBy="#{item.tcmSdcId.sdcNm}" filterMatchMode="contains">
+                    <p:column styleClass="columnStatus"  filterBy="#{item.tcmSdcId.sdcNm}" sortBy="#{item.tcmSdcId.sdcNm}" filterMatchMode="contains">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmSdcId}"/>
                         </f:facet>
@@ -237,7 +237,7 @@
                             <f:convertDateTime locale="#{bundle.localeApp}" pattern="#{bundle.patternApp}" timeZone="#{filterSearchController.timeZone}"/>
                         </h:outputText>
                     </p:column>
-                    <p:column exportable="true" style="display:none;" sortBy="#{filterSearchController.customFormatDate1(item.oficio.tcmDtExpedicao)}" filterBy="#{filterSearchController.customFormatDate(item.oficio.tcmDtExpedicao)}" filterMatchMode="contains">
+                    <p:column exportable="true"  style="display:none;"  sortBy="#{filterSearchController.customFormatDate1(item.oficio.tcmDtExpedicao)}" filterBy="#{filterSearchController.customFormatDate(item.oficio.tcmDtExpedicao)}" filterMatchMode="contains">
                         <f:facet name="header">
                             <h:outputText styleClass="cabecalhoNegrito" value="#{bundle.ListControleDocumentoTitle_tcmDtExpedicao}"/>
                         </f:facet>

@@ -11,6 +11,7 @@ import br.gov.ana.exceptions.LongitudeException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -34,6 +35,8 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -63,7 +66,7 @@ public class JsfUtil {
         //
         return str;
     }
-    
+
     public static boolean validaDataInicialMaiorQueFinal(Date dataInicial, Date dataFinal) {
 
         boolean retorno = false;
@@ -432,16 +435,65 @@ public class JsfUtil {
         HSSFCellStyle cellStyleCell = wb.createCellStyle();
         HSSFFont fontCell = wb.createFont();
         cellStyleCell.setFont(fontCell);
-        DataFormat df2 = wb.createDataFormat();
+
+        CreationHelper createHelper = wb.getCreationHelper();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        CellStyle dateCell = wb.createCellStyle();
+        dateCell.setDataFormat(createHelper.createDataFormat().getFormat("dd/mm/yyyy"));
 
         for (int i = 1; i < sheet.getPhysicalNumberOfRows() - 1; i++) {
             HSSFRow row = sheet.getRow(i);
             for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {
                 HSSFCell cell = row.getCell(j);
-                cellStyleCell.setDataFormat(df2.getFormat("General"));
-                cell.setCellStyle(cellStyleCell);
+
+                if (validaData(cell.getStringCellValue())) {
+                    Calendar cal = Calendar.getInstance();
+                    try {
+                        cal.setTime(sdf.parse(cell.getStringCellValue()));
+                        cell.setCellValue(cal);// 
+                        cell.setCellStyle(dateCell);
+                    } catch (ParseException p) {
+                    }
+                }
             }
         }
+    }
+
+    public static boolean validaData(String data) {
+        if (data != null && !data.trim().equals("")) {
+            Date date = null;
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                format.setLenient(false);
+                date = format.parse(data);
+                return true;
+            } catch (ParseException e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean validaDataRegex(String data) {
+        if (data != null && !data.trim().equals("")) {
+            java.util.regex.Pattern p = java.util.regex.Pattern.compile(regexData());
+            java.util.regex.Matcher m = p.matcher(data);
+            return m.matches();
+        } else {
+            return false;
+        }
+    }
+
+    public static String regexData() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(((0[1-9]|[12][0-9]|3[01])([-./])(0[13578]|10|12)([-./])(\\d{4}))|(([0][1-9]|[12][0-9]|30)"
+                + "([-./])(0[469]|11)([-./])(\\d{4}))|((0[1-9]|1[0-9]|2[0-8])([-./])(02)([-./])"
+                + "(\\d{4}))|((29)(\\.|-|\\/)(02)([-./])([02468][048]00))|((29)([-./])(02)([-./])"
+                + "([13579][26]00))|((29)([-./])(02)([-./])([0-9][0-9][0][48]))|((29)([-./])(02)"
+                + "([-./])([0-9][0-9][2468][048]))|((29)([-./])(02)([-./])([0-9][0-9][13579][26])))");
+        return sb.toString();
     }
 
     public static int comparador(String o1, String o2, int tam1, int tam2) {
