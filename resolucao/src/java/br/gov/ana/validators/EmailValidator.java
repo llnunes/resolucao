@@ -35,10 +35,14 @@ public class EmailValidator implements Validator {
             matcher = pattern.matcher(email.trim());
 
             if (!matcher.matches()) {
-                FacesMessage msg = new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("EmailInvalido"));
-                msg.setSummary(ResourceBundle.getBundle("/Bundle").getString("EmailInvalido_summary"));
-                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-                throw new ValidatorException(msg);
+                if (value.toString().endsWith("cerr.rr.gov.br")) { // Padrão novo de email
+                } else {
+                    FacesMessage msg = new FacesMessage(ResourceBundle.getBundle("/Bundle").getString("EmailInvalido"));
+                    msg.setSummary(ResourceBundle.getBundle("/Bundle").getString("EmailInvalido_summary"));
+                    msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                    throw new ValidatorException(msg);
+                }
+
             }
         }
     }

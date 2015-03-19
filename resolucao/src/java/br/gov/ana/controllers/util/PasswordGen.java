@@ -38,4 +38,8 @@ public class PasswordGen {
     
     private PasswordGen() {
     }
+    
+    public static void main (String []ars){        
+        System.out.println(PasswordGen.gerarSenha(8, "P"));
+    }
 }

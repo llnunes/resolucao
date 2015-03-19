@@ -289,13 +289,13 @@
                 </p:dataTable>
 
 
-                <p:confirmDialog id="confirmDestroy_Projeto" appendTo="@(body)" header="#{bundle.MsgConfirmDestroy_header}" message="#{bundle.MsgConfirmDestroy_message}" severity="alert"  widgetVar="confirmationDestroy_Projeto">
+                <p:confirmDialog id="confirmDestroy_Projeto"  header="#{bundle.MsgConfirmDestroy_header}" message="#{bundle.MsgConfirmDestroy_message}" severity="alert"  widgetVar="confirmationDestroy_Projeto">
                     <p:commandButton id="confirm_Projeto" ajax="false" value="#{bundle.MsgDialog_confirmar}"  oncomplete="confirmationDestroy_Projeto.hide();" icon="#{bundle.icone_listar}" action="#{controleDocumentoController.destroyDocsPrincipais}" update="tbl"/>
                     <p:commandButton id="decline_Projeto"  value="#{bundle.MsgDialog_cancelar}" update="messages" onclick="confirmationDestroy_Projeto.hide();" type="button"/>                    
                 </p:confirmDialog>
 
 
-                <p:dialog id="dialogView_Projeto" appendTo="@(body)" position="center" dynamic="true"  modal="true" appendToBody="true" draggable="false" header="#{bundle.ControleDocumentoDialogView_header}" widgetVar="controleDocumentoDialogView_Projeto" resizable="false"
+                <p:dialog id="dialogView_Projeto"  position="center" dynamic="true"  modal="true" appendToBody="true" draggable="false" header="#{bundle.ControleDocumentoDialogView_header}" widgetVar="controleDocumentoDialogView_Projeto" resizable="false"
                           width="930" >
 
                     <h:panelGrid id="displayView_Projeto" columns="2" cellpadding="4">

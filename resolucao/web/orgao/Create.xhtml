@@ -32,7 +32,7 @@
 
                     <h:outputLabel value="#{bundle.CreateOrgaoLabel_orgEntidade}" for="entidade"/>
 
-                    <p:selectOneMenu id="entidade" value="#{orgaoController.entidade}"  filter="true" filterMatchMode="contains" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgEntidade}">
+                    <p:selectOneMenu id="entidade" value="#{orgaoController.selected.entidade}"  filter="true" filterMatchMode="contains" required="true" requiredMessage="#{bundle.CreateOrgaoRequiredMessage_orgEntidade}">
                         <f:selectItems value="#{entidadeController.itemsAvailableSelectOne}"/>                        
                     </p:selectOneMenu>
 

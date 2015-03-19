@@ -120,9 +120,9 @@ public class ControleDeAcesso implements Filter {
                 httpResponse.sendRedirect("login.xhtml");
             }
         } catch (Exception e) {
-            session.removeAttribute("usuario");
-            /*log(e.getMessage());
-            e.printStackTrace();*/
+            session.removeAttribute("usuario");            
+            log(e.getMessage());
+            e.printStackTrace();
             httpResponse.sendRedirect("/samse/login.xhtml");
         }
 
